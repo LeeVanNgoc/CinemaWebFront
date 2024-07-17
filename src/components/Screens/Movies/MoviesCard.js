@@ -10,7 +10,7 @@ import {
   Box,
 } from "@mui/material";
 
-const ShowtimesCard = () => {
+const MoviesCard = () => {
   return (
     <>
       <Card
@@ -87,4 +87,4 @@ const ShowtimesCard = () => {
   );
 };
 
-export default ShowtimesCard;
+export default MoviesCard;
