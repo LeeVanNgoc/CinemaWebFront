@@ -1,31 +1,33 @@
-import * as React from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
+import { useNavigate } from "react-router-dom";
 import "./Header.scss";
+import Signin from "../SignIn/Signin";
 
 const Header = () => {
-  const pages = [
-    "Trang chủ",
-    "Lịch chiếu",
-    "Tin tức",
-    "Khuyến mãi",
-    "Giá vé",
-    "Liên hoan phim",
-    "Giới thiệu",
-  ];
+  const navigate = useNavigate();
+
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const [clickedIndex, setClickedIndex] = useState(null);
+
+  const handleClick = (index) => {
+    setClickedIndex(index);
+  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -42,6 +44,42 @@ const Header = () => {
     setAnchorElUser(null);
   };
 
+  const handleHome = () => {
+    handleClick(1);
+    navigate("/");
+    handleCloseNavMenu();
+  };
+
+  const handleIntroduce = () => {
+    handleClick(6);
+    navigate("/introduce");
+    handleCloseNavMenu();
+  };
+
+  const handleNews = () => {
+    handleClick(3);
+    navigate("/news");
+    handleCloseNavMenu();
+  };
+
+  const handlePrice = () => {
+    handleClick(4);
+    navigate("/price");
+    handleCloseNavMenu();
+  };
+
+  const handlePromotion = () => {
+    handleClick(5);
+    navigate("/promotion");
+    handleCloseNavMenu();
+  };
+
+  const handleShowtimes = () => {
+    handleClick(2);
+    navigate("/showtimes");
+    handleCloseNavMenu();
+  };
+
   return (
     <AppBar position="fixed">
       <Container maxWidth="xl">
@@ -51,6 +89,7 @@ const Header = () => {
             alt="logo"
           ></img>
 
+          {/* small screen */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -62,6 +101,7 @@ const Header = () => {
             >
               <MenuIcon />
             </IconButton>
+
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -80,30 +120,111 @@ const Header = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleHome}>Trang chủ</MenuItem>
+              <MenuItem onClick={handleShowtimes}>Lịch chiếu</MenuItem>
+              <MenuItem onClick={handleNews}>Tin tức</MenuItem>
+              <MenuItem onClick={handlePrice}>Giá vé</MenuItem>
+              <MenuItem onClick={handlePromotion}>Khuyến mại</MenuItem>
+              <MenuItem onClick={handleIntroduce}>Giới thiệu</MenuItem>
             </Menu>
           </Box>
 
+          {/* full screen */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            <ButtonGroup variant="text" aria-label="Basic button group">
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                onClick={() => handleHome()}
+                sx={{
+                  my: 2,
+                  color: clickedIndex === 1 ? "red" : "white",
+                  "&:hover": {
+                    color: "red",
+                  },
+                  display: "block",
+                  textTransform: "none",
+                }}
               >
-                {page}
+                Trang chủ
               </Button>
-            ))}
+              <Button
+                onClick={() => handleShowtimes()}
+                sx={{
+                  my: 2,
+                  color: clickedIndex === 2 ? "red" : "white",
+                  "&:hover": {
+                    color: "red",
+                  },
+                  display: "block",
+                  textTransform: "none",
+                }}
+              >
+                Lịch chiếu
+              </Button>
+              <Button
+                onClick={() => handleNews()}
+                sx={{
+                  my: 2,
+                  color: clickedIndex === 3 ? "red" : "white",
+                  "&:hover": {
+                    color: "red",
+                  },
+                  display: "block",
+                  textTransform: "none",
+                }}
+              >
+                Tin tức
+              </Button>
+              <Button
+                onClick={() => handlePrice()}
+                sx={{
+                  my: 2,
+                  color: clickedIndex === 4 ? "red" : "white",
+                  "&:hover": {
+                    color: "red",
+                  },
+                  display: "block",
+                  textTransform: "none",
+                }}
+              >
+                Giá vé
+              </Button>
+              <Button
+                onClick={() => handlePromotion()}
+                sx={{
+                  my: 2,
+                  color: clickedIndex === 5 ? "red" : "white",
+                  "&:hover": {
+                    color: "red",
+                  },
+                  display: "block",
+                  textTransform: "none",
+                }}
+              >
+                Khuyến mãi
+              </Button>
+              <Button
+                onClick={() => handleIntroduce()}
+                sx={{
+                  my: 2,
+                  color: clickedIndex === 6 ? "red" : "white",
+                  "&:hover": {
+                    color: "red",
+                  },
+                  display: "block",
+                  textTransform: "none",
+                }}
+              >
+                Giới thiệu
+              </Button>
+            </ButtonGroup>
           </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
+          <Stack direction="row" spacing={2}>
+            <Button variant="outlined">Đăng ký</Button>
+            <Signin />
+          </Stack>
+          {/* <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
                 <Avatar src="/broken-image.jpg" />
               </IconButton>
             </Tooltip>
@@ -125,14 +246,15 @@ const Header = () => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  {setting}
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box> */}
         </Toolbar>
       </Container>
     </AppBar>
   );
 };
+
 export default Header;
