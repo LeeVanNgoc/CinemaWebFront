@@ -1,8 +1,37 @@
-.css-hip9hq-MuiPaper-root-MuiAppBar-root {
-  background-color: #10141b !important;
-  backdrop-filter: blur(30px);
+.css-11b3ww9-MuiPaper-root-MuiAppBar-root {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(10px);
 }
 
 .css-1t6c9ts {
   justify-content: center;
+}
+
+// tabs
+.css-iv8nej-MuiButtonGroup-root .MuiButtonGroup-firstButton,
+.css-iv8nej-MuiButtonGroup-root .MuiButtonGroup-middleButton {
+  border-right: none !important;
+}
+
+.css-l217ws-MuiButtonBase-root-MuiButton-root {
+  padding: 6px 15px !important;
+  font-size: 1rem !important;
+}
+
+// sign up button
+.css-1rwt2y5-MuiButtonBase-root-MuiButton-root {
+  border-radius: 40px !important;
+  border: 1px solid rgb(255 255 255) !important;
+  color: white !important;
+  text-transform: none !important;
+}
+
+.css-1rwt2y5-MuiButtonBase-root-MuiButton-root:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
 }

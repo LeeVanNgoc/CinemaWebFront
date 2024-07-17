@@ -1,0 +1,27 @@
+.showtimes-container {
+  margin-top: 100px;
+  text-align: center;
+  color: white;
+  .section-name {
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: large;
+  }
+}
+
+.css-1d9bq45-MuiButtonGroup-root {
+  box-shadow: none !important;
+}
+
+// date button
+.css-sghohy-MuiButtonBase-root-MuiButton-root {
+  margin: 9px !important;
+  background-color: #e6232375 !important;
+  border-radius: 10px !important;
+  text-transform: none !important;
+  border-right: none !important;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root:hover {
+  background-color: #dc1313f0 !important;
+}
