@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, TextField, Button, Typography, Box, IconButton, Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-const SignUpForm = ({ open, onClose }) => {
+const SignUp = ({ open, onClose }) => {
   return (
     <Modal
         open={open}
@@ -121,4 +121,4 @@ const SignUpForm = ({ open, onClose }) => {
   );
 };
   
-export default SignUpForm;
+export default SignUp;
