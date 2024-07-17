@@ -14,6 +14,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 import "./Header.scss";
+import SignUp from "../SignUp/SignUp";
 import Signin from "../SignIn/Signin";
 
 const Header = () => {
@@ -22,6 +23,13 @@ const Header = () => {
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [showSignUp, setShowSignUp] = React.useState(false);
+
+  const [clickedIndex, setClickedIndex] = useState(null);
+
+  const handleClick = (index) => {
+    setClickedIndex(index);
+  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -221,19 +229,10 @@ const Header = () => {
             </ButtonGroup>
           </Box>
           <Stack direction="row" spacing={2}>
-            <Button variant="outlined">Đăng ký</Button>
-
-            <Button
-              sx={{
-                borderRadius: "40px",
-                backgroundColor: "#dc1313f0",
-                textTransform: "none",
-              }}
-              variant="contained"
-              href="#outlined-buttons"
-            >
-              Đăng nhập
+            <Button variant="outlined" onClick={() => handleSignUpOpen()}>
+              Đăng ký
             </Button>
+            <Signin />
           </Stack>
           {/* <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
