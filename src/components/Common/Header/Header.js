@@ -23,12 +23,6 @@ const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const [clickedIndex, setClickedIndex] = useState(null);
-
-  const handleClick = (index) => {
-    setClickedIndex(index);
-  };
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -38,6 +32,14 @@ const Header = () => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleSignUpOpen = () => {
+    setShowSignUp(true);
+  };
+
+  const handleCloseForms = () => {
+    setShowSignUp(false);
   };
 
   const handleCloseUserMenu = () => {
@@ -220,7 +222,18 @@ const Header = () => {
           </Box>
           <Stack direction="row" spacing={2}>
             <Button variant="outlined">Đăng ký</Button>
-            <Signin />
+
+            <Button
+              sx={{
+                borderRadius: "40px",
+                backgroundColor: "#dc1313f0",
+                textTransform: "none",
+              }}
+              variant="contained"
+              href="#outlined-buttons"
+            >
+              Đăng nhập
+            </Button>
           </Stack>
           {/* <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
