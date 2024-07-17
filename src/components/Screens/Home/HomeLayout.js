@@ -1,6 +1,4 @@
-import React from "react";
-import CarouselComponent from "../../Common/Carousel/CarouselComponent";
-import HomeLayout from "./HomeLayout";
+import React from 'react';
 import { Grid, Card, CardMedia, CardContent, Typography, Box } from '@mui/material';
 
 const movies = [
@@ -79,40 +77,28 @@ const PromotionCard = ({ title, image }) => (
   </Card>
 );
 
-const Home = () => {
+const HomeLayout = () => {
   return (
-    <>
-      <CarouselComponent />
-      <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }}>
         <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2}>
+        <Grid container spacing={2}>
             {movies.map((movie, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
                 <MovieCard {...movie} />
-              </Grid>
+            </Grid>
             ))}
-          </Grid>
+        </Grid>
         </Box>
         <Box sx={{ width: 300, marginLeft: 2 }}>
-          <Typography variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom>
             Khuyến mãi
-          </Typography>
-          {promotions.map((promo, index) => (
+        </Typography>
+        {promotions.map((promo, index) => (
             <PromotionCard {...promo} key={index} />
-          ))}
+        ))}
         </Box>
-      </Box>
-    </>
-  );
+    </Box>
+  )
 };
 
-/*const Home = () => {
-  return (
-    <>
-      <CarouselComponent />
-      <HomeLayout />
-    </>
-  );
-};*/
-
-export default Home;
+export default HomeLayout;
