@@ -16,8 +16,12 @@
 // date button
 .css-sghohy-MuiButtonBase-root-MuiButton-root {
   margin: 9px !important;
-  background-color: #dc1313f0 !important;
+  background-color: #e6232375 !important;
   border-radius: 10px !important;
   text-transform: none !important;
   border-right: none !important;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root:hover {
+  background-color: #dc1313f0 !important;
 }
