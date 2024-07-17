@@ -1,83 +1,114 @@
-import React from 'react';
-import { Grid, TextField, Button, Typography, Box, IconButton, Modal } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import * as React from "react";
+import { FormControl, useFormControlContext } from "@mui/base/FormControl";
+import Button from "@mui/material/Button";
+import "./Signin.scss";
+import {
+  Backdrop,
+  TriggerButton,
+  StyledInput,
+  Label,
+  HelperText,
+  Modal,
+  StyledBackdrop,
+  ModalContent,
+} from "./style";
 
-const SignIn = ({ open, onClose }) => {
+export default function Signin() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
-    <Modal
-        open={open}
-        onClose={onClose}
-        aria-labelledby="sign-in-modal"
-        aria-describedby="sign-in-form"
-    >
-        <Box 
+    <div>
+      <TriggerButton
+        type="button"
+        onClick={handleOpen}
         sx={{
-            backgroundColor: '#020817', 
-            padding: 4, 
-            borderRadius: 2, 
-            width: 575,
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)'
+          borderRadius: "40px",
+          backgroundColor: "#dc1313f0",
+          textTransform: "none",
+          color: "white",
+          border: "none",
         }}
+      >
+        Đăng nhập
+      </TriggerButton>
+      <Modal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={open}
+        onClose={handleClose}
+        slots={{ backdrop: StyledBackdrop }}
+      >
+        <ModalContent
+          sx={{
+            width: 400,
+          }}
         >
-        <IconButton 
-            sx={{ 
-            position: 'absolute', 
-            top: 16, 
-            right: 16
-            
-            }}
-            onClick={onClose}
-        >
-            <CloseIcon sx={{ color: '#fff' }} />
-        </IconButton>
-        <Typography variant="h5" gutterBottom sx={{ color: '#fff' , fontWeight: 'bold' }}>
+          <h1
+            id="unstyled-modal-title"
+            className="modal-title"
+            style={{ fontSize: 20, fontWeight: "bold" }}
+          >
             Đăng nhập
-        </Typography>
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-            <TextField
-                label="Email"
-                variant="outlined"
-                fullWidth
-                sx={{ input: { color: '#fff' }, label: { color: '#fff' } }}
-            />
-            </Grid>
-            <Grid item xs={12}>
-            <TextField
-                label="Mật khẩu"
-                type="password"
-                variant="outlined"
-                fullWidth
-                sx={{ input: { color: '#fff' }, label: { color: '#fff' } }}
-            />
-            </Grid>
-          </Grid>
-        <Button
-            variant="contained"
-            fullWidth
+          </h1>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <FormControl defaultValue="" required>
+              <Label>Email</Label>
+              <StyledInput placeholder="Email" />
+              <HelperText />
+            </FormControl>
+            <FormControl defaultValue="" required>
+              <Label>Mật khẩu</Label>
+              <StyledInput placeholder="Mật khẩu" />
+              <HelperText />
+            </FormControl>
+          </div>
+
+          <span
+            id="parent-modal-description"
+            className="modal-description"
+            style={{
+              textAlign: "right",
+              color: "#d65712",
+              marginTop: "8px",
+              fontSize: 15,
+            }}
+          >
+            Quên mật khẩu?
+          </span>
+
+          <Button
             sx={{
-            marginTop: 2,
-            padding: 1,
-            backgroundColor: '#FF5252',
-            '&:hover': {
-                backgroundColor: '#FF1744',
-            },
-            color: '#fff',
-            textTransform: 'none',
-            borderRadius: '20px',
+              borderRadius: "40px",
+              backgroundColor: "#dc1313f0",
+              textTransform: "none",
+              marginTop: "15px",
+              marginBottom: "15px",
             }}
-        >
+            variant="contained"
+            href="#outlined-buttons"
+            onClick={handleClose}
+          >
             Đăng nhập
-        </Button>
-        <Typography variant="body2" sx={{ color: '#fff', marginTop: 2 , textAlign: 'center' }}>
-            Bạn chưa có tài khoản? <a href="#" style={{ color: '#FF5252' }}>Đăng ký</a>
-        </Typography>
-        </Box>
-    </Modal>
+          </Button>
+          <p
+            id="parent-modal-description"
+            className="modal-description"
+            style={{ textAlign: "center" }}
+          >
+            Bạn chưa có tài khoản?
+            <span style={{ color: "#d65712", marginLeft: 5 }}>Đăng ký</span>
+          </p>
+        </ModalContent>
+      </Modal>
+    </div>
   );
-};
-  
-export default SignIn;
+}

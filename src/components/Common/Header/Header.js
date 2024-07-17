@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -15,16 +15,16 @@ import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 import "./Header.scss";
 import SignUp from "../SignUp/SignUp";
-import SignIn from "../SignIn/SignIn";
+import Signin from "../SignIn/Signin";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isTop, setIsTop] = useState(true);
+
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
-  const [showSignUp, setShowSignUp] = useState(false);
-  const [showSignIn, setShowSignIn] = useState(false);
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [showSignUp, setShowSignUp] = React.useState(false);
+
   const [clickedIndex, setClickedIndex] = useState(null);
 
   const handleClick = (index) => {
@@ -46,13 +46,8 @@ const Header = () => {
     setShowSignUp(true);
   };
 
-  const handleSignInOpen = () => {
-    setShowSignIn(true);
-  };
-
   const handleCloseForms = () => {
     setShowSignUp(false);
-    setShowSignIn(false);
   };
 
   const handleCloseUserMenu = () => {
@@ -233,26 +228,11 @@ const Header = () => {
               </Button>
             </ButtonGroup>
           </Box>
-
           <Stack direction="row" spacing={2}>
-            <Button variant="outlined" onClick={handleSignUpOpen}>
+            <Button variant="outlined" onClick={() => handleSignUpOpen()}>
               Đăng ký
             </Button>
-            <SignUp open={showSignUp} onClose={handleCloseForms} />
-
-            <Button
-              sx={{
-                borderRadius: "40px",
-                backgroundColor: "#dc1313f0",
-                textTransform: "none",
-                color: "white",
-              }}
-              variant="contained"
-              onClick={handleSignInOpen}
-            >
-              Đăng nhập
-            </Button>
-            <SignIn open={showSignIn} onClose={handleCloseForms} />
+            <Signin />
           </Stack>
           {/* <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
