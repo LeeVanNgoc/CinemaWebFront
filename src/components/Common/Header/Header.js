@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -14,6 +14,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 import "./Header.scss";
+import Signin from "../SignIn/Signin";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -21,6 +22,12 @@ const Header = () => {
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const [clickedIndex, setClickedIndex] = useState(null);
+
+  const handleClick = (index) => {
+    setClickedIndex(index);
+  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -38,31 +45,37 @@ const Header = () => {
   };
 
   const handleHome = () => {
+    handleClick(1);
     navigate("/");
     handleCloseNavMenu();
   };
 
   const handleIntroduce = () => {
+    handleClick(6);
     navigate("/introduce");
     handleCloseNavMenu();
   };
 
   const handleNews = () => {
+    handleClick(3);
     navigate("/news");
     handleCloseNavMenu();
   };
 
   const handlePrice = () => {
+    handleClick(4);
     navigate("/price");
     handleCloseNavMenu();
   };
 
   const handlePromotion = () => {
+    handleClick(5);
     navigate("/promotion");
     handleCloseNavMenu();
   };
 
   const handleShowtimes = () => {
+    handleClick(2);
     navigate("/showtimes");
     handleCloseNavMenu();
   };
@@ -123,7 +136,10 @@ const Header = () => {
                 onClick={() => handleHome()}
                 sx={{
                   my: 2,
-                  color: "white",
+                  color: clickedIndex === 1 ? "red" : "white",
+                  "&:hover": {
+                    color: "red",
+                  },
                   display: "block",
                   textTransform: "none",
                 }}
@@ -134,7 +150,10 @@ const Header = () => {
                 onClick={() => handleShowtimes()}
                 sx={{
                   my: 2,
-                  color: "white",
+                  color: clickedIndex === 2 ? "red" : "white",
+                  "&:hover": {
+                    color: "red",
+                  },
                   display: "block",
                   textTransform: "none",
                 }}
@@ -145,7 +164,10 @@ const Header = () => {
                 onClick={() => handleNews()}
                 sx={{
                   my: 2,
-                  color: "white",
+                  color: clickedIndex === 3 ? "red" : "white",
+                  "&:hover": {
+                    color: "red",
+                  },
                   display: "block",
                   textTransform: "none",
                 }}
@@ -156,7 +178,10 @@ const Header = () => {
                 onClick={() => handlePrice()}
                 sx={{
                   my: 2,
-                  color: "white",
+                  color: clickedIndex === 4 ? "red" : "white",
+                  "&:hover": {
+                    color: "red",
+                  },
                   display: "block",
                   textTransform: "none",
                 }}
@@ -167,7 +192,10 @@ const Header = () => {
                 onClick={() => handlePromotion()}
                 sx={{
                   my: 2,
-                  color: "white",
+                  color: clickedIndex === 5 ? "red" : "white",
+                  "&:hover": {
+                    color: "red",
+                  },
                   display: "block",
                   textTransform: "none",
                 }}
@@ -178,7 +206,10 @@ const Header = () => {
                 onClick={() => handleIntroduce()}
                 sx={{
                   my: 2,
-                  color: "white",
+                  color: clickedIndex === 6 ? "red" : "white",
+                  "&:hover": {
+                    color: "red",
+                  },
                   display: "block",
                   textTransform: "none",
                 }}
@@ -189,18 +220,7 @@ const Header = () => {
           </Box>
           <Stack direction="row" spacing={2}>
             <Button variant="outlined">Đăng ký</Button>
-
-            <Button
-              sx={{
-                borderRadius: "40px",
-                backgroundColor: "#dc1313f0",
-                textTransform: "none",
-              }}
-              variant="contained"
-              href="#outlined-buttons"
-            >
-              Đăng nhập
-            </Button>
+            <Signin />
           </Stack>
           {/* <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
