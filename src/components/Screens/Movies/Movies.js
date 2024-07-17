@@ -1,12 +1,12 @@
 import * as React from "react";
-import ShowtimesCard from "./ShowtimesCard";
+import MoviesCard from "./MoviesCard";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Brightness1SharpIcon from "@mui/icons-material/Brightness1Sharp";
 import { Container, Grid } from "@mui/material";
-import "./Showtimes.scss";
+import "./Movies.scss";
 
-const Showtimes = () => {
+const Movies = () => {
   const current = new Date();
   const date1 = `${current.getDate()}/${
     current.getMonth() + 1
@@ -19,7 +19,7 @@ const Showtimes = () => {
   }/${current.getFullYear()}`;
 
   return (
-    <div className="showtimes-container">
+    <div className="movies-container">
       <div className="section-name">
         <Brightness1SharpIcon sx={{ color: "#dc1313f0", marginRight: "9px" }} />
         <span>Phim đang chiếu</span>
@@ -44,10 +44,10 @@ const Showtimes = () => {
       >
         <Grid container spacing={1}>
           <Grid item xs={12} md={6} lg={6}>
-            <ShowtimesCard />
+            <MoviesCard />
           </Grid>
           <Grid item xs={12} md={6} lg={6}>
-            <ShowtimesCard />
+            <MoviesCard />
           </Grid>
         </Grid>
       </Container>
@@ -55,4 +55,4 @@ const Showtimes = () => {
   );
 };
 
-export default Showtimes;
+export default Movies;
