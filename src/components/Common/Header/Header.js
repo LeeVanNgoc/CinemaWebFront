@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 import "./Header.scss";
-import SignUp from "../SignUp/SignUp";
+import Signup from "../SignUp/Signup";
 import Signin from "../SignIn/Signin";
 
 const Header = () => {
@@ -229,9 +229,7 @@ const Header = () => {
             </ButtonGroup>
           </Box>
           <Stack direction="row" spacing={2}>
-            <Button variant="outlined" onClick={() => handleSignUpOpen()}>
-              Đăng ký
-            </Button>
+            <Signup />
             <Signin />
           </Stack>
           {/* <Box sx={{ flexGrow: 0 }}>

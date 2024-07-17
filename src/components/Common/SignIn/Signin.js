@@ -42,7 +42,7 @@ export default function Signin() {
       >
         <ModalContent
           sx={{
-            width: 400,
+            width: 450,
           }}
         >
           <h1
@@ -112,5 +112,3 @@ export default function Signin() {
     </div>
   );
 }
-}
-

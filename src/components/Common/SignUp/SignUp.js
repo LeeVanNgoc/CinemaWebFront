@@ -1,261 +1,133 @@
-
-import React from "react";
-import { Grid, TextField, Typography, Box, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { Modal } from "@mui/base/Modal";
+import * as React from "react";
+import { FormControl, useFormControlContext } from "@mui/base/FormControl";
 import Button from "@mui/material/Button";
+import "./Signup.scss";
+import {
+  Backdrop,
+  TriggerButton,
+  StyledInput,
+  StyledInputRow,
+  Label,
+  HelperText,
+  Modal,
+  StyledBackdrop,
+  ModalContent,
+} from "./style";
+import { display, width } from "@mui/system";
 
-const SignUp = ({ open, onClose }) => {
+export default function Signup() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <div>
-      <Modal
-
-import React from 'react';
-import { Grid, TextField, Button, Typography, Box, IconButton, Modal } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-
-const SignUp = ({ open, onClose }) => {
-  return (
-    <Modal
-
-        open={open}
-        onClose={onClose}
-        aria-labelledby="sign-up-modal"
-        aria-describedby="sign-up-form"
-
+      <TriggerButton
+        type="button"
+        onClick={handleOpen}
+        sx={{
+          borderRadius: "40px",
+          backgroundColor: "transparent",
+          textTransform: "none",
+          color: "white",
+          border: "white",
+        }}
       >
-        <Box
+        Đăng ký
+      </TriggerButton>
+      <Modal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={open}
+        onClose={handleClose}
+        slots={{ backdrop: StyledBackdrop }}
+      >
+        <ModalContent
           sx={{
-            backgroundColor: "#020817",
-            padding: 4,
-            borderRadius: 2,
             width: 575,
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
           }}
         >
-          <IconButton
-            sx={{
-              position: "absolute",
-              top: 16,
-              right: 16,
-            }}
-            onClick={onClose}
-          >
-            <CloseIcon sx={{ color: "#fff" }} />
-          </IconButton>
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ color: "#fff", fontWeight: "bold" }}
+          <h1
+            id="unstyled-modal-title"
+            className="modal-title"
+            style={{ fontSize: 20, fontWeight: "bold" }}
           >
             Đăng ký
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <TextField
-                label="Họ"
-                variant="outlined"
-                fullWidth
-                sx={{ input: { color: "#fff" }, label: { color: "#fff" } }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Tên"
-                variant="outlined"
-                fullWidth
-                sx={{ input: { color: "#fff" }, label: { color: "#fff" } }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Tên tài khoản"
-                variant="outlined"
-                fullWidth
-                sx={{ input: { color: "#fff" }, label: { color: "#fff" } }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Số điện thoại"
-                variant="outlined"
-                fullWidth
-                sx={{ input: { color: "#fff" }, label: { color: "#fff" } }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Email"
-                variant="outlined"
-                fullWidth
-                sx={{ input: { color: "#fff" }, label: { color: "#fff" } }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-
-    >
-        <Box 
-        sx={{
-            backgroundColor: '#020817', 
-            padding: 4, 
-            borderRadius: 2, 
-            width: 575,
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)'
-        }}
-        >
-        <IconButton 
-            sx={{ 
-            position: 'absolute', 
-            top: 16, 
-            right: 16
-            
+          </h1>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-            onClick={onClose}
-        >
-            <CloseIcon sx={{ color: '#fff' }} />
-        </IconButton>
-        <Typography variant="h5" gutterBottom sx={{ color: '#fff' , fontWeight: 'bold' }}>
-            Đăng ký
-        </Typography>
-        <Grid container spacing={2}>
-            <Grid item xs={6}>
-            <TextField
-                label="Họ"
-                variant="outlined"
-                fullWidth
-                sx={{ input: { color: '#fff' }, label: { color: '#fff' } }}
-            />
-            </Grid>
-            <Grid item xs={6}>
-            <TextField
-                label="Tên"
-                variant="outlined"
-                fullWidth
-                sx={{ input: { color: '#fff' }, label: { color: '#fff' } }}
-            />
-            </Grid>
-            <Grid item xs={12}>
-            <TextField
-                label="Tên tài khoản"
-                variant="outlined"
-                fullWidth
-                sx={{ input: { color: '#fff' }, label: { color: '#fff' } }}
-            />
-            </Grid>
-            <Grid item xs={6}>
-            <TextField
-                label="Số điện thoại"
-                variant="outlined"
-                fullWidth
-                sx={{ input: { color: '#fff' }, label: { color: '#fff' } }}
-            />
-            </Grid>
-            <Grid item xs={6}>
-            <TextField
-                label="Email"
-                variant="outlined"
-                fullWidth
-                sx={{ input: { color: '#fff' }, label: { color: '#fff' } }}
-            />
-            </Grid>
-            <Grid item xs={6}>
-            <TextField
-
-                label="Mật khẩu"
-                type="password"
-                variant="outlined"
-                fullWidth
-
-                sx={{ input: { color: "#fff" }, label: { color: "#fff" } }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-
-               sx={{ input: { color: '#fff' }, label: { color: '#fff' } }}
-            />
-            </Grid>
-            <Grid item xs={6}>
-            <TextField
-
-                label="Xác nhận mật khẩu"
-                type="password"
-                variant="outlined"
-                fullWidth
-
-                sx={{ input: { color: "#fff" }, label: { color: "#fff" } }}
-              />
-            </Grid>
-          </Grid>
+          >
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue="" required sx={{ flex: 1 }}>
+                <Label>Họ</Label>
+                <StyledInputRow placeholder="Họ" />
+                <HelperText />
+              </FormControl>
+              <FormControl defaultValue="" required sx={{ flex: 1 }}>
+                <Label>Tên</Label>
+                <StyledInputRow placeholder="Tên" />
+                <HelperText />
+              </FormControl>
+            </div>
+            <FormControl defaultValue="" required>
+              <Label>Tên tài khoản</Label>
+              <StyledInput placeholder="Tên tài khoản" />
+              <HelperText />
+            </FormControl>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue="" required sx={{ flex: 1 }}>
+                <Label>Số điện thoại</Label>
+                <StyledInputRow placeholder="Số điện thoại"/>
+                <HelperText />
+              </FormControl>
+              <FormControl defaultValue="" required sx={{ flex: 1 }}>
+                <Label>Email</Label>
+                <StyledInputRow placeholder="Email" />
+                <HelperText />
+              </FormControl>
+            </div>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue="" required sx={{ flex: 1 }}>
+                <Label>Mật khẩu</Label>
+                <StyledInputRow placeholder="Mật khẩu"/>
+                <HelperText />
+              </FormControl>
+              <FormControl defaultValue="" required sx={{ flex: 1 }}>
+                <Label>Xác nhận mật khẩu</Label>
+                <StyledInputRow placeholder="Xác nhận mật khẩu" />
+                <HelperText />
+              </FormControl>
+            </div>
+          </div>
           <Button
-            variant="contained"
-            fullWidth
             sx={{
-              marginTop: 2,
-              padding: 1,
-              backgroundColor: "#FF5252",
-              "&:hover": {
-                backgroundColor: "#FF1744",
-              },
-              color: "#fff",
+              borderRadius: "40px",
+              backgroundColor: "#dc1313f0",
               textTransform: "none",
-              borderRadius: "20px",
+              marginTop: "15px",
+              marginBottom: "15px",
             }}
+            variant="contained"
+            href="#outlined-buttons"
+            onClick={handleClose}
           >
             Đăng ký
           </Button>
-          <Typography
-            variant="body2"
-            sx={{ color: "#fff", marginTop: 2, textAlign: "center" }}
+          <p
+            id="parent-modal-description"
+            className="modal-description"
+            style={{ textAlign: "center" }}
           >
-            Bạn đã có tài khoản?{" "}
-            <a href="#" style={{ color: "#FF5252" }}>
-              Đăng nhập
-            </a>
-          </Typography>
-        </Box>
+            Bạn đã có tài khoản?
+            <span style={{ color: "#d65712", marginLeft: 5 }}>Đăng nhập</span>
+          </p>
+        </ModalContent>
       </Modal>
     </div>
   );
-};
-
-export default SignUp;
-
-                sx={{ input: { color: '#fff' }, label: { color: '#fff' } }}
-            />
-            </Grid>
-        </Grid>
-        <Button
-            variant="contained"
-            fullWidth
-            sx={{
-            marginTop: 2,
-            padding: 1,
-            backgroundColor: '#FF5252',
-            '&:hover': {
-                backgroundColor: '#FF1744',
-            },
-            color: '#fff',
-            textTransform: 'none',
-            borderRadius: '20px',
-            }}
-        >
-            Đăng ký
-        </Button>
-        <Typography variant="body2" sx={{ color: '#fff', marginTop: 2 , textAlign: 'center' }}>
-            Bạn đã có tài khoản? <a href="#" style={{ color: '#FF5252' }}>Đăng nhập</a>
-        </Typography>
-        </Box>
-    </Modal>
-  );
-};
-  
-export default SignUp;
-
+}
