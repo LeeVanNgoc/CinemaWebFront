@@ -14,6 +14,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 import "./Header.scss";
+import SignUpForm from "../Forms/SignUpForm";
 import Signin from "../SignIn/Signin";
 
 const Header = () => {
@@ -22,6 +23,7 @@ const Header = () => {
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [showSignUp, setShowSignUp] = React.useState(false);
 
   const [clickedIndex, setClickedIndex] = useState(null);
 
@@ -38,6 +40,14 @@ const Header = () => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleSignUpOpen = () => {
+    setShowSignUp(true);
+  };
+    
+  const handleCloseForms = () => {
+    setShowSignUp(false);
   };
 
   const handleCloseUserMenu = () => {
@@ -219,8 +229,24 @@ const Header = () => {
             </ButtonGroup>
           </Box>
           <Stack direction="row" spacing={2}>
+            <Button variant="outlined" onClick={handleSignUpOpen}>
+              Đăng ký
+            </Button>
+            <SignUpForm open={showSignUp} onClose={handleCloseForms} />
+
+            <Button
+              sx={{
+                borderRadius: "40px",
+                backgroundColor: "#dc1313f0",
+                textTransform: "none",
+              }}
+              variant="contained"
+              href="#outlined-buttons"
+            >
+              Đăng nhập
+            </Button>
             <Button variant="outlined">Đăng ký</Button>
-            <Signin />
+            <Signin />s
           </Stack>
           {/* <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
