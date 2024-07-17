@@ -67,7 +67,7 @@ export default function Signin() {
             </FormControl>
           </div>
 
-          <p
+          <span
             id="parent-modal-description"
             className="modal-description"
             style={{
@@ -78,7 +78,7 @@ export default function Signin() {
             }}
           >
             Quên mật khẩu?
-          </p>
+          </span>
 
           <Button
             sx={{
