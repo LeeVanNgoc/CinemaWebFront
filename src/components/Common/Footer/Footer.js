@@ -24,12 +24,12 @@ const Footer = () => {
           </span>
         </div>
         <div>
-          Cơ quan chủ quản: BỘ VĂN HÓA, THỂ THAO VÀ DU LỊCH
+          Cơ quan chủ quản: Nhóm
           <br />
           Bản quyền thuộc Trung tâm Chiếu phim Quốc gia.
           <br />
-          Giấy phép số: 224/GP- TTĐT ngày 31/8/2010 - Chịu trách nhiệm: Vũ Đức
-          Tùng – Giám đốc.
+          Giấy phép số: 224/GP- TTĐT ngày 31/8/2010 - Chịu trách nhiệm: Vũ Yến
+          Hoa - Giám đốc
           <br />
           Địa chỉ: 87 Láng Hạ, Quận Ba Đình, Tp. Hà Nội - Điện thoại:
           024.35141791

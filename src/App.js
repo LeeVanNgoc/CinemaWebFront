@@ -9,6 +9,7 @@ import News from "./components/Screens/News/News";
 import Price from "./components/Screens/Price/Price";
 import Promotion from "./components/Screens/Promotion/Promotion";
 import Showtimes from "./components/Screens/Showtimes/Showtimes";
+import BookTicket from "./components/Screens/BookTicket/BookTicket";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/price" element={<Price />} />
           <Route path="/promotion" element={<Promotion />} />
           <Route path="/showtimes" element={<Showtimes />} />
+          <Route path="/bookticket" element={<BookTicket />} />
         </Routes>
         <Footer />
       </div>
