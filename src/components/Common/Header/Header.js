@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 import "./Header.scss";
-import SignUp from "../SignUp/SignUp";
+import Signup from "../SignUp/Signup";
 import Signin from "../SignIn/Signin";
 
 const Header = () => {
@@ -60,9 +60,9 @@ const Header = () => {
     handleCloseNavMenu();
   };
 
-  const handleIntroduce = () => {
+  const handleAbout = () => {
     handleClick(6);
-    navigate("/introduce");
+    navigate("/about");
     handleCloseNavMenu();
   };
 
@@ -78,15 +78,15 @@ const Header = () => {
     handleCloseNavMenu();
   };
 
-  const handlePromotion = () => {
+  const handlePromotions = () => {
     handleClick(5);
-    navigate("/promotion");
+    navigate("/promotions");
     handleCloseNavMenu();
   };
 
-  const handleShowtimes = () => {
+  const handleMovies = () => {
     handleClick(2);
-    navigate("/showtimes");
+    navigate("/movies");
     handleCloseNavMenu();
   };
 
@@ -131,11 +131,11 @@ const Header = () => {
               }}
             >
               <MenuItem onClick={handleHome}>Trang chủ</MenuItem>
-              <MenuItem onClick={handleShowtimes}>Lịch chiếu</MenuItem>
+              <MenuItem onClick={handleMovies}>Lịch chiếu</MenuItem>
               <MenuItem onClick={handleNews}>Tin tức</MenuItem>
               <MenuItem onClick={handlePrice}>Giá vé</MenuItem>
-              <MenuItem onClick={handlePromotion}>Khuyến mại</MenuItem>
-              <MenuItem onClick={handleIntroduce}>Giới thiệu</MenuItem>
+              <MenuItem onClick={handlePromotions}>Khuyến mại</MenuItem>
+              <MenuItem onClick={handleAbout}>Giới thiệu</MenuItem>
             </Menu>
           </Box>
 
@@ -157,7 +157,7 @@ const Header = () => {
                 Trang chủ
               </Button>
               <Button
-                onClick={() => handleShowtimes()}
+                onClick={() => handleMovies()}
                 sx={{
                   my: 2,
                   color: clickedIndex === 2 ? "red" : "white",
@@ -199,7 +199,7 @@ const Header = () => {
                 Giá vé
               </Button>
               <Button
-                onClick={() => handlePromotion()}
+                onClick={() => handlePromotions()}
                 sx={{
                   my: 2,
                   color: clickedIndex === 5 ? "red" : "white",
@@ -213,7 +213,7 @@ const Header = () => {
                 Khuyến mãi
               </Button>
               <Button
-                onClick={() => handleIntroduce()}
+                onClick={() => handleAbout()}
                 sx={{
                   my: 2,
                   color: clickedIndex === 6 ? "red" : "white",
@@ -229,9 +229,7 @@ const Header = () => {
             </ButtonGroup>
           </Box>
           <Stack direction="row" spacing={2}>
-            <Button variant="outlined" onClick={() => handleSignUpOpen()}>
-              Đăng ký
-            </Button>
+            <Signup />
             <Signin />
           </Stack>
           <Box sx={{ flexGrow: 0 }}>
