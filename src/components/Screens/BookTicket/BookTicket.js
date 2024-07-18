@@ -1,4 +1,4 @@
-import Movie from "./Movie";
+import MovieDetail from "./MovieDetail";
 import "./BookTicket.scss";
 
 const BookTicket = () => {
@@ -6,7 +6,7 @@ const BookTicket = () => {
     <div className="custom-container">
       <div className="background-image"></div>
       <div className="movie-detail">
-        <Movie />
+        <MovieDetail />
       </div>
     </div>
   );

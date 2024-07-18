@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 import "./Header.scss";
-import Signup from "../SignUp/Signup";
+import Signup from "../SignUp/SignUp";
 import Signin from "../SignIn/Signin";
 
 const Header = () => {
