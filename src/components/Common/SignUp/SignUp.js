@@ -30,7 +30,7 @@ export default function Signup() {
           backgroundColor: "transparent",
           textTransform: "none",
           color: "white",
-          border: "white",
+          border: "1px solid white",
         }}
       >
         Đăng ký
