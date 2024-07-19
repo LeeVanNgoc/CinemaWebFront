@@ -1,5 +1,6 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -11,6 +12,11 @@ import {
 } from "@mui/material";
 
 const MoviesCard = () => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/bookticket");
+  };
+
   return (
     <>
       <Card
@@ -23,6 +29,10 @@ const MoviesCard = () => {
           display: "flex",
           flexDirection: "row",
           border: "1px solid gray",
+          cursor: "pointer",
+        }}
+        onClick={() => {
+          handleClick();
         }}
       >
         <CardMedia

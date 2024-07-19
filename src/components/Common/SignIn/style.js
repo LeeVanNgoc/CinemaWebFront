@@ -1,9 +1,8 @@
 import * as React from "react";
-
 import PropTypes from "prop-types";
 import { Modal as BaseModal } from "@mui/base/Modal";
 import { Input, inputClasses } from "@mui/base/Input";
-import { FormControl, useFormControlContext } from "@mui/base/FormControl";
+import { useFormControlContext } from "@mui/base/FormControl";
 
 import clsx from "clsx";
 import { styled, css } from "@mui/system";
