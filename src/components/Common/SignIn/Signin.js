@@ -11,7 +11,6 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
-import { width } from "@mui/system";
 
 export default function Signin() {
   const [open, setOpen] = React.useState(false);
