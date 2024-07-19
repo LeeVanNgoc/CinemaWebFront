@@ -23,8 +23,6 @@ const Header = () => {
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [showSignUp, setShowSignUp] = React.useState(false);
-
   const [clickedIndex, setClickedIndex] = useState(null);
 
   const handleClick = (index) => {
@@ -40,14 +38,6 @@ const Header = () => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleSignUpOpen = () => {
-    setShowSignUp(true);
-  };
-
-  const handleCloseForms = () => {
-    setShowSignUp(false);
   };
 
   const handleCloseUserMenu = () => {
@@ -232,7 +222,7 @@ const Header = () => {
             <Signup />
             <Signin />
           </Stack>
-          {/* <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar src="/broken-image.jpg" />
@@ -260,7 +250,7 @@ const Header = () => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box> */}
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
