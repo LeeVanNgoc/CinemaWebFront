@@ -1,9 +1,8 @@
 import * as React from "react";
-import { FormControl, useFormControlContext } from "@mui/base/FormControl";
+import { FormControl } from "@mui/base/FormControl";
 import Button from "@mui/material/Button";
 import "./Signup.scss";
 import {
-  Backdrop,
   TriggerButton,
   StyledInput,
   StyledInputRow,
@@ -13,7 +12,6 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
-import { display, width } from "@mui/system";
 
 export default function Signup() {
   const [open, setOpen] = React.useState(false);

@@ -44,7 +44,7 @@ const Price = () => {
       </div>
       <Container className="prices" sx={{ textAlign: 'left' }}>
         <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>1. GIÁ VÉ XEM PHIM 2D</Typography>
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{ mb: 2 }}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -88,7 +88,7 @@ const Price = () => {
         * Đối với phim có thời lượng từ 150 phút trở lên: phụ thu 10.000 VNĐ / vé
         </Typography>
         <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>2. GIÁ VÉ XEM PHIM 3D</Typography>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} sx={{ mb: 2 }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
