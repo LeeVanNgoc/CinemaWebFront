@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 import "./Header.scss";
-import Signup from "../SignUp/Signup";
+import Signup from "../SignUp/SignUp";
 import Signin from "../SignIn/Signin";
 
 const Header = () => {
@@ -232,7 +232,7 @@ const Header = () => {
             <Signup />
             <Signin />
           </Stack>
-          {/* <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar src="/broken-image.jpg" />
@@ -260,7 +260,7 @@ const Header = () => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box> */}
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
