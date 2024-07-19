@@ -1,0 +1,21 @@
+.movies-container {
+    margin-top: 100px;
+    text-align: center;
+    color: white;
+    .section-name {
+      margin-bottom: 15px;
+      font-weight: 700;
+      font-size: large;
+    }
+  }
+
+.information {
+    background-color: #1d1d1e;
+    color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+}
+  
+.information a {
+    color: #90caf9;
+}
