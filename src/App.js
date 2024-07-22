@@ -13,21 +13,23 @@ import BookTicket from "./components/Screens/BookTicket/BookTicket";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/price" element={<Price />} />
-          <Route path="/promotions" element={<Promotions />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/bookticket" element={<BookTicket />} />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
+    <>
+      <Router>
+        <div className="App">
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/price" element={<Price />} />
+            <Route path="/promotions" element={<Promotions />} />
+            <Route path="/movies" element={<Movies />} />
+            <Route path="/bookticket" element={<BookTicket />} />
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
+    </>
   );
 }
 

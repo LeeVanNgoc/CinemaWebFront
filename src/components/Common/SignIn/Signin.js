@@ -1,6 +1,9 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl } from "@mui/base/FormControl";
 import Button from "@mui/material/Button";
+import { handleLoginRedux } from "./redux/actions/userAction";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import "./Signin.scss";
 import {
   TriggerButton,
@@ -11,12 +14,39 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
-import { width } from "@mui/system";
 
-export default function Signin() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+export default function Signin({
+  isOpen,
+  handleOpen,
+  handleClose,
+  switchToSignUp,
+}) {
+  const dispatch = useDispatch();
+
+  const account = useSelector((state) => state.user.account);
+
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      toast.error("Email/Password is required!");
+      return;
+    }
+
+    dispatch(handleLoginRedux(email, password));
+  };
+  const handleEnter = (e) => {
+    if (e && e.key === "Enter") {
+      handleLogin();
+    }
+  };
+
+  useEffect(() => {
+    if (account && account.auth === true) {
+      handleClose();
+    }
+  }, [account, handleClose]);
 
   return (
     <div>
@@ -36,7 +66,7 @@ export default function Signin() {
       <Modal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"
-        open={open}
+        open={isOpen}
         onClose={handleClose}
         slots={{ backdrop: StyledBackdrop }}
       >
@@ -62,12 +92,20 @@ export default function Signin() {
           >
             <FormControl defaultValue="" required>
               <Label>Email</Label>
-              <StyledInput placeholder="Email" />
+              <StyledInput
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={(e) => handleEnter(e)}
+              />
               <HelperText />
             </FormControl>
             <FormControl defaultValue="" required>
               <Label>Mật khẩu</Label>
-              <StyledInput placeholder="Mật khẩu" />
+              <StyledInput
+                placeholder="Mật khẩu"
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => handleEnter(e)}
+              />
               <HelperText />
             </FormControl>
           </div>
@@ -95,7 +133,7 @@ export default function Signin() {
             }}
             variant="contained"
             href="#outlined-buttons"
-            onClick={handleClose}
+            onClick={handleLogin}
           >
             Đăng nhập
           </Button>
@@ -105,7 +143,12 @@ export default function Signin() {
             style={{ textAlign: "center" }}
           >
             Bạn chưa có tài khoản?
-            <span style={{ color: "#d65712", marginLeft: 5 }}>Đăng ký</span>
+            <span
+              style={{ color: "#d65712", marginLeft: 5, cursor: "pointer" }}
+              onClick={switchToSignUp}
+            >
+              Đăng ký
+            </span>
           </p>
         </ModalContent>
       </Modal>

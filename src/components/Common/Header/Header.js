@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -12,18 +12,55 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { handleLogoutRedux } from "../SignIn/redux/actions/userAction";
 import "./Header.scss";
-import Signup from "../SignUp/Signup";
+import Signup from "../SignUp/SignUp";
 import Signin from "../SignIn/Signin";
+import { Typography } from "@mui/material";
 
 const Header = () => {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user.account);
+  console.log(">> user: ", user);
 
-  const settings = ["Profile", "Account", "Dashboard", "Logout"];
+  const dispatch = useDispatch();
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [clickedIndex, setClickedIndex] = useState(null);
+
+  const [isSignInOpen, setSignInOpen] = useState(false);
+  const [isSignUpOpen, setSignUpOpen] = useState(false);
+
+  const handleSignInOpen = () => setSignInOpen(true);
+  const handleSignInClose = () => setSignInOpen(false);
+
+  const handleSignUpOpen = () => setSignUpOpen(true);
+  const handleSignUpClose = () => setSignUpOpen(false);
+
+  const switchToSignUp = () => {
+    handleSignInClose();
+    handleSignUpOpen();
+  };
+
+  const switchToSignIn = () => {
+    handleSignUpClose();
+    handleSignInOpen();
+  };
+
+  const handleLogout = () => {
+    dispatch(handleLogoutRedux());
+  };
+
+  useEffect(() => {
+    if (user && user.auth === false) {
+      navigate("/");
+      toast.success("Logouted");
+    }
+  }, [user, navigate]);
 
   const handleClick = (index) => {
     setClickedIndex(index);
@@ -218,39 +255,54 @@ const Header = () => {
               </Button>
             </ButtonGroup>
           </Box>
-          <Stack direction="row" spacing={2}>
-            <Signup />
-            <Signin />
-          </Stack>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src="/broken-image.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  {setting}
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          {!localStorage.getItem("email") && (
+            <Stack direction="row" spacing={2}>
+              <Signup
+                isOpen={isSignUpOpen}
+                handleOpen={handleSignUpOpen}
+                handleClose={handleSignUpClose}
+                switchToSignIn={switchToSignIn}
+              />
+              <Signin
+                isOpen={isSignInOpen}
+                handleOpen={handleSignInOpen}
+                handleClose={handleSignInClose}
+                switchToSignUp={switchToSignUp}
+              />
+            </Stack>
+          )}
+
+          {localStorage.getItem("email") && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <div>
+                  <IconButton onClick={handleOpenUserMenu}>
+                    <Avatar src="/broken-image.jpg" />
+                  </IconButton>
+                  <span>{localStorage.getItem("email")}</span>
+                </div>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem onClick={handleCloseUserMenu}>Tài khoản</MenuItem>
+                <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
+              </Menu>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

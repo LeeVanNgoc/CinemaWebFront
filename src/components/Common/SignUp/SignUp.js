@@ -1,9 +1,8 @@
 import * as React from "react";
-import { FormControl, useFormControlContext } from "@mui/base/FormControl";
+import { FormControl } from "@mui/base/FormControl";
 import Button from "@mui/material/Button";
 import "./Signup.scss";
 import {
-  Backdrop,
   TriggerButton,
   StyledInput,
   StyledInputRow,
@@ -13,13 +12,13 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
-import { display, width } from "@mui/system";
 
-export default function Signup() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+export default function Signup({
+  isOpen,
+  handleOpen,
+  handleClose,
+  switchToSignIn,
+}) {
   return (
     <div>
       <TriggerButton
@@ -38,7 +37,7 @@ export default function Signup() {
       <Modal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"
-        open={open}
+        open={isOpen}
         onClose={handleClose}
         slots={{ backdrop: StyledBackdrop }}
       >
@@ -82,7 +81,7 @@ export default function Signup() {
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
               <FormControl defaultValue="" required sx={{ flex: 1 }}>
                 <Label>Số điện thoại</Label>
-                <StyledInputRow placeholder="Số điện thoại"/>
+                <StyledInputRow placeholder="Số điện thoại" />
                 <HelperText />
               </FormControl>
               <FormControl defaultValue="" required sx={{ flex: 1 }}>
@@ -94,7 +93,7 @@ export default function Signup() {
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
               <FormControl defaultValue="" required sx={{ flex: 1 }}>
                 <Label>Mật khẩu</Label>
-                <StyledInputRow placeholder="Mật khẩu"/>
+                <StyledInputRow placeholder="Mật khẩu" />
                 <HelperText />
               </FormControl>
               <FormControl defaultValue="" required sx={{ flex: 1 }}>
@@ -124,7 +123,12 @@ export default function Signup() {
             style={{ textAlign: "center" }}
           >
             Bạn đã có tài khoản?
-            <span style={{ color: "#d65712", marginLeft: 5 }}>Đăng nhập</span>
+            <span
+              style={{ color: "#d65712", marginLeft: 5, cursor: "pointer" }}
+              onClick={switchToSignIn}
+            >
+              Đăng nhập
+            </span>
           </p>
         </ModalContent>
       </Modal>
