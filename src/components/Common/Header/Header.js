@@ -19,7 +19,6 @@ import { handleLogoutRedux } from "../SignIn/redux/actions/userAction";
 import "./Header.scss";
 import Signup from "../SignUp/SignUp";
 import Signin from "../SignIn/Signin";
-import { Typography } from "@mui/material";
 
 const Header = () => {
   const navigate = useNavigate();

@@ -1,0 +1,46 @@
+.price-container {
+    margin-top: 100px;
+    text-align: center;
+    color: white;
+    .section-name {
+      font-weight: 700;
+      font-size: x-large;
+    }
+    .section-description {
+        margin-bottom: 15px;
+        font-weight: 400;
+        font-size: large;
+    }
+    .prices {
+      .MuiTableContainer-root {
+        background-color: #1d1d1e;
+      }
+  
+      .MuiTable-root {
+        background-color: #1d1d1e;
+      }
+  
+      .MuiTableHead-root {
+        background-color: #1d1d1e;
+      }
+  
+      .MuiTableBody-root {
+        background-color: #1d1d1e;
+      }
+  
+      .MuiTableRow-root {
+        background-color: #1d1d1e;
+      }
+  
+      .MuiTableCell-root {
+        background-color: #1d1d1e;
+        color: #ffffff;
+        &.vip {
+          color: #eab308;
+        }
+        &.sweetbox {
+          color: #ef4444;
+        }
+      }
+  }
+}
