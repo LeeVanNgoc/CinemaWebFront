@@ -11,6 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Tooltip from "@mui/material/Tooltip";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -116,6 +117,12 @@ const Header = () => {
     handleCloseNavMenu();
   };
 
+  const handleManage = () => {
+    handleClick(10);
+    navigate("/manage");
+    handleCloseNavMenu();
+  };
+
   return (
     <AppBar position="fixed">
       <Container maxWidth="xl">
@@ -125,7 +132,7 @@ const Header = () => {
             alt="logo"
           ></img>
 
-          {/* small screen */}
+          {/* small screen - customer */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -165,7 +172,8 @@ const Header = () => {
             </Menu>
           </Box>
 
-          {/* full screen */}
+          {/* full screen - customer */}
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <ButtonGroup variant="text" aria-label="Basic button group">
               <Button
@@ -252,8 +260,25 @@ const Header = () => {
               >
                 Giới thiệu
               </Button>
+              {localStorage.getItem("role") && (
+                <Button
+                  onClick={() => handleManage()}
+                  sx={{
+                    my: 2,
+                    color: clickedIndex === 10 ? "red" : "white",
+                    "&:hover": {
+                      color: "red",
+                    },
+                    display: "block",
+                    textTransform: "none",
+                  }}
+                >
+                  Quản lý
+                </Button>
+              )}
             </ButtonGroup>
           </Box>
+
           {!localStorage.getItem("email") && (
             <Stack direction="row" spacing={2}>
               <Signup
@@ -273,12 +298,14 @@ const Header = () => {
 
           {localStorage.getItem("email") && (
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <div>
-                  <IconButton onClick={handleOpenUserMenu}>
+              <Tooltip title={localStorage.getItem("email")}>
+                <div onClick={handleOpenUserMenu}>
+                  <IconButton>
                     <Avatar src="/broken-image.jpg" />
                   </IconButton>
-                  <span>{localStorage.getItem("email")}</span>
+                  <span>
+                    <ArrowDropDownIcon />
+                  </span>
                 </div>
               </Tooltip>
               <Menu

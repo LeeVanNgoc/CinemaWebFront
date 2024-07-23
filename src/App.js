@@ -10,6 +10,7 @@ import Price from "./components/Screens/Price/Price";
 import Promotions from "./components/Screens/Promotions/Promotions";
 import Movies from "./components/Screens/Movies/Movies";
 import BookTicket from "./components/Screens/BookTicket/BookTicket";
+import { Manage } from "./components/Screens/Admin/Manage/Manage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/promotions" element={<Promotions />} />
             <Route path="/movies" element={<Movies />} />
             <Route path="/bookticket" element={<BookTicket />} />
+            <Route path="/manage" element={<Manage />} />
           </Routes>
           <Footer />
         </div>
