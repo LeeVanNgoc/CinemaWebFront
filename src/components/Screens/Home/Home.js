@@ -3,6 +3,7 @@ import { Container, Grid } from "@mui/material";
 import CarouselComponent from "../../Common/Carousel/CarouselComponent";
 import Brightness1SharpIcon from "@mui/icons-material/Brightness1Sharp";
 import MovieCard from "./MovieCard";
+import { ToastContainer } from "react-toastify";
 import "./Home.scss";
 
 const Home = () => {
@@ -46,6 +47,7 @@ const Home = () => {
           </Grid>
         </Grid>
       </Container>
+      <ToastContainer position="top-right" autoClose={1000} />
     </>
   );
 };
