@@ -59,6 +59,9 @@ export const TabPanel = styled(BaseTabPanel)(
     border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
     border-radius: none;
     opacity: 0.6;
+    display: flex;
+    justify-content: center;
+    
     `
 );
 
