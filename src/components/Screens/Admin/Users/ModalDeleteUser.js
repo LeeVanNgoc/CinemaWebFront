@@ -1,16 +1,16 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import { TriggerButton, Modal, StyledBackdrop, ModalContent } from "./style";
-import { handleDeleteTicket } from "./config";
+import { handleDeleteUser } from "./config";
 
-export default function ModalDeleteTicket({
+export default function ModalDeleteUser({
   isOpen,
   handleOpen,
   handleClose,
-  ticket,
+  user,
 }) {
   const handleDelete = async () => {
-    await handleDeleteTicket(ticket.ticketId);
+    await handleDeleteUser(user.userId);
     handleClose();
   };
 
@@ -45,7 +45,7 @@ export default function ModalDeleteTicket({
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Xóa vé ID = {ticket.ticketId}?
+            Xóa người dùng {user.userName}?
           </h1>
           <div style={{ display: "flex", gap: "10px" }}>
             <Button

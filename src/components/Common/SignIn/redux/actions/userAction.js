@@ -16,7 +16,7 @@ export const handleLoginRedux = (email, password) => {
       const res = await handleLoginApi(email.trim(), password);
       console.log("> check res login: ", res);
 
-      if (res && res.success === true) {
+      if (res && res.errCode === 0) {
         localStorage.setItem("email", email.trim());
         if (email.trim() === "vuyenhoa@gmail.com") {
           localStorage.setItem("role", "admin");

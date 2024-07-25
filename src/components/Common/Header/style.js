@@ -51,17 +51,17 @@ export const Tab = styled(BaseTab)`
 
 export const TabPanel = styled(BaseTabPanel)(
   ({ theme }) => `
-    width: 100%;
+    // width: 80vw;
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 0.875rem;
     padding: 20px 12px;
-    background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
-    border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
+    background-color: white;
+    background: ${theme.palette.mode === "dark" ? grey[900] : "white"};
     border-radius: none;
-    opacity: 0.6;
+    // opacity: 0.6;
     display: flex;
     justify-content: center;
-    
+    justify-items: center;
     `
 );
 
@@ -75,5 +75,6 @@ export const TabsList = styled(BaseTabsList)(
     align-items: center;
     justify-content: center;
     align-content: space-between;
+    justify-items: center;
     `
 );
