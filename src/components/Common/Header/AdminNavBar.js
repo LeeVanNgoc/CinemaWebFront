@@ -10,21 +10,21 @@ export default function AdminNavBar() {
     <div className="admin-nav">
       <Tabs defaultValue={0}>
         <TabsList>
-          <Tab value={0}>Quản lý vé</Tab>
+          <Tab value={0}>Người dùng</Tab>
           <Tab value={1}>Quản lý phim</Tab>
-          <Tab value={2}>Người dùng</Tab>
+          <Tab value={2}>Quản lý vé</Tab>
           <Tab value={3}>Rạp chiếu</Tab>
           <Tab value={4}>Quản lý ghế</Tab>
           <Tab value={5}>Thể loại</Tab>
         </TabsList>
         <TabPanel value={0}>
-          <Tickets />
+          <Users />
         </TabPanel>
         <TabPanel value={1}>
           <Tickets />
         </TabPanel>
         <TabPanel value={2}>
-          <Users />
+          <Tickets />
         </TabPanel>
         <TabPanel value={3}>
           <Tickets />

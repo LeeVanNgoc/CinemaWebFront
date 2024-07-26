@@ -138,7 +138,7 @@ export default function ModalEditUser({
 
               <FormControl defaultValue={phonenumber} required sx={{ flex: 1 }}>
                 <Label>Số điện thoại</Label>
-                <StyledInput readOnly />
+                <StyledInput onChange={(e) => setPhonenumber(e.target.value)} />
                 <HelperText />
               </FormControl>
             </div>

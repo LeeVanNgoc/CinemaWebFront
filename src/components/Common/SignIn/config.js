@@ -2,14 +2,10 @@ import axios from "../../../axios";
 
 const handleLoginApi = async (userEmail, userPassword) => {
   try {
-    const user = new URLSearchParams({
-      email: userEmail,
-      password: userPassword,
-    }).toString();
-
-    const response = await axios.post("/api/user/login-user", user, {
+    const response = await axios.post("/api/user/login-user", null, {
       params: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        email: userEmail,
+        password: userPassword,
       },
     });
     return response;

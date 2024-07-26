@@ -22,6 +22,8 @@ export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
   const [phonenumber, setPhoneNumer] = useState("");
 
   const handleAddUser = async () => {
+    console.log(">> check phone input: ", phonenumber);
+
     handleCreateUser(
       email,
       password,
@@ -69,7 +71,7 @@ export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
           }}
         >
           <h1
-            // id="unstyled-modal-title"
+            id="unstyled-modal-title"
             className="add-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
@@ -97,20 +99,20 @@ export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
 
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
               <FormControl defaultValue="" required sx={{ flex: 1 }}>
-                <Label>Tên</Label>
+                <Label>Họ</Label>
                 <StyledInput
                   // placeholder="Mật khẩu"
-                  onChange={(e) => setFirstName(e.target.value)}
+                  onChange={(e) => setLastName(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
                 />
                 <HelperText />
               </FormControl>
 
               <FormControl defaultValue="" required sx={{ flex: 1 }}>
-                <Label>Họ</Label>
+                <Label>Tên</Label>
                 <StyledInput
                   // placeholder="Mật khẩu"
-                  onChange={(e) => setLastName(e.target.value)}
+                  onChange={(e) => setFirstName(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
                 />
                 <HelperText />

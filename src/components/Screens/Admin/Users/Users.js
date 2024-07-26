@@ -12,9 +12,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TableSortLabel,
   Paper,
   TableFooter,
+  FormControl,
 } from "@mui/material";
+import { StyledInput, HelperText } from "./style";
 import ModalAddUser from "./ModalAddUser";
 import ModalEditUser from "./ModalEditUser";
 import ModalDeleteUser from "./ModalDeleteUser";
@@ -22,10 +25,14 @@ import "./Users.scss";
 
 export const Users = () => {
   const [users, setUsers] = useState([]);
+  const [query, setQuery] = useState("");
 
   const [openAddUser, setOpenAddUser] = useState(false);
   const [openEditUser, setOpenEditUser] = useState(false);
   const [openDeleteUser, setOpenDeleteUser] = useState(false);
+
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("userId");
 
   const handleOpenAddUser = () => setOpenAddUser(true);
   const handleCloseAddUser = () => setOpenAddUser(false);
@@ -56,6 +63,34 @@ export const Users = () => {
     setPage(0);
   };
 
+  const filteredUsers = users.filter((user) => {
+    if (query === "") {
+      return user;
+    } else if (
+      (user.phonenumber && user.phonenumber.includes(query.toLowerCase())) ||
+      (user.email && user.email.toLowerCase().includes(query.toLowerCase())) ||
+      (user.userName &&
+        user.userName.toLowerCase().includes(query.toLowerCase()))
+    ) {
+      return user;
+    }
+    return null;
+  });
+
+  const displayedUsers =
+    rowsPerPage > 0
+      ? filteredUsers.slice(
+          page * rowsPerPage,
+          page * rowsPerPage + rowsPerPage
+        )
+      : filteredUsers;
+
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -83,13 +118,16 @@ export const Users = () => {
 
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginBottom: "20px",
-        }}
-      >
+      <div className="search-add-container">
+        <span>
+          <FormControl defaultValue="">
+            <StyledInput
+              placeholder="Tìm kiếm..."
+              onChange={(event) => setQuery(event.target.value)}
+            />
+            <HelperText />
+          </FormControl>
+        </span>
         <ModalAddUser
           isOpen={openAddUser}
           handleOpen={handleOpenAddUser}
@@ -101,12 +139,28 @@ export const Users = () => {
         component={Paper}
         sx={{ maxHeight: "fit-content", overflow: "auto" }}
       >
-        <Table stickyHeader>
+        <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === "userId"}
+                  direction={orderBy === "userId" ? order : "asc"}
+                  onClick={(event) => handleRequestSort(event, "userId")}
+                >
+                  ID
+                </TableSortLabel>
+              </TableCell>
               <TableCell>Họ</TableCell>
-              <TableCell>Tên</TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === "firstName"}
+                  direction={orderBy === "firstName" ? order : "asc"}
+                  onClick={(event) => handleRequestSort(event, "firstName")}
+                >
+                  Tên
+                </TableSortLabel>
+              </TableCell>
               <TableCell>Tên tài khoản</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Số điện thoại</TableCell>
@@ -115,45 +169,41 @@ export const Users = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {(rowsPerPage > 0
-              ? users.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-              : users
-            ).map((user, index) => (
-              <TableRow key={index}>
-                <TableCell>{user.userId}</TableCell>
-                <TableCell>{user.firstName}</TableCell>
-                <TableCell>{user.lastName}</TableCell>
-                <TableCell>{user.userName}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.phonenumber}</TableCell>
-                <TableCell>{user.birthYear}</TableCell>
-                <TableCell>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      gap: "10px",
-                    }}
-                  >
-                    <ModalEditUser
-                      isOpen={openEditUser}
-                      handleOpen={handleOpenEditUser}
-                      handleClose={handleCloseEditUser}
-                      user={user}
-                    />
-                    <ModalDeleteUser
-                      isOpen={openDeleteUser}
-                      handleOpen={handleOpenDeleteUser}
-                      handleClose={handleCloseDeleteUser}
-                      user={user}
-                    />
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+            {stableSort(displayedUsers, getComparator(order, orderBy)).map(
+              (user, index) => (
+                <TableRow key={index}>
+                  <TableCell>{user.userId}</TableCell>
+                  <TableCell>{user.lastName}</TableCell>
+                  <TableCell>{user.firstName}</TableCell>
+                  <TableCell>{user.userName}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.phonenumber}</TableCell>
+                  <TableCell>{user.birthYear}</TableCell>
+                  <TableCell>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "10px",
+                      }}
+                    >
+                      <ModalEditUser
+                        isOpen={openEditUser}
+                        handleOpen={handleOpenEditUser}
+                        handleClose={handleCloseEditUser}
+                        user={user}
+                      />
+                      <ModalDeleteUser
+                        isOpen={openDeleteUser}
+                        handleOpen={handleOpenDeleteUser}
+                        handleClose={handleCloseDeleteUser}
+                        user={user}
+                      />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )
+            )}
 
             {emptyRows > 0 && (
               <TableRow style={{ height: 34 * emptyRows }}>
@@ -199,3 +249,29 @@ export const Users = () => {
     </div>
   );
 };
+
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === "desc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
