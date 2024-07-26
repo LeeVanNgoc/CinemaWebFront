@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from './config';
+import { handleCreateUser } from './config';
 import { FormControl } from "@mui/base/FormControl";
 import Button from "@mui/material/Button";
 import "./Signup.scss";
@@ -31,7 +31,7 @@ export default function Signup({
     confirmPassword: '',
   });
 
-  const { loading, error } = useSelector((state) => state.user);
+  const { error } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -51,7 +51,7 @@ export default function Signup({
       ...userData,
       email: userData.email.toLowerCase(),
     };
-    dispatch(registerUser(formattedData));
+    dispatch(handleCreateUser(formattedData));
   };
 
   return (

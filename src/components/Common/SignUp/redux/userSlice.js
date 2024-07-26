@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { registerUser } from '../config'
+import { handleCreateUser } from '../config'
 
 const userSlice = createSlice({
   name: 'user',
@@ -11,17 +11,17 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(registerUser.pending, (state) => {
+      .addCase(handleCreateUser.pending, (state) => {
         console.log('Pending')
         state.loading = true
         state.error = null
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(handleCreateUser.fulfilled, (state, action) => {
         console.log('Fulfilled', action.payload)
         state.loading = false
         state.userInfo = action.payload
       })
-      .addCase(registerUser.rejected, (state, action) => {
+      .addCase(handleCreateUser.rejected, (state, action) => {
         console.log('Rejected', action.payload)
         state.loading = false
         state.error = action.payload

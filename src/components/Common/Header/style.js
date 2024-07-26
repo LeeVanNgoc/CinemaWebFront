@@ -58,8 +58,8 @@ export const TabPanel = styled(BaseTabPanel)(
     background-color: white;
     background: ${theme.palette.mode === "dark" ? grey[900] : "white"};
     border-radius: none;
-    // opacity: 0.6;
-    display: flex;
+    opacity: 1;
+    display: absolute;
     justify-content: center;
     justify-items: center;
     `

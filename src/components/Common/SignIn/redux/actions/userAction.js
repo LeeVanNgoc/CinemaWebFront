@@ -18,12 +18,12 @@ export const handleLoginRedux = (email, password) => {
 
       if (res && res.errCode === 0) {
         localStorage.setItem("email", email.trim());
-        if (email.trim() === "vuyenhoa@gmail.com") {
-          localStorage.setItem("role", "admin");
-        }
+        localStorage.setItem("userId", res.userId);
+        localStorage.setItem("role", res.role);
+
         dispatch({
           type: "FETCH_USER_SUCCESS",
-          data: { email: email.trim() },
+          data: { email: email.trim(), id: res.userId, role: res.role },
         });
       } else {
         toast.error("Login failed. Please check your credentials.");
@@ -41,12 +41,11 @@ export const handleLogoutRedux = () => {
   return async (dispatch, getState) => {
     toast.success("Đăng xuất thành công!");
     dispatch({ type: USER_LOGOUT });
-
     localStorage.clear();
   };
 };
 
-export const handleRefresh = () => {
+export const handleRefreshRedux = () => {
   return async (dispatch, getState) => {
     dispatch({ type: USER_REFRESH });
   };

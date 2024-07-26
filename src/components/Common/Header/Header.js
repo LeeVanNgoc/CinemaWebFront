@@ -132,7 +132,7 @@ const Header = () => {
             alt="logo"
           ></img>
 
-          {/* small screen - customer */}
+          {/* small screen */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -169,6 +169,9 @@ const Header = () => {
               <MenuItem onClick={handlePrice}>Giá vé</MenuItem>
               <MenuItem onClick={handlePromotions}>Khuyến mại</MenuItem>
               <MenuItem onClick={handleAbout}>Giới thiệu</MenuItem>
+              {user.role === "admin" && (
+                <MenuItem onClick={handleManage}>Quản lý</MenuItem>
+              )}
             </Menu>
           </Box>
 
@@ -260,7 +263,7 @@ const Header = () => {
               >
                 Giới thiệu
               </Button>
-              {localStorage.getItem("role") && (
+              {user.role === "admin" && (
                 <Button
                   onClick={() => handleManage()}
                   sx={{
