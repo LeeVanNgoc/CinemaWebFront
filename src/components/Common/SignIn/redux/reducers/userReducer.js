@@ -7,7 +7,7 @@ import {
 } from "../actions/userAction";
 
 const INITIAL_STATE = {
-  account: { email: "", auth: null },
+  account: { email: "", id: "", role: "", auth: null },
   isError: false,
 };
 
@@ -25,7 +25,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           email: action.data.email,
-
+          id: action.data.id,
+          role: action.data.role,
           auth: true,
         },
         isError: false,
@@ -39,13 +40,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
       };
 
     case USER_LOGOUT:
-      localStorage.removeItem("email");
-      localStorage.removeItem("role");
-
       return {
         ...state,
         account: {
           email: "",
+          id: "",
+          role: "",
           auth: false,
         },
       };
@@ -55,6 +55,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           email: localStorage.getItem("email"),
+          id: localStorage.getItem("userId"),
+          role: localStorage.getItem("role"),
           auth: true,
         },
       };

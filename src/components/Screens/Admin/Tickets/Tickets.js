@@ -12,6 +12,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TableSortLabel,
   Paper,
   TableFooter,
   FormControl,
@@ -28,6 +29,9 @@ export const Tickets = () => {
   const [openAddTicket, setOpenAddTicket] = useState(false);
   const [openEditTicket, setOpenEditTicket] = useState(false);
   const [openDeleteTicket, setOpenDeleteTicket] = useState(false);
+
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("ticketsDate");
 
   const handleOpenAddTicket = () => setOpenAddTicket(true);
   const handleCloseAddTicket = () => setOpenAddTicket(false);
@@ -78,6 +82,12 @@ export const Tickets = () => {
         )
       : filteredTickets;
 
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
   useEffect(() => {
     const fetchTickets = async () => {
       try {
@@ -126,50 +136,60 @@ export const Tickets = () => {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>ID Vé</TableCell>
-              <TableCell>ID Khách Hàng</TableCell>
-              <TableCell>PSM ID</TableCell>
-              <TableCell>ST ID</TableCell>
+              <TableCell>Mã Vé</TableCell>
+              <TableCell>Mã Người Dùng</TableCell>
+              <TableCell>Mã PSM</TableCell>
+              <TableCell>Mã ST</TableCell>
               <TableCell>Ngân Hàng</TableCell>
               <TableCell>Giá Vé</TableCell>
-              <TableCell>Ngày Đặt Vé</TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === "ticketSDate"}
+                  direction={orderBy === "ticketsDate" ? order : "asc"}
+                  onClick={(event) => handleRequestSort(event, "ticketsDate")}
+                >
+                  Ngày Đặt Vé
+                </TableSortLabel>
+              </TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {displayedTickets.map((ticket, index) => (
-              <TableRow key={index}>
-                <TableCell>{ticket.ticketId}</TableCell>
-                <TableCell>{ticket.userId}</TableCell>
-                <TableCell>{ticket.psmId}</TableCell>
-                <TableCell>{ticket.stId}</TableCell>
-                <TableCell>{ticket.bank}</TableCell>
-                <TableCell>{ticket.price}</TableCell>
-                <TableCell>{ticket.ticketsDate}</TableCell>
-                <TableCell>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      gap: "10px",
-                    }}
-                  >
-                    <ModalEditTicket
-                      isOpen={openEditTicket}
-                      handleOpen={handleOpenEditTicket}
-                      handleClose={handleCloseEditTicket}
-                      ticket={ticket}
-                    />
-                    <ModalDeleteTicket
-                      isOpen={openDeleteTicket}
-                      handleOpen={handleOpenDeleteTicket}
-                      handleClose={handleCloseDeleteTicket}
-                      ticket={ticket}
-                    />
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+            {stableSort(displayedTickets, getComparator(order, orderBy)).map(
+              (ticket, index) => (
+                <TableRow key={index}>
+                  <TableCell>{ticket.ticketId}</TableCell>
+                  <TableCell>{ticket.userId}</TableCell>
+                  <TableCell>{ticket.psmId}</TableCell>
+                  <TableCell>{ticket.stId}</TableCell>
+                  <TableCell>{ticket.bank}</TableCell>
+                  <TableCell>{ticket.price}</TableCell>
+                  <TableCell>{ticket.ticketsDate}</TableCell>
+                  <TableCell>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "10px",
+                      }}
+                    >
+                      <ModalEditTicket
+                        isOpen={openEditTicket}
+                        handleOpen={handleOpenEditTicket}
+                        handleClose={handleCloseEditTicket}
+                        ticket={ticket}
+                      />
+                      <ModalDeleteTicket
+                        isOpen={openDeleteTicket}
+                        handleOpen={handleOpenDeleteTicket}
+                        handleClose={handleCloseDeleteTicket}
+                        ticket={ticket}
+                      />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )
+            )}
             {emptyRows > 0 && (
               <TableRow style={{ height: 34 * emptyRows }}>
                 <TableCell colSpan={8} aria-hidden />
@@ -214,3 +234,29 @@ export const Tickets = () => {
     </div>
   );
 };
+
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === "desc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
