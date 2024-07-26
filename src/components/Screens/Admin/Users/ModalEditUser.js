@@ -10,9 +10,9 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
-import { handleEditTicket } from "./config";
+import { handleEditUser } from "./config";
 
-export default function ModalEditTicket({
+export default function ModalEditUser({
   isOpen,
   handleOpen,
   handleClose,
@@ -22,7 +22,7 @@ export default function ModalEditTicket({
   const [firstName, setFirstName] = useState(user?.firstName || "");
   const [lastName, setLastName] = useState(user?.lastName || "");
   const [birthYear, setBirthYear] = useState(user?.birthYear || "");
-  const [userName, setTicketName] = useState(user?.userName || "");
+  const [userName, setUserName] = useState(user?.userName || "");
   const [phonenumber, setPhonenumber] = useState(user?.phonenumber || "");
 
   // Cập nhật state khi props `user` thay đổi
@@ -31,14 +31,14 @@ export default function ModalEditTicket({
       setFirstName(user.firstName);
       setLastName(user.lastName);
       setBirthYear(user.birthYear);
-      setTicketName(user.userName);
+      setUserName(user.userName);
       setPhonenumber(user.phonenumber);
     }
   }, [user]);
 
   // Hàm cập nhật người dùng
-  const handleUpdateTicket = async () => {
-    await handleEditTicket(
+  const handleUpdateUser = async () => {
+    await handleEditUser(
       user.userId, // Đảm bảo truyền đúng userId
       firstName,
       lastName,
@@ -132,7 +132,7 @@ export default function ModalEditTicket({
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
               <FormControl value={userName} required sx={{ flex: 1 }}>
                 <Label>Tên tài khoản</Label>
-                <StyledInput onChange={(e) => setTicketName(e.target.value)} />
+                <StyledInput onChange={(e) => setUserName(e.target.value)} />
                 <HelperText />
               </FormControl>
 
@@ -153,7 +153,7 @@ export default function ModalEditTicket({
               marginBottom: "15px",
             }}
             variant="contained"
-            onClick={handleUpdateTicket}
+            onClick={handleUpdateUser}
           >
             Sửa
           </Button>
