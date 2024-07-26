@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Provider } from 'react-redux';
+import store from './store';
 import "./index.css";
 import Footer from "./components/Common/Footer/Footer";
 import About from "./components/Screens/About/About";
@@ -14,24 +16,26 @@ import { Manage } from "./components/Screens/Admin/Manage/Manage";
 
 function App() {
   return (
-    <>
-      <Router>
-        <div className="App">
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/price" element={<Price />} />
-            <Route path="/promotions" element={<Promotions />} />
-            <Route path="/movies" element={<Movies />} />
-            <Route path="/bookticket" element={<BookTicket />} />
-            <Route path="/manage" element={<Manage />} />
-          </Routes>
-          <Footer />
-        </div>
-      </Router>
-    </>
+    <React.StrictMode>
+      <Provider store={store}>
+        <Router>
+          <div className="App">
+            <Header />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/price" element={<Price />} />
+              <Route path="/promotions" element={<Promotions />} />
+              <Route path="/movies" element={<Movies />} />
+              <Route path="/bookticket" element={<BookTicket />} />
+              <Route path="/manage" element={<Manage />} />
+            </Routes>
+            <Footer />
+          </div>
+        </Router>
+      </Provider>
+    </React.StrictMode>
   );
 }
 
