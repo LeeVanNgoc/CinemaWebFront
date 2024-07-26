@@ -59,7 +59,7 @@ export const StyledBackdrop = styled(Backdrop)`
   z-index: -1;
   position: fixed;
   inset: 0;
-  background-color: rgb(0 0 0 / 0.5);
+  background-color: rgb(0 0 0 / 0.2);
   -webkit-tap-highlight-color: transparent;
 `;
 
@@ -133,7 +133,7 @@ export const StyledInput = styled(Input)(
   ({ theme }) => `
     
       .${inputClasses.input} {
-        width: 525px;
+        width: 100%;
         font-family: 'IBM Plex Sans', sans-serif;
         font-size: 0.875rem;
         font-weight: 400;

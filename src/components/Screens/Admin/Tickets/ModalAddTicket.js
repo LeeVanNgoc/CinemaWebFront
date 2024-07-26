@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FormControl } from "@mui/base/FormControl";
 import Button from "@mui/material/Button";
-import { handleLoginRedux } from "./redux/actions/userAction";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import "./Signin.scss";
 import {
   TriggerButton,
   StyledInput,
@@ -14,39 +10,26 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
+import { handleCreateTicket } from "./config";
 
-export default function Signin({
-  isOpen,
-  handleOpen,
-  handleClose,
-  switchToSignUp,
-}) {
-  const dispatch = useDispatch();
+export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
+  const [userId, setUserId] = useState("");
+  const [psmId, setPsmId] = useState("");
+  const [price, setPrice] = useState("");
+  const [bank, setBank] = useState("");
+  const [stId, setSiId] = useState("");
 
-  const account = useSelector((state) => state.user.account);
-
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-
-  const handleLogin = async () => {
-    if (!email || !password) {
-      toast.error("Email/Password is required!");
-      return;
-    }
-
-    dispatch(handleLoginRedux(email, password));
+  const handleAddTicket = async () => {
+    handleCreateTicket(userId, psmId, price, bank, stId);
+    handleClose();
+    window.location.reload();
   };
+
   const handleEnter = (e) => {
     if (e && e.key === "Enter") {
-      handleLogin();
+      handleAddTicket();
     }
   };
-
-  useEffect(() => {
-    if (account && account.auth === true) {
-      handleClose();
-    }
-  }, [account, handleClose]);
 
   return (
     <div>
@@ -61,7 +44,7 @@ export default function Signin({
           border: "none",
         }}
       >
-        Đăng nhập
+        Tạo vé mới
       </TriggerButton>
       <Modal
         aria-labelledby="unstyled-modal-title"
@@ -80,7 +63,7 @@ export default function Signin({
             className="modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Đăng nhập
+            Tạo vé mới
           </h1>
           <div
             style={{
@@ -91,37 +74,51 @@ export default function Signin({
             }}
           >
             <FormControl defaultValue="" required>
-              <Label>Email</Label>
+              <Label>ID người dùng</Label>
               <StyledInput
-                placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
+                // placeholder="UserId"
+                onChange={(e) => setUserId(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />
               <HelperText />
             </FormControl>
             <FormControl defaultValue="" required>
-              <Label>Mật khẩu</Label>
+              <Label>PSM ID</Label>
               <StyledInput
-                placeholder="Mật khẩu"
-                onChange={(e) => setPassword(e.target.value)}
+                // placeholder="Mật khẩu"
+                onChange={(e) => setPsmId(e.target.value)}
+                onKeyDown={(e) => handleEnter(e)}
+              />
+              <HelperText />
+            </FormControl>
+            <FormControl defaultValue="" required>
+              <Label>Giá vé</Label>
+              <StyledInput
+                // placeholder="Mật khẩu"
+                onChange={(e) => setPrice(e.target.value)}
+                onKeyDown={(e) => handleEnter(e)}
+              />
+              <HelperText />
+            </FormControl>
+            <FormControl defaultValue="" required>
+              <Label>Ngân hàng</Label>
+              <StyledInput
+                // placeholder="Mật khẩu"
+                onChange={(e) => setBank(e.target.value)}
+                onKeyDown={(e) => handleEnter(e)}
+              />
+              <HelperText />
+            </FormControl>
+            <FormControl defaultValue="" required>
+              <Label>St ID</Label>
+              <StyledInput
+                // placeholder="Mật khẩu"
+                onChange={(e) => setSiId(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />
               <HelperText />
             </FormControl>
           </div>
-
-          <span
-            id="parent-modal-description"
-            className="modal-description"
-            style={{
-              textAlign: "right",
-              color: "#d65712",
-              marginTop: "8px",
-              fontSize: 15,
-            }}
-          >
-            Quên mật khẩu?
-          </span>
 
           <Button
             sx={{
@@ -132,23 +129,11 @@ export default function Signin({
               marginBottom: "15px",
             }}
             variant="contained"
-            onClick={handleLogin}
+            href="#outlined-buttons"
+            onClick={handleAddTicket}
           >
-            Đăng nhập
+            Tạo mới
           </Button>
-          <p
-            id="parent-modal-description"
-            className="modal-description"
-            style={{ textAlign: "center" }}
-          >
-            Bạn chưa có tài khoản?
-            <span
-              style={{ color: "#d65712", marginLeft: 5, cursor: "pointer" }}
-              onClick={switchToSignUp}
-            >
-              Đăng ký
-            </span>
-          </p>
         </ModalContent>
       </Modal>
     </div>

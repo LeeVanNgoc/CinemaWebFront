@@ -1,9 +1,10 @@
-import * as React from "react";
-import { FormControl, useFormControlContext } from "@mui/base/FormControl";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from './config';
+import { FormControl } from "@mui/base/FormControl";
 import Button from "@mui/material/Button";
 import "./Signup.scss";
 import {
-  Backdrop,
   TriggerButton,
   StyledInput,
   StyledInputRow,
@@ -13,15 +14,48 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
-import { display, width } from "@mui/system";
 
-export default function Signup() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+export default function Signup({
+  isOpen,
+  handleOpen,
+  handleClose,
+  switchToSignIn,
+}) {
+  const [userData, setUserData] = useState({
+    firstName: '',
+    lastName: '',
+    userName: '',
+    phoneNumber: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const { loading, error } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    setUserData({
+      ...userData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (userData.password !== userData.confirmPassword) {
+      return;
+    }
+    const formattedData = {
+      ...userData,
+      email: userData.email.toLowerCase(),
+    };
+    dispatch(registerUser(formattedData));
+  };
 
   return (
-    <div>
+    <>
       <TriggerButton
         type="button"
         onClick={handleOpen}
@@ -38,7 +72,7 @@ export default function Signup() {
       <Modal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"
-        open={open}
+        open={isOpen}
         onClose={handleClose}
         slots={{ backdrop: StyledBackdrop }}
       >
@@ -54,80 +88,137 @@ export default function Signup() {
           >
             Đăng ký
           </h1>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl defaultValue="" required sx={{ flex: 1 }}>
-                <Label>Họ</Label>
-                <StyledInputRow placeholder="Họ" />
+          <form onSubmit={handleSubmit}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+                <FormControl required sx={{ flex: 1 }}>
+                  <Label>Họ</Label>
+                  <StyledInputRow
+                    type="text"
+                    name="firstName"
+                    value={userData.firstName}
+                    onChange={handleChange}
+                    placeholder="Họ"
+                    required
+                  />
+                  <HelperText />
+                </FormControl>
+                <FormControl required sx={{ flex: 1 }}>
+                  <Label>Tên</Label>
+                  <StyledInputRow
+                    type="text"
+                    name="lastName"
+                    value={userData.lastName}
+                    onChange={handleChange}
+                    placeholder="Tên"
+                    required
+                  />
+                  <HelperText />
+                </FormControl>
+              </div>
+              <FormControl required>
+                <Label>Tên tài khoản</Label>
+                <StyledInput
+                  type="text"
+                  name="userName"
+                  value={userData.userName}
+                  onChange={handleChange}
+                  placeholder="Tên tài khoản"
+                  required
+                />
                 <HelperText />
               </FormControl>
-              <FormControl defaultValue="" required sx={{ flex: 1 }}>
-                <Label>Tên</Label>
-                <StyledInputRow placeholder="Tên" />
-                <HelperText />
-              </FormControl>
+              <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+                <FormControl required sx={{ flex: 1 }}>
+                  <Label>Số điện thoại</Label>
+                  <StyledInputRow
+                    type="text"
+                    name="phonenumber"
+                    value={userData.phoneNumber}
+                    onChange={handleChange}
+                    placeholder="Số điện thoại"
+                    required
+                  />
+                  <HelperText />
+                </FormControl>
+                <FormControl required sx={{ flex: 1 }}>
+                  <Label>Email</Label>
+                  <StyledInputRow
+                    type="email"
+                    name="email"
+                    value={userData.email}
+                    onChange={handleChange}
+                    placeholder="Email"
+                    required
+                  />
+                  <HelperText />
+                </FormControl>
+              </div>
+              <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+                <FormControl required sx={{ flex: 1 }}>
+                  <Label>Mật khẩu</Label>
+                  <StyledInputRow
+                    type="password"
+                    name="password"
+                    value={userData.password}
+                    onChange={handleChange}
+                    placeholder="Mật khẩu"
+                    required
+                  />
+                  <HelperText />
+                </FormControl>
+                <FormControl required sx={{ flex: 1 }}>
+                  <Label>Xác nhận mật khẩu</Label>
+                  <StyledInputRow
+                    type="password"
+                    name="confirmPassword"
+                    value={userData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Xác nhận mật khẩu"
+                    required
+                  />
+                  <HelperText />
+                </FormControl>
+              </div>
             </div>
-            <FormControl defaultValue="" required>
-              <Label>Tên tài khoản</Label>
-              <StyledInput placeholder="Tên tài khoản" />
-              <HelperText />
-            </FormControl>
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl defaultValue="" required sx={{ flex: 1 }}>
-                <Label>Số điện thoại</Label>
-                <StyledInputRow placeholder="Số điện thoại"/>
-                <HelperText />
-              </FormControl>
-              <FormControl defaultValue="" required sx={{ flex: 1 }}>
-                <Label>Email</Label>
-                <StyledInputRow placeholder="Email" />
-                <HelperText />
-              </FormControl>
-            </div>
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl defaultValue="" required sx={{ flex: 1 }}>
-                <Label>Mật khẩu</Label>
-                <StyledInputRow placeholder="Mật khẩu"/>
-                <HelperText />
-              </FormControl>
-              <FormControl defaultValue="" required sx={{ flex: 1 }}>
-                <Label>Xác nhận mật khẩu</Label>
-                <StyledInputRow placeholder="Xác nhận mật khẩu" />
-                <HelperText />
-              </FormControl>
-            </div>
-          </div>
-          <Button
-            sx={{
-              borderRadius: "40px",
-              backgroundColor: "#dc1313f0",
-              textTransform: "none",
-              marginTop: "15px",
-              marginBottom: "15px",
-            }}
-            variant="contained"
-            href="#outlined-buttons"
-            onClick={handleClose}
-          >
-            Đăng ký
-          </Button>
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{
+                borderRadius: "40px",
+                backgroundColor: "#dc1313f0",
+                textTransform: "none",
+                marginTop: "15px",
+                marginBottom: "15px",
+                width: "100%",
+              }}
+            >
+              Đăng ký
+            </Button>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+          </form>
           <p
             id="parent-modal-description"
             className="modal-description"
             style={{ textAlign: "center" }}
           >
             Bạn đã có tài khoản?
-            <span style={{ color: "#d65712", marginLeft: 5 }}>Đăng nhập</span>
+            <span
+              style={{ color: "#d65712", marginLeft: 5, cursor: "pointer" }}
+              onClick={switchToSignIn}
+            >
+              Đăng nhập
+            </span>
           </p>
         </ModalContent>
       </Modal>
-    </div>
+    </>
   );
 }
