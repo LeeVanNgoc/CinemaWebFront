@@ -1,12 +1,12 @@
-import axios from 'axios'
+import axios from '../../../axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 const backendURL = 'http://localhost:6060'
 
-export const registerUser = createAsyncThunk(
+export const handleCreateUser = createAsyncThunk(
   'user/create-new-user',
   async ({ firstName, lastName, userName, phonenumber, email, password }, { rejectWithValue }) => {
-    const birthYear = 2000;
+    const birthYear = 0;
     try {
       const config = {
         headers: {
@@ -15,10 +15,18 @@ export const registerUser = createAsyncThunk(
       }
 
       await axios.post(
-        `${backendURL}/api/user/create-new-user`,
-        { firstName, lastName, userName, phonenumber, email, password, birthYear },
-        config
-      )
+        `${backendURL}/api/user/create-new-user`, null, {
+          params: {
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName,
+            birthYear: birthYear,
+            userName: userName,
+            phonenumber: phonenumber,
+          },
+          config
+        });
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message)
