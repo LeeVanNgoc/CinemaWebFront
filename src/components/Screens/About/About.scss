@@ -5,17 +5,42 @@
     .section-name {
       margin-bottom: 15px;
       font-weight: 700;
-      font-size: large;
+      font-size: x-large;
+    }
+    .MuiTab-root {
+      color: white;
+    }
+    .Mui-selected {
+      color: #ff0000 !important;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .MuiTabs-indicator {
+      background-color: #ff0000 !important;
     }
   }
 
-.information {
+.introduction {
     background-color: #1d1d1e;
     color: #fff;
     padding: 2rem;
     border-radius: 8px;
 }
   
-.information a {
+.introduction a {
     color: #90caf9;
+}
+
+.services {
+  background-color: #1d1d1e;
+  color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.rooms {
+  background-color: #1d1d1e;
+  color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
 }
