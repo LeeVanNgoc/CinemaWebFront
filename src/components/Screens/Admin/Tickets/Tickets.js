@@ -14,13 +14,16 @@ import {
   TableRow,
   Paper,
   TableFooter,
+  FormControl,
 } from "@mui/material";
+import { StyledInput, HelperText } from "./style";
 import ModalAddTicket from "./ModalAddTicket";
 import ModalEditTicket from "./ModalEditTicket";
 import ModalDeleteTicket from "./ModalDeleteTicket";
 
 export const Tickets = () => {
   const [tickets, setTickets] = useState([]);
+  const [query, setQuery] = useState("");
 
   const [openAddTicket, setOpenAddTicket] = useState(false);
   const [openEditTicket, setOpenEditTicket] = useState(false);
@@ -55,6 +58,26 @@ export const Tickets = () => {
     setPage(0);
   };
 
+  const filteredTickets = tickets.filter((ticket) => {
+    if (query === "") {
+      return tickets;
+    } else if (
+      (ticket.bank && ticket.bank.includes(query)) ||
+      (ticket.ticketId && ticket.userId.trim === query)
+    ) {
+      return ticket;
+    }
+    return null;
+  });
+
+  const displayedTickets =
+    rowsPerPage > 0
+      ? filteredTickets.slice(
+          page * rowsPerPage,
+          page * rowsPerPage + rowsPerPage
+        )
+      : filteredTickets;
+
   useEffect(() => {
     const fetchTickets = async () => {
       try {
@@ -82,13 +105,16 @@ export const Tickets = () => {
 
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginBottom: "20px",
-        }}
-      >
+      <div className="search-add-container">
+        <span>
+          <FormControl defaultValue="">
+            <StyledInput
+              placeholder="Tìm kiếm..."
+              onChange={(event) => setQuery(event.target.value)}
+            />
+            <HelperText />
+          </FormControl>
+        </span>
         <ModalAddTicket
           isOpen={openAddTicket}
           handleOpen={handleOpenAddTicket}
@@ -111,13 +137,7 @@ export const Tickets = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {(rowsPerPage > 0
-              ? tickets.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-              : tickets
-            ).map((ticket, index) => (
+            {displayedTickets.map((ticket, index) => (
               <TableRow key={index}>
                 <TableCell>{ticket.ticketId}</TableCell>
                 <TableCell>{ticket.userId}</TableCell>
