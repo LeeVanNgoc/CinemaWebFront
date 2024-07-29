@@ -2,13 +2,11 @@ import React from "react";
 import Button from "@mui/material/Button";
 import { TriggerButton, Modal, StyledBackdrop, ModalContent } from "./style";
 import { handleDeleteTicket } from "./config";
+import { useSelector } from "react-redux";
 
-export default function ModalDeleteTicket({
-  isOpen,
-  handleOpen,
-  handleClose,
-  ticket,
-}) {
+export default function ModalDeleteTicket({ isOpen, handleOpen, handleClose }) {
+  const ticket = useSelector((state) => state.manageTickets.selectedTicket);
+
   const handleDelete = async () => {
     await handleDeleteTicket(ticket.ticketId);
     handleClose();

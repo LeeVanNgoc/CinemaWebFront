@@ -16,11 +16,11 @@ const handleGetListTickets = async () => {
   }
 };
 
-const handleCreateTicket = async (userId, psmId, price, bank, stId) => {
+const handleCreateTicket = async (ticketId, psmId, price, bank, stId) => {
   try {
     const response = await axios.post("/api/ticket/create-ticket/", null, {
       params: {
-        userId: userId,
+        ticketId: ticketId,
         psmId: psmId,
         price: price,
         bank: bank,
@@ -41,29 +41,21 @@ const handleCreateTicket = async (userId, psmId, price, bank, stId) => {
   }
 };
 
-const handleEditTicket = async (
-  userId,
-  firstName,
-  lastName,
-  userName,
-  phonenumber,
-  birthYear
-) => {
+const handleEditTicket = async (ticketId, stId, psmId, price, bank) => {
   try {
-    const response = await axios.put("/api/user/edit-user/", null, {
+    const response = await axios.put("/api/ticket/edit-ticket/", null, {
       params: {
-        userId: userId,
-        firstName: firstName,
-        lastName: lastName,
-        userName: userName,
-        phonenumber: phonenumber,
-        birthYear: birthYear,
+        ticketId: ticketId,
+        stId: stId,
+        psmId: psmId,
+        price: price,
+        bank: bank,
       },
     });
-    console.log(">>> edit user res: ", response);
+    console.log(">>> edit ticket res: ", response);
     return response;
   } catch (error) {
-    console.error("Error editing user:", error);
+    console.error("Error editing ticket:", error);
     if (error.response) {
       console.error("Response data:", error.response.data);
       return { error: error.response.data.message };
@@ -75,16 +67,16 @@ const handleEditTicket = async (
   }
 };
 
-const handleDeleteTicket = async (userId) => {
+const handleDeleteTicket = async (ticketId) => {
   try {
-    const response = await axios.delete("/api/user/delete-user", {
+    const response = await axios.delete("/api/ticket/delete-ticket", {
       params: {
-        id: userId,
+        ticketId: ticketId,
       },
     });
     return response;
   } catch (error) {
-    console.error("Error deleting user:", error);
+    console.error("Error deleting ticket:", error);
     if (error.response) {
       console.error("Response data:", error.response.data);
       return { error: error.response.data.message };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FormControl } from "@mui/base/FormControl";
 import Button from "@mui/material/Button";
 import {
@@ -11,43 +11,20 @@ import {
   ModalContent,
 } from "./style";
 import { handleEditTicket } from "./config";
+import { useSelector } from "react-redux";
 
-export default function ModalEditTicket({
-  isOpen,
-  handleOpen,
-  handleClose,
-  user,
-}) {
-  // Khởi tạo state với dữ liệu người dùng từ props
-  const [firstName, setFirstName] = useState(user?.firstName || "");
-  const [lastName, setLastName] = useState(user?.lastName || "");
-  const [birthYear, setBirthYear] = useState(user?.birthYear || "");
-  const [userName, setTicketName] = useState(user?.userName || "");
-  const [phonenumber, setPhonenumber] = useState(user?.phonenumber || "");
+export default function ModalEditTicket({ isOpen, handleOpen, handleClose }) {
+  const ticket = useSelector((state) => state.manageTickets.selectedTicket);
 
-  // Cập nhật state khi props `user` thay đổi
-  useEffect(() => {
-    if (user) {
-      setFirstName(user.firstName);
-      setLastName(user.lastName);
-      setBirthYear(user.birthYear);
-      setTicketName(user.userName);
-      setPhonenumber(user.phonenumber);
-    }
-  }, [user]);
+  // Khởi tạo state với dữ liệu vé từ props
+  const [stId, setStId] = useState(ticket.stId);
+  const [psmId, setPsmId] = useState(ticket.psmId);
+  const [bank, setBank] = useState(ticket.bank);
+  const [price, setPrice] = useState(ticket.price);
 
-  // Hàm cập nhật người dùng
   const handleUpdateTicket = async () => {
-    await handleEditTicket(
-      user.userId, // Đảm bảo truyền đúng userId
-      firstName,
-      lastName,
-      userName,
-      phonenumber,
-      birthYear
-    );
-    handleClose(); // Đóng modal sau khi cập nhật
-    // Có thể thêm logic khác nếu cần
+    await handleEditTicket(ticket.ticketId, stId, psmId, price, bank);
+    handleClose();
   };
 
   return (
@@ -81,7 +58,7 @@ export default function ModalEditTicket({
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Sửa người dùng
+            Cập nhật vé
           </h1>
           <div
             style={{
@@ -92,53 +69,41 @@ export default function ModalEditTicket({
             }}
           >
             <div style={{ display: "flex", width: "100%" }}>
-              <FormControl defaultValue={user?.email} aria-readonly>
-                <Label>Email</Label>
+              <FormControl defaultValue={ticket.ticketId} aria-readonly>
+                <Label>Mã vé</Label>
                 <StyledInput readOnly />
                 <HelperText />
               </FormControl>
             </div>
 
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl value={firstName} required sx={{ flex: 1 }}>
-                <Label>Tên</Label>
-                <StyledInput onChange={(e) => setFirstName(e.target.value)} />
+              <FormControl defaultValue={ticket.stId} required sx={{ flex: 1 }}>
+                <Label>Mã ghế</Label>
+                <StyledInput onChange={(e) => setStId(e.target.value)} />
                 <HelperText />
               </FormControl>
 
-              <FormControl value={lastName} required sx={{ flex: 1 }}>
-                <Label>Họ</Label>
-                <StyledInput onChange={(e) => setLastName(e.target.value)} />
+              <FormControl defaultValue={psmId} required sx={{ flex: 1 }}>
+                <Label>Giờ chiếu</Label>
+                <StyledInput onChange={(e) => setPsmId(e.target.value)} />
+                <HelperText />
+              </FormControl>
+            </div>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue={ticket.bank} required sx={{ flex: 1 }}>
+                <Label>Hình thức thanh toán</Label>
+                <StyledInput onChange={(e) => setBank(e.target.value)} />
                 <HelperText />
               </FormControl>
             </div>
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
               <FormControl
-                defaultValue={user?.password}
-                aria-readonly
+                defaultValue={ticket.price}
+                required
                 sx={{ flex: 1 }}
               >
-                <Label>Mật khẩu</Label>
-                <StyledInput readOnly />
-                <HelperText />
-              </FormControl>
-
-              <FormControl value={birthYear} required sx={{ flex: 1 }}>
-                <Label>Năm sinh</Label>
-                <StyledInput onChange={(e) => setBirthYear(e.target.value)} />
-                <HelperText />
-              </FormControl>
-            </div>
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl value={userName} required sx={{ flex: 1 }}>
-                <Label>Tên tài khoản</Label>
-                <StyledInput onChange={(e) => setTicketName(e.target.value)} />
-                <HelperText />
-              </FormControl>
-
-              <FormControl defaultValue={phonenumber} required sx={{ flex: 1 }}>
-                <Label>Số điện thoại</Label>
-                <StyledInput readOnly />
+                <Label>Tổng đơn</Label>
+                <StyledInput onChange={(e) => setPrice(e.target.value)} />
                 <HelperText />
               </FormControl>
             </div>
