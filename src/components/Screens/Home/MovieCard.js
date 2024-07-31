@@ -17,7 +17,7 @@ export default function MovieCard() {
     <div>
       <Card
         className="image-card"
-        sx={{ width: 250, backgroundColor: "transparent", color: "white" }}
+        sx={{ width: 205, backgroundColor: "transparent", color: "white" }}
         onClick={() => handleClick()}
       >
         <CardActionArea>
