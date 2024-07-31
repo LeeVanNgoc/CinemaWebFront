@@ -5,6 +5,11 @@ import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import { handleGetListTickets } from "./config";
+import { useDispatch } from "react-redux";
+import {
+  setSelectedTicket,
+  clearSelectedTicket,
+} from "./redux/actions/ticketActions";
 import {
   Table,
   TableBody,
@@ -23,6 +28,7 @@ import ModalEditTicket from "./ModalEditTicket";
 import ModalDeleteTicket from "./ModalDeleteTicket";
 
 export const Tickets = () => {
+  const dispatch = useDispatch();
   const [tickets, setTickets] = useState([]);
   const [query, setQuery] = useState("");
 
@@ -36,15 +42,23 @@ export const Tickets = () => {
   const handleOpenAddTicket = () => setOpenAddTicket(true);
   const handleCloseAddTicket = () => setOpenAddTicket(false);
 
-  const handleOpenEditTicket = () => {
+  const handleOpenEditTicket = (ticket) => {
+    dispatch(setSelectedTicket(ticket));
     setOpenEditTicket(true);
   };
   const handleCloseEditTicket = () => {
     setOpenEditTicket(false);
+    dispatch(clearSelectedTicket());
   };
 
-  const handleOpenDeleteTicket = () => setOpenDeleteTicket(true);
-  const handleCloseDeleteTicket = () => setOpenDeleteTicket(false);
+  const handleOpenDeleteTicket = (ticket) => {
+    dispatch(setSelectedTicket(ticket));
+    setOpenDeleteTicket(true);
+  };
+  const handleCloseDeleteTicket = () => {
+    setOpenDeleteTicket(false);
+    dispatch(clearSelectedTicket());
+  };
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -175,15 +189,13 @@ export const Tickets = () => {
                     >
                       <ModalEditTicket
                         isOpen={openEditTicket}
-                        handleOpen={handleOpenEditTicket}
+                        handleOpen={() => handleOpenEditTicket(ticket)}
                         handleClose={handleCloseEditTicket}
-                        ticket={ticket}
                       />
                       <ModalDeleteTicket
                         isOpen={openDeleteTicket}
-                        handleOpen={handleOpenDeleteTicket}
+                        handleOpen={() => handleOpenDeleteTicket(ticket)}
                         handleClose={handleCloseDeleteTicket}
-                        ticket={ticket}
                       />
                     </div>
                   </TableCell>

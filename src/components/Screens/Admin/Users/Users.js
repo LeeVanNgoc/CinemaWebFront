@@ -5,6 +5,11 @@ import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import { handleGetListUsers } from "./config";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setSelectedUser,
+  clearSelectedUser,
+} from "./redux/actions/userActions";
 import {
   Table,
   TableBody,
@@ -24,7 +29,11 @@ import ModalDeleteUser from "./ModalDeleteUser";
 import "./Users.scss";
 
 export const Users = () => {
+  const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
+  const loading = useSelector((state) => state.manageUsers.loading);
+  const error = useSelector((state) => state.manageUsers.error);
+
   const [query, setQuery] = useState("");
 
   const [openAddUser, setOpenAddUser] = useState(false);
@@ -37,15 +46,23 @@ export const Users = () => {
   const handleOpenAddUser = () => setOpenAddUser(true);
   const handleCloseAddUser = () => setOpenAddUser(false);
 
-  const handleOpenEditUser = () => {
+  const handleOpenEditUser = (user) => {
+    dispatch(setSelectedUser(user));
     setOpenEditUser(true);
   };
   const handleCloseEditUser = () => {
     setOpenEditUser(false);
+    dispatch(clearSelectedUser());
   };
 
-  const handleOpenDeleteUser = () => setOpenDeleteUser(true);
-  const handleCloseDeleteUser = () => setOpenDeleteUser(false);
+  const handleOpenDeleteUser = (user) => {
+    dispatch(setSelectedUser(user));
+    setOpenDeleteUser(true);
+  };
+  const handleCloseDeleteUser = () => {
+    setOpenDeleteUser(false);
+    dispatch(clearSelectedUser());
+  };
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -135,6 +152,9 @@ export const Users = () => {
         />
       </div>
 
+      {loading && <div>Loading...</div>}
+      {error && <div>Error: {error}</div>}
+
       <TableContainer
         component={Paper}
         sx={{ maxHeight: "fit-content", overflow: "auto" }}
@@ -168,6 +188,7 @@ export const Users = () => {
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {stableSort(displayedUsers, getComparator(order, orderBy)).map(
               (user, index) => (
@@ -189,15 +210,13 @@ export const Users = () => {
                     >
                       <ModalEditUser
                         isOpen={openEditUser}
-                        handleOpen={handleOpenEditUser}
+                        handleOpen={() => handleOpenEditUser(user)}
                         handleClose={handleCloseEditUser}
-                        user={user}
                       />
                       <ModalDeleteUser
                         isOpen={openDeleteUser}
-                        handleOpen={handleOpenDeleteUser}
+                        handleOpen={() => handleOpenDeleteUser(user)}
                         handleClose={handleCloseDeleteUser}
-                        user={user}
                       />
                     </div>
                   </TableCell>
@@ -211,6 +230,7 @@ export const Users = () => {
               </TableRow>
             )}
           </TableBody>
+
           <TableFooter>
             <tr>
               <TablePagination
