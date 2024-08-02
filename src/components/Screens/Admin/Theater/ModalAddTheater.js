@@ -10,24 +10,22 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
-import { handleCreateTicket } from "./config";
+import { handleCreateTheater } from "./config";
 
-export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
-  const [userId, setUserId] = useState("");
-  const [planScreenMovieId, setPlanScreenMovieId] = useState("");
-  const [price, setPrice] = useState("");
-  const [bank, setBank] = useState("");
-  const [seatTicketId, setSeatTicketId] = useState("");
+export default function ModalAddTheater({ isOpen, handleOpen, handleClose }) {
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
 
-  const handleAddTicket = async () => {
-    handleCreateTicket(userId, planScreenMovieId, price, bank, seatTicketId);
+  const handleAddTheater = async () => {
+    handleCreateTheater(name, address, city);
     handleClose();
     window.location.reload();
   };
 
   const handleEnter = (e) => {
     if (e && e.key === "Enter") {
-      handleAddTicket();
+      handleAddTheater();
     }
   };
 
@@ -44,7 +42,7 @@ export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
           border: "none",
         }}
       >
-        Tạo vé mới
+        Thêm rạp chiếu mới
       </TriggerButton>
       <Modal
         aria-labelledby="unstyled-modal-title"
@@ -63,7 +61,7 @@ export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
             className="modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Tạo vé mới
+            Thêm rạp chiếu mới
           </h1>
           <div
             style={{
@@ -74,47 +72,26 @@ export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
             }}
           >
             <FormControl defaultValue="" required>
-              <Label>ID người dùng</Label>
+              <Label>Tên rạp</Label>
               <StyledInput
-                // placeholder="UserId"
-                onChange={(e) => setUserId(e.target.value)}
-                onKeyDown={(e) => handleEnter(e)}
+                // placeholder="Name"
+                onChange={(e) => setName(e.target.value)}
               />
               <HelperText />
             </FormControl>
             <FormControl defaultValue="" required>
-              <Label>PSM ID</Label>
+              <Label>Địa chỉ</Label>
               <StyledInput
                 // placeholder="Mật khẩu"
-                onChange={(e) => setPlanScreenMovieId(e.target.value)}
-                onKeyDown={(e) => handleEnter(e)}
+                onChange={(e) => setAddress(e.target.value)}
               />
               <HelperText />
             </FormControl>
             <FormControl defaultValue="" required>
-              <Label>Giá vé</Label>
+              <Label>Thành phố</Label>
               <StyledInput
                 // placeholder="Mật khẩu"
-                onChange={(e) => setPrice(e.target.value)}
-                onKeyDown={(e) => handleEnter(e)}
-              />
-              <HelperText />
-            </FormControl>
-            <FormControl defaultValue="" required>
-              <Label>Ngân hàng</Label>
-              <StyledInput
-                // placeholder="Mật khẩu"
-                onChange={(e) => setBank(e.target.value)}
-                onKeyDown={(e) => handleEnter(e)}
-              />
-              <HelperText />
-            </FormControl>
-            <FormControl defaultValue="" required>
-              <Label>St ID</Label>
-              <StyledInput
-                // placeholder="Mật khẩu"
-                onChange={(e) => setSeatTicketId(e.target.value)}
-                onKeyDown={(e) => handleEnter(e)}
+                onChange={(e) => setCity(e.target.value)}
               />
               <HelperText />
             </FormControl>
@@ -130,9 +107,9 @@ export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
             }}
             variant="contained"
             href="#outlined-buttons"
-            onClick={handleAddTicket}
+            onClick={handleAddTheater}
           >
-            Tạo mới
+            Thêm mới
           </Button>
         </ModalContent>
       </Modal>

@@ -5,6 +5,8 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
+import { useDispatch } from "react-redux";
+import { setMovie } from "./redux/actions/bookingAction";
 
 const Img = styled("img")({
   margin: "auto",
@@ -14,6 +16,12 @@ const Img = styled("img")({
 });
 
 export default function MovieDetail() {
+  const dispatch = useDispatch();
+
+  const setSelectedMovie = (movieId) => {
+    dispatch(setMovie(movieId));
+  };
+
   return (
     <Paper
       sx={{

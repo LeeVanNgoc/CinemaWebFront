@@ -4,12 +4,12 @@ import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import { handleGetListTickets } from "./config";
-import { useDispatch } from "react-redux";
+import { handleGetListTheaters } from "./config";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  setSelectedTicket,
-  clearSelectedTicket,
-} from "./redux/actions/ticketActions";
+  setSelectedTheater,
+  clearSelectedTheater,
+} from "./redux/actions/theaterActions";
 import {
   Table,
   TableBody,
@@ -23,41 +23,44 @@ import {
   FormControl,
 } from "@mui/material";
 import { StyledInput, HelperText } from "./style";
-import ModalAddTicket from "./ModalAddTicket";
-import ModalEditTicket from "./ModalEditTicket";
-import ModalDeleteTicket from "./ModalDeleteTicket";
+import ModalAddTheater from "./ModalAddTheater";
+import ModalEditTheater from "./ModalEditTheater";
+import ModalDeleteTheater from "./ModalDeleteTheater";
 
-export const Tickets = () => {
+export const Theaters = () => {
   const dispatch = useDispatch();
-  const [tickets, setTickets] = useState([]);
+  const [theaters, setTheaters] = useState([]);
+  const loading = useSelector((state) => state.manageTheaters.loading);
+  const error = useSelector((state) => state.manageTheaters.error);
+
   const [query, setQuery] = useState("");
 
-  const [openAddTicket, setOpenAddTicket] = useState(false);
-  const [openEditTicket, setOpenEditTicket] = useState(false);
-  const [openDeleteTicket, setOpenDeleteTicket] = useState(false);
+  const [openAddTheater, setOpenAddTheater] = useState(false);
+  const [openEditTheater, setOpenEditTheater] = useState(false);
+  const [openDeleteTheater, setOpenDeleteTheater] = useState(false);
 
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("ticketsDate");
+  const [orderBy, setOrderBy] = useState("theaterId");
 
-  const handleOpenAddTicket = () => setOpenAddTicket(true);
-  const handleCloseAddTicket = () => setOpenAddTicket(false);
+  const handleOpenAddTheater = () => setOpenAddTheater(true);
+  const handleCloseAddTheater = () => setOpenAddTheater(false);
 
-  const handleOpenEditTicket = (ticket) => {
-    dispatch(setSelectedTicket(ticket));
-    setOpenEditTicket(true);
+  const handleOpenEditTheater = (theater) => {
+    dispatch(setSelectedTheater(theater));
+    setOpenEditTheater(true);
   };
-  const handleCloseEditTicket = () => {
-    setOpenEditTicket(false);
-    dispatch(clearSelectedTicket());
+  const handleCloseEditTheater = () => {
+    setOpenEditTheater(false);
+    dispatch(clearSelectedTheater());
   };
 
-  const handleOpenDeleteTicket = (ticket) => {
-    dispatch(setSelectedTicket(ticket));
-    setOpenDeleteTicket(true);
+  const handleOpenDeleteTheater = (theater) => {
+    dispatch(setSelectedTheater(theater));
+    setOpenDeleteTheater(true);
   };
-  const handleCloseDeleteTicket = () => {
-    setOpenDeleteTicket(false);
-    dispatch(clearSelectedTicket());
+  const handleCloseDeleteTheater = () => {
+    setOpenDeleteTheater(false);
+    dispatch(clearSelectedTheater());
   };
 
   const [page, setPage] = React.useState(0);
@@ -65,7 +68,7 @@ export const Tickets = () => {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tickets.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - theaters.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -76,25 +79,26 @@ export const Tickets = () => {
     setPage(0);
   };
 
-  const filteredTickets = tickets.filter((ticket) => {
+  const filteredTheaters = theaters.filter((theater) => {
     if (query === "") {
-      return tickets;
+      return theater;
     } else if (
-      (ticket.bank && ticket.bank.includes(query)) ||
-      (ticket.ticketId && ticket.userId.trim === query)
+      (theater.name &&
+        theater.name.toLowerCase().includes(query.toLowerCase())) ||
+      (theater.city && theater.city.toLowerCase().includes(query.toLowerCase()))
     ) {
-      return ticket;
+      return theater;
     }
     return null;
   });
 
-  const displayedTickets =
+  const displayedTheaters =
     rowsPerPage > 0
-      ? filteredTickets.slice(
+      ? filteredTheaters.slice(
           page * rowsPerPage,
           page * rowsPerPage + rowsPerPage
         )
-      : filteredTickets;
+      : filteredTheaters;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -103,28 +107,25 @@ export const Tickets = () => {
   };
 
   useEffect(() => {
-    const fetchTickets = async () => {
+    const fetchTheaters = async () => {
       try {
-        let res = await handleGetListTickets();
-        console.log("res list tickets >>>", res);
-        if (res && res.tickets) {
-          const formattedData = res.tickets.map((item) => ({
-            ticketId: item.ticketId,
-            userId: item.userId,
-            planScreenMovieId: item.planScreenMovieId,
-            seatTicketId: item.seatTicketId,
-            bank: item.bank,
-            price: item.price,
-            ticketsDate: item.ticketsDate,
+        let res = await handleGetListTheaters();
+        console.log("res list theaters >>>", res);
+        if (res && res.theaters) {
+          const formattedData = res.theaters.map((item) => ({
+            theaterId: item.theaterId,
+            name: item.name,
+            address: item.address,
+            city: item.city,
           }));
-          setTickets(formattedData);
+          setTheaters(formattedData);
         }
       } catch (error) {
-        console.error("Error fetching tickets:", error);
+        console.error("Error fetching theaters:", error);
       }
     };
 
-    fetchTickets();
+    fetchTheaters();
   }, []);
 
   return (
@@ -139,46 +140,56 @@ export const Tickets = () => {
             <HelperText />
           </FormControl>
         </span>
-        <ModalAddTicket
-          isOpen={openAddTicket}
-          handleOpen={handleOpenAddTicket}
-          handleClose={handleCloseAddTicket}
+        <ModalAddTheater
+          isOpen={openAddTheater}
+          handleOpen={handleOpenAddTheater}
+          handleClose={handleCloseAddTheater}
         />
       </div>
 
-      <TableContainer component={Paper} sx={{ maxHeight: "fit-content" }}>
-        <Table stickyHeader>
+      {loading && <div>Loading...</div>}
+      {error && <div>Error: {error}</div>}
+
+      <TableContainer
+        component={Paper}
+        sx={{ maxHeight: "fit-content", overflow: "auto" }}
+      >
+        <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell>Mã Vé</TableCell>
-              <TableCell>Mã Người Dùng</TableCell>
-              <TableCell>Mã Giờ Chiếu</TableCell>
-              <TableCell>Mã Ghế</TableCell>
-              <TableCell>Thanh Toán</TableCell>
-              <TableCell>Tổng Đơn</TableCell>
               <TableCell>
                 <TableSortLabel
-                  active={orderBy === "ticketSDate"}
-                  direction={orderBy === "ticketsDate" ? order : "asc"}
-                  onClick={(event) => handleRequestSort(event, "ticketsDate")}
+                  active={orderBy === "theaterId"}
+                  direction={orderBy === "theaterId" ? order : "asc"}
+                  onClick={(event) => handleRequestSort(event, "theaterId")}
                 >
-                  Ngày Đặt Vé
+                  ID
                 </TableSortLabel>
               </TableCell>
+              <TableCell>Họ</TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === "name"}
+                  direction={orderBy === "name" ? order : "asc"}
+                  onClick={(event) => handleRequestSort(event, "name")}
+                >
+                  Tên
+                </TableSortLabel>
+              </TableCell>
+              <TableCell>Địa chỉ</TableCell>
+              <TableCell>Thành phố</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
-            {stableSort(displayedTickets, getComparator(order, orderBy)).map(
-              (ticket, index) => (
+            {stableSort(displayedTheaters, getComparator(order, orderBy)).map(
+              (theater, index) => (
                 <TableRow key={index}>
-                  <TableCell>{ticket.ticketId}</TableCell>
-                  <TableCell>{ticket.userId}</TableCell>
-                  <TableCell>{ticket.planScreenMovieId}</TableCell>
-                  <TableCell>{ticket.seatTicketId}</TableCell>
-                  <TableCell>{ticket.bank}</TableCell>
-                  <TableCell>{ticket.price}</TableCell>
-                  <TableCell>{ticket.ticketsDate}</TableCell>
+                  <TableCell>{theater.theaterId}</TableCell>
+                  <TableCell>{theater.name}</TableCell>
+                  <TableCell>{theater.address}</TableCell>
+                  <TableCell>{theater.city}</TableCell>
                   <TableCell>
                     <div
                       style={{
@@ -187,33 +198,35 @@ export const Tickets = () => {
                         gap: "10px",
                       }}
                     >
-                      <ModalEditTicket
-                        isOpen={openEditTicket}
-                        handleOpen={() => handleOpenEditTicket(ticket)}
-                        handleClose={handleCloseEditTicket}
+                      <ModalEditTheater
+                        isOpen={openEditTheater}
+                        handleOpen={() => handleOpenEditTheater(theater)}
+                        handleClose={handleCloseEditTheater}
                       />
-                      <ModalDeleteTicket
-                        isOpen={openDeleteTicket}
-                        handleOpen={() => handleOpenDeleteTicket(ticket)}
-                        handleClose={handleCloseDeleteTicket}
+                      <ModalDeleteTheater
+                        isOpen={openDeleteTheater}
+                        handleOpen={() => handleOpenDeleteTheater(theater)}
+                        handleClose={handleCloseDeleteTheater}
                       />
                     </div>
                   </TableCell>
                 </TableRow>
               )
             )}
+
             {emptyRows > 0 && (
               <TableRow style={{ height: 34 * emptyRows }}>
                 <TableCell colSpan={8} aria-hidden />
               </TableRow>
             )}
           </TableBody>
+
           <TableFooter>
             <tr>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={8}
-                count={tickets.length}
+                count={theaters.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 slotProps={{

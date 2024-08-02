@@ -7,16 +7,15 @@ import { Container, Grid } from "@mui/material";
 import "./Movies.scss";
 
 const Movies = () => {
-  const current = new Date();
-  const date1 = `${current.getDate()}/${
-    current.getMonth() + 1
-  }/${current.getFullYear()}`;
-  const date2 = `${current.getDate() + 1}/${
-    current.getMonth() + 1
-  }/${current.getFullYear()}`;
-  const date3 = `${current.getDate() + 2}/${
-    current.getMonth() + 1
-  }/${current.getFullYear()}`;
+  const today = new Date();
+  const getNextDay = (current) => {
+    const nextDay = new Date(current);
+    nextDay.setDate(current.getDate() + 1);
+    return nextDay;
+  };
+
+  const tomorrow = getNextDay(today);
+  const nextTomorrow = getNextDay(tomorrow);
 
   return (
     <div className="movies-container">
@@ -25,9 +24,9 @@ const Movies = () => {
         <span>Phim đang chiếu</span>
       </div>
       <ButtonGroup variant="contained" aria-label="Basic button group">
-        <Button>{date1}</Button>
-        <Button>{date2}</Button>
-        <Button>{date3}</Button>
+        <Button>{today.toLocaleDateString("vi-VN")}</Button>
+        <Button>{tomorrow.toLocaleDateString("vi-VN")}</Button>
+        <Button>{nextTomorrow.toLocaleDateString("vi-VN")}</Button>
       </ButtonGroup>
       <div style={{ color: "#d65712", marginTop: "10px" }}>
         Lưu ý: Khán giả dưới 13 tuổi chỉ chọn suất chiếu kết thúc trước 22h và
