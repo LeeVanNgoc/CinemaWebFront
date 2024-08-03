@@ -25,7 +25,6 @@ const Row = ({ rowLetter, seats, onSeatClick, rowIndex }) => {
           seatNumber={seatNumber}
           seatID={`${rowLetter}${seatNumber}`}
           isSelected={selectedSeats.includes(`${rowLetter}${seatNumber}`)}
-          isOccupied={false} // Thay thế bằng logic kiểm tra ghế đã được đặt
           onSeatClick={onSeatClick}
           rowIndex={rowIndex}
         />

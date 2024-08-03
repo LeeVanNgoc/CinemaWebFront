@@ -1,14 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import ClearIcon from "@mui/icons-material/Clear";
 import "./scss/SeatMap.scss";
 
-const Seat = ({
-  seatNumber,
-  seatID,
-  isSelected,
-  isOccupied,
-  onSeatClick,
-  rowIndex,
-}) => {
+const Seat = ({ seatNumber, seatID, isSelected, onSeatClick, rowIndex }) => {
+  const [isOccupied, setIsOccupied] = useState(false);
   const handleClick = () => {
     if (!isOccupied) {
       onSeatClick(seatID);
@@ -33,11 +28,11 @@ const Seat = ({
     <div
       onClick={handleClick}
       className={`cursor-pointer w-11 p-1 rounded 
-        ${isOccupied ? " bg-gray-800 cursor-not-allowed" : ""}
+        ${isOccupied ? " bg-gray-800 cursor-no-drop" : ""}
         ${isSelected ? " bg-blue-500" : ""}
       ${!isSelected && !isOccupied ? `${getRowColor()}` : ""}`}
     >
-      {seatID}
+      {isOccupied ? <ClearIcon /> : seatID}
     </div>
   );
 };

@@ -8,3 +8,9 @@
 .css-153akec-MuiButtonBase-root-MuiButton-root {
   background-color: grey !important;
 }
+
+.css-1jryhhg-MuiButtonBase-root-MuiButton-root.Mui-disabled {
+  color: rgba(255, 255, 255, 0.26) !important;
+  background-color: rgba(100, 30, 60, 0.52) !important;
+  cursor: no-drop !important;
+}

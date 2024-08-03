@@ -6,6 +6,7 @@ import Legend from "./Legend";
 import { useDispatch, useSelector } from "react-redux";
 import { clearSelectedSeats, setTime } from "./redux/actions/bookingAction";
 import { useNavigate } from "react-router-dom";
+import CountdownTimer from "./CountdownTimer";
 import "./scss/TimeChoice.scss";
 
 export default function TimeChoice() {
@@ -20,6 +21,8 @@ export default function TimeChoice() {
   const selectedSeats = useSelector(
     (state) => state.userBookTicket.selectedSeats
   );
+
+  const releasedTime = useSelector((state) => state.userBookTicket.time);
 
   const bookTicket = () => {
     navigate("/finalticket");
@@ -69,7 +72,11 @@ export default function TimeChoice() {
 
       {isVisibleSeat && (
         <div>
-          <p>Giờ chiếu: </p>
+          <div className="flex justify-between">
+            <p>Giờ chiếu: {releasedTime.time}</p>
+            <CountdownTimer initialTime={180} onTimeUp={toggleVisibility} />
+          </div>
+
           <img
             src="https://chieuphimquocgia.com.vn/_next/image?url=%2Fimages%2Fscreen.png&w=1920&q=75"
             alt="yellow-screen"
@@ -108,6 +115,7 @@ export default function TimeChoice() {
                   height: "40px",
                 }}
                 onClick={() => bookTicket()}
+                disabled={selectedSeats.length === 0}
               >
                 Đặt vé
               </Button>
