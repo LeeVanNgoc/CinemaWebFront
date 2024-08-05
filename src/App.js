@@ -14,6 +14,7 @@ import Movies from "./components/Screens/Movies/Movies";
 import BookTicket from "./components/Screens/BookTicket/BookTicket";
 import { Manage } from "./components/Screens/Admin/Manage/Manage";
 import { handleRefreshRedux } from "./components/Common/SignIn/redux/actions/userAction";
+import { handleRefreshMovie } from "./components/Screens/Admin/Movie/redux/actions/movieActions";
 import FinalTicket from "./components/Screens/BookTicket/FinalTicket";
 import UserAccount from "./components/Screens/Account/UserAccount";
 
@@ -23,6 +24,9 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("email")) {
       dispatch(handleRefreshRedux());
+    }
+    if (localStorage.getItem("selectedMovie")) {
+      dispatch(handleRefreshMovie());
     }
   }, [dispatch]);
   return (
