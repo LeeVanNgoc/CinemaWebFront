@@ -41,14 +41,7 @@ const Movies = () => {
           marginTop: "20px",
         }}
       >
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} lg={6}>
-            <MoviesCard />
-          </Grid>
-          <Grid item xs={12} md={6} lg={6}>
-            <MoviesCard />
-          </Grid>
-        </Grid>
+        <MoviesCard />
       </Container>
     </div>
   );
