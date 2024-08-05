@@ -4,12 +4,12 @@ import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import { handleGetListTickets } from "./config";
+import { handleGetListRoom } from "./config";
 import { useDispatch } from "react-redux";
 import {
-  setSelectedTicket,
-  clearSelectedTicket,
-} from "./redux/actions/ticketActions";
+  setSelectedRoom,
+  clearSelectedRoom,
+} from "./redux/actions/roomActions";
 import {
   Table,
   TableBody,
@@ -23,41 +23,30 @@ import {
   FormControl,
 } from "@mui/material";
 import { StyledInput, HelperText } from "./style";
-import ModalAddTicket from "./ModalAddTicket";
-import ModalEditTicket from "./ModalEditTicket";
-import ModalDeleteTicket from "./ModalDeleteTicket";
+import ModalAddRoom from "./ModalAddRoom";
+import ModalEditRoom from "./ModalEditRoom";
 
-export const Tickets = () => {
+export const Rooms = () => {
   const dispatch = useDispatch();
-  const [tickets, setTickets] = useState([]);
+  const [rooms, setRooms] = useState([]);
   const [query, setQuery] = useState("");
 
-  const [openAddTicket, setOpenAddTicket] = useState(false);
-  const [openEditTicket, setOpenEditTicket] = useState(false);
-  const [openDeleteTicket, setOpenDeleteTicket] = useState(false);
+  const [openAddSeat, setOpenAddRoom] = useState(false);
+  const [openEditRoom, setOpenEditRoom] = useState(false);
 
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("ticketsDate");
+  const [orderBy, setOrderBy] = useState("");
 
-  const handleOpenAddTicket = () => setOpenAddTicket(true);
-  const handleCloseAddTicket = () => setOpenAddTicket(false);
+  const handleOpenAddRoom = () => setOpenAddRoom(true);
+  const handleCloseAddRoom = () => setOpenAddRoom(false);
 
-  const handleOpenEditTicket = (ticket) => {
-    dispatch(setSelectedTicket(ticket));
-    setOpenEditTicket(true);
+  const handleOpenEditRoom = (seat) => {
+    dispatch(setSelectedRoom(seat));
+    setOpenEditRoom(true);
   };
-  const handleCloseEditTicket = () => {
-    setOpenEditTicket(false);
-    dispatch(clearSelectedTicket());
-  };
-
-  const handleOpenDeleteTicket = (ticket) => {
-    dispatch(setSelectedTicket(ticket));
-    setOpenDeleteTicket(true);
-  };
-  const handleCloseDeleteTicket = () => {
-    setOpenDeleteTicket(false);
-    dispatch(clearSelectedTicket());
+  const handleCloseEditRoom = () => {
+    setOpenEditRoom(false);
+    dispatch(clearSelectedRoom());
   };
 
   const [page, setPage] = React.useState(0);
@@ -65,7 +54,7 @@ export const Tickets = () => {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tickets.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rooms.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -76,25 +65,22 @@ export const Tickets = () => {
     setPage(0);
   };
 
-  const filteredTickets = tickets.filter((ticket) => {
+  const filteredRooms = rooms.filter((room) => {
     if (query === "") {
-      return tickets;
-    } else if (
-      (ticket.bank && ticket.bank.includes(query)) ||
-      (ticket.ticketId && ticket.userId.trim === query)
-    ) {
-      return ticket;
+      return rooms;
+    } else if (room.isAvailable && room.isAvailable.includes(query)) {
+      return room;
     }
     return null;
   });
 
-  const displayedTickets =
+  const displayedRooms =
     rowsPerPage > 0
-      ? filteredTickets.slice(
+      ? filteredRooms.slice(
           page * rowsPerPage,
           page * rowsPerPage + rowsPerPage
         )
-      : filteredTickets;
+      : filteredRooms;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -103,28 +89,26 @@ export const Tickets = () => {
   };
 
   useEffect(() => {
-    const fetchTickets = async () => {
+    const fetchRooms = async () => {
       try {
-        let res = await handleGetListTickets();
-        console.log("res list tickets >>>", res);
-        if (res && res.tickets) {
-          const formattedData = res.tickets.map((item) => ({
-            ticketId: item.ticketId,
-            userId: item.userId,
-            planScreenMovieId: item.planScreenMovieId,
-            seatTicketId: item.seatTicketId,
-            bank: item.bank,
-            price: item.price,
-            ticketsDate: item.ticketsDate,
+        let res = await handleGetListRoom();
+        console.log("res list rooms >>>", res);
+        if (res && res.rooms) {
+          const formattedData = res.rooms.map((item) => ({
+            roomId: item.roomId,
+            theaterId: item.theaterId,
+            type: item.type,
+            numberSeats: item.numberSeats,
+            isAvailable: item.isAvailable.toString(),
           }));
-          setTickets(formattedData);
+          setRooms(formattedData);
         }
       } catch (error) {
-        console.error("Error fetching tickets:", error);
+        console.error("Error fetching rooms:", error);
       }
     };
 
-    fetchTickets();
+    fetchRooms();
   }, []);
 
   return (
@@ -139,10 +123,10 @@ export const Tickets = () => {
             <HelperText />
           </FormControl>
         </span>
-        <ModalAddTicket
-          isOpen={openAddTicket}
-          handleOpen={handleOpenAddTicket}
-          handleClose={handleCloseAddTicket}
+        <ModalAddRoom
+          isOpen={openAddSeat}
+          handleOpen={handleOpenAddRoom}
+          handleClose={handleCloseAddRoom}
         />
       </div>
 
@@ -150,54 +134,29 @@ export const Tickets = () => {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>Mã Vé</TableCell>
-              <TableCell>Mã Người Dùng</TableCell>
-              <TableCell>Mã Giờ Chiếu</TableCell>
-              <TableCell>Mã Ghế</TableCell>
-              <TableCell>Thanh Toán</TableCell>
-              <TableCell>Tổng Đơn</TableCell>
-              <TableCell>
-                <TableSortLabel
-                  active={orderBy === "ticketSDate"}
-                  direction={orderBy === "ticketsDate" ? order : "asc"}
-                  onClick={(event) => handleRequestSort(event, "ticketsDate")}
-                >
-                  Ngày Đặt Vé
-                </TableSortLabel>
-              </TableCell>
+              <TableCell>Mã Phòng</TableCell>
+              <TableCell>Mã Rạp Chiếu</TableCell>
+              <TableCell>Loại Phòng</TableCell>
+              <TableCell>Số Ghế</TableCell>
+              <TableCell>Trạng thái</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {stableSort(displayedTickets, getComparator(order, orderBy)).map(
-              (ticket, index) => (
+            {stableSort(displayedRooms, getComparator(order, orderBy)).map(
+              (room, index) => (
                 <TableRow key={index}>
-                  <TableCell>{ticket.ticketId}</TableCell>
-                  <TableCell>{ticket.userId}</TableCell>
-                  <TableCell>{ticket.planScreenMovieId}</TableCell>
-                  <TableCell>{ticket.seatTicketId}</TableCell>
-                  <TableCell>{ticket.bank}</TableCell>
-                  <TableCell>{ticket.price}</TableCell>
-                  <TableCell>{ticket.ticketsDate}</TableCell>
+                  <TableCell>{room.roomId}</TableCell>
+                  <TableCell>{room.theaterId}</TableCell>
+                  <TableCell>{room.type}</TableCell>
+                  <TableCell>{room.numberSeats}</TableCell>
+                  <TableCell>{room.isAvailable?1:0}</TableCell>
                   <TableCell>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: "10px",
-                      }}
-                    >
-                      <ModalEditTicket
-                        isOpen={openEditTicket}
-                        handleOpen={() => handleOpenEditTicket(ticket)}
-                        handleClose={handleCloseEditTicket}
-                      />
-                      <ModalDeleteTicket
-                        isOpen={openDeleteTicket}
-                        handleOpen={() => handleOpenDeleteTicket(ticket)}
-                        handleClose={handleCloseDeleteTicket}
-                      />
-                    </div>
+                    <ModalEditRoom
+                      isOpen={openEditRoom}
+                      handleOpen={() => handleOpenEditRoom(room)}
+                      handleClose={handleCloseEditRoom}
+                    />
                   </TableCell>
                 </TableRow>
               )
@@ -213,7 +172,7 @@ export const Tickets = () => {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={8}
-                count={tickets.length}
+                count={rooms.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 slotProps={{

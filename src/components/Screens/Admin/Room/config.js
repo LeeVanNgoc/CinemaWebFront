@@ -1,11 +1,12 @@
 import axios from "../../../../axios";
 
-const handleGetListTickets = async () => {
+const handleGetListRoom = async () => {
   try {
-    const response = await axios.get("/api/ticket/get-list-tickets");
+    const response = await axios.get("/api/room/get-all-rooms");
     return response;
   } catch (error) {
-    console.error("Error getting list of tickets:", error);
+    console.error("Error getting list of rooms:", error);
+
     if (error.response) {
       return { error: error.response.data.message };
     } else if (error.request) {
@@ -16,28 +17,18 @@ const handleGetListTickets = async () => {
   }
 };
 
-const handleCreateTicket = async (
-  ticketId,
-  planScreenMovieId,
-  price,
-  bank,
-  seatTicketId
-) => {
+
+const handleGetRoomId = async (roomId) => {
   try {
-    const response = await axios.post("/api/ticket/create-ticket/", null, {
+    const response = await axios.get("/api/room/get-room-by-id", null, {
       params: {
-        ticketId: ticketId,
-        planScreenMovieId: planScreenMovieId,
-        price: price,
-        bank: bank,
-        seatTicketId: seatTicketId,
+        roomId: roomId,
       },
     });
     return response;
   } catch (error) {
-    console.error("Error creating ticket:", error);
+    console.error("Error getting room by ID:", error);
     if (error.response) {
-      console.error("Response data:", error.response.data);
       return { error: error.response.data.message };
     } else if (error.request) {
       return { error: "No response from server" };
@@ -47,27 +38,20 @@ const handleCreateTicket = async (
   }
 };
 
-const handleEditTicket = async (
-  ticketId,
-  seatTicketId,
-  planScreenMovieId,
-  price,
-  bank
-) => {
+const handleCreateRoom = async (theaterId, type, numberSeats, isAvailable) => {
   try {
-    const response = await axios.put("/api/ticket/edit-ticket/", null, {
+    const response = await axios.post("/api/room/create-new-room/", null, {
       params: {
-        ticketId: ticketId,
-        seatTicketId: seatTicketId,
-        planScreenMovieId: planScreenMovieId,
-        price: price,
-        bank: bank,
+        theaterId: theaterId,
+        type: type,
+        numberSeats: numberSeats,
+        isAvailable: isAvailable,
       },
     });
-    console.log(">>> edit ticket res: ", response);
     return response;
   } catch (error) {
-    console.error("Error editing ticket:", error);
+    console.error("Error creating room:", error);
+
     if (error.response) {
       console.error("Response data:", error.response.data);
       return { error: error.response.data.message };
@@ -79,16 +63,22 @@ const handleEditTicket = async (
   }
 };
 
-const handleDeleteTicket = async (ticketId) => {
+const handleEditRoom = async (roomId, theaterId, type, numberSeats, isAvailable) => {
   try {
-    const response = await axios.delete("/api/ticket/delete-ticket", {
+    const response = await axios.put("/api/room/edit-room/", null, {
       params: {
-        ticketId: ticketId,
+        roomId: roomId,
+        theaterId: theaterId,
+        type: type,
+        numberSeats: numberSeats,
+        isAvailable: isAvailable,
       },
     });
+    console.log(">>> edit room res: ", response);
     return response;
   } catch (error) {
-    console.error("Error deleting ticket:", error);
+    console.error("Error editing room:", error);
+
     if (error.response) {
       console.error("Response data:", error.response.data);
       return { error: error.response.data.message };
@@ -101,8 +91,8 @@ const handleDeleteTicket = async (ticketId) => {
 };
 
 export {
-  handleGetListTickets,
-  handleCreateTicket,
-  handleEditTicket,
-  handleDeleteTicket,
+  handleGetListRoom,
+  handleGetRoomId,
+  handleCreateRoom,
+  handleEditRoom,
 };
