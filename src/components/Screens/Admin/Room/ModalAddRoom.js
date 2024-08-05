@@ -10,25 +10,19 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
-import { handleCreateTicket } from "./config";
+import { handleCreateRoom } from "./config";
 
-export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
-  const [userId, setUserId] = useState("");
-  const [planScreenMovieId, setPlanScreenMovieId] = useState("");
-  const [price, setPrice] = useState("");
-  const [bank, setBank] = useState("");
-  const [seatTicketId, setSeatTicketId] = useState("");
+export default function ModalAddRoom({ isOpen, handleOpen, handleClose }) {
 
-  const handleAddTicket = async () => {
-    handleCreateTicket(userId, planScreenMovieId, price, bank, seatTicketId);
+  const [theaterId, setTheaterId] = useState("");
+  const [type, setType] = useState("");
+  const [numberSeats, setNumberSeats] = useState("");
+  const [isAvailable, setIsAvailable] = useState("");
+
+  const handleAddRoom = async () => {
+    handleCreateRoom(theaterId, type, numberSeats, isAvailable);
     handleClose();
     window.location.reload();
-  };
-
-  const handleEnter = (e) => {
-    if (e && e.key === "Enter") {
-      handleAddTicket();
-    }
   };
 
   return (
@@ -44,7 +38,7 @@ export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
           border: "none",
         }}
       >
-        Tạo vé mới
+        Thêm phòng
       </TriggerButton>
       <Modal
         aria-labelledby="unstyled-modal-title"
@@ -60,10 +54,10 @@ export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
         >
           <h1
             id="unstyled-modal-title"
-            className="modal-title"
+            classType="modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Tạo vé mới
+            Thêm phòng
           </h1>
           <div
             style={{
@@ -74,48 +68,29 @@ export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
             }}
           >
             <FormControl defaultValue="" required>
-              <Label>ID người dùng</Label>
+              <Label>Mã rạp</Label>
+              <StyledInput onChange={(e) => setTheaterId(e.target.value)} />
+              <HelperText />
+            </FormControl>
+
+            <FormControl defaultValue="" required>
+              <Label>Loại ghế</Label>
               <StyledInput
-                // placeholder="UserId"
-                onChange={(e) => setUserId(e.target.value)}
-                onKeyDown={(e) => handleEnter(e)}
+                // placeholder="Type"
+                onChange={(e) => setType(e.target.value)}
               />
               <HelperText />
             </FormControl>
+
             <FormControl defaultValue="" required>
-              <Label>PSM ID</Label>
-              <StyledInput
-                // placeholder="Mật khẩu"
-                onChange={(e) => setPlanScreenMovieId(e.target.value)}
-                onKeyDown={(e) => handleEnter(e)}
-              />
+              <Label>Số ghế</Label>
+              <StyledInput onChange={(e) => setNumberSeats(e.target.value)} />
               <HelperText />
             </FormControl>
+
             <FormControl defaultValue="" required>
-              <Label>Giá vé</Label>
-              <StyledInput
-                // placeholder="Mật khẩu"
-                onChange={(e) => setPrice(e.target.value)}
-                onKeyDown={(e) => handleEnter(e)}
-              />
-              <HelperText />
-            </FormControl>
-            <FormControl defaultValue="" required>
-              <Label>Ngân hàng</Label>
-              <StyledInput
-                // placeholder="Mật khẩu"
-                onChange={(e) => setBank(e.target.value)}
-                onKeyDown={(e) => handleEnter(e)}
-              />
-              <HelperText />
-            </FormControl>
-            <FormControl defaultValue="" required>
-              <Label>St ID</Label>
-              <StyledInput
-                // placeholder="Mật khẩu"
-                onChange={(e) => setSeatTicketId(e.target.value)}
-                onKeyDown={(e) => handleEnter(e)}
-              />
+              <Label>Trạng thái</Label>
+              <StyledInput onChange={(e) => setIsAvailable(e.target.value)} />
               <HelperText />
             </FormControl>
           </div>
@@ -130,9 +105,9 @@ export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
             }}
             variant="contained"
             href="#outlined-buttons"
-            onClick={handleAddTicket}
+            onClick={handleAddRoom}
           >
-            Tạo mới
+            Thêm mới
           </Button>
         </ModalContent>
       </Modal>
