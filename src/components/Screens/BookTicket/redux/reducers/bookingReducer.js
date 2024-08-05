@@ -13,7 +13,7 @@ const initialState = {
   selectedSeats: [],
   // bill: {},
   movieId: "",
-  date: "",
+  date: new Date().toLocaleDateString("vi-VN"),
   time: "",
   room: "",
   totalBill: 0,

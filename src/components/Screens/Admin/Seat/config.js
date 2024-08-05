@@ -18,7 +18,7 @@ const handleGetListSeats = async () => {
 
 const handleGetSeatById = async (seatId) => {
   try {
-    const response = await axios.get("/api/seat/get-seat-by-id", null, {
+    const response = await axios.get("/api/seats/get-seat-by-id", null, {
       params: {
         seatId: seatId,
       },
@@ -38,7 +38,7 @@ const handleGetSeatById = async (seatId) => {
 
 const handleCreateSeat = async (type, roomId, row, col, isAvailable) => {
   try {
-    const response = await axios.post("/api/seat/create-seat/", null, {
+    const response = await axios.post("/api/seats/create-seat/", null, {
       params: {
         type: type,
         roomId: roomId,
@@ -63,7 +63,7 @@ const handleCreateSeat = async (type, roomId, row, col, isAvailable) => {
 
 const handleEditSeat = async (seatId, type, roomId, row, col, isAvailable) => {
   try {
-    const response = await axios.put("/api/seat/edit-seat/", null, {
+    const response = await axios.put("/api/seats/edit-seat/", null, {
       params: {
         seatId: seatId,
         type: type,

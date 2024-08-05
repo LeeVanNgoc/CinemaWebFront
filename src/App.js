@@ -15,6 +15,7 @@ import BookTicket from "./components/Screens/BookTicket/BookTicket";
 import { Manage } from "./components/Screens/Admin/Manage/Manage";
 import { handleRefreshRedux } from "./components/Common/SignIn/redux/actions/userAction";
 import FinalTicket from "./components/Screens/BookTicket/FinalTicket";
+import UserAccount from "./components/Screens/Account/UserAccount";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
             <Header />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/account" element={<UserAccount />} />
               <Route path="/about" element={<About />} />
               <Route path="/news" element={<News />} />
               <Route path="/price" element={<Price />} />

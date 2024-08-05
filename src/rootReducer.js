@@ -7,6 +7,10 @@ import ticketReducer from "./components/Screens/Admin/Tickets/redux/reducers/tic
 import theaterReducer from "./components/Screens/Admin/Theater/redux/reducers/theaterReducer";
 import seatReducer from "./components/Screens/Admin/Seat/redux/reducers/seatReducer";
 import bookingReducer from "./components/Screens/BookTicket/redux/reducers/bookingReducer";
+import planReducer from "./components/Screens/Admin/PlanScreenMovie/redux/reducers/planReducer";
+import priceReducer from "./components/Screens/Admin/Price/redux/reducers/priceReducer";
+import movieReducer from "./components/Screens/Admin/Movie/redux/reducers/movieReducer";
+
 const rootReducer = combineReducers({
   userCreateReducer,
   user: userReducer,
@@ -15,6 +19,9 @@ const rootReducer = combineReducers({
   manageTickets: ticketReducer,
   manageTheaters: theaterReducer,
   manageSeats: seatReducer,
+  managePlans: planReducer,
+  managePrices: priceReducer,
+  manageMovies: movieReducer,
 });
 
 export default rootReducer;

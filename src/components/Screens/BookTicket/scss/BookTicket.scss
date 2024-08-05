@@ -9,9 +9,12 @@
       width: 100%;
       height: 500px;
       background-size: cover;
-      background-image: url("https://chieuphimquocgia.com.vn/_next/image?url=https%3A%2F%2Fapi.chieuphimquocgia.com.vn%2FContent%2FImages%2F0017682_0.jpg&w=256&q=75");
       filter: blur(8px);
       z-index: -2;
+      img {
+        width: 100%;
+        height: 500px;
+      }
     }
 
     .background-image::before {
@@ -22,7 +25,7 @@
       background-size: cover;
       background: linear-gradient(
         to bottom,
-        rgba(0, 0, 0, 0.5),
+        rgba(60, 50, 50, 0.9),
         rgba(0, 0, 0, 1)
       );
       z-index: -1;

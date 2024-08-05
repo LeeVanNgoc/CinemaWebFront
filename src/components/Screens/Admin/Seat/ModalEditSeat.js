@@ -74,7 +74,7 @@ export default function ModalEditSeat({ isOpen, handleOpen, handleClose }) {
               <HelperText />
             </FormControl>
 
-            <FormControl defaultValue={seat.type} required sx={{ flex: 1 }}>
+            <FormControl defaultValue={type} required sx={{ flex: 1 }}>
               <Label>Loại ghế</Label>
               <StyledInput onChange={(e) => setType(e.target.value)} />
               <HelperText />

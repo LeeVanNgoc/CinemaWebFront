@@ -6,6 +6,9 @@ import { Tickets } from "../../Screens/Admin/Tickets/Tickets";
 import { Users } from "../../Screens/Admin/Users/Users";
 import { Theaters } from "../../Screens/Admin/Theater/Theaters";
 import { Seats } from "../../Screens/Admin/Seat/Seat";
+import { Prices } from "../../Screens/Admin/Price/Price";
+import { Plans } from "../../Screens/Admin/PlanScreenMovie/Plans";
+import { Movie } from "../../Screens/Admin/Movie/Movie";
 
 export default function AdminNavBar() {
   return (
@@ -29,7 +32,7 @@ export default function AdminNavBar() {
           <Users />
         </TabPanel>
         <TabPanel value={1}>
-          <Tickets />
+          <Movie />
         </TabPanel>
         <TabPanel value={2}>
           <Tickets />
@@ -41,26 +44,16 @@ export default function AdminNavBar() {
           <Seats />
         </TabPanel>
         <TabPanel value={5}>
-          <Tickets />
+          <Prices />
         </TabPanel>
-        <TabPanel value={6}>
-          <Tickets />
-        </TabPanel>
-        <TabPanel value={7}>
-          <Tickets />
-        </TabPanel>
+        <TabPanel value={6}></TabPanel>
+        <TabPanel value={7}></TabPanel>
         <TabPanel value={8}>
-          <Tickets />
+          <Plans />
         </TabPanel>
-        <TabPanel value={9}>
-          <Tickets />
-        </TabPanel>
-        <TabPanel value={10}>
-          <Tickets />
-        </TabPanel>
-        <TabPanel value={11}>
-          <Tickets />
-        </TabPanel>
+        <TabPanel value={9}></TabPanel>
+        <TabPanel value={10}></TabPanel>
+        <TabPanel value={11}></TabPanel>
       </Tabs>
     </div>
   );

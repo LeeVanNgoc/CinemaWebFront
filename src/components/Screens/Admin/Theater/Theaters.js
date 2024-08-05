@@ -166,7 +166,7 @@ export const Theaters = () => {
                   ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell>Họ</TableCell>
+
               <TableCell>
                 <TableSortLabel
                   active={orderBy === "name"}

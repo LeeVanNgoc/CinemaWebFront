@@ -5,8 +5,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
-import { useDispatch } from "react-redux";
-import { setMovie } from "./redux/actions/bookingAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const Img = styled("img")({
   margin: "auto",
@@ -17,16 +16,14 @@ const Img = styled("img")({
 
 export default function MovieDetail() {
   const dispatch = useDispatch();
-
-  const setSelectedMovie = (movieId) => {
-    dispatch(setMovie(movieId));
-  };
+  const movie = useSelector((state) => state.manageMovies.selectedMovie);
 
   return (
     <Paper
       sx={{
         p: 2,
         margin: "auto",
+        marginTop: "50px",
         maxWidth: "60%",
         height: "fit-content",
         flexGrow: 1,
@@ -42,7 +39,7 @@ export default function MovieDetail() {
         <Grid item>
           <Img
             alt="complex"
-            src="https://chieuphimquocgia.com.vn/_next/image?url=http%3A%2F%2Fapiv2.chieuphimquocgia.com.vn%2FContent%2FImages%2F0017682_0.jpg&w=1920&q=75"
+            src={movie.image}
             sx={{ borderRadius: "10px", height: "40vh" }}
           />
         </Grid>
@@ -56,7 +53,7 @@ export default function MovieDetail() {
                   component="div"
                   sx={{ fontWeight: "bold", marginBottom: "15px" }}
                 >
-                  KẺ TRỘM MẶT TRĂNG-P (Lồng Tiếng)
+                  {movie.title}
                   <Chip
                     label="2D"
                     size="medium"
@@ -71,16 +68,13 @@ export default function MovieDetail() {
                 </Typography>
 
                 <Typography variant="body2" gutterBottom>
-                  Hài, Hoạt hình, Phiêu lưu - Mỹ - 94 phút
+                  Hài, Hoạt hình, Phiêu lưu - {movie.country} - {movie.duration}{" "}
+                  phút
                   <br />
-                  Khởi chiếu: 05/07/2024
+                  Khởi chiếu: {movie.releaseDate}
                   <br />
                   <br />
-                  Gru phải đối mặt với kẻ thù mới là Maxime Le Mal và Valentina
-                  đang lên kế hoạch trả thù anh, buộc gia đình anh phải lẩn trốn
-                  đi nơi khác. Bên cạnh việc đấu tranh bảo vệ gia đình, Gru đồng
-                  thời còn phải tìm ra điểm chung với thành viên mới nhất trong
-                  nhà đó là Gru Jr.
+                  {movie.description}
                 </Typography>
               </div>
 

@@ -90,7 +90,7 @@ export default function ModalEditTheater({ isOpen, handleOpen, handleClose }) {
 
             <FormControl defaultValue={theater.city} required sx={{ flex: 1 }}>
               <Label>Thành phố</Label>
-              <StyledInput onChange={(e) => setCity(e.target.value)} />
+              <StyledInput readOnly />
               <HelperText />
             </FormControl>
           </div>

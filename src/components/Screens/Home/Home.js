@@ -1,15 +1,32 @@
-import React from "react";
-import { Container, Grid } from "@mui/material";
+import React, { useEffect } from "react";
+import { Container } from "@mui/material";
 import CarouselComponent from "../../Common/Carousel/CarouselComponent";
 import Brightness1SharpIcon from "@mui/icons-material/Brightness1Sharp";
 import MovieCard from "./MovieCard";
 import { ToastContainer } from "react-toastify";
 import "./Home.scss";
+import { useDispatch } from "react-redux";
+import {
+  setSelectedMovie,
+  clearSelectedMovie,
+  getMovies,
+} from "../Admin/Movie/redux/actions/movieActions";
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      dispatch(getMovies());
+    };
+
+    fetchMovies();
+  }, []);
+
   return (
     <>
       <CarouselComponent />
+
       <Container>
         <div className="section">
           <Brightness1SharpIcon
@@ -17,23 +34,7 @@ const Home = () => {
           />
           <span>Phim đang chiếu</span>
         </div>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6} lg={3}>
-            <MovieCard />
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MovieCard />
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MovieCard />
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MovieCard />
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MovieCard />
-          </Grid>
-        </Grid>
+        <MovieCard />
 
         <div className="section">
           <Brightness1SharpIcon
@@ -41,11 +42,7 @@ const Home = () => {
           />
           <span>Phim sắp chiếu</span>
         </div>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6} lg={3}>
-            <MovieCard />
-          </Grid>
-        </Grid>
+        <MovieCard />
       </Container>
       <ToastContainer position="top-right" autoClose={1000} />
     </>

@@ -16,6 +16,24 @@ const handleGetListUsers = async () => {
   }
 };
 
+const handleGetUserById = async (userId) => {
+  try {
+    const response = await axios.get("/api/user/get-user-by-id", {
+      params: { userId: userId },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error getting user by id:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
 const handleCreateUser = async (
   email,
   password,
@@ -108,6 +126,7 @@ const handleDeleteUser = async (userId) => {
 
 export {
   handleGetListUsers,
+  handleGetUserById,
   handleCreateUser,
   handleEditUser,
   handleDeleteUser,

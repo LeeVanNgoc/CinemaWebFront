@@ -22,7 +22,7 @@ export default function ModalAddSeat({ isOpen, handleOpen, handleClose }) {
   const handleAddSeat = async () => {
     handleCreateSeat(type, roomId, row, col, isAvailable);
     handleClose();
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (

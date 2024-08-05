@@ -153,7 +153,7 @@ export const Seats = () => {
                   <TableCell>{seat.roomId}</TableCell>
                   <TableCell>{seat.row}</TableCell>
                   <TableCell>{seat.col}</TableCell>
-                  <TableCell>{seat.isAvailable}</TableCell>
+                  <TableCell>{seat.isAvailable ? 1 : 0}</TableCell>
 
                   <TableCell>
                     <ModalEditSeat
