@@ -6,16 +6,18 @@ export const GET_MOVIES = "GET_MOVIES";
 export const GET_MOVIES_SUCCESS = "GET_MOVIES_SUCCESS";
 export const MOVIE_REFRESH = "MOVIE_REFRESH";
 
-export const setSelectedMovie = (movie) => ({
-  type: SET_SELECTED_MOVIE,
-  payload: movie,
-});
+export const setSelectedMovie = (movie) => {
+  localStorage.setItem("selectedMovie", movie);
+  return async (dispatch, getState) => {
+    dispatch({ type: SET_SELECTED_MOVIE, payload: movie });
+  };
+};
 
 export const clearSelectedMovie = () => ({
   type: CLEAR_SELECTED_MOVIE,
 });
 
-export const handleRefreshRedux = () => {
+export const handleRefreshMovie = () => {
   return async (dispatch, getState) => {
     dispatch({ type: MOVIE_REFRESH });
   };
