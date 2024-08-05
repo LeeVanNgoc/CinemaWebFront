@@ -4,6 +4,7 @@ import { Tab, TabPanel, TabsList } from "./style";
 import "./AdminNavBar.scss";
 import { Tickets } from "../../Screens/Admin/Tickets/Tickets";
 import { Users } from "../../Screens/Admin/Users/Users";
+import { Movies } from "../../Screens/Admin/Movies/Movies";
 
 export default function AdminNavBar() {
   return (
@@ -21,7 +22,7 @@ export default function AdminNavBar() {
           <Users />
         </TabPanel>
         <TabPanel value={1}>
-          <Tickets />
+          <Movies />
         </TabPanel>
         <TabPanel value={2}>
           <Tickets />
