@@ -10,6 +10,7 @@ import bookingReducer from "./components/Screens/BookTicket/redux/reducers/booki
 import planReducer from "./components/Screens/Admin/PlanScreenMovie/redux/reducers/planReducer";
 import priceReducer from "./components/Screens/Admin/Price/redux/reducers/priceReducer";
 import movieReducer from "./components/Screens/Admin/Movie/redux/reducers/movieReducer";
+import roomReducer from "./components/Screens/Admin/Room/redux/reducers/roomReducer";
 
 const rootReducer = combineReducers({
   userCreateReducer,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   managePlans: planReducer,
   managePrices: priceReducer,
   manageMovies: movieReducer,
+  manageRooms: roomReducer,
 });
 
 export default rootReducer;
