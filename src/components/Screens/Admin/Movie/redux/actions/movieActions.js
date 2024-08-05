@@ -7,7 +7,7 @@ export const GET_MOVIES_SUCCESS = "GET_MOVIES_SUCCESS";
 export const MOVIE_REFRESH = "MOVIE_REFRESH";
 
 export const setSelectedMovie = (movie) => {
-  localStorage.setItem("selectedMovie", movie);
+  localStorage.setItem("selectedMovie", JSON.stringify(movie));
   return async (dispatch, getState) => {
     dispatch({ type: SET_SELECTED_MOVIE, payload: movie });
   };

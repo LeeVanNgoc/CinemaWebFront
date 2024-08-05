@@ -28,7 +28,7 @@ const movieReducer = (state = initialState, action) => {
     case MOVIE_REFRESH:
       return {
         ...state,
-        selectedMovie: localStorage.getItem("selectedMovie"),
+        selectedMovie: JSON.parse(localStorage.getItem("selectedMovie")),
       };
     case CLEAR_SELECTED_MOVIE:
       return {
