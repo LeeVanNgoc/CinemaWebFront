@@ -1,0 +1,20 @@
+// tab được chọn
+.css-1te3phx-JoyTab-root.Mui-selected {
+  background-color: #bf121d !important;
+}
+.css-18lekjc-JoyTab-root.Mui-selected {
+  background-color: #bf121d !important;
+}
+.css-1te3phx-JoyTab-root {
+  color: white !important;
+}
+.css-18lekjc-JoyTab-root {
+  color: white !important;
+}
+
+.css-1te3phx-JoyTab-root[aria-selected="true"] {
+  --Tab-indicatorColor: none !important;
+}
+.css-18lekjc-JoyTab-root[aria-selected="true"] {
+  --Tab-indicatorColor: none !important;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FormControl } from "@mui/base/FormControl";
 import Button from "@mui/material/Button";
 import {
@@ -11,43 +11,28 @@ import {
   ModalContent,
 } from "./style";
 import { handleEditUser } from "./config";
+import { useSelector } from "react-redux";
 
-export default function ModalEditUser({
-  isOpen,
-  handleOpen,
-  handleClose,
-  user,
-}) {
+export default function ModalEditUser({ isOpen, handleOpen, handleClose }) {
+  const user = useSelector((state) => state.manageUsers.selectedUser);
+
   // Khởi tạo state với dữ liệu người dùng từ props
-  const [firstName, setFirstName] = useState(user?.firstName || "");
-  const [lastName, setLastName] = useState(user?.lastName || "");
-  const [birthYear, setBirthYear] = useState(user?.birthYear || "");
-  const [userName, setUserName] = useState(user?.userName || "");
-  const [phonenumber, setPhonenumber] = useState(user?.phonenumber || "");
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [birthYear, setBirthYear] = useState(user.birthYear);
+  const [userName, setUserName] = useState(user.userName);
+  const [phonenumber, setPhonenumber] = useState(user.phonenumber);
 
-  // Cập nhật state khi props `user` thay đổi
-  useEffect(() => {
-    if (user) {
-      setFirstName(user.firstName);
-      setLastName(user.lastName);
-      setBirthYear(user.birthYear);
-      setUserName(user.userName);
-      setPhonenumber(user.phonenumber);
-    }
-  }, [user]);
-
-  // Hàm cập nhật người dùng
   const handleUpdateUser = async () => {
     await handleEditUser(
-      user.userId, // Đảm bảo truyền đúng userId
+      user.userId,
       firstName,
       lastName,
       userName,
       phonenumber,
       birthYear
     );
-    handleClose(); // Đóng modal sau khi cập nhật
-    // Có thể thêm logic khác nếu cần
+    handleClose();
   };
 
   return (
@@ -92,7 +77,7 @@ export default function ModalEditUser({
             }}
           >
             <div style={{ display: "flex", width: "100%" }}>
-              <FormControl defaultValue={user?.email} aria-readonly>
+              <FormControl value={user.email}>
                 <Label>Email</Label>
                 <StyledInput readOnly />
                 <HelperText />
@@ -100,43 +85,59 @@ export default function ModalEditUser({
             </div>
 
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl value={firstName} required sx={{ flex: 1 }}>
+              <FormControl
+                defaultValue={user.firstName}
+                required
+                sx={{ flex: 1 }}
+              >
                 <Label>Tên</Label>
                 <StyledInput onChange={(e) => setFirstName(e.target.value)} />
                 <HelperText />
               </FormControl>
 
-              <FormControl value={lastName} required sx={{ flex: 1 }}>
+              <FormControl
+                defaultValue={user.lastName}
+                required
+                sx={{ flex: 1 }}
+              >
                 <Label>Họ</Label>
                 <StyledInput onChange={(e) => setLastName(e.target.value)} />
                 <HelperText />
               </FormControl>
             </div>
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl
-                defaultValue={user?.password}
-                aria-readonly
-                sx={{ flex: 1 }}
-              >
+              <FormControl value={user.password} aria-readonly sx={{ flex: 1 }}>
                 <Label>Mật khẩu</Label>
                 <StyledInput readOnly />
                 <HelperText />
               </FormControl>
 
-              <FormControl value={birthYear} required sx={{ flex: 1 }}>
+              <FormControl
+                defaultValue={user.birthYear}
+                required
+                sx={{ flex: 1 }}
+              >
                 <Label>Năm sinh</Label>
                 <StyledInput onChange={(e) => setBirthYear(e.target.value)} />
                 <HelperText />
               </FormControl>
             </div>
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl value={userName} required sx={{ flex: 1 }}>
+              <FormControl
+                defaultValue={user.userName}
+                required
+                sx={{ flex: 1 }}
+              >
                 <Label>Tên tài khoản</Label>
                 <StyledInput onChange={(e) => setUserName(e.target.value)} />
                 <HelperText />
               </FormControl>
 
-              <FormControl defaultValue={phonenumber} required sx={{ flex: 1 }}>
+              <FormControl
+                defaultValue={user.phonenumber}
+                required
+                sx={{ flex: 1 }}
+              >
                 <Label>Số điện thoại</Label>
                 <StyledInput onChange={(e) => setPhonenumber(e.target.value)} />
                 <HelperText />

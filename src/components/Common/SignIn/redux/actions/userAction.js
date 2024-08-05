@@ -1,5 +1,4 @@
 import { handleLoginApi } from "../../config";
-import { toast } from "react-toastify";
 
 export const FETCH_USER_LOGIN = "FETCH_USER_LOGIN";
 export const FETCH_USER_ERROR = "FETCH_USER_ERROR";
@@ -16,22 +15,36 @@ export const handleLoginRedux = (email, password) => {
       const res = await handleLoginApi(email.trim(), password);
       console.log("> check res login: ", res);
 
-      if (res && res.errCode === 0) {
-        localStorage.setItem("email", email.trim());
-        localStorage.setItem("userId", res.userId);
-        localStorage.setItem("role", res.role);
+      if (res) {
+        if (res.errCode === 0) {
+          localStorage.setItem("email", email.trim());
+          localStorage.setItem("userId", res.userId);
+          localStorage.setItem("role", res.role);
 
-        dispatch({
-          type: "FETCH_USER_SUCCESS",
-          data: { email: email.trim(), id: res.userId, role: res.role },
-        });
-      } else {
-        toast.error("Login failed. Please check your credentials.");
-        dispatch({ type: "FETCH_USER_ERROR" });
+          dispatch({
+            type: "FETCH_USER_SUCCESS",
+            data: { email: email.trim(), id: res.userId, role: res.role },
+          });
+        } else if (res.errCode === 5) {
+          dispatch({ type: "FETCH_USER_ERROR" });
+          console.error("Mk ko đúng: ", res.message);
+          dispatch({ type: "FETCH_USER_ERROR" });
+        } else if (res.errCode === 1) {
+          dispatch({ type: "FETCH_USER_ERROR" });
+          console.error("Không tìm thấy người dùng: ", res.message);
+          dispatch({ type: "FETCH_USER_ERROR" });
+        } else if (res.errCode === 2) {
+          dispatch({ type: "FETCH_USER_ERROR" });
+          console.error("Không tìm thấy email: ", res.message);
+          dispatch({ type: "FETCH_USER_ERROR" });
+        } else if (res.errCode === 3) {
+          dispatch({ type: "FETCH_USER_ERROR" });
+          console.error("Lỗi khi đăng nhập: ", res.message);
+          dispatch({ type: "FETCH_USER_ERROR" });
+        }
       }
     } catch (error) {
       console.error("Login error: ", error);
-      toast.error(error);
       dispatch({ type: "FETCH_USER_ERROR" });
     }
   };
@@ -39,7 +52,6 @@ export const handleLoginRedux = (email, password) => {
 
 export const handleLogoutRedux = () => {
   return async (dispatch, getState) => {
-    toast.success("Đăng xuất thành công!");
     dispatch({ type: USER_LOGOUT });
     localStorage.clear();
   };

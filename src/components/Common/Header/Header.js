@@ -24,7 +24,7 @@ import Signin from "../SignIn/Signin";
 const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.account);
-  console.log(">> user: ", user);
+  console.log(">> login account: ", user);
 
   const dispatch = useDispatch();
 
@@ -81,46 +81,11 @@ const Header = () => {
     setAnchorElUser(null);
   };
 
-  const handleHome = () => {
-    handleClick(1);
-    navigate("/");
+  const handleNavigation = (router, index) => {
+    handleClick(index);
+    navigate(router);
     handleCloseNavMenu();
-  };
-
-  const handleAbout = () => {
-    handleClick(6);
-    navigate("/about");
-    handleCloseNavMenu();
-  };
-
-  const handleNews = () => {
-    handleClick(3);
-    navigate("/news");
-    handleCloseNavMenu();
-  };
-
-  const handlePrice = () => {
-    handleClick(4);
-    navigate("/price");
-    handleCloseNavMenu();
-  };
-
-  const handlePromotions = () => {
-    handleClick(5);
-    navigate("/promotions");
-    handleCloseNavMenu();
-  };
-
-  const handleMovies = () => {
-    handleClick(2);
-    navigate("/movies");
-    handleCloseNavMenu();
-  };
-
-  const handleManage = () => {
-    handleClick(10);
-    navigate("/manage");
-    handleCloseNavMenu();
+    handleCloseUserMenu();
   };
 
   return (
@@ -163,24 +128,37 @@ const Header = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              <MenuItem onClick={handleHome}>Trang chủ</MenuItem>
-              <MenuItem onClick={handleMovies}>Lịch chiếu</MenuItem>
-              <MenuItem onClick={handleNews}>Tin tức</MenuItem>
-              <MenuItem onClick={handlePrice}>Giá vé</MenuItem>
-              <MenuItem onClick={handlePromotions}>Khuyến mại</MenuItem>
-              <MenuItem onClick={handleAbout}>Giới thiệu</MenuItem>
+              <MenuItem onClick={() => handleNavigation("/", 1)}>
+                Trang chủ
+              </MenuItem>
+              <MenuItem onClick={() => handleNavigation("/movies", 2)}>
+                Lịch chiếu
+              </MenuItem>
+              <MenuItem onClick={() => handleNavigation("/news", 3)}>
+                Tin tức
+              </MenuItem>
+              <MenuItem onClick={() => handleNavigation("/price", 4)}>
+                Giá vé
+              </MenuItem>
+              <MenuItem onClick={() => handleNavigation("/promotions", 5)}>
+                Khuyến mãi
+              </MenuItem>
+              <MenuItem onClick={() => handleNavigation("/about", 6)}>
+                Giới thiệu
+              </MenuItem>
               {user.role === "admin" && (
-                <MenuItem onClick={handleManage}>Quản lý</MenuItem>
+                <MenuItem onClick={() => handleNavigation("/manage", 10)}>
+                  Quản lý
+                </MenuItem>
               )}
             </Menu>
           </Box>
 
-          {/* full screen - customer */}
-
+          {/* full screen */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <ButtonGroup variant="text" aria-label="Basic button group">
               <Button
-                onClick={() => handleHome()}
+                onClick={() => handleNavigation("/", 1)}
                 sx={{
                   my: 2,
                   color: clickedIndex === 1 ? "red" : "white",
@@ -194,7 +172,7 @@ const Header = () => {
                 Trang chủ
               </Button>
               <Button
-                onClick={() => handleMovies()}
+                onClick={() => handleNavigation("/movies", 2)}
                 sx={{
                   my: 2,
                   color: clickedIndex === 2 ? "red" : "white",
@@ -208,7 +186,7 @@ const Header = () => {
                 Lịch chiếu
               </Button>
               <Button
-                onClick={() => handleNews()}
+                onClick={() => handleNavigation("/news", 3)}
                 sx={{
                   my: 2,
                   color: clickedIndex === 3 ? "red" : "white",
@@ -222,7 +200,7 @@ const Header = () => {
                 Tin tức
               </Button>
               <Button
-                onClick={() => handlePrice()}
+                onClick={() => handleNavigation("/price", 4)}
                 sx={{
                   my: 2,
                   color: clickedIndex === 4 ? "red" : "white",
@@ -236,7 +214,7 @@ const Header = () => {
                 Giá vé
               </Button>
               <Button
-                onClick={() => handlePromotions()}
+                onClick={() => handleNavigation("/promotions", 5)}
                 sx={{
                   my: 2,
                   color: clickedIndex === 5 ? "red" : "white",
@@ -250,7 +228,7 @@ const Header = () => {
                 Khuyến mãi
               </Button>
               <Button
-                onClick={() => handleAbout()}
+                onClick={() => handleNavigation("/about", 6)}
                 sx={{
                   my: 2,
                   color: clickedIndex === 6 ? "red" : "white",
@@ -265,7 +243,7 @@ const Header = () => {
               </Button>
               {user.role === "admin" && (
                 <Button
-                  onClick={() => handleManage()}
+                  onClick={() => handleNavigation("/manage", 10)}
                   sx={{
                     my: 2,
                     color: clickedIndex === 10 ? "red" : "white",
@@ -282,7 +260,7 @@ const Header = () => {
             </ButtonGroup>
           </Box>
 
-          {!localStorage.getItem("email") && (
+          {user.auth !== true && (
             <Stack direction="row" spacing={2}>
               <Signup
                 isOpen={isSignUpOpen}
@@ -299,7 +277,7 @@ const Header = () => {
             </Stack>
           )}
 
-          {localStorage.getItem("email") && (
+          {user.auth === true && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title={localStorage.getItem("email")}>
                 <div onClick={handleOpenUserMenu}>
@@ -327,7 +305,9 @@ const Header = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem onClick={handleCloseUserMenu}>Tài khoản</MenuItem>
+                <MenuItem onClick={() => handleNavigation("/account", 100)}>
+                  Tài khoản
+                </MenuItem>
                 <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
               </Menu>
             </Box>
