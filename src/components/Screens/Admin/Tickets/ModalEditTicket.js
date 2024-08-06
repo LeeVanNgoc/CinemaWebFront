@@ -17,13 +17,21 @@ export default function ModalEditTicket({ isOpen, handleOpen, handleClose }) {
   const ticket = useSelector((state) => state.manageTickets.selectedTicket);
 
   // Khởi tạo state với dữ liệu vé từ props
-  const [stId, setStId] = useState(ticket.stId);
-  const [psmId, setPsmId] = useState(ticket.psmId);
+  const [seatTicketId, setSeatTicketId] = useState(ticket.seatTicketId);
+  const [planScreenMovieId, setPlanScreenMovieId] = useState(
+    ticket.planScreenMovieId
+  );
   const [bank, setBank] = useState(ticket.bank);
   const [price, setPrice] = useState(ticket.price);
 
   const handleUpdateTicket = async () => {
-    await handleEditTicket(ticket.ticketId, stId, psmId, price, bank);
+    await handleEditTicket(
+      ticket.ticketId,
+      seatTicketId,
+      planScreenMovieId,
+      price,
+      bank
+    );
     handleClose();
   };
 
@@ -68,45 +76,55 @@ export default function ModalEditTicket({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <div style={{ display: "flex", width: "100%" }}>
-              <FormControl defaultValue={ticket.ticketId} aria-readonly>
-                <Label>Mã vé</Label>
-                <StyledInput readOnly />
-                <HelperText />
-              </FormControl>
-            </div>
+            <FormControl defaultValue={ticket.ticketId} aria-readonly>
+              <Label>Mã vé</Label>
+              <StyledInput readOnly />
+              <HelperText />
+            </FormControl>
 
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl defaultValue={ticket.stId} required sx={{ flex: 1 }}>
-                <Label>Mã ghế</Label>
-                <StyledInput onChange={(e) => setStId(e.target.value)} />
-                <HelperText />
-              </FormControl>
+            <FormControl
+              defaultValue={ticket.seatTicketId}
+              required
+              sx={{ flex: 1 }}
+            >
+              <Label>Mã ghế</Label>
+              <StyledInput onChange={(e) => setSeatTicketId(e.target.value)} />
+              <HelperText />
+            </FormControl>
 
-              <FormControl defaultValue={psmId} required sx={{ flex: 1 }}>
-                <Label>Giờ chiếu</Label>
-                <StyledInput onChange={(e) => setPsmId(e.target.value)} />
-                <HelperText />
-              </FormControl>
-            </div>
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl defaultValue={ticket.bank} required sx={{ flex: 1 }}>
-                <Label>Hình thức thanh toán</Label>
-                <StyledInput onChange={(e) => setBank(e.target.value)} />
-                <HelperText />
-              </FormControl>
-            </div>
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl
-                defaultValue={ticket.price}
-                required
-                sx={{ flex: 1 }}
-              >
-                <Label>Tổng đơn</Label>
-                <StyledInput onChange={(e) => setPrice(e.target.value)} />
-                <HelperText />
-              </FormControl>
-            </div>
+            <FormControl
+              defaultValue={ticket.planScreenMovieId}
+              required
+              sx={{ flex: 1 }}
+            >
+              <Label>Giờ chiếu</Label>
+              <StyledInput
+                onChange={(e) => setPlanScreenMovieId(e.target.value)}
+              />
+              <HelperText />
+            </FormControl>
+
+            {/* <Paragraph>Thanh toán</Paragraph>
+            <Select
+              defaultValue={ticket.bank}
+              onChange={(_, newValue) => setBank(newValue)}
+              sx={{ flex: 1 }}
+            >
+              <Option value="cash">cash</Option>
+              <Option value="cost">cost</Option>
+            </Select> */}
+
+            <FormControl defaultValue={ticket.bank} required sx={{ flex: 1 }}>
+              <Label>Thanh toán</Label>
+              <StyledInput onChange={(e) => setBank(e.target.value)} />
+              <HelperText />
+            </FormControl>
+
+            <FormControl defaultValue={ticket.price} required sx={{ flex: 1 }}>
+              <Label>Tổng đơn</Label>
+              <StyledInput onChange={(e) => setPrice(e.target.value)} />
+              <HelperText />
+            </FormControl>
           </div>
 
           <Button

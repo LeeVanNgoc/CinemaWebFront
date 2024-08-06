@@ -1,0 +1,16 @@
+.css-oyzd06-MuiButtonGroup-root .MuiButtonGroup-firstButton,
+.css-oyzd06-MuiButtonGroup-root .MuiButtonGroup-middleButton {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 1px solid #bdbdbd;
+  border-color: #1565c0;
+}
+.css-153akec-MuiButtonBase-root-MuiButton-root {
+  background-color: grey !important;
+}
+
+.css-1jryhhg-MuiButtonBase-root-MuiButton-root.Mui-disabled {
+  color: rgba(255, 255, 255, 0.26) !important;
+  background-color: rgba(100, 30, 60, 0.52) !important;
+  cursor: no-drop !important;
+}

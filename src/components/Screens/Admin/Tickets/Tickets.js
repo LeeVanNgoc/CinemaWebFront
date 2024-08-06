@@ -111,8 +111,8 @@ export const Tickets = () => {
           const formattedData = res.tickets.map((item) => ({
             ticketId: item.ticketId,
             userId: item.userId,
-            psmId: item.psmId,
-            stId: item.stId,
+            planScreenMovieId: item.planScreenMovieId,
+            seatTicketId: item.seatTicketId,
             bank: item.bank,
             price: item.price,
             ticketsDate: item.ticketsDate,
@@ -152,10 +152,10 @@ export const Tickets = () => {
             <TableRow>
               <TableCell>Mã Vé</TableCell>
               <TableCell>Mã Người Dùng</TableCell>
-              <TableCell>Mã PSM</TableCell>
-              <TableCell>Mã ST</TableCell>
-              <TableCell>Ngân Hàng</TableCell>
-              <TableCell>Giá Vé</TableCell>
+              <TableCell>Mã Giờ Chiếu</TableCell>
+              <TableCell>Mã Ghế</TableCell>
+              <TableCell>Thanh Toán</TableCell>
+              <TableCell>Tổng Đơn</TableCell>
               <TableCell>
                 <TableSortLabel
                   active={orderBy === "ticketSDate"}
@@ -174,8 +174,8 @@ export const Tickets = () => {
                 <TableRow key={index}>
                   <TableCell>{ticket.ticketId}</TableCell>
                   <TableCell>{ticket.userId}</TableCell>
-                  <TableCell>{ticket.psmId}</TableCell>
-                  <TableCell>{ticket.stId}</TableCell>
+                  <TableCell>{ticket.planScreenMovieId}</TableCell>
+                  <TableCell>{ticket.seatTicketId}</TableCell>
                   <TableCell>{ticket.bank}</TableCell>
                   <TableCell>{ticket.price}</TableCell>
                   <TableCell>{ticket.ticketsDate}</TableCell>

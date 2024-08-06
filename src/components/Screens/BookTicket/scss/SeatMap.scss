@@ -1,0 +1,26 @@
+.seatmap-container {
+  margin-top: 20px;
+  .seat-row {
+    color: white;
+    display: flex;
+    gap: 3px;
+    justify-content: center;
+    margin-bottom: 3px;
+    .custom-seat {
+      width: 45px;
+      min-width: fit-content;
+      background-color: rgba(128, 128, 128, 0.3);
+      border-radius: 6px;
+      padding: 6px;
+      cursor: pointer;
+      text-align: center;
+    }
+  }
+}
+
+.legend-container {
+  display: flex;
+
+  justify-content: space-between;
+  margin-top: 40px;
+}

@@ -14,13 +14,13 @@ import { handleCreateTicket } from "./config";
 
 export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
   const [userId, setUserId] = useState("");
-  const [psmId, setPsmId] = useState("");
+  const [planScreenMovieId, setPlanScreenMovieId] = useState("");
   const [price, setPrice] = useState("");
   const [bank, setBank] = useState("");
-  const [stId, setSiId] = useState("");
+  const [seatTicketId, setSeatTicketId] = useState("");
 
   const handleAddTicket = async () => {
-    handleCreateTicket(userId, psmId, price, bank, stId);
+    handleCreateTicket(userId, planScreenMovieId, price, bank, seatTicketId);
     handleClose();
     window.location.reload();
   };
@@ -86,7 +86,7 @@ export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
               <Label>PSM ID</Label>
               <StyledInput
                 // placeholder="Mật khẩu"
-                onChange={(e) => setPsmId(e.target.value)}
+                onChange={(e) => setPlanScreenMovieId(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />
               <HelperText />
@@ -113,7 +113,7 @@ export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
               <Label>St ID</Label>
               <StyledInput
                 // placeholder="Mật khẩu"
-                onChange={(e) => setSiId(e.target.value)}
+                onChange={(e) => setSeatTicketId(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />
               <HelperText />

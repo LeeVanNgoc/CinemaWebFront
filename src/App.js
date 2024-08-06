@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { Provider } from 'react-redux';
-import store from './store';
-import "./index.css";
+import { Provider } from "react-redux";
+import store from "./store";
 import Footer from "./components/Common/Footer/Footer";
 import About from "./components/Screens/About/About";
 import Header from "./components/Common/Header/Header";
@@ -15,6 +14,9 @@ import Movies from "./components/Screens/Movies/Movies";
 import BookTicket from "./components/Screens/BookTicket/BookTicket";
 import { Manage } from "./components/Screens/Admin/Manage/Manage";
 import { handleRefreshRedux } from "./components/Common/SignIn/redux/actions/userAction";
+import { handleRefreshMovie } from "./components/Screens/Admin/Movie/redux/actions/movieActions";
+import FinalTicket from "./components/Screens/BookTicket/FinalTicket";
+import UserAccount from "./components/Screens/Account/UserAccount";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +24,9 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("email")) {
       dispatch(handleRefreshRedux());
+    }
+    if (localStorage.getItem("selectedMovie")) {
+      dispatch(handleRefreshMovie());
     }
   }, [dispatch]);
   return (
@@ -32,6 +37,7 @@ function App() {
             <Header />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/account" element={<UserAccount />} />
               <Route path="/about" element={<About />} />
               <Route path="/news" element={<News />} />
               <Route path="/price" element={<Price />} />
@@ -39,6 +45,7 @@ function App() {
               <Route path="/movies" element={<Movies />} />
               <Route path="/bookticket" element={<BookTicket />} />
               <Route path="/manage" element={<Manage />} />
+              <Route path="/finalticket" element={<FinalTicket />} />
             </Routes>
             <Footer />
           </div>
