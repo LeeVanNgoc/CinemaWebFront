@@ -4,7 +4,6 @@ import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import { handleGetListMovies } from "./config";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setSelectedMovie,
@@ -80,7 +79,7 @@ export const Movie = () => {
   const filteredMovies = movies.filter((movie) => {
     if (query === "") {
       return movies;
-    } else if (movie.startTime && movie.startTime.includes(query)) {
+    } else if (movie.title && movie.title.includes(query)) {
       return movie;
     }
     return null;

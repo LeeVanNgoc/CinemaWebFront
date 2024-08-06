@@ -10,6 +10,7 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
+import { Select, MenuItem, InputLabel } from "@mui/material";
 import { handleEditSeat } from "./config";
 import { useSelector } from "react-redux";
 
@@ -74,10 +75,21 @@ export default function ModalEditSeat({ isOpen, handleOpen, handleClose }) {
               <HelperText />
             </FormControl>
 
-            <FormControl defaultValue={type} required sx={{ flex: 1 }}>
-              <Label>Loại ghế</Label>
-              <StyledInput onChange={(e) => setType(e.target.value)} />
-              <HelperText />
+            <FormControl fullWidth>
+              <InputLabel id="room-type-label" sx={{ marginTop: "20px" }}>
+                Loại ghế
+              </InputLabel>
+              <Select
+                labelId="room-type-label"
+                value={seat.type}
+                label="Loại ghế"
+                onChange={(event) => setType(event.target.value)}
+                sx={{ width: "210px", height: "50px" }}
+              >
+                <MenuItem value="VIP">VIP</MenuItem>
+                <MenuItem value="Regular">Regular</MenuItem>
+                <MenuItem value="Double">Double</MenuItem>
+              </Select>
             </FormControl>
 
             <FormControl defaultValue={seat.roomId} required sx={{ flex: 1 }}>

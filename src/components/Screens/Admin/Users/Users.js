@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { TablePagination } from "@mui/base/TablePagination";
 import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
@@ -44,7 +44,9 @@ export const Users = () => {
   const [orderBy, setOrderBy] = useState("userId");
 
   const handleOpenAddUser = () => setOpenAddUser(true);
-  const handleCloseAddUser = () => setOpenAddUser(false);
+  const handleCloseAddUser = () => {
+    setOpenAddUser(false);
+  };
 
   const handleOpenEditUser = (user) => {
     dispatch(setSelectedUser(user));
@@ -108,30 +110,33 @@ export const Users = () => {
     setOrderBy(property);
   };
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        let res = await handleGetListUsers();
-        console.log("res list users >>>", res);
-        if (res && res.users) {
-          const formattedData = res.users.map((item) => ({
-            userId: item.userId,
-            email: item.email,
-            firstName: item.firstName,
-            lastName: item.lastName,
-            userName: item.userName,
-            birthYear: item.birthYear,
-            phonenumber: item.phonenumber,
-          }));
-          setUsers(formattedData);
-        }
-      } catch (error) {
-        console.error("Error fetching users:", error);
+  const fetchUsers = useCallback(async () => {
+    try {
+      let res = await handleGetListUsers();
+      if (res && res.users) {
+        const formattedData = res.users.map((item) => ({
+          userId: item.userId,
+          email: item.email,
+          firstName: item.firstName,
+          lastName: item.lastName,
+          userName: item.userName,
+          birthYear: item.birthYear,
+          phonenumber: item.phonenumber,
+        }));
+        setUsers(formattedData);
       }
-    };
-
-    fetchUsers();
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+
+  const handleUserChange = () => {
+    fetchUsers(); // Tự động cập nhật danh sách người dùng
+  };
 
   return (
     <div>
@@ -149,6 +154,7 @@ export const Users = () => {
           isOpen={openAddUser}
           handleOpen={handleOpenAddUser}
           handleClose={handleCloseAddUser}
+          onUserChange={handleUserChange}
         />
       </div>
 
@@ -212,11 +218,13 @@ export const Users = () => {
                         isOpen={openEditUser}
                         handleOpen={() => handleOpenEditUser(user)}
                         handleClose={handleCloseEditUser}
+                        onUserChange={handleUserChange}
                       />
                       <ModalDeleteUser
                         isOpen={openDeleteUser}
                         handleOpen={() => handleOpenDeleteUser(user)}
                         handleClose={handleCloseDeleteUser}
+                        onUserChange={handleUserChange}
                       />
                     </div>
                   </TableCell>

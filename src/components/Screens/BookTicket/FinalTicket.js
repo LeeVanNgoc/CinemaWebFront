@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
+import { clearSelectedSeats } from "./redux/actions/bookingAction";
 import {
   Table,
   TableHead,
@@ -12,13 +13,23 @@ import {
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function FinalTicket() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const movie = useSelector((state) => state.manageMovies.selectedMovie);
   const date = useSelector((state) => state.userBookTicket.date);
   const time = useSelector((state) => state.userBookTicket.time);
   const seats = useSelector((state) => state.userBookTicket.selectedSeats);
-  console.log(">> date redux: ", date);
+
+  const goBack = () => {
+    dispatch(clearSelectedSeats());
+    navigate("/bookticket");
+  };
+
   return (
     <div className="mt-24 mx-40">
       <div
@@ -36,7 +47,7 @@ export default function FinalTicket() {
                   Thông tin phim <br /> <br /> Phim
                 </Typography>
                 <Typography variant="h6" component="div">
-                  KẺ TRỘM MẶT TRĂNG
+                  {movie.title}
                 </Typography>
                 <Grid
                   container
@@ -131,6 +142,30 @@ export default function FinalTicket() {
             </React.Fragment>
           </Card>
         </Box>
+      </div>
+      <div className="flex gap-2">
+        <Button
+          variant="contained"
+          sx={{
+            borderRadius: 6,
+            backgroundColor: "grey",
+            height: "40px",
+          }}
+          onClick={goBack}
+        >
+          Trở về
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            borderRadius: 6,
+            backgroundColor: "red",
+            height: "40px",
+          }}
+          // onClick={() => bookTicket()}
+        >
+          Đặt vé
+        </Button>
       </div>
     </div>
   );

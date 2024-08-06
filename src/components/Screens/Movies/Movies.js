@@ -1,9 +1,11 @@
-import * as React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import MoviesCard from "./MoviesCard";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Brightness1SharpIcon from "@mui/icons-material/Brightness1Sharp";
-import { Container, Grid } from "@mui/material";
+import { Container } from "@mui/material";
+import { getMovies } from "../Admin/Movie/redux/actions/movieActions";
 import "./Movies.scss";
 
 const Movies = () => {
@@ -16,6 +18,16 @@ const Movies = () => {
 
   const tomorrow = getNextDay(today);
   const nextTomorrow = getNextDay(tomorrow);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      dispatch(getMovies());
+    };
+
+    fetchMovies();
+  }, [dispatch]);
 
   return (
     <div className="movies-container">
