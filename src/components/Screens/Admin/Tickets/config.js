@@ -16,15 +16,21 @@ const handleGetListTickets = async () => {
   }
 };
 
-const handleCreateTicket = async (ticketId, psmId, price, bank, stId) => {
+const handleCreateTicket = async (
+  ticketId,
+  planScreenMovieId,
+  price,
+  bank,
+  seatTicketId
+) => {
   try {
     const response = await axios.post("/api/ticket/create-ticket/", null, {
       params: {
         ticketId: ticketId,
-        psmId: psmId,
+        planScreenMovieId: planScreenMovieId,
         price: price,
         bank: bank,
-        stId: stId,
+        seatTicketId: seatTicketId,
       },
     });
     return response;
@@ -41,13 +47,19 @@ const handleCreateTicket = async (ticketId, psmId, price, bank, stId) => {
   }
 };
 
-const handleEditTicket = async (ticketId, stId, psmId, price, bank) => {
+const handleEditTicket = async (
+  ticketId,
+  seatTicketId,
+  planScreenMovieId,
+  price,
+  bank
+) => {
   try {
     const response = await axios.put("/api/ticket/edit-ticket/", null, {
       params: {
         ticketId: ticketId,
-        stId: stId,
-        psmId: psmId,
+        seatTicketId: seatTicketId,
+        planScreenMovieId: planScreenMovieId,
         price: price,
         bank: bank,
       },

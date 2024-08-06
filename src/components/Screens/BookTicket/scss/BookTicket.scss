@@ -1,0 +1,39 @@
+.booking-container {
+  color: white;
+  .custom-container {
+    display: flex;
+    justify-content: center;
+
+    .background-image {
+      position: absolute;
+      width: 100%;
+      height: 500px;
+      background-size: cover;
+      filter: blur(8px);
+      z-index: -2;
+      img {
+        width: 100%;
+        height: 500px;
+      }
+    }
+
+    .background-image::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 500px;
+      background-size: cover;
+      background: linear-gradient(
+        to bottom,
+        rgba(60, 50, 50, 0.9),
+        rgba(0, 0, 0, 1)
+      );
+      z-index: -1;
+    }
+    .movie-detail {
+      margin-top: 100px;
+      position: relative;
+      z-index: 1;
+    }
+  }
+}

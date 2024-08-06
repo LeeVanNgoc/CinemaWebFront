@@ -85,6 +85,7 @@ const Header = () => {
     handleClick(index);
     navigate(router);
     handleCloseNavMenu();
+    handleCloseUserMenu();
   };
 
   return (
@@ -304,7 +305,9 @@ const Header = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem onClick={handleCloseUserMenu}>Tài khoản</MenuItem>
+                <MenuItem onClick={() => handleNavigation("/account", 100)}>
+                  Tài khoản
+                </MenuItem>
                 <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
               </Menu>
             </Box>
