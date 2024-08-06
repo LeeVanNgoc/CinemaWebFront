@@ -2,6 +2,19 @@
   margin-top: 20px;
   margin-bottom: 20px;
   color: white;
-  font-size: x-large;
+  font-size: large;
   font-weight: bold;
+}
+
+.link {
+  margin-bottom: 20px;
+  color: white;
+  font-size: medium;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.news-card:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
 }
