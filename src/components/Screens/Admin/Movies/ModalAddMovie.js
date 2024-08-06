@@ -13,7 +13,6 @@ import {
 import { handleAddMovie } from "./config";
 
 export default function ModalAddMovie({ isOpen, handleOpen, handleClose }) {
-  const [movieId, setMovieId] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [genreID, setGenreID] = useState("");
@@ -25,7 +24,6 @@ export default function ModalAddMovie({ isOpen, handleOpen, handleClose }) {
 
   const handleAddMovie = async () => {
     handleAddMovie(
-      movieId,
       title,
       description,
       genreID,
@@ -86,17 +84,6 @@ export default function ModalAddMovie({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <div style={{ display: "flex", width: "100%" }}>
-              <FormControl defaultValue="" required>
-                <Label>movieId</Label>
-                <StyledInput
-                  // placeholder="UserId"
-                  onChange={(e) => setMovieId(e.target.value)}
-                  onKeyDown={(e) => handleEnter(e)}
-                />
-                <HelperText />
-              </FormControl>
-            </div>
 
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
               <FormControl defaultValue="" required sx={{ flex: 1 }}>

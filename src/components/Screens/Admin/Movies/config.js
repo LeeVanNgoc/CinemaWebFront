@@ -17,7 +17,6 @@ const handleGetListMovies = async () => {
 };
 
 const handleAddMovie = async (
-  movieId,
   title,
   description,
   genreID,
@@ -29,7 +28,6 @@ const handleAddMovie = async (
   try {
     const response = await axios.post("/api/movies/create-new-movie/", null, {
       params: {
-        movieId: movieId,
         title: title,
         description:description,
         genreID:genreID,
@@ -54,7 +52,6 @@ const handleAddMovie = async (
 };
 
 const handleEditMovie = async (
-  movieId,
   title,
   description,
   genreID,
@@ -66,7 +63,6 @@ const handleEditMovie = async (
   try {
     const response = await axios.put("/api/movies/edit-movie/", null, {
       params: {
-        movieId: movieId,
         title: title,
         description:description,
         genreID:genreID,

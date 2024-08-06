@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 export default function ModalEditmovie({ isOpen, handleOpen, handleClose }) {
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
 
-  const [movieId, setMovieId] = useState(movie.movieId);
   const [title, setTitle] = useState(movie.title);
   const [description, setDescription] = useState(movie.description);
   const [genreID, setGenreID] = useState(movie.genreID);
@@ -27,7 +26,6 @@ export default function ModalEditmovie({ isOpen, handleOpen, handleClose }) {
 
   const handleUpdateMovie = async () => {
     await handleEditMovie(
-      movie.movieId,
       title,
       description,
       genreID,
@@ -80,13 +78,6 @@ export default function ModalEditmovie({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <div style={{ display: "flex", width: "100%" }}>
-              <FormControl value={movie.movieId}>
-                <Label>ID</Label>
-                <StyledInput readOnly />
-                <HelperText />
-              </FormControl>
-            </div>
 
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
             <FormControl
