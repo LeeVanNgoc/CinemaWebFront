@@ -4,12 +4,12 @@ import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import { handleGetListPlans } from "./config";
-import { useDispatch } from "react-redux";
+import { handleGetListMovies } from "./config";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  setSelectedPlan,
-  clearSelectedPlan,
-} from "./redux/actions/planActions";
+  setSelectedMovie,
+  clearSelectedMovie,
+} from "./redux/actions/movieActions";
 import {
   Table,
   TableBody,
@@ -23,41 +23,45 @@ import {
   FormControl,
 } from "@mui/material";
 import { StyledInput, HelperText } from "./style";
-import ModalAddPlan from "./ModalAddPlan";
-import ModalEditPlan from "./ModalEditPlan";
-import ModalDeletePlan from "./ModalDeletePlan";
+import ModalAddMovie from "./ModalAddMovie";
+import ModalEditMovie from "./ModalEditMovie";
+import ModalDeleteMovie from "./ModalDeleteMovie";
+import "./Movies.scss";
 
-export const Plans = () => {
+export const Movies = () => {
   const dispatch = useDispatch();
-  const [plans, setPlans] = useState([]);
+  const [Movies, setMovies] = useState([]);
+  const loading = useSelector((state) => state.manageMovies.loading);
+  const error = useSelector((state) => state.manageMovies.error);
+
   const [query, setQuery] = useState("");
 
-  const [openAddPlan, setOpenAddPlan] = useState(false);
-  const [openEditPlan, setOpenEditPlan] = useState(false);
-  const [openDeletePlan, setOpenDeletePlan] = useState(false);
+  const [openAddMovie, setOpenAddMovie] = useState(false);
+  const [openEditMovie, setOpenEditMovie] = useState(false);
+  const [openDeleteMovie, setOpenDeleteMovie] = useState(false);
 
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("plansDate");
+  const [orderBy, setOrderBy] = useState("movieId");
 
-  const handleOpenAddPlan = () => setOpenAddPlan(true);
-  const handleCloseAddPlan = () => setOpenAddPlan(false);
+  const handleOpenAddMovie = () => setOpenAddMovie(true);
+  const handleCloseAddMovie = () => setOpenAddMovie(false);
 
-  const handleOpenEditPlan = (plan) => {
-    dispatch(setSelectedPlan(plan));
-    setOpenEditPlan(true);
+  const handleOpenEditMovie = (Movie) => {
+    dispatch(setSelectedMovie(Movie));
+    setOpenEditMovie(true);
   };
-  const handleCloseEditPlan = () => {
-    setOpenEditPlan(false);
-    dispatch(clearSelectedPlan());
+  const handleCloseEditMovie = () => {
+    setOpenEditMovie(false);
+    dispatch(clearSelectedMovie());
   };
 
-  const handleOpenDeletePlan = (plan) => {
-    dispatch(setSelectedPlan(plan));
-    setOpenDeletePlan(true);
+  const handleOpenDeleteMovie = (Movie) => {
+    dispatch(setSelectedMovie(Movie));
+    setOpenDeleteMovie(true);
   };
-  const handleCloseDeletePlan = () => {
-    setOpenDeletePlan(false);
-    dispatch(clearSelectedPlan());
+  const handleCloseDeleteMovie = () => {
+    setOpenDeleteMovie(false);
+    dispatch(clearSelectedMovie());
   };
 
   const [page, setPage] = React.useState(0);
@@ -65,7 +69,7 @@ export const Plans = () => {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - plans.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Movies.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -75,23 +79,26 @@ export const Plans = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  const filteredPlans = plans.filter((plan) => {
+  
+  const filteredMovies = Movies.filter((Movie) => {
     if (query === "") {
-      return plans;
-    } else if (plan.startTime && plan.startTime.includes(query)) {
-      return plan;
+      return Movie;
+    } else if (
+      (Movie.title &&
+        Movie.title.toLowerCase().includes(query.toLowerCase()))
+    ) {
+      return Movie;
     }
     return null;
   });
 
-  const displayedPlans =
+  const displayedMovies =
     rowsPerPage > 0
-      ? filteredPlans.slice(
+      ? filteredMovies.slice(
           page * rowsPerPage,
           page * rowsPerPage + rowsPerPage
         )
-      : filteredPlans;
+      : filteredMovies;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -100,27 +107,29 @@ export const Plans = () => {
   };
 
   useEffect(() => {
-    const fetchPlans = async () => {
+    const fetchMovies = async () => {
       try {
-        let res = await handleGetListPlans();
-        console.log("res list plans >>>", res);
-        if (res && res.planScreenMovies) {
-          const formattedData = res.planScreenMovies.map((item) => ({
-            planScreenMovieId: item.planScreenMovieId,
-            roomId: item.roomId,
+        let res = await handleGetListMovies();
+        console.log("res list Movies >>>", res);
+        if (res && res.Movies) {
+          const formattedData = res.Movies.map((item) => ({
             movieId: item.movieId,
-            dateScreen: item.dateScreen,
-            startTime: item.startTime,
-            endTime: item.endTime,
+            title: item.title,
+            description: item.description,
+            genreID: item.genreID,
+            duration: item.duration,
+            country: item.country,
+            cast: item.cast,
+            sTimeid: item.sTimeid,
           }));
-          setPlans(formattedData);
+          setMovies(formattedData);
         }
       } catch (error) {
-        console.error("Error fetching plans:", error);
+        console.error("Error fetching Movies:", error);
       }
     };
 
-    fetchPlans();
+    fetchMovies();
   }, []);
 
   return (
@@ -135,46 +144,62 @@ export const Plans = () => {
             <HelperText />
           </FormControl>
         </span>
-        <ModalAddPlan
-          isOpen={openAddPlan}
-          handleOpen={handleOpenAddPlan}
-          handleClose={handleCloseAddPlan}
+        <ModalAddMovie
+          isOpen={openAddMovie}
+          handleOpen={handleOpenAddMovie}
+          handleClose={handleCloseAddMovie}
         />
       </div>
 
-      <TableContainer component={Paper} sx={{ maxHeight: "fit-content" }}>
-        <Table stickyHeader>
+      {loading && <div>Loading...</div>}
+      {error && <div>Error: {error}</div>}
+
+      <TableContainer
+        component={Paper}
+        sx={{ maxHeight: "fit-content", overflow: "auto" }}
+      >
+        <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell>Mã Lịch Chiếu</TableCell>
-              <TableCell>Mã Phim</TableCell>
-              <TableCell>Mã Phòng</TableCell>
-              <TableCell>Ngày Chiếu</TableCell>
               <TableCell>
                 <TableSortLabel
-                  active={orderBy === "startTime"}
-                  direction={orderBy === "startTime" ? order : "asc"}
-                  onClick={(event) => handleRequestSort(event, "startTime")}
+                  active={orderBy === "movieId"}
+                  direction={orderBy === "movieId" ? order : "asc"}
+                  onClick={(event) => handleRequestSort(event, "movieId")}
                 >
-                  Giờ Chiếu
+                  ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell>Giờ Kết Thúc</TableCell>
-
+              <TableCell>Tên phim</TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === "title"}
+                  direction={orderBy === "title" ? order : "asc"}
+                  onClick={(event) => handleRequestSort(event, "title")}
+                >
+                  Tên
+                </TableSortLabel>
+              </TableCell>
+              <TableCell>Tên phim</TableCell>
+              <TableCell>Mô tả</TableCell>
+              <TableCell>Thể loại</TableCell>
+              <TableCell>Thời lượng</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {stableSort(displayedPlans, getComparator(order, orderBy)).map(
-              (plan, index) => (
-                <TableRow key={index}>
-                  <TableCell>{plan.planScreenMovieId}</TableCell>
-                  <TableCell>{plan.movieId}</TableCell>
-                  <TableCell>{plan.roomId}</TableCell>
-                  <TableCell>{plan.dateScreen}</TableCell>
-                  <TableCell>{plan.startTime}</TableCell>
-                  <TableCell>{plan.endTime}</TableCell>
 
+          <TableBody>
+            {stableSort(displayedMovies, getComparator(order, orderBy)).map(
+              (Movie, index) => (
+                <TableRow key={index}>
+                  <TableCell>{Movie.movieId}</TableCell>
+                  <TableCell>{Movie.title}</TableCell>
+                  <TableCell>{Movie.description}</TableCell>
+                  <TableCell>{Movie.genreID}</TableCell>
+                  <TableCell>{Movie.duration}</TableCell>
+                  <TableCell>{Movie.country}</TableCell>
+                  <TableCell>{Movie.cast}</TableCell>
+                  <TableCell>{Movie.sTimeid}</TableCell>
                   <TableCell>
                     <div
                       style={{
@@ -183,33 +208,35 @@ export const Plans = () => {
                         gap: "10px",
                       }}
                     >
-                      <ModalEditPlan
-                        isOpen={openEditPlan}
-                        handleOpen={() => handleOpenEditPlan(plan)}
-                        handleClose={handleCloseEditPlan}
+                      <ModalEditMovie
+                        isOpen={openEditMovie}
+                        handleOpen={() => handleOpenEditMovie(Movie)}
+                        handleClose={handleCloseEditMovie}
                       />
-                      <ModalDeletePlan
-                        isOpen={openDeletePlan}
-                        handleOpen={() => handleOpenDeletePlan(plan)}
-                        handleClose={handleCloseDeletePlan}
+                      <ModalDeleteMovie
+                        isOpen={openDeleteMovie}
+                        handleOpen={() => handleOpenDeleteMovie(Movie)}
+                        handleClose={handleCloseDeleteMovie}
                       />
                     </div>
                   </TableCell>
                 </TableRow>
               )
             )}
+
             {emptyRows > 0 && (
               <TableRow style={{ height: 34 * emptyRows }}>
                 <TableCell colSpan={8} aria-hidden />
               </TableRow>
             )}
           </TableBody>
+
           <TableFooter>
             <tr>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={8}
-                count={plans.length}
+                count={Movies.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 slotProps={{

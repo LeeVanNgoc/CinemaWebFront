@@ -99,7 +99,7 @@ export const Rooms = () => {
             theaterId: item.theaterId,
             type: item.type,
             numberSeats: item.numberSeats,
-            isAvailable: item.isAvailable.toString(),
+            isAvailable: item.isAvailable,
           }));
           setRooms(formattedData);
         }
@@ -150,7 +150,7 @@ export const Rooms = () => {
                   <TableCell>{room.theaterId}</TableCell>
                   <TableCell>{room.type}</TableCell>
                   <TableCell>{room.numberSeats}</TableCell>
-                  <TableCell>{room.isAvailable?1:0}</TableCell>
+                  <TableCell>{room.isAvailable ? 1 : 0}</TableCell>
                   <TableCell>
                     <ModalEditRoom
                       isOpen={openEditRoom}

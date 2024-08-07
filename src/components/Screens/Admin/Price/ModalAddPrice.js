@@ -14,11 +14,12 @@ import { handleCreatePrice } from "./config";
 
 export default function ModalAddPrice({ isOpen, handleOpen, handleClose }) {
   const [cost, setCost] = useState("");
-  const [type, setType] = useState("Standard");
+  const [roomType, setRoomType] = useState("");
+  const [seatType, setSeatType] = useState("");
   const [isWeekend, setIsWeekend] = useState(false);
 
   const handleAddPrice = async () => {
-    handleCreatePrice(cost, type, isWeekend);
+    handleCreatePrice(cost, roomType, seatType, isWeekend);
     handleClose();
     window.location.reload();
   };
@@ -81,10 +82,19 @@ export default function ModalAddPrice({ isOpen, handleOpen, handleClose }) {
               <HelperText />
             </FormControl>
             <FormControl defaultValue="" required>
+              <Label>Loại phòng</Label>
+              <StyledInput
+                // placeholder="Mật khẩu"
+                onChange={(e) => setRoomType(e.target.value)}
+                onKeyDown={(e) => handleEnter(e)}
+              />
+              <HelperText />
+            </FormControl>
+            <FormControl defaultValue="" required>
               <Label>Loại ghế</Label>
               <StyledInput
                 // placeholder="Mật khẩu"
-                onChange={(e) => setType(e.target.value)}
+                onChange={(e) => setSeatType(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />
               <HelperText />

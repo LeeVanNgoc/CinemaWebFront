@@ -55,6 +55,7 @@ const handleCreateUser = async (
         phonenumber: phonenumber,
       },
     });
+    alert(response.message);
     return response;
   } catch (error) {
     console.error("Error creating user:", error);
@@ -88,11 +89,13 @@ const handleEditUser = async (
         birthYear: birthYear,
       },
     });
+    alert(response.message);
     console.log(">>> edit user res: ", response);
     return response;
   } catch (error) {
     console.error("Error editing user:", error);
     if (error.response) {
+      alert(error.response.data.message);
       console.error("Response data:", error.response.data);
       return { error: error.response.data.message };
     } else if (error.request) {
@@ -110,11 +113,13 @@ const handleDeleteUser = async (userId) => {
         id: userId,
       },
     });
+    alert("Xóa người dùng thành công!");
     return response;
   } catch (error) {
     console.error("Error deleting user:", error);
     if (error.response) {
       console.error("Response data:", error.response.data);
+      alert(error.response.data.message);
       return { error: error.response.data.message };
     } else if (error.request) {
       return { error: "No response from server" };

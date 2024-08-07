@@ -10,18 +10,28 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
+import dayjs from "dayjs";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TimeField } from "@mui/x-date-pickers/TimeField";
 import { handleCreatePlan } from "./config";
 
 export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
   const [roomId, setRoomId] = useState(0);
   const [movieId, setMovieId] = useState(0);
-  const [dateScreen, setDateScreen] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [space, setSpace] = useState("");
+  const [dateScreen, setDateScreen] = useState(dayjs());
+  const [startTime, setStartTime] = useState(dayjs());
+  // const [endTime, setEndTime] = useState("");
 
   const handleAddPlan = async () => {
-    handleCreatePlan(roomId, movieId, dateScreen, startTime, endTime, space);
+    handleCreatePlan(
+      roomId,
+      movieId,
+      dateScreen.format("YYYY-MM-DD"),
+      startTime?.format("HH:mm:ss")
+    );
     handleClose();
     // window.location.reload();
   };
@@ -84,38 +94,31 @@ export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
               />
               <HelperText />
             </FormControl>
-            <FormControl defaultValue="" required>
-              <Label>Ngày chiếu</Label>
-              <StyledInput
-                // placeholder="Mật khẩu"
-                onChange={(e) => setDateScreen(e.target.value)}
-              />
-              <HelperText />
-            </FormControl>
-            <FormControl defaultValue="" required>
-              <Label>Thời gian bắt đầu</Label>
-              <StyledInput
-                // placeholder="Mật khẩu"
-                onChange={(e) => setStartTime(e.target.value)}
-              />
-              <HelperText />
-            </FormControl>
-            <FormControl defaultValue="" required>
-              <Label>Thời gian kết thúc</Label>
-              <StyledInput
-                // placeholder="Mật khẩu"
-                onChange={(e) => setEndTime(e.target.value)}
-              />
-              <HelperText />
-            </FormControl>
-            <FormControl defaultValue="" required>
-              <Label>Số ghế</Label>
-              <StyledInput
-                // placeholder="Mật khẩu"
-                onChange={(e) => setSpace(e.target.value)}
-              />
-              <HelperText />
-            </FormControl>
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <div className="flex-row mt-6">
+                <DemoContainer
+                  components={["DatePicker", "DatePicker"]}
+                  sx={{ marginBottom: "24px" }}
+                >
+                  <DatePicker
+                    label="Ngày chiếu"
+                    value={dateScreen}
+                    onChange={(newValue) => setDateScreen(newValue)}
+                  />
+                </DemoContainer>
+                <DemoContainer
+                  components={["TimeField", "TimeField", "TimeField"]}
+                >
+                  <TimeField
+                    label="Giờ chiếu"
+                    defaultValue={startTime}
+                    format="HH:mm:ss"
+                    onChange={(newValue) => setStartTime(newValue)}
+                  />
+                </DemoContainer>
+              </div>
+            </LocalizationProvider>
           </div>
 
           <Button

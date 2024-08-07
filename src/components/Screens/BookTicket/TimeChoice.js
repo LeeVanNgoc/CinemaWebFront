@@ -4,7 +4,11 @@ import Button from "@mui/material/Button";
 import SeatMap from "./SeatMap";
 import Legend from "./Legend";
 import { useDispatch, useSelector } from "react-redux";
-import { clearSelectedSeats, setTime } from "./redux/actions/bookingAction";
+import {
+  clearSelectedSeats,
+  setTime,
+  getPlanIdForCreateTicket,
+} from "./redux/actions/bookingAction";
 import { useNavigate } from "react-router-dom";
 import CountdownTimer from "./CountdownTimer";
 import "./scss/TimeChoice.scss";
@@ -22,9 +26,19 @@ export default function TimeChoice() {
     (state) => state.userBookTicket.selectedSeats
   );
 
+  const selectedMovie = useSelector(
+    (state) => state.manageMovies.selectedMovie
+  );
+
+  const seletedDate = useSelector((state) => state.userBookTicket.date);
+  const selectedTime = useSelector((state) => state.userBookTicket.time);
+
+  const times = useSelector((state) => state.userBookTicket.planMovie.planTime);
+
   const releasedTime = useSelector((state) => state.userBookTicket.time);
 
-  const bookTicket = () => {
+  const bookTicket = (roomId, movieId, startTime, dateScreen) => {
+    dispatch(getPlanIdForCreateTicket(roomId, movieId, startTime, dateScreen));
     navigate("/finalticket");
   };
 
@@ -56,17 +70,18 @@ export default function TimeChoice() {
             justifyContent: "center",
           }}
         >
-          {["15:00", "18:20", "19:30", "20:00"].map((time, index) => (
-            <Button
-              key={index}
-              variant="contained"
-              size="small"
-              sx={{ bgcolor: "grey.700", width: "60px" }}
-              onClick={() => handlesetTime(time)}
-            >
-              {time}
-            </Button>
-          ))}
+          {times &&
+            times.map((time, index) => (
+              <Button
+                key={index}
+                variant="contained"
+                size="small"
+                sx={{ bgcolor: "grey.700", width: "60px" }}
+                onClick={() => handlesetTime(time)}
+              >
+                {time}
+              </Button>
+            ))}
         </Box>
       )}
 
@@ -114,7 +129,14 @@ export default function TimeChoice() {
                   backgroundColor: "red",
                   height: "40px",
                 }}
-                onClick={() => bookTicket()}
+                onClick={() =>
+                  bookTicket(
+                    1,
+                    selectedMovie.movieId,
+                    selectedTime.time,
+                    seletedDate.date
+                  )
+                }
                 disabled={selectedSeats.length === 0}
               >
                 Đặt vé
