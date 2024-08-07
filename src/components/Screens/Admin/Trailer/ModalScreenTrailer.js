@@ -13,21 +13,18 @@ export default function ModalScreenTrailer({
   isOpen,
   handleOpen,
   handleClose,
-  link,
-  movieId,
 }) {
+  const trailer = useSelector((state) => state.manageTrailers.selectedTrailer);
+
+  const [movieId, setMovieId] = useState(trailer.movieId);
   const [movieTitle, setMovieTitle] = useState("");
-  const [trailerLink, setTrailerLink] = useState(link);
+  const [trailerLink, setTrailerLink] = useState(trailer.link);
 
   function convertToEmbedUrl(youtubeUrl) {
     // Kiểm tra nếu youtubeUrl là undefined hoặc không phải là chuỗi
     if (typeof youtubeUrl !== "string") {
-      console.error("URL không hợp lệ");
       return "";
     }
-
-    console.log(youtubeUrl);
-
     let videoId = "";
 
     // Kiểm tra xem URL có phải dạng "https://www.youtube.com/watch?v=..."
@@ -50,17 +47,22 @@ export default function ModalScreenTrailer({
     const embedUrl = `https://www.youtube.com/embed/${videoId}`;
     return embedUrl;
   }
-  // useEffect(() => {
-  //   const handleGetMovieTitle = async () => {
-  //     const fetchMovieTitle = await handleGetTitleMovieByMovieId(movieId);
-  //     setMovieTitle(fetchMovieTitle);
-  //     handleClose();
-  //   };
-  //   handleGetMovieTitle();
-  // }, [movieId]);
+  useEffect(() => {
+    const handleGetMovieTitle = async () => {
+      if (!movieId) return;
+      const fetchMovieTitle = await handleGetTitleMovieByMovieId(movieId);
+      if (fetchMovieTitle && fetchMovieTitle.movie) {
+        setMovieTitle(fetchMovieTitle.movie.title);
+      } else {
+        setMovieTitle("");
+      }
+    };
+    handleGetMovieTitle();
+  }, [movieId]);
 
   useEffect(() => {
-    setTrailerLink(convertToEmbedUrl(link));
+    setTrailerLink(convertToEmbedUrl(trailer.link));
+    setMovieId(trailer.movieId);
   });
 
   const handleCloseTrailer = () => {
@@ -102,7 +104,9 @@ export default function ModalScreenTrailer({
                   justifyContent: "space-between",
                 }}
               >
-                <DialogTitle>Trailer</DialogTitle>
+                <DialogTitle>
+                  Trailer: {movieTitle ? movieTitle : "Trailer Phim"}
+                </DialogTitle>
                 <DialogActions>
                   <IconButton
                     onClick={handleCloseTrailer}

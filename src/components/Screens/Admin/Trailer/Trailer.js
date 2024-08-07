@@ -32,16 +32,8 @@ export const Trailers = () => {
   const [trailers, setTrailers] = useState([]);
   const [query, setQuery] = useState("");
 
-  const [openAddTrailer, setOpenAddTrailer] = useState(false);
-  const [openEditTrailer, setOpenEditTrailer] = useState(false);
+  //Screen Trailer open modal
   const [openScreenTrailer, setOpenScreenTrailer] = useState(false);
-
-  const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("");
-
-  const handleOpenAddTrailer = () => setOpenAddTrailer(true);
-  const handleCloseAddTrailer = () => setOpenAddTrailer(false);
-
   const handleOpenScreenTrailer = (trailer) => {
     dispatch(setSelectedTrailer(trailer));
     setOpenScreenTrailer(true);
@@ -52,6 +44,9 @@ export const Trailers = () => {
     dispatch(clearSelectedTrailer());
   };
 
+  // Open modal edit trailer
+  const [openEditTrailer, setOpenEditTrailer] = useState(false);
+
   const handleOpenEditTrailer = (trailer) => {
     dispatch(setSelectedTrailer(trailer));
     setOpenEditTrailer(true);
@@ -60,6 +55,14 @@ export const Trailers = () => {
     setOpenEditTrailer(false);
     dispatch(clearSelectedTrailer());
   };
+
+  // Open Modal add trailer
+  const [openAddTrailer, setOpenAddTrailer] = useState(false);
+  const handleOpenAddTrailer = () => setOpenAddTrailer(true);
+  const handleCloseAddTrailer = () => setOpenAddTrailer(false);
+
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("");
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -223,18 +226,6 @@ export const Trailers = () => {
           </TableFooter>
         </Table>
       </TableContainer>
-      {/* <ModalEditTrailer
-          isOpen={openEditTrailer}
-          handleOpen={() => handleOpenEditTrailer(trailer)}
-          handleClose={handleCloseEditTrailer}
-        />*/}
-      {/* <ModalScreenTrailer
-        isOpen={openScreenTrailer}
-        dataWatchTrailer={dataWatchTrailer}
-        setDataWatchTrailer={setDataWatchTrailer}
-        handleOpen={() => handleOpenScreenTrailer()}
-        handleClose={handleCloseScreenTrailer}
-      /> */}
     </div>
   );
 };

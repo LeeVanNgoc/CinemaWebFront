@@ -84,7 +84,7 @@ const handleEditTrailer = async (trailerId, movieId, link) => {
 
 const handleGetTitleMovieByMovieId = async (movieId) => {
   try {
-    const response = await axios.get("/api/movie/get-movie-by-id", null, {
+    const response = await axios.get("/api/movie/get-movie-by-id", {
       params: {
         movieId: movieId,
       },
