@@ -10,36 +10,30 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
-import { handleEditUser } from "./config";
+import { handleEditMovie } from "./config";
 import { useSelector } from "react-redux";
 
-export default function ModalEditUser({
-  isOpen,
-  handleOpen,
-  handleClose,
-  onUserChange,
-}) {
-  const user = useSelector((state) => state.manageUsers.selectedUser);
+export default function ModalEditmovie({ isOpen, handleOpen, handleClose }) {
+  const movie = useSelector((state) => state.manageMovies.selectedMovie);
 
-  // Khởi tạo state với dữ liệu người dùng từ props
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [birthYear, setBirthYear] = useState(user.birthYear);
-  const [userName, setUserName] = useState(user.userName);
-  const [phonenumber, setPhonenumber] = useState(user.phonenumber);
+  const [title, setTitle] = useState(movie.title);
+  const [description, setDescription] = useState(movie.description);
+  const [genreID, setGenreID] = useState(movie.genreID);
+  const [duration, setDuration] = useState(movie.duration);
+  const [country, setCountry] = useState(movie.country);
+  const [cast, setCast] = useState(movie.cast);
+  const [sTimeid, setSTimeid] = useState(movie.sTimeid);
 
-  const handleUpdateUser = async () => {
-    await handleEditUser(
-      user.userId,
-      firstName,
-      lastName,
-      userName,
-      phonenumber,
-      birthYear
+  const handleUpdateMovie = async () => {
+    await handleEditMovie(
+      title,
+      description,
+      genreID,
+      duration,
+      country,
+      cast,
+      sTimeid,
     );
-    if (onUserChange) {
-      onUserChange(); // Gọi callback để cập nhật danh sách người dùng
-    }
     handleClose();
   };
 
@@ -74,7 +68,7 @@ export default function ModalEditUser({
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Sửa người dùng
+            Sửa phim
           </h1>
           <div
             style={{
@@ -84,70 +78,73 @@ export default function ModalEditUser({
               justifyContent: "center",
             }}
           >
-            <div style={{ display: "flex", width: "100%" }}>
-              <FormControl value={user.email}>
-                <Label>Email</Label>
+
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+            <FormControl
+                defaultValue={movie.title}
+                required
+                sx={{ flex: 1 }}
+              >
+                <Label>Tên phim</Label>
+                <StyledInput onChange={(e) => setTitle(e.target.value)} />
+                <HelperText />
+              </FormControl>
+              
+              <FormControl
+                defaultValue={movie.description}
+                required
+                sx={{ flex: 1 }}
+              >
+                <Label>Mô tả</Label>
+                <StyledInput onChange={(e) => setDescription(e.target.value)} />
+                <HelperText />
+              </FormControl>
+
+              <FormControl
+                defaultValue={movie.genreID}
+                required
+                sx={{ flex: 1 }}
+              >
+                <Label>Thể loại</Label>
+                <StyledInput onChange={(e) => setGenreID(e.target.value)} />
+                <HelperText />
+              </FormControl>
+            </div>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl value={movie.duration} aria-readonly sx={{ flex: 1 }}>
+                <Label>Thời lượng</Label>
                 <StyledInput readOnly />
                 <HelperText />
               </FormControl>
-            </div>
 
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
               <FormControl
-                defaultValue={user.firstName}
+                defaultValue={movie.country}
                 required
                 sx={{ flex: 1 }}
               >
-                <Label>Tên</Label>
-                <StyledInput onChange={(e) => setFirstName(e.target.value)} />
-                <HelperText />
-              </FormControl>
-
-              <FormControl
-                defaultValue={user.lastName}
-                required
-                sx={{ flex: 1 }}
-              >
-                <Label>Họ</Label>
-                <StyledInput onChange={(e) => setLastName(e.target.value)} />
-                <HelperText />
-              </FormControl>
-            </div>
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl value={user.password} aria-readonly sx={{ flex: 1 }}>
-                <Label>Mật khẩu</Label>
-                <StyledInput readOnly />
-                <HelperText />
-              </FormControl>
-
-              <FormControl
-                defaultValue={user.birthYear}
-                required
-                sx={{ flex: 1 }}
-              >
-                <Label>Năm sinh</Label>
-                <StyledInput onChange={(e) => setBirthYear(e.target.value)} />
+                <Label>Quốc gia</Label>
+                <StyledInput onChange={(e) => setCountry(e.target.value)} />
                 <HelperText />
               </FormControl>
             </div>
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
               <FormControl
-                defaultValue={user.userName}
+                defaultValue={movie.cast}
                 required
                 sx={{ flex: 1 }}
               >
-                <Label>Tên tài khoản</Label>
-                <StyledInput onChange={(e) => setUserName(e.target.value)} />
+                <Label>Diễn viên</Label>
+                <StyledInput onChange={(e) => setCast(e.target.value)} />
                 <HelperText />
               </FormControl>
 
               <FormControl
-                defaultValue={user.phonenumber}
+                defaultValue={movie.sTimeid}
                 required
                 sx={{ flex: 1 }}
               >
-                <Label>Số điện thoại</Label>
-                <StyledInput onChange={(e) => setPhonenumber(e.target.value)} />
+                <Label>Giờ chiếu</Label>
+                <StyledInput onChange={(e) => setSTimeid(e.target.value)} />
                 <HelperText />
               </FormControl>
             </div>
@@ -162,7 +159,7 @@ export default function ModalEditUser({
               marginBottom: "15px",
             }}
             variant="contained"
-            onClick={handleUpdateUser}
+            onClick={handleUpdateMovie}
           >
             Sửa
           </Button>

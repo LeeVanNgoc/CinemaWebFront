@@ -18,24 +18,16 @@ const handleGetListPlans = async () => {
   }
 };
 
-const handleCreatePlan = async (
-  roomId,
-  movieId,
-  dateScreen,
-  startTime,
-  endTime
-) => {
+const handleCreatePlan = async (roomId, movieId, dateScreen, startTime) => {
   try {
     const response = await axios.post(
-      "/api/plan-screen-movie/create-new-plan-screen-movie/",
+      "/api/plan-screen-movie/create-plan-screen-with-movie/",
       null,
       {
         params: {
           roomId: roomId,
           movieId: movieId,
-          dateScreen: dateScreen,
-          startTime: startTime,
-          endTime: endTime,
+          schedule: { dateScreen: dateScreen, startTime: startTime },
         },
       }
     );
@@ -58,18 +50,22 @@ const handleEditPlan = async (
   roomId,
   movieId,
   dateScreen,
-  startTime,
-  endTime
+  startTime
 ) => {
   try {
     const response = await axios.put(
-      `/api/plan-screen-movie/edit-plan-screen-movie/`,
+      "/api/plan-screen-movie/edit-plan-screen-movie/",
+      null,
       {
-        roomId: roomId,
-        movieId: movieId,
-        dateScreen: dateScreen,
-        startTime: startTime,
-        endTime: endTime,
+        params: {
+          planScreenMovieId: planScreenMovieId,
+          roomId: roomId,
+          movieId: movieId,
+          schedule: {
+            dateScreen: dateScreen,
+            startTime: startTime,
+          },
+        },
       }
     );
 

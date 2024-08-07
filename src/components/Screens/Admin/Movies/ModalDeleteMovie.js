@@ -1,14 +1,14 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import { TriggerButton, Modal, StyledBackdrop, ModalContent } from "./style";
-import { handleDeletePrice } from "./config";
+import { handleDeleteMovie } from "./config";
 import { useSelector } from "react-redux";
 
-export default function ModalDeletePrice({ isOpen, handleOpen, handleClose }) {
-  const price = useSelector((state) => state.managePrices.selectedPrice);
+export default function ModalDeleteMovie({ isOpen, handleOpen, handleClose }) {
+  const movie = useSelector((state) => state.manageMovies.selectedMovie);
 
   const handleDelete = async () => {
-    await handleDeletePrice(price.priceId);
+    await handleDeleteMovie(movie.movieId);
     handleClose();
   };
 
@@ -43,7 +43,7 @@ export default function ModalDeletePrice({ isOpen, handleOpen, handleClose }) {
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Xóa vé ID = {price.priceId}?
+            Xóa phim {movie.title}?
           </h1>
           <div style={{ display: "flex", gap: "10px" }}>
             <Button

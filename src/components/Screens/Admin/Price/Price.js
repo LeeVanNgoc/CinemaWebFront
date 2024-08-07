@@ -26,6 +26,7 @@ import { StyledInput, HelperText } from "./style";
 import ModalAddPrice from "./ModalAddPrice";
 import ModalEditPrice from "./ModalEditPrice";
 import ModalDeletePrice from "./ModalDeletePrice";
+import "./Price.scss";
 
 export const Prices = () => {
   const dispatch = useDispatch();
@@ -108,7 +109,8 @@ export const Prices = () => {
           const formattedData = res.prices.map((item) => ({
             pricesId: item.pricesId,
             cost: item.cost,
-            type: item.type,
+            roomType: item.roomType,
+            seatType: item.seatType,
             isWeekend: item.isWeekend,
           }));
           setPrices(formattedData);
@@ -146,6 +148,7 @@ export const Prices = () => {
             <TableRow>
               <TableCell>Mã Giá Vé</TableCell>
               <TableCell>Mức Giá</TableCell>
+              <TableCell>Loại Phòng</TableCell>
               <TableCell>Loại Ghế</TableCell>
               <TableCell>Cuối Tuần/Lễ</TableCell>
               <TableCell></TableCell>
@@ -157,7 +160,8 @@ export const Prices = () => {
                 <TableRow key={index}>
                   <TableCell>{price.pricesId}</TableCell>
                   <TableCell>{price.cost}</TableCell>
-                  <TableCell>{price.type}</TableCell>
+                  <TableCell>{price.roomType}</TableCell>
+                  <TableCell>{price.seatType}</TableCell>
                   <TableCell>{price.isWeekend ? 1 : 0}</TableCell>
                   <TableCell>
                     <div

@@ -1,18 +1,18 @@
 import {
+  GET_SELECTED_PLAN,
   SET_SELECTED_SEAT,
   CLEAR_SELECTED_SEATS,
-  // SET_INFO_FOR_BOOKING,
-  SET_MOVIE,
   SET_DATE,
   SET_TIME,
   SET_ROOM,
   SET_TOTAL_BILL,
+  SET_PLAN_TIME,
 } from "../actions/bookingAction";
 
 const initialState = {
   selectedSeats: [],
-  // bill: {},
-  movieId: "",
+  planMovie: [],
+  selectedPlan: "",
   date: new Date().toLocaleDateString("vi-VN"),
   time: "",
   room: "",
@@ -40,17 +40,19 @@ const bookingReducer = (state = initialState, action) => {
         ...state,
         selectedSeats: [],
       };
-    // case SET_INFO_FOR_BOOKING:
-    //   return {
-    //     ...state,
-    //     bill: action.payload,
-    //   };
 
-    case SET_MOVIE:
+    case GET_SELECTED_PLAN:
       return {
         ...state,
-        movieId: action.payload,
+        selectedPlan: action.payload,
       };
+
+    case SET_PLAN_TIME:
+      return {
+        ...state,
+        planMovie: action.payload,
+      };
+
     case SET_DATE:
       return {
         ...state,

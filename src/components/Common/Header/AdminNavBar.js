@@ -9,7 +9,7 @@ import { Seats } from "../../Screens/Admin/Seat/Seat";
 import { Prices } from "../../Screens/Admin/Price/Price";
 import { Plans } from "../../Screens/Admin/PlanScreenMovie/Plans";
 import { Movie } from "../../Screens/Admin/Movie/Movie";
-import { Rooms } from "../../Screens/Admin/Room/Room"
+import { Rooms } from "../../Screens/Admin/Room/Room";
 import { Trailers } from "../../Screens/Admin/Trailer/Trailer";
 
 export default function AdminNavBar() {
@@ -48,12 +48,13 @@ export default function AdminNavBar() {
         <TabPanel value={5}>
           <Prices />
         </TabPanel>
-        <TabPanel value={6}>          
-          <Rooms/>
+        <TabPanel value={6}>
+          <Rooms />
         </TabPanel>
         <TabPanel value={7}>
           <Trailers />
         </TabPanel>
+
         <TabPanel value={8}>
           <Plans />
         </TabPanel>
