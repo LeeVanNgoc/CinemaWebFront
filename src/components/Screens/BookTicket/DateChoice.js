@@ -35,6 +35,7 @@ export default function DateChoice() {
       aria-label="Basic tabs"
       defaultValue={0}
       sx={{
+        marginTop: 10,
         backgroundColor: "transparent",
         color: "#fff",
         alignItems: "center",

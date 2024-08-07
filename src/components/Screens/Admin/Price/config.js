@@ -16,11 +16,11 @@ const handleGetListPrices = async () => {
   }
 };
 
-const handleGetPriceById = async (pricesId) => {
+const handleGetPriceById = async (priceId) => {
   try {
     const response = await axios.get("/api/prices/get-price-by-id", null, {
       params: {
-        pricesId: pricesId,
+        priceId: priceId,
       },
     });
     return response;
@@ -36,15 +36,17 @@ const handleGetPriceById = async (pricesId) => {
   }
 };
 
-const handleCreatePrice = async (cost, type, isWeekend) => {
+const handleCreatePrice = async (cost, roomType, seatType, isWeekend) => {
   try {
     const response = await axios.post("/api/prices/create-price/", null, {
       params: {
         cost: cost,
-        type: type,
+        roomType: roomType,
+        seatType: seatType,
         isWeekend: isWeekend,
       },
     });
+    alert(response.message);
     return response;
   } catch (error) {
     console.error("Error creating price:", error);
@@ -59,17 +61,25 @@ const handleCreatePrice = async (cost, type, isWeekend) => {
   }
 };
 
-const handleEditPrice = async (pricesId, cost, type, isWeekend) => {
+const handleEditPrice = async (
+  priceId,
+  cost,
+  roomType,
+  seatType,
+  isWeekend
+) => {
   try {
     const response = await axios.put("/api/prices/edit-price/", null, {
       params: {
-        pricesId: pricesId,
+        priceId: priceId,
         cost: cost,
-        type: type,
+        roomType: roomType,
+        seatType: seatType,
         isWeekend: isWeekend,
       },
     });
     console.log(">>> edit price res: ", response);
+    alert(response.message);
     return response;
   } catch (error) {
     console.error("Error editing price:", error);
@@ -84,13 +94,14 @@ const handleEditPrice = async (pricesId, cost, type, isWeekend) => {
   }
 };
 
-const handleDeletePrice = async (pricesId) => {
+const handleDeletePrice = async (priceId) => {
   try {
     const response = await axios.delete("/api/prices/delete-price", {
       params: {
-        priceId: pricesId,
+        priceId: priceId,
       },
     });
+    alert(response.message);
     return response;
   } catch (error) {
     console.error("Error deleting price:", error);

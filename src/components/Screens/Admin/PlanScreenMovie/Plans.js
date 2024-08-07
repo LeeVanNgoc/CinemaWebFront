@@ -169,8 +169,8 @@ export const Plans = () => {
               (plan, index) => (
                 <TableRow key={index}>
                   <TableCell>{plan.planScreenMovieId}</TableCell>
-                  <TableCell>{plan.roomId}</TableCell>
                   <TableCell>{plan.movieId}</TableCell>
+                  <TableCell>{plan.roomId}</TableCell>
                   <TableCell>{plan.dateScreen}</TableCell>
                   <TableCell>{plan.startTime}</TableCell>
                   <TableCell>{plan.endTime}</TableCell>
