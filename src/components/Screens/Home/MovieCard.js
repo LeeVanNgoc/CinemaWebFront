@@ -7,10 +7,8 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setSelectedMovie,
-  clearSelectedMovie,
-} from "../Admin/Movie/redux/actions/movieActions";
+import { setSelectedMovie } from "../Admin/Movie/redux/actions/movieActions";
+import { setPlanTime } from "../BookTicket/redux/actions/bookingAction";
 import "./MovieCard.scss";
 
 export default function MovieCard() {
@@ -22,6 +20,7 @@ export default function MovieCard() {
 
   const handleClick = (movie) => {
     dispatch(setSelectedMovie(movie));
+    dispatch(setPlanTime(movie.movieId));
     navigate("/bookticket");
   };
 
@@ -31,9 +30,8 @@ export default function MovieCard() {
         movies
           .filter((movie) => {
             const releaseDate = movie.releaseDate.split("T")[0];
-            console.log("reDa: ", releaseDate);
-            console.log("today: ", today);
-            return releaseDate < today; // Lọc phim có ngày phát hành nhỏ hơn ngày hiện tại
+
+            return releaseDate <= today; // Lọc phim có ngày phát hành nhỏ hơn ngày hiện tại
           })
           .map((movie, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={index}>

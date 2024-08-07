@@ -17,11 +17,12 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
   const price = useSelector((state) => state.managePrices.selectedPrice);
 
   const [cost, setCost] = useState(price.cost);
-  const [type, setType] = useState(price.type);
+  const [roomType, setRoomType] = useState(price.roomType);
+  const [seatType, setSeatType] = useState(price.seatType);
   const [isWeekend, setIsWeekend] = useState(price.isWeekend);
 
   const handleUpdatePrice = async () => {
-    await handleEditPrice(price.pricesId, cost, type, isWeekend);
+    await handleEditPrice(price.priceId, cost, roomType, seatType, isWeekend);
     handleClose();
   };
 
@@ -66,7 +67,7 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue={price.pricesId} aria-readonly>
+            <FormControl defaultValue={price.priceId} aria-readonly>
               <Label>Mã giá vé</Label>
               <StyledInput readOnly />
               <HelperText />
@@ -78,9 +79,23 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
               <HelperText />
             </FormControl>
 
-            <FormControl defaultValue={price.type} required sx={{ flex: 1 }}>
+            <FormControl
+              defaultValue={price.roomType}
+              required
+              sx={{ flex: 1 }}
+            >
+              <Label>Kiểu phòng</Label>
+              <StyledInput onChange={(e) => setRoomType(e.target.value)} />
+              <HelperText />
+            </FormControl>
+
+            <FormControl
+              defaultValue={price.seatType}
+              required
+              sx={{ flex: 1 }}
+            >
               <Label>Kiểu ghế</Label>
-              <StyledInput onChange={(e) => setType(e.target.value)} />
+              <StyledInput onChange={(e) => setSeatType(e.target.value)} />
               <HelperText />
             </FormControl>
 

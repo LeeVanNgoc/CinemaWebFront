@@ -10,10 +10,11 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
+import { Select, MenuItem, InputLabel } from "@mui/material";
 import { handleCreateSeat } from "./config";
 
 export default function ModalAddSeat({ isOpen, handleOpen, handleClose }) {
-  const [type, setType] = useState("");
+  const [type, setType] = useState("Regular");
   const [roomId, setRoomId] = useState("");
   const [row, setRow] = useState("");
   const [col, setCol] = useState("");
@@ -67,14 +68,21 @@ export default function ModalAddSeat({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue="" required>
-              <Label>Loại ghế</Label>
-              <StyledInput
-                // placeholder="Type"
-                onChange={(e) => setType(e.target.value)}
-              />
-              <HelperText />
+            <FormControl fullWidth>
+              <InputLabel id="room-type-label">Loại ghế</InputLabel>
+              <Select
+                labelId="room-type-label"
+                value={type}
+                label="Loại ghế"
+                onChange={(event) => setType(event.target.value)}
+                sx={{ width: "210px", height: "50px" }}
+              >
+                <MenuItem value="VIP">VIP</MenuItem>
+                <MenuItem value="Regular">Regular</MenuItem>
+                <MenuItem value="Double">Double</MenuItem>
+              </Select>
             </FormControl>
+
             <FormControl defaultValue="" required>
               <Label>Mã phòng</Label>
               <StyledInput onChange={(e) => setRoomId(e.target.value)} />
