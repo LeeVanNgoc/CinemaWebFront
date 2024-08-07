@@ -63,7 +63,7 @@ const handleEditPlan = async (
 ) => {
   try {
     const response = await axios.put(
-      `/api/plan-screen-movie/edit-plan-screen-movie/${planScreenMovieId}`,
+      `/api/plan-screen-movie/edit-plan-screen-movie/`,
       {
         roomId: roomId,
         movieId: movieId,
