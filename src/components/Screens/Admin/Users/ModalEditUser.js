@@ -13,12 +13,7 @@ import {
 import { handleEditUser } from "./config";
 import { useSelector } from "react-redux";
 
-export default function ModalEditUser({
-  isOpen,
-  handleOpen,
-  handleClose,
-  onUserChange,
-}) {
+export default function ModalEditUser({ isOpen, handleOpen, handleClose }) {
   const user = useSelector((state) => state.manageUsers.selectedUser);
 
   // Khởi tạo state với dữ liệu người dùng từ props
@@ -37,9 +32,7 @@ export default function ModalEditUser({
       phonenumber,
       birthYear
     );
-    if (onUserChange) {
-      onUserChange(); // Gọi callback để cập nhật danh sách người dùng
-    }
+
     handleClose();
   };
 

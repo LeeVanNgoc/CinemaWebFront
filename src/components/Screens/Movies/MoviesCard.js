@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedMovie } from "../Admin/Movie/redux/actions/movieActions";
-import { setPlanTime } from "../BookTicket/redux/actions/bookingAction";
+import { getPlanTime } from "../BookTicket/redux/actions/bookingAction";
 import {
   Card,
   CardContent,
@@ -16,14 +16,13 @@ import {
 const MoviesCard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const planTimes = useSelector(
-  //   (state) => state.userBookTicket.planMovie.planTime
-  // );
+
   const movies = useSelector((state) => state.manageMovies.movies.movies);
+  const dateScreen = useSelector((state) => state.userBookTicket.date);
 
   const handleClick = (movie) => {
     dispatch(setSelectedMovie(movie));
-    dispatch(setPlanTime(movie.movieId));
+    dispatch(getPlanTime(dateScreen, movie.movieId));
     navigate("/bookticket");
   };
 
@@ -50,7 +49,7 @@ const MoviesCard = () => {
                 component="img"
                 image={movie.image}
                 alt="Movie Poster"
-                sx={{ height: "100%", width: "auto" }}
+                sx={{ height: "100%", width: "auto", maxWidth: "200px" }}
               />
               <CardContent>
                 <Grid
@@ -75,7 +74,7 @@ const MoviesCard = () => {
                   Xuất xứ: {movie.country}
                 </Typography>
                 <Typography variant="body2" color="white">
-                  Khởi chiếu: {movie.releaseDate}
+                  Khởi chiếu: {movie.releaseDate.split("T")[0]}
                 </Typography>
                 <Typography variant="body2" color="red">
                   P - PHIM ĐƯỢC PHÉP PHỔ BIẾN ĐẾN NGƯỜI XEM Ở MỌI ĐỘ TUỔI.

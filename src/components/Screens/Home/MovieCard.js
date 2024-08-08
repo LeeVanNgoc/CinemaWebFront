@@ -8,19 +8,21 @@ import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedMovie } from "../Admin/Movie/redux/actions/movieActions";
-import { setPlanTime } from "../BookTicket/redux/actions/bookingAction";
+import { getPlanTime } from "../BookTicket/redux/actions/bookingAction";
 import "./MovieCard.scss";
 
 export default function MovieCard() {
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.manageMovies.movies.movies);
+  // const dateScreen = new Date().toISOString().slice(0, 10);
+  const dateScreen = useSelector((state) => state.userBookTicket.date);
   const navigate = useNavigate();
 
   const today = new Date().toLocaleDateString("vi-VN");
 
   const handleClick = (movie) => {
     dispatch(setSelectedMovie(movie));
-    dispatch(setPlanTime(movie.movieId));
+    dispatch(getPlanTime(dateScreen, movie.movieId));
     navigate("/bookticket");
   };
 
@@ -56,7 +58,7 @@ export default function MovieCard() {
                       Hài, Hoạt hình, Phiêu lưu
                     </Typography>
                     <Typography variant="body2" color="grey">
-                      {movie.releaseDate}
+                      {movie.releaseDate.split("T")[0]}
                     </Typography>
                     <Typography gutterBottom variant="h6" component="div">
                       {movie.title}

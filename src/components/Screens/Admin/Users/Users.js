@@ -131,12 +131,12 @@ export const Users = () => {
   }, []);
 
   useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
+    // const intervalId = setInterval(() => {
+    fetchUsers(); // Gọi API để cập nhật dữ liệu
+    // }, 5000); // Gọi API mỗi 5 giây
 
-  const handleUserChange = () => {
-    fetchUsers(); // Tự động cập nhật danh sách người dùng
-  };
+    // return () => clearInterval(intervalId); // Dọn dẹp interval khi component unmount hoặc khi useEffect chạy lại
+  }, [fetchUsers]);
 
   return (
     <div>
@@ -154,7 +154,6 @@ export const Users = () => {
           isOpen={openAddUser}
           handleOpen={handleOpenAddUser}
           handleClose={handleCloseAddUser}
-          onUserChange={handleUserChange}
         />
       </div>
 
@@ -218,13 +217,11 @@ export const Users = () => {
                         isOpen={openEditUser}
                         handleOpen={() => handleOpenEditUser(user)}
                         handleClose={handleCloseEditUser}
-                        onUserChange={handleUserChange}
                       />
                       <ModalDeleteUser
                         isOpen={openDeleteUser}
                         handleOpen={() => handleOpenDeleteUser(user)}
                         handleClose={handleCloseDeleteUser}
-                        onUserChange={handleUserChange}
                       />
                     </div>
                   </TableCell>

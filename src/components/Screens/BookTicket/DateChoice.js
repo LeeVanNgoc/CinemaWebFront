@@ -5,11 +5,16 @@ import Tab from "@mui/joy/Tab";
 import TabPanel from "@mui/joy/TabPanel";
 import TimeChoice from "./TimeChoice";
 import { useDispatch, useSelector } from "react-redux";
-import { clearSelectedSeats, setDate } from "./redux/actions/bookingAction";
+import {
+  clearSelectedSeats,
+  setDate,
+  getPlanTime,
+} from "./redux/actions/bookingAction";
 import "./scss/DateChoice.scss";
 
 export default function DateChoice() {
   const dispatch = useDispatch();
+  const movie = useSelector((state) => state.manageMovies.selectedMovie);
 
   const today = new Date();
   const getNextDay = (current) => {
@@ -28,6 +33,7 @@ export default function DateChoice() {
   const handlesetDate = (date) => {
     dispatch(setDate(date));
     handleClearSelectedSeats();
+    dispatch(getPlanTime(date, movie.movieId));
   };
 
   return (
@@ -43,23 +49,17 @@ export default function DateChoice() {
     >
       <div>
         <TabList>
-          <div
-            onClick={() =>
-              handlesetDate(`${today.toLocaleDateString("vi-VN")}`)
-            }
-          >
+          <div onClick={() => handlesetDate(today.toISOString().slice(0, 10))}>
             <Tab>{today.toLocaleDateString("vi-VN")}</Tab>
           </div>
           <div
-            onClick={() =>
-              handlesetDate(`${tomorrow.toLocaleDateString("vi-VN")}`)
-            }
+            onClick={() => handlesetDate(tomorrow.toISOString().slice(0, 10))}
           >
             <Tab>{tomorrow.toLocaleDateString("vi-VN")}</Tab>
           </div>
           <div
             onClick={() =>
-              handlesetDate(`${nextTomorrow.toLocaleDateString("vi-VN")}`)
+              handlesetDate(nextTomorrow.toISOString().slice(0, 10))
             }
           >
             <Tab>{nextTomorrow.toLocaleDateString("vi-VN")}</Tab>

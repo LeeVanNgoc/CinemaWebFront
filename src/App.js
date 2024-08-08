@@ -17,11 +17,13 @@ import { handleRefreshRedux } from "./components/Common/SignIn/redux/actions/use
 import { handleRefreshMovie } from "./components/Screens/Admin/Movie/redux/actions/movieActions";
 import FinalTicket from "./components/Screens/BookTicket/FinalTicket";
 import UserAccount from "./components/Screens/Account/UserAccount";
+import { setDate } from "./components/Screens/BookTicket/redux/actions/bookingAction";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setDate(new Date().toISOString().slice(0, 10)));
     if (localStorage.getItem("email")) {
       dispatch(handleRefreshRedux());
     }

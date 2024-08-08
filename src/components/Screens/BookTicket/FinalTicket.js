@@ -15,19 +15,37 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { handleCreateTicket } from "./config";
 
 export default function FinalTicket() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const userId = useSelector((state) => state.user.account.id);
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
+  const planId = useSelector((state) => state.userBookTicket.selectedPlan);
   const date = useSelector((state) => state.userBookTicket.date);
   const time = useSelector((state) => state.userBookTicket.time);
-  const seats = useSelector((state) => state.userBookTicket.selectedSeats);
+  const seats = useSelector((state) =>
+    state.userBookTicket.selectedSeats.seat.map((item) => item)
+  );
+  const totalBill = useSelector((state) => state.userBookTicket.totalBill);
 
   const goBack = () => {
     dispatch(clearSelectedSeats());
     navigate("/bookticket");
+  };
+
+  const bookTicket = async () => {
+    const res = await handleCreateTicket(
+      userId,
+      planId,
+      seats.join(", "),
+      "MB",
+      totalBill
+    );
+    dispatch(clearSelectedSeats());
+    console.log("create ticket: ", res);
   };
 
   return (
@@ -59,7 +77,7 @@ export default function FinalTicket() {
                       Ngày giờ chiếu
                     </Typography>
                     <Typography variant="body2">
-                      {time.time} - {date.date}
+                      {time} - {date}
                     </Typography>
                   </Grid>
 
@@ -101,9 +119,11 @@ export default function FinalTicket() {
                 <Typography sx={{ mt: 1.5 }} color="text.secondary">
                   Chi phí
                 </Typography>
-                <Typography variant="body2">Thanh toán</Typography>
-                <Typography variant="body2">Phí</Typography>
-                <Typography variant="body2">Tổng cộng</Typography>
+                <Typography variant="body2">
+                  Thanh toán: {totalBill}đ
+                </Typography>
+                <Typography variant="body2">Phí: 0đ</Typography>
+                <Typography variant="body2">Tổng cộng: {totalBill}đ</Typography>
               </CardContent>
             </React.Fragment>
           </Card>
@@ -134,7 +154,7 @@ export default function FinalTicket() {
                     <TableRow>
                       <TableCell>Ghế ({seats.join(", ")})</TableCell>
                       <TableCell>{seats.length}</TableCell>
-                      <TableCell>80.000</TableCell>
+                      <TableCell>{totalBill}</TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
@@ -162,7 +182,7 @@ export default function FinalTicket() {
             backgroundColor: "red",
             height: "40px",
           }}
-          // onClick={() => bookTicket()}
+          onClick={() => bookTicket()}
         >
           Đặt vé
         </Button>

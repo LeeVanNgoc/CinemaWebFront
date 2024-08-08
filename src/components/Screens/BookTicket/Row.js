@@ -3,19 +3,10 @@ import Seat from "./Seat";
 import "./scss/SeatMap.scss";
 import { useSelector } from "react-redux";
 
-const Row = ({ rowLetter, seats, onSeatClick, rowIndex }) => {
+const Row = ({ rowLetter, seats, rowIndex }) => {
   const selectedSeats = useSelector(
-    (state) => state.userBookTicket.selectedSeats
+    (state) => state.userBookTicket.selectedSeats.seat
   );
-  const setCoupleSeat = () => {
-    if (rowIndex === `${localStorage.getItem("totalRow")}` - 1) {
-      console.log(">>seat number: ", `${localStorage.getItem("totalRow")}` / 2);
-      localStorage.setItem(
-        "seatsPerRow",
-        `${localStorage.getItem("totalRow")}` / 2
-      ); // Ghế đôi
-    }
-  };
 
   return (
     <div className={"seat-row"}>
@@ -25,7 +16,6 @@ const Row = ({ rowLetter, seats, onSeatClick, rowIndex }) => {
           seatNumber={seatNumber}
           seatID={`${rowLetter}${seatNumber}`}
           isSelected={selectedSeats.includes(`${rowLetter}${seatNumber}`)}
-          onSeatClick={onSeatClick}
           rowIndex={rowIndex}
         />
       ))}
