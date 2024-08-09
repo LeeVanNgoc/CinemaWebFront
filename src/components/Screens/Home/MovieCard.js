@@ -27,7 +27,7 @@ export default function MovieCard() {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={3}>
       {movies &&
         movies
           .filter((movie) => {
@@ -36,7 +36,7 @@ export default function MovieCard() {
             return releaseDate <= today; // Lọc phim có ngày phát hành nhỏ hơn ngày hiện tại
           })
           .map((movie, index) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+            <Grid item xs={9.5} sm={6} md={4} lg={3} key={index}>
               <Card
                 className="image-card"
                 sx={{
