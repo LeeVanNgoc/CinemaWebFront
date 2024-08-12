@@ -17,7 +17,6 @@ const handleGetListRoom = async () => {
   }
 };
 
-
 const handleGetRoomId = async (roomId) => {
   try {
     const response = await axios.get("/api/room/get-room-by-id", null, {
@@ -63,7 +62,13 @@ const handleCreateRoom = async (theaterId, type, numberSeats, isAvailable) => {
   }
 };
 
-const handleEditRoom = async (roomId, theaterId, type, numberSeats, isAvailable) => {
+const handleEditRoom = async (
+  roomId,
+  theaterId,
+  type,
+  numberSeats,
+  isAvailable
+) => {
   try {
     const response = await axios.put("/api/room/edit-room/", null, {
       params: {
@@ -90,9 +95,4 @@ const handleEditRoom = async (roomId, theaterId, type, numberSeats, isAvailable)
   }
 };
 
-export {
-  handleGetListRoom,
-  handleGetRoomId,
-  handleCreateRoom,
-  handleEditRoom,
-};
+export { handleGetListRoom, handleGetRoomId, handleCreateRoom, handleEditRoom };
