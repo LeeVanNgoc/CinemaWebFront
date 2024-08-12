@@ -1,12 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
-import "./scss/SeatMap.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedSeat } from "./redux/actions/bookingAction";
 
-const Seat = ({ seatNumber, seatID, isSelected, onSeatClick, rowIndex }) => {
+import "./scss/SeatMap.scss";
+import { handleGetBookedSeats } from "./config";
+
+const Seat = ({ seatNumber, seatID, isSelected, rowIndex }) => {
+  const dispatch = useDispatch();
+
+  const planId = useSelector((state) => state.userBookTicket.selectedPlan);
+
   const [isOccupied, setIsOccupied] = useState(false);
+  const [bookedSeats, setBookedSeats] = useState([]);
+
+  // useEffect(async () => {
+  //   try {
+  //     const res = await handleGetBookedSeats(planId);
+  //     console.log("fetch booked seats: ", res);
+  //     if (res && res.errCode === 0) {
+  //       setBookedSeats(res.rowAndCol);
+  //     } else {
+  //       console.log("ERROR: ", res.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("Lỗi khi gọi API:", error);
+  //   }
+  // }, []);
+
   const handleClick = () => {
     if (!isOccupied) {
-      onSeatClick(seatID);
+      const costType = getType();
+      dispatch(
+        setSelectedSeat(
+          seatID,
+          costType.roomType,
+          costType.seatType,
+          costType.isWeekend
+        )
+      );
+    }
+  };
+
+  const getType = () => {
+    if (rowIndex === parseInt(localStorage.getItem("totalRow")) - 1) {
+      return { roomType: "2D", seatType: "SweetBox", isWeekend: false };
+    } else if (
+      rowIndex >= 3 &&
+      rowIndex <= parseInt(localStorage.getItem("totalRow")) - 3 &&
+      seatNumber >= 3 &&
+      seatNumber <= 12
+    ) {
+      return { roomType: "2D", seatType: "VIP", isWeekend: false };
+    } else {
+      return { roomType: "2D", seatType: "Standard", isWeekend: false };
     }
   };
 

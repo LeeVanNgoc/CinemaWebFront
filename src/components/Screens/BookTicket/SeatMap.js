@@ -1,25 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "./scss/SeatMap.scss";
 import Row from "./Row";
-import { useDispatch } from "react-redux";
-import {
-  setSelectedSeat,
-  clearSelectedSeat,
-  removeSeat,
-} from "./redux/actions/bookingAction";
 
-const SeatMap = () => {
-  const dispatch = useDispatch();
-  const [isSelected, setIsSelected] = useState(false);
-
-  const toggleSelected = () => {
-    setIsSelected(!isSelected);
-  };
-
-  const handleSeatClick = (seatNumber) => {
-    dispatch(setSelectedSeat(seatNumber));
-  };
-
+const SeatMap = (rows, seatsPerRow) => {
   const renderRows = () => {
     const rowLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
     return Array.from({ length: `${localStorage.getItem("totalRow")}` }).map(
@@ -34,8 +17,6 @@ const SeatMap = () => {
             key={rowIndex}
             rowLetter={rowLetter}
             seats={seats}
-            // selectedSeats={selectedSeats}
-            onSeatClick={handleSeatClick}
             rowIndex={rowIndex}
           />
         );

@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "./Home.scss";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getMovies } from "../Admin/Movie/redux/actions/movieActions";
+import { getMovies } from "../Admin/Movies/redux/actions/movieActions";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ const Home = () => {
     };
 
     fetchMovies();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -29,7 +29,7 @@ const Home = () => {
       <Container>
         <Grid container spacing={3}>
           <Grid item xs>
-            <Grid container xs={12} alignItems="flex-end">
+            <Grid container alignItems="flex-end">
               <Grid item xs={11}>
                 <div className="section">
                   <Brightness1SharpIcon

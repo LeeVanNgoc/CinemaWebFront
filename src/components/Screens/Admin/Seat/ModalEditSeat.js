@@ -75,7 +75,7 @@ export default function ModalEditSeat({ isOpen, handleOpen, handleClose }) {
               <HelperText />
             </FormControl>
 
-            <FormControl fullWidth>
+            <FormControl>
               <InputLabel id="room-type-label" sx={{ marginTop: "20px" }}>
                 Loại ghế
               </InputLabel>
