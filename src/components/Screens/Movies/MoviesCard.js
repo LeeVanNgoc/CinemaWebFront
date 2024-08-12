@@ -43,6 +43,7 @@ const MoviesCard = () => {
                 flexDirection: "row",
                 border: "1px solid gray",
                 cursor: "pointer",
+                textAlign: "left",
               }}
               onClick={() => handleClick(movie)}
             >

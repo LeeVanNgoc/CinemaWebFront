@@ -5,6 +5,9 @@ import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import { useDispatch, useSelector } from "react-redux";
+import { ModalAddMovie } from "./ModalAddMovie";
+import { ModalEditMovie } from "./ModalEditMovie";
+import { ModalDeleteMovie } from "./ModalDeleteMovie";
 import {
   setSelectedMovie,
   clearSelectedMovie,
@@ -23,13 +26,13 @@ import {
   FormControl,
 } from "@mui/material";
 import { StyledInput, HelperText } from "./style";
-// import ModalAddMovie from "./ModalAddMovie";
-// import ModalEditMovie from "./ModalEditMovie";
-// import ModalDeleteMovie from "./ModalDeleteMovie";
 
 export const Movie = () => {
   const dispatch = useDispatch();
-  const movies = useSelector((state) => state.manageMovies.movies.movies);
+  const movies = useSelector((state) => state.manageMovies.movies.movies || []);
+  const loading = useSelector((state) => state.manageMovies.loading);
+  const error = useSelector((state) => state.manageMovies.error);
+
   const [query, setQuery] = useState("");
 
   const [openAddMovie, setOpenAddMovie] = useState(false);
@@ -39,26 +42,26 @@ export const Movie = () => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("moviesDate");
 
-  // const handleOpenAddMovie = () => setOpenAddMovie(true);
-  // const handleCloseAddMovie = () => setOpenAddMovie(false);
+  const handleOpenAddMovie = () => setOpenAddMovie(true);
+  const handleCloseAddMovie = () => setOpenAddMovie(false);
 
-  // const handleOpenEditMovie = (movie) => {
-  //   dispatch(setSelectedMovie(movie));
-  //   setOpenEditMovie(true);
-  // };
-  // const handleCloseEditMovie = () => {
-  //   setOpenEditMovie(false);
-  //   dispatch(clearSelectedMovie());
-  // };
+  const handleOpenEditMovie = (movie) => {
+    dispatch(setSelectedMovie(movie));
+    setOpenEditMovie(true);
+  };
+  const handleCloseEditMovie = () => {
+    setOpenEditMovie(false);
+    dispatch(clearSelectedMovie());
+  };
 
-  // const handleOpenDeleteMovie = (movie) => {
-  //   dispatch(setSelectedMovie(movie));
-  //   setOpenDeleteMovie(true);
-  // };
-  // const handleCloseDeleteMovie = () => {
-  //   setOpenDeleteMovie(false);
-  //   dispatch(clearSelectedMovie());
-  // };
+  const handleOpenDeleteMovie = (movie) => {
+    dispatch(setSelectedMovie(movie));
+    setOpenDeleteMovie(true);
+  };
+  const handleCloseDeleteMovie = () => {
+    setOpenDeleteMovie(false);
+    dispatch(clearSelectedMovie());
+  };
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -119,12 +122,15 @@ export const Movie = () => {
             <HelperText />
           </FormControl>
         </span>
-        {/* <ModalAddMovie
+        {<ModalAddMovie
           isOpen={openAddMovie}
           handleOpen={handleOpenAddMovie}
           handleClose={handleCloseAddMovie}
-        /> */}
+        />}
       </div>
+
+      {loading && <div>Loading...</div>}
+      {error && <div>Error: {error}</div>}
 
       <TableContainer component={Paper} sx={{ maxHeight: "fit-content" }}>
         <Table stickyHeader>
@@ -137,7 +143,7 @@ export const Movie = () => {
               <TableCell>Quốc Gia</TableCell>
               <TableCell>Ngày Khởi Chiếu</TableCell>
               <TableCell>Ảnh</TableCell>
-              <TableCell>Mã thể loại</TableCell>
+              <TableCell>Mã Thể Loại</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -168,16 +174,16 @@ export const Movie = () => {
                         gap: "10px",
                       }}
                     >
-                      {/* <ModalEditMovie
+                      {<ModalEditMovie
                         isOpen={openEditMovie}
                         handleOpen={() => handleOpenEditMovie(movie)}
                         handleClose={handleCloseEditMovie}
-                      />
-                      <ModalDeleteMovie
+                      />}
+                      {<ModalDeleteMovie
                         isOpen={openDeleteMovie}
                         handleOpen={() => handleOpenDeleteMovie(movie)}
                         handleClose={handleCloseDeleteMovie}
-                      /> */}
+                      />}
                     </div>
                   </TableCell>
                 </TableRow>

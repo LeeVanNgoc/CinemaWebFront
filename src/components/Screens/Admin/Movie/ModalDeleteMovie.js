@@ -4,7 +4,11 @@ import { TriggerButton, Modal, StyledBackdrop, ModalContent } from "./style";
 import { handleDeleteMovie } from "./config";
 import { useSelector } from "react-redux";
 
-export default function ModalDeleteMovie({ isOpen, handleOpen, handleClose }) {
+export function ModalDeleteMovie({
+  isOpen,
+  handleOpen,
+  handleClose,
+}) {
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
 
   const handleDelete = async () => {
@@ -43,7 +47,7 @@ export default function ModalDeleteMovie({ isOpen, handleOpen, handleClose }) {
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Xóa phim {movie.title}?
+            Xác nhận xóa phim: {movie.title}?
           </h1>
           <div style={{ display: "flex", gap: "10px" }}>
             <Button

@@ -2,25 +2,25 @@ import * as React from "react";
 import "./Footer.scss";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import InstagramIcon from '@mui/icons-material/Instagram';
+import XIcon from '@mui/icons-material/X';
 
 const Footer = () => {
   return (
     <>
       <div className="footer">
-        <div className="nav-container">
-          <span className="nav">Chính sách</span>
-          <span className="nav">Lịch chiếu</span>
-          <span className="nav">Tin tức</span>
-          <span className="nav">Giá vé</span>
-          <span className="nav">Hỏi đáp</span>
-          <span>Liên hệ</span>
-        </div>
         <div className="icon-container">
           <span className="icon">
             <FacebookIcon />
           </span>
-          <span>
+          <span className="icon">
             <YouTubeIcon />
+          </span>
+          <span className="icon">
+            <InstagramIcon />
+          </span>
+          <span>
+            <XIcon />
           </span>
         </div>
         <div>

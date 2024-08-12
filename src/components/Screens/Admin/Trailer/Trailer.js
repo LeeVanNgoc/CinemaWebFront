@@ -175,8 +175,6 @@ export const Trailers = () => {
                       />
                       <ModalScreenTrailer
                         isOpen={openScreenTrailer}
-                        link={trailer.link}
-                        movieId={trailer.movieId}
                         handleOpen={() => handleOpenScreenTrailer(trailer)}
                         handleClose={handleCloseScreenTrailer}
                       />

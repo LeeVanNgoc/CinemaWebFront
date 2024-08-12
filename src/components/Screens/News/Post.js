@@ -5,12 +5,6 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import { useDispatch, useSelector } from "react-redux";
-import ModalScreenTrailer from "../Admin/Trailer/ModalScreenTrailer";
-import {
-  setSelectedTrailer,
-  clearSelectedTrailer,
-} from "../Admin/Trailer/redux/actions/trailerActions";
-import { handleGetTrailerByMovieId } from "../Admin/Trailer/config";
 
 const Img = styled("img")({
   margin: "auto",
@@ -22,38 +16,8 @@ const Img = styled("img")({
 export default function MovieDetail() {
   const dispatch = useDispatch();
 
-  const [trailer, setTrailer] = useState("");
+  const post = useSelector((state) => state.manageNews.selectedNews);
 
-  const [openScreenTrailer, setOpenScreenTrailer] = useState(false);
-
-  const handleOpenScreenTrailer = (trailer) => {
-    dispatch(setSelectedTrailer(trailer));
-    setOpenScreenTrailer(true);
-  };
-
-  const handleCloseScreenTrailer = () => {
-    setOpenScreenTrailer(false);
-    dispatch(clearSelectedTrailer());
-  };
-
-  const movie = useSelector((state) => state.manageMovies.selectedMovie);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchTrailer = await handleGetTrailerByMovieId(movie.movieId);
-        if (fetchTrailer && fetchTrailer.trailer) {
-          setTrailer(fetchTrailer.trailer[0]);
-        } else {
-          setTrailer("");
-        }
-      } catch (error) {
-        console.error("Error fetching trailer: ", error);
-      }
-    };
-
-    fetchData();
-  },);
   return (
     <Paper
       sx={{
@@ -66,16 +30,13 @@ export default function MovieDetail() {
         bgcolor: "transparent",
         boxShadow: "none",
         color: "white",
-
-        // backgroundColor: (theme) =>
-        //   theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
       }}
     >
       <Grid container spacing={4}>
         <Grid item>
           <Img
             alt="complex"
-            src={movie.image}
+            src={post.image}
             sx={{ borderRadius: "10px", height: "40vh" }}
           />
         </Grid>
@@ -89,7 +50,7 @@ export default function MovieDetail() {
                   component="div"
                   sx={{ fontWeight: "bold", marginBottom: "15px" }}
                 >
-                  {movie.title}
+                  {post.title}
                   <Chip
                     label="2D"
                     size="medium"
@@ -104,13 +65,7 @@ export default function MovieDetail() {
                 </Typography>
 
                 <Typography variant="body2" gutterBottom>
-                  Hài, Hoạt hình, Phiêu lưu - {movie.country} - {movie.duration}{" "}
-                  phút
-                  <br />
-                  Khởi chiếu: {movie.releaseDate}
-                  <br />
-                  <br />
-                  {movie.description}
+                  {post.description}
                 </Typography>
               </div>
 
@@ -118,13 +73,6 @@ export default function MovieDetail() {
                 <br />
                 Khuyến cáo: P - PHIM ĐƯỢC PHÉP PHỔ BIẾN ĐẾN NGƯỜI XEM Ở MỌI ĐỘ TUỔI.
               </Typography>
-              <div>
-                <ModalScreenTrailer
-                  isOpen={openScreenTrailer}
-                  handleOpen={() => handleOpenScreenTrailer(trailer)}
-                  handleClose={handleCloseScreenTrailer}
-                />
-              </div>
             </Grid>
           </Grid>
         </Grid>
