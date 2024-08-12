@@ -2,7 +2,7 @@ import axios from "../../../../axios";
 
 const handleGetListMovies = async () => {
   try {
-    const response = await axios.get("/api/movies/get-all-movies");
+    const response = await axios.get("/api/movie/get-all-movies");
     return response;
   } catch (error) {
     console.error("Error getting list of movies:", error);
@@ -16,25 +16,43 @@ const handleGetListMovies = async () => {
   }
 };
 
+const handleGetMovieById = async (movieId) => {
+  try {
+    const response = await axios.get("/api/movie/get-movie-by-id", {
+      params: { movieId: movieId },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error getting movie by id:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
 const handleAddMovie = async (
   title,
   description,
-  genreID,
   duration,
   country,
-  cast,
-  sTimeid,
+  releaseDate,
+  image,
+  genreId
 ) => {
   try {
-    const response = await axios.post("/api/movies/create-new-movie/", null, {
+    const response = await axios.post("/api/movie/create-new-movie/", null, {
       params: {
         title: title,
-        description:description,
-        genreID:genreID,
-        duration:duration,
+        description: description,
+        duration: duration,
         country: country,
-        cast: cast,
-        sTimeid: sTimeid,
+        releaseDate: releaseDate,
+        image: image,
+        genreId: genreId,
       },
     });
     return response;
@@ -52,24 +70,26 @@ const handleAddMovie = async (
 };
 
 const handleEditMovie = async (
+  movieId,
   title,
   description,
-  genreID,
   duration,
   country,
-  cast,
-  sTimeid,
+  releaseDate,
+  image,
+  genreId
 ) => {
   try {
-    const response = await axios.put("/api/movies/edit-movie/", null, {
+    const response = await axios.put("/api/movie/edit-movie/", null, {
       params: {
+        movieId: movieId,
         title: title,
-        description:description,
-        genreID:genreID,
-        duration:duration,
+        description: description,
+        duration: duration,
         country: country,
-        cast: cast,
-        sTimeid: sTimeid,
+        releaseDate: releaseDate,
+        image: image,
+        genreId: genreId,
       },
     });
     console.log(">>> edit movie res: ", response);
@@ -87,11 +107,11 @@ const handleEditMovie = async (
   }
 };
 
-const handleDeleteMovie = async (userId) => {
+const handleDeleteMovie = async (movieId) => {
   try {
-    const response = await axios.delete("/api/movies/delete-movie", {
+    const response = await axios.delete("/api/movie/delete-movie", {
       params: {
-        id: userId,
+        id: movieId,
       },
     });
     return response;
@@ -110,6 +130,7 @@ const handleDeleteMovie = async (userId) => {
 
 export {
   handleGetListMovies,
+  handleGetMovieById,
   handleAddMovie,
   handleEditMovie,
   handleDeleteMovie,

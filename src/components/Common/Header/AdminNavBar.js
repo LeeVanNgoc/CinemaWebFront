@@ -7,7 +7,7 @@ import { Users } from "../../Screens/Admin/Users/Users";
 import { Theaters } from "../../Screens/Admin/Theater/Theaters";
 import { Prices } from "../../Screens/Admin/Price/Price";
 import { Plans } from "../../Screens/Admin/PlanScreenMovie/Plans";
-import { Movie } from "../../Screens/Admin/Movie/Movie";
+import { Movies } from "../../Screens/Admin/Movies/Movies";
 import { Rooms } from "../../Screens/Admin/Room/Room";
 import { Trailers } from "../../Screens/Admin/Trailer/Trailer";
 import { Post } from "../../Screens/Admin/Post/Post";
@@ -29,35 +29,50 @@ export default function AdminNavBar() {
           <Tab value={9}>Khuyến mãi</Tab>
           <Tab value={10}>Vé ghế?</Tab>
         </TabsList>
+
         <TabPanel value={0}>
           <Users />
         </TabPanel>
+
         <TabPanel value={1}>
-          <Movie />
+          <Movies />
         </TabPanel>
+
         <TabPanel value={2}>
           <Tickets />
         </TabPanel>
+
         <TabPanel value={3}>
           <Theaters />
         </TabPanel>
+
         <TabPanel value={4}>
           <Prices />
         </TabPanel>
+
         <TabPanel value={5}>
+          <Prices />
+        </TabPanel>
+
+        <TabPanel value={6}>
           <Rooms />
         </TabPanel>
-        <TabPanel value={6}>
+
+        <TabPanel value={7}>
           <Trailers />
         </TabPanel>
-        <TabPanel value={7}>
+
+        <TabPanel value={8}>
           <Plans />
         </TabPanel>
-        <TabPanel value={8}>
+
+        <TabPanel value={9}>
           <Post />
         </TabPanel>
-        <TabPanel value={9}></TabPanel>
+
         <TabPanel value={10}></TabPanel>
+
+        <TabPanel value={11}></TabPanel>
       </Tabs>
     </div>
   );

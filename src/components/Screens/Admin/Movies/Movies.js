@@ -4,11 +4,11 @@ import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import { handleGetListMovies } from "./config";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setSelectedMovie,
   clearSelectedMovie,
+  getMovies,
 } from "./redux/actions/movieActions";
 import {
   Table,
@@ -30,7 +30,7 @@ import "./Movies.scss";
 
 export const Movies = () => {
   const dispatch = useDispatch();
-  const [Movies, setMovies] = useState([]);
+  const movies = useSelector((state) => state.manageMovies.movies);
   const loading = useSelector((state) => state.manageMovies.loading);
   const error = useSelector((state) => state.manageMovies.error);
 
@@ -46,8 +46,8 @@ export const Movies = () => {
   const handleOpenAddMovie = () => setOpenAddMovie(true);
   const handleCloseAddMovie = () => setOpenAddMovie(false);
 
-  const handleOpenEditMovie = (Movie) => {
-    dispatch(setSelectedMovie(Movie));
+  const handleOpenEditMovie = (movie) => {
+    dispatch(setSelectedMovie(movie));
     setOpenEditMovie(true);
   };
   const handleCloseEditMovie = () => {
@@ -55,8 +55,8 @@ export const Movies = () => {
     dispatch(clearSelectedMovie());
   };
 
-  const handleOpenDeleteMovie = (Movie) => {
-    dispatch(setSelectedMovie(Movie));
+  const handleOpenDeleteMovie = (movie) => {
+    dispatch(setSelectedMovie(movie));
     setOpenDeleteMovie(true);
   };
   const handleCloseDeleteMovie = () => {
@@ -69,7 +69,7 @@ export const Movies = () => {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Movies.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - movies.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -79,15 +79,12 @@ export const Movies = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  
-  const filteredMovies = Movies.filter((Movie) => {
+
+  const filteredMovies = movies.filter((movie) => {
     if (query === "") {
-      return Movie;
-    } else if (
-      (Movie.title &&
-        Movie.title.toLowerCase().includes(query.toLowerCase()))
-    ) {
-      return Movie;
+      return movies;
+    } else if (movie.title && movie.title.includes(query)) {
+      return movie;
     }
     return null;
   });
@@ -108,25 +105,7 @@ export const Movies = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      try {
-        let res = await handleGetListMovies();
-        console.log("res list Movies >>>", res);
-        if (res && res.Movies) {
-          const formattedData = res.Movies.map((item) => ({
-            movieId: item.movieId,
-            title: item.title,
-            description: item.description,
-            genreID: item.genreID,
-            duration: item.duration,
-            country: item.country,
-            cast: item.cast,
-            sTimeid: item.sTimeid,
-          }));
-          setMovies(formattedData);
-        }
-      } catch (error) {
-        console.error("Error fetching Movies:", error);
-      }
+      dispatch(getMovies());
     };
 
     fetchMovies();
@@ -170,7 +149,6 @@ export const Movies = () => {
                   ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell>Tên phim</TableCell>
               <TableCell>
                 <TableSortLabel
                   active={orderBy === "title"}
@@ -180,26 +158,35 @@ export const Movies = () => {
                   Tên
                 </TableSortLabel>
               </TableCell>
-              <TableCell>Tên phim</TableCell>
               <TableCell>Mô tả</TableCell>
-              <TableCell>Thể loại</TableCell>
               <TableCell>Thời lượng</TableCell>
+              <TableCell>Quốc Gia</TableCell>
+              <TableCell>Ngày Khởi Chiếu</TableCell>
+              <TableCell>Ảnh</TableCell>
+              <TableCell>Mã thể loại</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
             {stableSort(displayedMovies, getComparator(order, orderBy)).map(
-              (Movie, index) => (
+              (movie, index) => (
                 <TableRow key={index}>
-                  <TableCell>{Movie.movieId}</TableCell>
-                  <TableCell>{Movie.title}</TableCell>
-                  <TableCell>{Movie.description}</TableCell>
-                  <TableCell>{Movie.genreID}</TableCell>
-                  <TableCell>{Movie.duration}</TableCell>
-                  <TableCell>{Movie.country}</TableCell>
-                  <TableCell>{Movie.cast}</TableCell>
-                  <TableCell>{Movie.sTimeid}</TableCell>
+                  <TableCell>{movie.movieId}</TableCell>
+                  <TableCell>{movie.title}</TableCell>
+                  <TableCell>{movie.description}</TableCell>
+                  <TableCell>{movie.duration}</TableCell>
+                  <TableCell>{movie.country}</TableCell>
+                  <TableCell>{movie.releaseDate}</TableCell>
+                  <TableCell>
+                    <img
+                      src={movie.image}
+                      style={{ height: "6rem" }}
+                      alt={movie.title}
+                    />
+                  </TableCell>
+                  <TableCell>{movie.genreId}</TableCell>
+
                   <TableCell>
                     <div
                       style={{
@@ -210,12 +197,12 @@ export const Movies = () => {
                     >
                       <ModalEditMovie
                         isOpen={openEditMovie}
-                        handleOpen={() => handleOpenEditMovie(Movie)}
+                        handleOpen={() => handleOpenEditMovie(movie)}
                         handleClose={handleCloseEditMovie}
                       />
                       <ModalDeleteMovie
                         isOpen={openDeleteMovie}
-                        handleOpen={() => handleOpenDeleteMovie(Movie)}
+                        handleOpen={() => handleOpenDeleteMovie(movie)}
                         handleClose={handleCloseDeleteMovie}
                       />
                     </div>
@@ -236,7 +223,7 @@ export const Movies = () => {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={8}
-                count={Movies.length}
+                count={movies.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 slotProps={{

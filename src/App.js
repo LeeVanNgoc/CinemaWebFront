@@ -14,14 +14,17 @@ import Movies from "./components/Screens/Movies/Movies";
 import BookTicket from "./components/Screens/BookTicket/BookTicket";
 import { Manage } from "./components/Screens/Admin/Manage/Manage";
 import { handleRefreshRedux } from "./components/Common/SignIn/redux/actions/userAction";
-import { handleRefreshMovie } from "./components/Screens/Admin/Movie/redux/actions/movieActions";
+import { handleRefreshMovie } from "./components/Screens/Admin/Movies/redux/actions/movieActions";
 import FinalTicket from "./components/Screens/BookTicket/FinalTicket";
 import UserAccount from "./components/Screens/Account/UserAccount";
+import { setDate } from "./components/Screens/BookTicket/redux/actions/bookingAction";
+import AddSeats from "./components/Screens/Admin/Seat/AddSeats";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setDate(new Date().toISOString().slice(0, 10)));
     if (localStorage.getItem("email")) {
       dispatch(handleRefreshRedux());
     }
@@ -46,6 +49,7 @@ function App() {
               <Route path="/bookticket" element={<BookTicket />} />
               <Route path="/manage" element={<Manage />} />
               <Route path="/finalticket" element={<FinalTicket />} />
+              <Route path="/test" element={<AddSeats />} />
             </Routes>
             <Footer />
           </div>

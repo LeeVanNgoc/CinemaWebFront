@@ -27,6 +27,7 @@ export default function Signin({
 
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -103,6 +104,7 @@ export default function Signin({
               <Label>Mật khẩu</Label>
               <StyledInput
                 placeholder="Mật khẩu"
+                type={showPassword ? "text" : "password"}
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />
