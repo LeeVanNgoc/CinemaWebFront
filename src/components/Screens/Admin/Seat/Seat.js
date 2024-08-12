@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { handleGetSeats } from "./redux/actions/seatActions";
 import ModalAddSeat from "./ModalAddSeat";
 
-export const Seats = () => {
+export const Seats = (roomId) => {
   const dispatch = useDispatch();
 
   const seats = useSelector((state) => state.manageSeats.rows);

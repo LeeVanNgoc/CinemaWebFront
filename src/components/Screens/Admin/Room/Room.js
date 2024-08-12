@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import { TablePagination } from "@mui/base/TablePagination";
 import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
@@ -11,6 +12,7 @@ import {
   clearSelectedRoom,
 } from "./redux/actions/roomActions";
 import {
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -25,6 +27,8 @@ import {
 import { StyledInput, HelperText } from "./style";
 import ModalAddRoom from "./ModalAddRoom";
 import ModalEditRoom from "./ModalEditRoom";
+import ModalScreenSeat from "./ModalScreenSeats";
+import { border, display } from "@mui/system";
 
 export const Rooms = () => {
   const dispatch = useDispatch();
@@ -49,8 +53,25 @@ export const Rooms = () => {
     dispatch(clearSelectedRoom());
   };
 
+  const [openScreenSeat, setOpenScreenSeat] = useState(false);
+  const [selectedRoomId, setSelectedRoomId] = useState(null);
+
+  const handleOpenScreenSeat = (roomId) => {
+    if (roomId !== null) {
+      console.log("Check roomId form handle open screen seat : ", roomId);
+      if (selectedRoomId !== roomId) {
+        setSelectedRoomId(roomId);
+      }
+      setOpenScreenSeat(true);
+    }
+  };
+
+  const handleCloseScreenSeat = () => {
+    setOpenScreenSeat(false);
+  };
+
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -152,14 +173,49 @@ export const Rooms = () => {
                   <TableCell>{room.numberSeats}</TableCell>
                   <TableCell>{room.isAvailable ? 1 : 0}</TableCell>
                   <TableCell>
-                    <ModalEditRoom
-                      isOpen={openEditRoom}
-                      handleOpen={() => handleOpenEditRoom(room)}
-                      handleClose={handleCloseEditRoom}
-                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "10px",
+                      }}
+                    >
+                      <ModalEditRoom
+                        isOpen={openEditRoom}
+                        handleOpen={() => handleOpenEditRoom(room)}
+                        handleClose={handleCloseEditRoom}
+                      />
+                      <Button
+                        sx={{
+                          border: "1px solid",
+                          borderRadius: "20px",
+                          padding: "8px 16px",
+                          color: "white",
+                          fontWeight: "bold",
+                          height: "38px",
+                          textTransform: "uppercase",
+                          background: "#de2121",
+                          "&:hover": {
+                            background: "#de9999",
+                            transform: "scale(1.05)",
+                            // borderColor: "#c81010",
+                          },
+                        }}
+                        onClick={() => handleOpenScreenSeat(room.roomId)}
+                      >
+                        Xem chi tiết
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               )
+            )}
+            {openScreenSeat && (
+              <ModalScreenSeat
+                isOpen={openScreenSeat}
+                roomId={selectedRoomId}
+                handleClose={handleCloseScreenSeat}
+              />
             )}
             {emptyRows > 0 && (
               <TableRow style={{ height: 34 * emptyRows }}>
@@ -170,7 +226,7 @@ export const Rooms = () => {
           <TableFooter>
             <tr>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+                rowsPerPageOptions={[10, 20, 50, { label: "All", value: -1 }]}
                 colSpan={8}
                 count={rooms.length}
                 rowsPerPage={rowsPerPage}

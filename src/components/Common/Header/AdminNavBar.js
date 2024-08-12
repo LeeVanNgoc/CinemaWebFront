@@ -5,12 +5,12 @@ import "./AdminNavBar.scss";
 import { Tickets } from "../../Screens/Admin/Tickets/Tickets";
 import { Users } from "../../Screens/Admin/Users/Users";
 import { Theaters } from "../../Screens/Admin/Theater/Theaters";
-import { Seats } from "../../Screens/Admin/Seat/Seat";
 import { Prices } from "../../Screens/Admin/Price/Price";
 import { Plans } from "../../Screens/Admin/PlanScreenMovie/Plans";
 import { Movies } from "../../Screens/Admin/Movies/Movies";
 import { Rooms } from "../../Screens/Admin/Room/Room";
 import { Trailers } from "../../Screens/Admin/Trailer/Trailer";
+import { Post } from "../../Screens/Admin/Post/Post";
 
 export default function AdminNavBar() {
   return (
@@ -21,14 +21,13 @@ export default function AdminNavBar() {
           <Tab value={1}>Quản lý phim</Tab>
           <Tab value={2}>Quản lý vé</Tab>
           <Tab value={3}>Rạp chiếu</Tab>
-          <Tab value={4}>Quản lý ghế</Tab>
-          <Tab value={5}>Giá vé</Tab>
-          <Tab value={6}>Phòng</Tab>
-          <Tab value={7}>Trailer</Tab>
-          <Tab value={8}>Lịch chiếu</Tab>
-          <Tab value={9}>Tin tức</Tab>
-          <Tab value={10}>Khuyến mãi</Tab>
-          <Tab value={11}>Vé ghế?</Tab>
+          <Tab value={4}>Giá vé</Tab>
+          <Tab value={5}>Phòng</Tab>
+          <Tab value={6}>Trailer</Tab>
+          <Tab value={7}>Lịch chiếu</Tab>
+          <Tab value={8}>Tin tức</Tab>
+          <Tab value={9}>Khuyến mãi</Tab>
+          <Tab value={10}>Vé ghế?</Tab>
         </TabsList>
 
         <TabPanel value={0}>
@@ -48,7 +47,7 @@ export default function AdminNavBar() {
         </TabPanel>
 
         <TabPanel value={4}>
-          <Seats />
+          <Prices />
         </TabPanel>
 
         <TabPanel value={5}>
@@ -67,8 +66,12 @@ export default function AdminNavBar() {
           <Plans />
         </TabPanel>
 
-        <TabPanel value={9}></TabPanel>
+        <TabPanel value={9}>
+          <Post />
+        </TabPanel>
+
         <TabPanel value={10}></TabPanel>
+
         <TabPanel value={11}></TabPanel>
       </Tabs>
     </div>
