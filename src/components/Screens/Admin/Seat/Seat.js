@@ -4,7 +4,7 @@ import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import { handleGetListSeats } from "./config";
+import { handleGetSeatsInOneRoom } from "./config";
 import { useDispatch } from "react-redux";
 import {
   setSelectedSeat,
@@ -17,7 +17,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TableSortLabel,
   Paper,
   TableFooter,
   FormControl,
@@ -25,8 +24,9 @@ import {
 import { StyledInput, HelperText } from "./style";
 import ModalAddSeat from "./ModalAddSeat";
 import ModalEditSeat from "./ModalEditSeat";
+import ModalScreenSeat from "../Room/ModalScreenSeats";
 
-export const Seats = () => {
+export const Seats = (roomId) => {
   const dispatch = useDispatch();
   const [seats, setSeats] = useState([]);
   const [query, setQuery] = useState("");
@@ -40,6 +40,19 @@ export const Seats = () => {
   const handleOpenAddSeat = () => setOpenAddSeat(true);
   const handleCloseAddSeat = () => setOpenAddSeat(false);
 
+  // Open Screen seat map
+  const [openScreenSeat, setOpenScreenSeat] = useState(true);
+
+  const handleOpenScreenSeat = (seats) => {
+    if (seats !== null) {
+      setOpenScreenSeat(true);
+    }
+  };
+
+  const handleCloseScreenSeat = () => {
+    setOpenScreenSeat(false);
+  };
+
   const handleOpenEditSeat = (seat) => {
     dispatch(setSelectedSeat(seat));
     setOpenEditSeat(true);
@@ -50,7 +63,7 @@ export const Seats = () => {
   };
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(30);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -91,13 +104,15 @@ export const Seats = () => {
   useEffect(() => {
     const fetchSeats = async () => {
       try {
-        let res = await handleGetListSeats();
-        console.log("res list seats >>>", res);
+        const numberRoomId = roomId.roomId;
+        let res = await handleGetSeatsInOneRoom(numberRoomId);
+        console.log(res);
+        console.log("res list seats in room  >>>", res);
         if (res && res.seats) {
           const formattedData = res.seats.map((item) => ({
             seatId: item.seatId,
-            type: item.type,
             roomId: item.roomId,
+            type: item.type,
             row: item.row,
             col: item.col,
             isAvailable: item.isAvailable,
@@ -110,7 +125,7 @@ export const Seats = () => {
     };
 
     fetchSeats();
-  }, []);
+  });
 
   return (
     <div>
@@ -136,8 +151,8 @@ export const Seats = () => {
           <TableHead>
             <TableRow>
               <TableCell>Mã Ghế</TableCell>
-              <TableCell>Loại Ghế</TableCell>
               <TableCell>Mã Phòng</TableCell>
+              <TableCell>Loại Ghế</TableCell>
               <TableCell>Hàng</TableCell>
               <TableCell>Cột</TableCell>
               <TableCell>Trạng Thái</TableCell>
@@ -149,8 +164,8 @@ export const Seats = () => {
               (seat, index) => (
                 <TableRow key={index}>
                   <TableCell>{seat.seatId}</TableCell>
-                  <TableCell>{seat.type}</TableCell>
                   <TableCell>{seat.roomId}</TableCell>
+                  <TableCell>{seat.type}</TableCell>
                   <TableCell>{seat.row}</TableCell>
                   <TableCell>{seat.col}</TableCell>
                   <TableCell>{seat.isAvailable ? 1 : 0}</TableCell>
@@ -162,6 +177,11 @@ export const Seats = () => {
                       handleClose={handleCloseEditSeat}
                     />
                   </TableCell>
+                  <TableCell>
+                    <button onClick={() => handleOpenScreenSeat(seat)}>
+                      Xem chi tiết
+                    </button>
+                  </TableCell>
                 </TableRow>
               )
             )}
@@ -170,11 +190,19 @@ export const Seats = () => {
                 <TableCell colSpan={8} aria-hidden />
               </TableRow>
             )}
+
+            {openScreenSeat && (
+              <ModalScreenSeat
+                isOpen={openScreenSeat}
+                seats={seats}
+                handleClose={() => handleCloseScreenSeat()}
+              />
+            )}
           </TableBody>
           <TableFooter>
             <tr>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+                rowsPerPageOptions={[30, 60, 100, { label: "All", value: -1 }]}
                 colSpan={8}
                 count={seats.length}
                 rowsPerPage={rowsPerPage}

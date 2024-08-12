@@ -4,12 +4,12 @@ import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import { handleGetListTrailers } from "./config";
+import { handleGetListPosts } from "./config";
 import { useDispatch } from "react-redux";
 import {
-  setSelectedTrailer,
-  clearSelectedTrailer,
-} from "./redux/actions/trailerActions";
+  setSelectedPost,
+  clearSelectedPost,
+} from "./redux/actions/postActions";
 import {
   Table,
   TableBody,
@@ -23,53 +23,50 @@ import {
   FormControl,
 } from "@mui/material";
 import { StyledInput, HelperText } from "./style";
-import ModalAddTrailer from "./ModalAddTrailer";
-import ModalEditTrailer from "./ModalEditTrailer";
-import ModalScreenTrailer from "./ModalScreenTrailer";
+import ModalAddPost from "./ModalAddPost";
+import ModalEditPost from "./ModalEditPost";
+import ModalDeletePost from "./ModalDeletePost";
+import "./Post.scss";
 
-export const Trailers = () => {
+export const Post = () => {
   const dispatch = useDispatch();
-  const [trailers, setTrailers] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [query, setQuery] = useState("");
 
-  //Screen Trailer open modal
-  const [openScreenTrailer, setOpenScreenTrailer] = useState(false);
-  const handleOpenScreenTrailer = (trailer) => {
-    dispatch(setSelectedTrailer(trailer));
-    setOpenScreenTrailer(true);
-  };
-
-  const handleCloseScreenTrailer = () => {
-    setOpenScreenTrailer(false);
-    dispatch(clearSelectedTrailer());
-  };
-
-  // Open modal edit trailer
-  const [openEditTrailer, setOpenEditTrailer] = useState(false);
-
-  const handleOpenEditTrailer = (trailer) => {
-    dispatch(setSelectedTrailer(trailer));
-    setOpenEditTrailer(true);
-  };
-  const handleCloseEditTrailer = () => {
-    setOpenEditTrailer(false);
-    dispatch(clearSelectedTrailer());
-  };
-
-  // Open Modal add trailer
-  const [openAddTrailer, setOpenAddTrailer] = useState(false);
-  const handleOpenAddTrailer = () => setOpenAddTrailer(true);
-  const handleCloseAddTrailer = () => setOpenAddTrailer(false);
+  const [openAddPost, setOpenAddPost] = useState(false);
+  const [openEditPost, setOpenEditPost] = useState(false);
+  const [openDeletePost, setOpenDeletePost] = useState(false);
 
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("");
+  const [orderBy, setOrderBy] = useState("postsDate");
+
+  const handleOpenAddPost = () => setOpenAddPost(true);
+  const handleCloseAddPost = () => setOpenAddPost(false);
+
+  const handleOpenEditPost = (post) => {
+    dispatch(setSelectedPost(post));
+    setOpenEditPost(true);
+  };
+  const handleCloseEditPost = () => {
+    setOpenEditPost(false);
+    dispatch(clearSelectedPost());
+  };
+
+  const handleOpenDeletePost = (post) => {
+    dispatch(setSelectedPost(post));
+    setOpenDeletePost(true);
+  };
+  const handleCloseDeletePost = () => {
+    setOpenDeletePost(false);
+    dispatch(clearSelectedPost());
+  };
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - trailers.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - posts.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -80,22 +77,22 @@ export const Trailers = () => {
     setPage(0);
   };
 
-  const filteredTrailers = trailers.filter((trailer) => {
+  const filteredPosts = posts.filter((post) => {
     if (query === "") {
-      return trailers;
-    } else if (trailer.isAvailable && trailer.isAvailable.includes(query)) {
-      return trailer;
+      return posts;
+    } else if (post.type && post.type.includes(query)) {
+      return post;
     }
     return null;
   });
 
-  const displayedTrailers =
+  const displayedPosts =
     rowsPerPage > 0
-      ? filteredTrailers.slice(
+      ? filteredPosts.slice(
           page * rowsPerPage,
           page * rowsPerPage + rowsPerPage
         )
-      : filteredTrailers;
+      : filteredPosts;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -104,24 +101,26 @@ export const Trailers = () => {
   };
 
   useEffect(() => {
-    const fetchTrailers = async () => {
+    const fetchPosts = async () => {
       try {
-        let res = await handleGetListTrailers();
-        console.log("res list trailers >>>", res);
-        if (res && res.trailers) {
-          const formattedData = res.trailers.map((item) => ({
-            trailerId: item.trailerId,
-            movieId: item.movieId,
-            link: item.link,
+        let res = await handleGetListPosts();
+        console.log("res list posts >>>", res);
+        if (res && res.posts) {
+          const formattedData = res.posts.map((item) => ({
+            postsId: item.postsId,
+            cost: item.cost,
+            roomType: item.roomType,
+            seatType: item.seatType,
+            isWeekend: item.isWeekend,
           }));
-          setTrailers(formattedData);
+          setPosts(formattedData);
         }
       } catch (error) {
-        console.error("Error fetching trailers:", error);
+        console.error("Error fetching posts:", error);
       }
     };
 
-    fetchTrailers();
+    fetchPosts();
   }, []);
 
   return (
@@ -136,10 +135,10 @@ export const Trailers = () => {
             <HelperText />
           </FormControl>
         </span>
-        <ModalAddTrailer
-          isOpen={openAddTrailer}
-          handleOpen={handleOpenAddTrailer}
-          handleClose={handleCloseAddTrailer}
+        <ModalAddPost
+          isOpen={openAddPost}
+          handleOpen={handleOpenAddPost}
+          handleClose={handleCloseAddPost}
         />
       </div>
 
@@ -147,19 +146,24 @@ export const Trailers = () => {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>Mã Trailer</TableCell>
-              <TableCell>Mã Phim</TableCell>
+              <TableCell>Mã tin tức</TableCell>
+              <TableCell>Tên tin tức</TableCell>
+              <TableCell>Nội dung</TableCell>
+              <TableCell>Hình ảnh</TableCell>
               <TableCell>Đường dẫn</TableCell>
-              <TableCell>Hành động</TableCell>
+              <TableCell>Ngày đăng</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {stableSort(displayedTrailers, getComparator(order, orderBy)).map(
-              (trailer, index) => (
+            {stableSort(displayedPosts, getComparator(order, orderBy)).map(
+              (post, index) => (
                 <TableRow key={index}>
-                  <TableCell>{trailer.trailerId}</TableCell>
-                  <TableCell>{trailer.movieId}</TableCell>
-                  <TableCell>{trailer.link}</TableCell>
+                  <TableCell>{post.newCode}</TableCell>
+                  <TableCell>{post.title}</TableCell>
+                  <TableCell>{post.content}</TableCell>
+                  <TableCell>{post.image}</TableCell>
+                  <TableCell>{post.link}</TableCell>
+                  <TableCell>{post.postDate}</TableCell>
                   <TableCell>
                     <div
                       style={{
@@ -168,17 +172,15 @@ export const Trailers = () => {
                         gap: "10px",
                       }}
                     >
-                      <ModalEditTrailer
-                        isOpen={openEditTrailer}
-                        handleOpen={() => handleOpenEditTrailer(trailer)}
-                        handleClose={handleCloseEditTrailer}
+                      <ModalEditPost
+                        isOpen={openEditPost}
+                        handleOpen={() => handleOpenEditPost(post)}
+                        handleClose={handleCloseEditPost}
                       />
-                      <ModalScreenTrailer
-                        isOpen={openScreenTrailer}
-                        link={trailer.link}
-                        movieId={trailer.movieId}
-                        handleOpen={() => handleOpenScreenTrailer(trailer)}
-                        handleClose={handleCloseScreenTrailer}
+                      <ModalDeletePost
+                        isOpen={openDeletePost}
+                        handleOpen={() => handleOpenDeletePost(post)}
+                        handleClose={handleCloseDeletePost}
                       />
                     </div>
                   </TableCell>
@@ -194,9 +196,9 @@ export const Trailers = () => {
           <TableFooter>
             <tr>
               <TablePagination
-                rowsPerPageOptions={[10, 30, 50, { label: "All", value: -1 }]}
+                rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={8}
-                count={trailers.length}
+                count={posts.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 slotProps={{

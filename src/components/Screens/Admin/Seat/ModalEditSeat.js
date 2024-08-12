@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FormControl } from "@mui/base/FormControl";
-import Button from "@mui/material/Button";
+import { Button, Box } from "@mui/material/";
 import {
   TriggerButton,
   StyledInput,
@@ -69,56 +69,70 @@ export default function ModalEditSeat({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue={seat.seatId} aria-readonly>
-              <Label>Mã ghế</Label>
-              <StyledInput readOnly />
-              <HelperText />
-            </FormControl>
-
-            <FormControl fullWidth>
-              <InputLabel id="room-type-label" sx={{ marginTop: "20px" }}>
-                Loại ghế
-              </InputLabel>
-              <Select
-                labelId="room-type-label"
-                value={seat.type}
-                label="Loại ghế"
-                onChange={(event) => setType(event.target.value)}
-                sx={{ width: "210px", height: "50px" }}
+            <Box display="flex" alignItems="center" gap={2}>
+              <FormControl
+                defaultValue={seat.seatId}
+                aria-readonly
+                sx={{ marginRight: "20px" }}
               >
-                <MenuItem value="VIP">VIP</MenuItem>
-                <MenuItem value="Regular">Regular</MenuItem>
-                <MenuItem value="Double">Double</MenuItem>
-              </Select>
-            </FormControl>
+                <Label>Mã ghế</Label>
+                <StyledInput readOnly />
+                <HelperText />
+              </FormControl>
 
-            <FormControl defaultValue={seat.roomId} required sx={{ flex: 1 }}>
-              <Label>Mã phòng</Label>
-              <StyledInput onChange={(e) => setRoomId(e.target.value)} />
-              <HelperText />
-            </FormControl>
+              <FormControl
+                defaultValue={seat.isAvailable}
+                required
+                sx={{ flex: 1 }}
+              >
+                <Label>Trạng thái</Label>
+                <StyledInput onChange={(e) => setIsAvailable(e.target.value)} />
+                <HelperText />
+              </FormControl>
+            </Box>
 
-            <FormControl defaultValue={seat.row} required sx={{ flex: 1 }}>
-              <Label>Hàng</Label>
-              <StyledInput onChange={(e) => setRow(e.target.value)} />
-              <HelperText />
-            </FormControl>
+            <Box display="flex" alignItems="center" gap={2}>
+              <FormControl defaultValue={seat.roomId} required sx={{ flex: 1 }}>
+                <Label>Mã phòng</Label>
+                <StyledInput onChange={(e) => setRoomId(e.target.value)} />
+                <HelperText />
+              </FormControl>
 
-            <FormControl defaultValue={seat.col} required sx={{ flex: 1 }}>
-              <Label>Cột</Label>
-              <StyledInput onChange={(e) => setCol(e.target.value)} />
-              <HelperText />
-            </FormControl>
+              <FormControl sx={{ marginRight: "20px" }}>
+                <InputLabel id="room-type-label" sx={{ marginTop: "20px" }}>
+                  Loại ghế
+                </InputLabel>
+                <Select
+                  labelId="room-type-label"
+                  value={seat.type}
+                  label="Loại ghế"
+                  onChange={(event) => setType(event.target.value)}
+                  sx={{ width: "210px", height: "50px" }}
+                >
+                  <MenuItem value="VIP">VIP</MenuItem>
+                  <MenuItem value="Regular">Regular</MenuItem>
+                  <MenuItem value="Double">Double</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
 
-            <FormControl
-              defaultValue={seat.isAvailable}
-              required
-              sx={{ flex: 1 }}
-            >
-              <Label>Trạng thái</Label>
-              <StyledInput onChange={(e) => setIsAvailable(e.target.value)} />
-              <HelperText />
-            </FormControl>
+            <Box display="flex" alignItems="center" gap={2}>
+              <FormControl
+                defaultValue={seat.row}
+                required
+                sx={{ flex: 1, marginRight: "20px" }}
+              >
+                <Label>Hàng</Label>
+                <StyledInput onChange={(e) => setRow(e.target.value)} />
+                <HelperText />
+              </FormControl>
+
+              <FormControl defaultValue={seat.col} required sx={{ flex: 1 }}>
+                <Label>Cột</Label>
+                <StyledInput onChange={(e) => setCol(e.target.value)} />
+                <HelperText />
+              </FormControl>
+            </Box>
           </div>
 
           <Button

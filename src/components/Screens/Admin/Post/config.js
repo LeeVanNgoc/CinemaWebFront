@@ -1,11 +1,11 @@
 import axios from "../../../../axios";
 
-const handleGetListSeats = async () => {
+const handleGetListPosts = async () => {
   try {
-    const response = await axios.get("/api/seats/get-seats");
+    const response = await axios.get("/api/news/get-all-news");
     return response;
   } catch (error) {
-    console.error("Error getting list of seats:", error);
+    console.error("Error getting list of posts:", error);
     if (error.response) {
       return { error: error.response.data.message };
     } else if (error.request) {
@@ -16,16 +16,16 @@ const handleGetListSeats = async () => {
   }
 };
 
-const handleGetSeatById = async (seatId) => {
+const handleGetPostByCode = async (postCode) => {
   try {
-    const response = await axios.get("/api/seats/get-seat-by-id", null, {
+    const response = await axios.get("/api/news/get-news-by-code", null, {
       params: {
-        seatId: seatId,
+        postCode: postCode,
       },
     });
     return response;
   } catch (error) {
-    console.error("Error getting seat by ID:", error);
+    console.error("Error getting post by id:", error);
     if (error.response) {
       return { error: error.response.data.message };
     } else if (error.request) {
@@ -36,42 +36,20 @@ const handleGetSeatById = async (seatId) => {
   }
 };
 
-const handleGetSeatsInOneRoom = async (roomId) => {
-  console.log("Check room Id from config: ", roomId);
-
+const handleCreatePost = async (title, content, image, link) => {
   try {
-    const response = await axios.get("/api/seats/get-seats-in-one-room", {
+    const response = await axios.post("/api/news/create-new-news/", null, {
       params: {
-        roomId: roomId,
+        title: title,
+        content: content,
+        image: image,
+        link: link,
       },
     });
+    alert(response.message);
     return response;
   } catch (error) {
-    console.error("Error getting seat by ID:", error);
-    if (error.response) {
-      return { error: error.response.data.message };
-    } else if (error.request) {
-      return { error: "No response from server" };
-    } else {
-      return { error: "Error setting up request" };
-    }
-  }
-};
-
-const handleCreateSeat = async (type, roomId, row, col, isAvailable) => {
-  try {
-    const response = await axios.post("/api/seats/create-seat/", null, {
-      params: {
-        type: type,
-        roomId: roomId,
-        row: row,
-        col: col,
-        isAvailable: isAvailable,
-      },
-    });
-    return response;
-  } catch (error) {
-    console.error("Error creating seat:", error);
+    console.error("Error creating post:", error);
     if (error.response) {
       console.error("Response data:", error.response.data);
       return { error: error.response.data.message };
@@ -83,22 +61,44 @@ const handleCreateSeat = async (type, roomId, row, col, isAvailable) => {
   }
 };
 
-const handleEditSeat = async (seatId, type, roomId, row, col, isAvailable) => {
+const handleEditPost = async (postId, title, content, image, link) => {
   try {
-    const response = await axios.put("/api/seats/edit-seat/", null, {
+    const response = await axios.put("/api/news/edit-news/", null, {
       params: {
-        seatId: seatId,
-        type: type,
-        roomId: roomId,
-        row: row,
-        col: col,
-        isAvailable: isAvailable,
+        postId: postId,
+        title: title,
+        content: content,
+        image: image,
+        link: link,
       },
     });
-    console.log(">>> edit seat res: ", response);
+    console.log(">>> edit post res: ", response);
+    alert(response.message);
     return response;
   } catch (error) {
-    console.error("Error editing seat:", error);
+    console.error("Error editing post:", error);
+    if (error.response) {
+      console.error("Response data:", error.response.data);
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
+const handleDeletePost = async (postCode) => {
+  try {
+    const response = await axios.delete("/api/news/delete-news", {
+      params: {
+        postCode: postCode,
+      },
+    });
+    alert(response.message);
+    return response;
+  } catch (error) {
+    console.error("Error deleting post:", error);
     if (error.response) {
       console.error("Response data:", error.response.data);
       return { error: error.response.data.message };
@@ -111,9 +111,9 @@ const handleEditSeat = async (seatId, type, roomId, row, col, isAvailable) => {
 };
 
 export {
-  handleGetListSeats,
-  handleGetSeatById,
-  handleCreateSeat,
-  handleEditSeat,
-  handleGetSeatsInOneRoom,
+  handleGetListPosts,
+  handleGetPostByCode,
+  handleCreatePost,
+  handleEditPost,
+  handleDeletePost,
 };

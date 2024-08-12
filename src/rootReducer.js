@@ -12,6 +12,7 @@ import priceReducer from "./components/Screens/Admin/Price/redux/reducers/priceR
 import movieReducer from "./components/Screens/Admin/Movie/redux/reducers/movieReducer";
 import roomReducer from "./components/Screens/Admin/Room/redux/reducers/roomReducer";
 import trailerReducer from "./components/Screens/Admin/Trailer/redux/reducers/trailerReducer";
+import postReducer from "./components/Screens/Admin/Post/redux/reducers/postReducer";
 
 const rootReducer = combineReducers({
   userCreateReducer,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   manageMovies: movieReducer,
   manageRooms: roomReducer,
   manageTrailers: trailerReducer,
+  managePosts: postReducer,
 });
 
 export default rootReducer;
