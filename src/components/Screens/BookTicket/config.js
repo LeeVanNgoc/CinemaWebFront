@@ -23,7 +23,7 @@ import axios from "../../../axios";
 // };
 
 // Trả về list các giờ chiếu từ mã phim và ngày chiếu
-export const handleGetStartTime = async (dateScreen, movieId) => {
+export const handleGetStartTimeAndRoom = async (dateScreen, movieId) => {
   try {
     const response = await axios.get("/api/plan-screen-movie/get-start-time/", {
       params: {
@@ -122,6 +122,77 @@ export const handleCreateTicket = async (
     console.error("Error creating ticket:", error);
     if (error.response) {
       console.error("Response data:", error.response.data);
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
+export const handleGetRoomById = async (roomId) => {
+  try {
+    const response = await axios.get("/api/room/get-room-by-id", {
+      params: {
+        roomId: roomId,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error getting room by ID:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
+// Create Booked Seats
+export const handleCreateBookedSeats = async (ticketId) => {
+  try {
+    const response = await axios.post(
+      "/api/bookedSeat/create-booked-seat/",
+      null,
+      {
+        params: {
+          ticketId: ticketId,
+        },
+      }
+    );
+    alert(response.message);
+    return response;
+  } catch (error) {
+    console.error("Error creating booked seats:", error);
+    if (error.response) {
+      console.error("Response data:", error.response.data);
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
+// Trả về các ghế đã được đặt
+export const handleGetBookedSeats = async (planScreenMovieId) => {
+  try {
+    const response = await axios.get(
+      "/api/bookedSeat/get-row-and-col-of-booked-seat/",
+      {
+        params: {
+          planScreenMovieId: planScreenMovieId,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error getting booked seats:", error);
+    if (error.response) {
       return { error: error.response.data.message };
     } else if (error.request) {
       return { error: "No response from server" };

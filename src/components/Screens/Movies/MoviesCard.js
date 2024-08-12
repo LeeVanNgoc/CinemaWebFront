@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectedMovie } from "../Admin/Movie/redux/actions/movieActions";
+import { setSelectedMovie } from "../Admin/Movies/redux/actions/movieActions";
 import { getPlanTime } from "../BookTicket/redux/actions/bookingAction";
 import {
   Card,
@@ -17,7 +17,7 @@ const MoviesCard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const movies = useSelector((state) => state.manageMovies.movies.movies);
+  const movies = useSelector((state) => state.manageMovies.movies);
   const dateScreen = useSelector((state) => state.userBookTicket.date);
 
   const handleClick = (movie) => {

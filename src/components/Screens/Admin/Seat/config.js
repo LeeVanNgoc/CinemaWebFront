@@ -61,6 +61,27 @@ const handleCreateSeat = async (type, roomId, row, col, isAvailable) => {
   }
 };
 
+const handleAddMultipleSeats = async (data) => {
+  try {
+    const response = await axios.post("/api/seats/create-multiple-seat", {
+      rows: data,
+    });
+    alert(response.message);
+    console.log("Create seats: ", response);
+    return response;
+  } catch (error) {
+    console.error("Error creating seats:", error);
+    if (error.response) {
+      console.error("Response data:", error.response.data);
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
 const handleEditSeat = async (seatId, type, roomId, row, col, isAvailable) => {
   try {
     const response = await axios.put("/api/seats/edit-seat/", null, {
@@ -92,5 +113,6 @@ export {
   handleGetListSeats,
   handleGetSeatById,
   handleCreateSeat,
+  handleAddMultipleSeats,
   handleEditSeat,
 };

@@ -1,14 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSelectedSeat } from "./redux/actions/bookingAction";
 
 import "./scss/SeatMap.scss";
+import { handleGetBookedSeats } from "./config";
 
 const Seat = ({ seatNumber, seatID, isSelected, rowIndex }) => {
   const dispatch = useDispatch();
 
+  const planId = useSelector((state) => state.userBookTicket.selectedPlan);
+
   const [isOccupied, setIsOccupied] = useState(false);
+  const [bookedSeats, setBookedSeats] = useState([]);
+
+  // useEffect(async () => {
+  //   try {
+  //     const res = await handleGetBookedSeats(planId);
+  //     console.log("fetch booked seats: ", res);
+  //     if (res && res.errCode === 0) {
+  //       setBookedSeats(res.rowAndCol);
+  //     } else {
+  //       console.log("ERROR: ", res.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("Lỗi khi gọi API:", error);
+  //   }
+  // }, []);
 
   const handleClick = () => {
     if (!isOccupied) {

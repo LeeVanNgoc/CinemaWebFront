@@ -7,13 +7,13 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectedMovie } from "../Admin/Movie/redux/actions/movieActions";
+import { setSelectedMovie } from "../Admin/Movies/redux/actions/movieActions";
 import { getPlanTime } from "../BookTicket/redux/actions/bookingAction";
 import "./MovieCard.scss";
 
 export default function MovieCard() {
   const dispatch = useDispatch();
-  const movies = useSelector((state) => state.manageMovies.movies.movies);
+  const movies = useSelector((state) => state.manageMovies.movies);
   // const dateScreen = new Date().toISOString().slice(0, 10);
   const dateScreen = useSelector((state) => state.userBookTicket.date);
   const navigate = useNavigate();

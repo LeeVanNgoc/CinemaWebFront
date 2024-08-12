@@ -1,21 +1,23 @@
 import {
   GET_SELECTED_PLAN,
   SET_SELECTED_SEAT,
-  CLEAR_SELECTED_SEATS,
+  CLEAR_SELECTED_SEATS_AND_TIME,
   SET_DATE,
   SET_TIME,
   SET_ROOM,
   SET_TOTAL_BILL,
-  GET_PLAN_TIMES,
+  GET_PLAN_TIMES_AND_ROOM,
+  SET_BANK,
 } from "../actions/bookingAction";
 
 const initialState = {
   selectedSeats: { seat: [], pricePerSeat: [] },
-  planTimes: [],
+  planScreens: [],
   selectedPlan: "",
   date: new Date().toISOString().slice(0, 10),
   time: "",
   room: "",
+  bank: "",
   totalBill: 0,
 };
 
@@ -47,13 +49,14 @@ const bookingReducer = (state = initialState, action) => {
           },
         };
       }
-    case CLEAR_SELECTED_SEATS:
+    case CLEAR_SELECTED_SEATS_AND_TIME:
       return {
         ...state,
         selectedSeats: {
           seat: [],
           pricePerSeat: [],
         },
+        time: "",
       };
 
     case GET_SELECTED_PLAN:
@@ -62,10 +65,10 @@ const bookingReducer = (state = initialState, action) => {
         selectedPlan: action.payload.formattedData,
       };
 
-    case GET_PLAN_TIMES:
+    case GET_PLAN_TIMES_AND_ROOM:
       return {
         ...state,
-        planTimes: action.payload.formattedData,
+        planScreens: action.payload.formattedData,
       };
 
     case SET_DATE:
@@ -81,7 +84,12 @@ const bookingReducer = (state = initialState, action) => {
     case SET_ROOM:
       return {
         ...state,
-        room: action.payload,
+        room: action.payload.room,
+      };
+    case SET_BANK:
+      return {
+        ...state,
+        bank: action.payload.bank,
       };
     case SET_TOTAL_BILL:
       return {

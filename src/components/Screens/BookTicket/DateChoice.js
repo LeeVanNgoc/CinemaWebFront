@@ -6,7 +6,7 @@ import TabPanel from "@mui/joy/TabPanel";
 import TimeChoice from "./TimeChoice";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  clearSelectedSeats,
+  clearSelectedSeatsAndTime,
   setDate,
   getPlanTime,
 } from "./redux/actions/bookingAction";
@@ -27,7 +27,7 @@ export default function DateChoice() {
   const nextTomorrow = getNextDay(tomorrow);
 
   const handleClearSelectedSeats = () => {
-    dispatch(clearSelectedSeats());
+    dispatch(clearSelectedSeatsAndTime());
   };
 
   const handlesetDate = (date) => {

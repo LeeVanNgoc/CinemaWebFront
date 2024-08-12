@@ -2,7 +2,7 @@ import React from "react";
 import "./scss/SeatMap.scss";
 import Row from "./Row";
 
-const SeatMap = () => {
+const SeatMap = (rows, seatsPerRow) => {
   const renderRows = () => {
     const rowLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
     return Array.from({ length: `${localStorage.getItem("totalRow")}` }).map(

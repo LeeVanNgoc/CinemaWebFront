@@ -1,16 +1,18 @@
 import {
   handleGetPlanId,
-  handleGetStartTime,
+  handleGetStartTimeAndRoom,
   handleGetCost,
+  handleGetBookedSeats,
 } from "../../config";
 export const GET_SELECTED_PLAN = "GET_SELECTED_PLAN";
 export const SET_SELECTED_SEAT = "SET_SELECTED_SEAT";
-export const CLEAR_SELECTED_SEATS = "CLEAR_SELECTED_SEATS";
+export const CLEAR_SELECTED_SEATS_AND_TIME = "CLEAR_SELECTED_SEATS_AND_TIME";
 export const SET_DATE = "SET_DATE";
 export const SET_TIME = "SET_TIME";
 export const SET_ROOM = "SET_ROOM";
+export const SET_BANK = "SET_BANK";
 export const SET_TOTAL_BILL = "SET_TOTAL_BILL";
-export const GET_PLAN_TIMES = "GET_PLAN_TIMES";
+export const GET_PLAN_TIMES_AND_ROOM = "GET_PLAN_TIMES_AND_ROOM";
 
 export const getPlanIdForCreateTicket = (
   roomId,
@@ -40,12 +42,15 @@ export const getPlanIdForCreateTicket = (
 export const getPlanTime = (dateScreen, movieId) => {
   return async (dispatch, getState) => {
     try {
-      const resTimes = await handleGetStartTime(dateScreen, movieId);
+      const resTimes = await handleGetStartTimeAndRoom(dateScreen, movieId);
       console.log("resTime: ", resTimes);
       if (resTimes && resTimes.errCode === 0) {
-        const formattedData = resTimes.startTimes;
+        const formattedData = resTimes.planScreens.map((item) => ({
+          roomId: item.roomId,
+          startTime: item.startTime,
+        }));
         dispatch({
-          type: "GET_PLAN_TIMES",
+          type: "GET_PLAN_TIMES_AND_ROOM",
           payload: { formattedData },
         });
       } else {
@@ -114,13 +119,18 @@ export const setSelectedSeat = (seat, roomType, seatType, isWeekend) => {
   };
 };
 
-export const clearSelectedSeats = () => ({
-  type: CLEAR_SELECTED_SEATS,
+export const clearSelectedSeatsAndTime = () => ({
+  type: CLEAR_SELECTED_SEATS_AND_TIME,
 });
 
 export const setDate = (date) => ({
   type: SET_DATE,
   payload: { date },
+});
+
+export const setBank = (bank) => ({
+  type: SET_BANK,
+  payload: { bank },
 });
 
 export const setTime = (time) => ({

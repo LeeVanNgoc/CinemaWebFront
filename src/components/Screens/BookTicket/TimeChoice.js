@@ -5,8 +5,9 @@ import SeatMap from "./SeatMap";
 import Legend from "./Legend";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  clearSelectedSeats,
+  clearSelectedSeatsAndTime,
   setTime,
+  setRoom,
   getPlanIdForCreateTicket,
   setTotalBill,
 } from "./redux/actions/bookingAction";
@@ -30,7 +31,7 @@ export default function TimeChoice() {
   const seletedDate = useSelector((state) => state.userBookTicket.date);
   const selectedTime = useSelector((state) => state.userBookTicket.time);
 
-  const times = useSelector((state) => state.userBookTicket.planTimes);
+  const planScreens = useSelector((state) => state.userBookTicket.planScreens);
 
   const selectedSeats = useSelector((state) =>
     state.userBookTicket.selectedSeats.seat.map((item) => item)
@@ -48,6 +49,16 @@ export default function TimeChoice() {
   }, [dispatch, totalAmount]);
 
   const releasedTime = useSelector((state) => state.userBookTicket.time);
+  const room = useSelector((state) => state.userBookTicket.room);
+
+  const getRoom = (releasedTime) => {
+    for (let i = 0; i < planScreens.length; i++) {
+      if (planScreens[i].startTime === releasedTime) {
+        dispatch(setRoom(planScreens[i].roomId));
+        break;
+      }
+    }
+  };
 
   const goToFinalTicket = (roomId, movieId, startTime, dateScreen) => {
     dispatch(getPlanIdForCreateTicket(roomId, movieId, startTime, dateScreen));
@@ -55,20 +66,21 @@ export default function TimeChoice() {
   };
 
   const goBack = () => {
-    dispatch(clearSelectedSeats());
+    dispatch(clearSelectedSeatsAndTime());
     toggleVisibility();
   };
 
   const handlesetTime = (time) => {
-    dispatch(clearSelectedSeats());
+    dispatch(clearSelectedSeatsAndTime());
     dispatch(setTime(time));
+    getRoom(time);
     toggleVisibility();
   };
 
   const toggleVisibility = () => {
     setIsVisibleTime(!isVisibleTime);
     setIsVisibleSeat(!isVisibleSeat);
-    // dispatch(clearSelectedSeats());
+    // dispatch(clearSelectedSeatsAndTime());
   };
 
   return (
@@ -84,16 +96,16 @@ export default function TimeChoice() {
             justifyContent: "center",
           }}
         >
-          {times &&
-            times.map((time, index) => (
+          {planScreens &&
+            planScreens.map((plan, index) => (
               <Button
                 key={index}
                 variant="contained"
                 size="small"
                 sx={{ bgcolor: "grey.700", width: "60px" }}
-                onClick={() => handlesetTime(time)}
+                onClick={() => handlesetTime(plan.startTime)}
               >
-                {time}
+                {plan.startTime}
               </Button>
             ))}
         </Box>
@@ -102,15 +114,15 @@ export default function TimeChoice() {
       {isVisibleSeat && (
         <div>
           <div className="flex justify-between">
-            <p>Giờ chiếu: {releasedTime.time}</p>
-            <CountdownTimer initialTime={10} onTimeUp={toggleVisibility} />
+            <p>Giờ chiếu: {releasedTime}</p>
+            <CountdownTimer initialTime={100} onTimeUp={toggleVisibility} />
           </div>
 
           <img
             src="https://chieuphimquocgia.com.vn/_next/image?url=%2Fimages%2Fscreen.png&w=1920&q=75"
             alt="yellow-screen"
           />
-          <p>Phòng chiếu số</p>
+          <p>Phòng chiếu số {room}</p>
           <div className="seatmap-container">
             <SeatMap
               rows={`${localStorage.getItem("totalRow")}`}
