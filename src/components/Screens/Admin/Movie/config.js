@@ -1,6 +1,6 @@
 import axios from "../../../../axios";
 
-const handleGetListMovies = async () => {
+export const handleGetListMovies = async () => {
   try {
     const response = await axios.get("/api/movie/get-all-movies");
     return response;
@@ -16,7 +16,7 @@ const handleGetListMovies = async () => {
   }
 };
 
-const handleGetMovieById = async (movieId) => {
+export const handleGetMovieById = async (movieId) => {
   try {
     const response = await axios.get("/api/movie/get-movie-by-id", {
       params: { movieId: movieId },
@@ -34,32 +34,24 @@ const handleGetMovieById = async (movieId) => {
   }
 };
 
-const handleAddMovie = async (
-  title,
-  description,
-  duration,
-  country,
-  releaseDate,
-  image,
-  genreId
-) => {
+export const handleCreateMovie = async (title, description, releaseDate, duration, country, genreId, image) => {
   try {
-    const response = await axios.post("/api/movie/create-new-movie/", null, {
+    const response = await axios.post("/api/movie/create-new-movie", null, {
       params: {
-        title: title,
+        title: title, 
         description: description,
-        duration: duration,
+        releaseDate: releaseDate, 
+        duration: duration, 
         country: country,
-        releaseDate: releaseDate,
-        image: image,
-        genreId: genreId,
-      },
+        genreID: genreId,
+        image: image
+      }
     });
+    alert(response.message);
     return response;
   } catch (error) {
     console.error("Error adding movie:", error);
     if (error.response) {
-      console.error("Response data:", error.response.data);
       return { error: error.response.data.message };
     } else if (error.request) {
       return { error: "No response from server" };
@@ -67,37 +59,44 @@ const handleAddMovie = async (
       return { error: "Error setting up request" };
     }
   }
-};
+}
 
-const handleEditMovie = async (
-  movieId,
-  title,
-  description,
-  duration,
-  country,
-  releaseDate,
-  image,
-  genreId
-) => {
+export const handleDeleteMovie = async (movieId) => {
   try {
-    const response = await axios.put("/api/movie/edit-movie/", null, {
+    const response = await axios.delete(`/api/movie/delete-movie`, {
+      params: { movieId: movieId },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error deleting movie:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+}
+
+export const handleEditMovie = async (movieId, title, description, duration, country, genreId, releaseDate, image) => {
+  try {
+    const response = await axios.put(`/api/movie/edit-movie`, null, {
       params: {
         movieId: movieId,
         title: title,
         description: description,
         duration: duration,
         country: country,
+        genreId: genreId,
         releaseDate: releaseDate,
         image: image,
-        genreId: genreId,
       },
     });
-    console.log(">>> edit movie res: ", response);
     return response;
   } catch (error) {
     console.error("Error editing movie:", error);
     if (error.response) {
-      console.error("Response data:", error.response.data);
       return { error: error.response.data.message };
     } else if (error.request) {
       return { error: "No response from server" };
@@ -105,33 +104,4 @@ const handleEditMovie = async (
       return { error: "Error setting up request" };
     }
   }
-};
-
-const handleDeleteMovie = async (movieId) => {
-  try {
-    const response = await axios.delete("/api/movie/delete-movie", {
-      params: {
-        id: movieId,
-      },
-    });
-    return response;
-  } catch (error) {
-    console.error("Error deleting movie:", error);
-    if (error.response) {
-      console.error("Response data:", error.response.data);
-      return { error: error.response.data.message };
-    } else if (error.request) {
-      return { error: "No response from server" };
-    } else {
-      return { error: "Error setting up request" };
-    }
-  }
-};
-
-export {
-  handleGetListMovies,
-  handleGetMovieById,
-  handleAddMovie,
-  handleEditMovie,
-  handleDeleteMovie,
-};
+}

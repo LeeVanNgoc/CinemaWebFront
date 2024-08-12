@@ -5,6 +5,9 @@ import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import { useDispatch, useSelector } from "react-redux";
+import { ModalAddMovie } from "./ModalAddMovie";
+import { ModalEditMovie } from "./ModalEditMovie";
+import { ModalDeleteMovie } from "./ModalDeleteMovie";
 import {
   setSelectedMovie,
   clearSelectedMovie,
@@ -23,14 +26,10 @@ import {
   FormControl,
 } from "@mui/material";
 import { StyledInput, HelperText } from "./style";
-import ModalAddMovie from "./ModalAddMovie";
-import ModalEditMovie from "./ModalEditMovie";
-import ModalDeleteMovie from "./ModalDeleteMovie";
-import "./Movies.scss";
 
-export const Movies = () => {
+export const Movie = () => {
   const dispatch = useDispatch();
-  const movies = useSelector((state) => state.manageMovies.movies);
+  const movies = useSelector((state) => state.manageMovies.movies.movies || []);
   const loading = useSelector((state) => state.manageMovies.loading);
   const error = useSelector((state) => state.manageMovies.error);
 
@@ -41,7 +40,7 @@ export const Movies = () => {
   const [openDeleteMovie, setOpenDeleteMovie] = useState(false);
 
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("movieId");
+  const [orderBy, setOrderBy] = useState("moviesDate");
 
   const handleOpenAddMovie = () => setOpenAddMovie(true);
   const handleCloseAddMovie = () => setOpenAddMovie(false);
@@ -123,51 +122,31 @@ export const Movies = () => {
             <HelperText />
           </FormControl>
         </span>
-        <ModalAddMovie
+        {<ModalAddMovie
           isOpen={openAddMovie}
           handleOpen={handleOpenAddMovie}
           handleClose={handleCloseAddMovie}
-        />
+        />}
       </div>
 
       {loading && <div>Loading...</div>}
       {error && <div>Error: {error}</div>}
 
-      <TableContainer
-        component={Paper}
-        sx={{ maxHeight: "fit-content", overflow: "auto" }}
-      >
-        <Table stickyHeader aria-label="sticky table">
+      <TableContainer component={Paper} sx={{ maxHeight: "fit-content" }}>
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>
-                <TableSortLabel
-                  active={orderBy === "movieId"}
-                  direction={orderBy === "movieId" ? order : "asc"}
-                  onClick={(event) => handleRequestSort(event, "movieId")}
-                >
-                  ID
-                </TableSortLabel>
-              </TableCell>
-              <TableCell>
-                <TableSortLabel
-                  active={orderBy === "title"}
-                  direction={orderBy === "title" ? order : "asc"}
-                  onClick={(event) => handleRequestSort(event, "title")}
-                >
-                  Tên
-                </TableSortLabel>
-              </TableCell>
-              <TableCell>Mô tả</TableCell>
-              <TableCell>Thời lượng</TableCell>
+              <TableCell>Mã Phim</TableCell>
+              <TableCell>Tên Phim</TableCell>
+              <TableCell>Mô Tả</TableCell>
+              <TableCell>Thời Lượng</TableCell>
               <TableCell>Quốc Gia</TableCell>
               <TableCell>Ngày Khởi Chiếu</TableCell>
               <TableCell>Ảnh</TableCell>
-              <TableCell>Mã thể loại</TableCell>
+              <TableCell>Mã Thể Loại</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
-
           <TableBody>
             {stableSort(displayedMovies, getComparator(order, orderBy)).map(
               (movie, index) => (
@@ -195,29 +174,27 @@ export const Movies = () => {
                         gap: "10px",
                       }}
                     >
-                      <ModalEditMovie
+                      {<ModalEditMovie
                         isOpen={openEditMovie}
                         handleOpen={() => handleOpenEditMovie(movie)}
                         handleClose={handleCloseEditMovie}
-                      />
-                      <ModalDeleteMovie
+                      />}
+                      {<ModalDeleteMovie
                         isOpen={openDeleteMovie}
                         handleOpen={() => handleOpenDeleteMovie(movie)}
                         handleClose={handleCloseDeleteMovie}
-                      />
+                      />}
                     </div>
                   </TableCell>
                 </TableRow>
               )
             )}
-
             {emptyRows > 0 && (
               <TableRow style={{ height: 34 * emptyRows }}>
                 <TableCell colSpan={8} aria-hidden />
               </TableRow>
             )}
           </TableBody>
-
           <TableFooter>
             <tr>
               <TablePagination

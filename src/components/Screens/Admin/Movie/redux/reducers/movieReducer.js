@@ -1,6 +1,7 @@
 import {
   SET_SELECTED_MOVIE,
   CLEAR_SELECTED_MOVIE,
+  GET_MOVIES,
   GET_MOVIES_SUCCESS,
   MOVIE_REFRESH,
 } from "../actions/movieActions";
@@ -12,12 +13,12 @@ const initialState = {
   error: null,
 };
 
-const movieReducerAdmin = (state = initialState, action) => {
+const movieReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_MOVIES_SUCCESS:
       return {
         ...state,
-        movies: action.payload.formattedData,
+        movies: action.payload,
       };
     case SET_SELECTED_MOVIE:
       return {
@@ -39,4 +40,4 @@ const movieReducerAdmin = (state = initialState, action) => {
   }
 };
 
-export default movieReducerAdmin;
+export default movieReducer;
