@@ -11,7 +11,9 @@ import {
 } from "../actions/bookingAction";
 
 const initialState = {
-  selectedSeats: { seat: [], pricePerSeat: [] },
+  // selectedSeats: { seat: [], pricePerSeat: [] },
+  seat: [],
+  pricePerSeat: [],
   planScreens: [],
   selectedPlan: "",
   date: new Date().toISOString().slice(0, 10),
@@ -24,45 +26,35 @@ const initialState = {
 const bookingReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_SELECTED_SEAT:
-      const seatIndex = state.selectedSeats.seat.indexOf(action.payload.seat);
+      const seatIndex = state.seat.indexOf(action.payload.seat);
       if (seatIndex !== -1) {
         return {
           ...state,
-          selectedSeats: {
-            seat: state.selectedSeats.seat.filter(
-              (s) => s !== action.payload.seat
-            ),
-            pricePerSeat: state.selectedSeats.pricePerSeat.filter(
-              (_, index) => index !== seatIndex
-            ),
-          },
+          seat: state.seat.filter((s) => s !== action.payload.seat),
+          pricePerSeat: state.pricePerSeat.filter(
+            (_, index) => index !== seatIndex
+          ),
         };
       } else {
         return {
           ...state,
-          selectedSeats: {
-            seat: [...state.selectedSeats.seat, action.payload.seat],
-            pricePerSeat: [
-              ...state.selectedSeats.pricePerSeat,
-              action.payload.pricePerSeat,
-            ],
-          },
+          seat: [...state.seat, action.payload.seat],
+          pricePerSeat: [...state.pricePerSeat, action.payload.pricePerSeat],
         };
       }
     case CLEAR_SELECTED_SEATS_AND_TIME:
       return {
         ...state,
-        selectedSeats: {
-          seat: [],
-          pricePerSeat: [],
-        },
+        seat: [],
+        pricePerSeat: [],
+
         time: "",
       };
 
     case GET_SELECTED_PLAN:
       return {
         ...state,
-        selectedPlan: action.payload.formattedData,
+        selectedPlan: action.payload.formatted,
       };
 
     case GET_PLAN_TIMES_AND_ROOM:

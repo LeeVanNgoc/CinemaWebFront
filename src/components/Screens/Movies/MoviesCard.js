@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedMovie } from "../Admin/Movies/redux/actions/movieActions";
-import { getPlanTime } from "../BookTicket/redux/actions/bookingAction";
 import {
   Card,
   CardContent,
@@ -10,7 +9,6 @@ import {
   Typography,
   Chip,
   Grid,
-  // Box,
 } from "@mui/material";
 
 const MoviesCard = () => {
@@ -18,11 +16,9 @@ const MoviesCard = () => {
   const dispatch = useDispatch();
 
   const movies = useSelector((state) => state.manageMovies.movies);
-  const dateScreen = useSelector((state) => state.userBookTicket.date);
 
   const handleClick = (movie) => {
     dispatch(setSelectedMovie(movie));
-    dispatch(getPlanTime(dateScreen, movie.movieId));
     navigate("/bookticket");
   };
 
@@ -79,29 +75,6 @@ const MoviesCard = () => {
                 <Typography variant="body2" color="red">
                   P - PHIM ĐƯỢC PHÉP PHỔ BIẾN ĐẾN NGƯỜI XEM Ở MỌI ĐỘ TUỔI.
                 </Typography>
-
-                {/* <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    mt: 2,
-                    gap: 1,
-                    justifyContent: "center",
-                  }}
-                >
-                  {planTimes &&
-                    planTimes.map((time, index) => (
-                      <Button
-                        key={index}
-                        variant="contained"
-                        size="small"
-                        sx={{ bgcolor: "grey.700", width: "60px" }}
-                      >
-                        {time}
-                      </Button>
-                    ))}
-                </Box> */}
               </CardContent>
             </Card>
           </Grid>

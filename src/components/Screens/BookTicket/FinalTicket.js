@@ -29,7 +29,7 @@ export default function FinalTicket() {
   const time = useSelector((state) => state.userBookTicket.time);
   const bank = useSelector((state) => state.userBookTicket.bank);
   const seats = useSelector((state) =>
-    state.userBookTicket.selectedSeats.seat.map((item) => item)
+    state.userBookTicket.seat.map((item) => item)
   );
   const totalBill = useSelector((state) => state.userBookTicket.totalBill);
 

@@ -2,7 +2,6 @@ import {
   handleGetPlanId,
   handleGetStartTimeAndRoom,
   handleGetCost,
-  handleGetBookedSeats,
 } from "../../config";
 export const GET_SELECTED_PLAN = "GET_SELECTED_PLAN";
 export const SET_SELECTED_SEAT = "SET_SELECTED_SEAT";
@@ -14,32 +13,55 @@ export const SET_BANK = "SET_BANK";
 export const SET_TOTAL_BILL = "SET_TOTAL_BILL";
 export const GET_PLAN_TIMES_AND_ROOM = "GET_PLAN_TIMES_AND_ROOM";
 
-export const getPlanIdForCreateTicket = (
-  roomId,
-  movieId,
-  startTime,
-  dateScreen
-) => {
-  return async (dispatch, getState) => {
-    try {
-      const res = await handleGetPlanId(roomId, movieId, startTime, dateScreen);
-      console.log("get plan id: ", res);
-      if (res && res.errCode === 0) {
-        const formattedData = res.planScreenMovieId;
-        dispatch({
-          type: "GET_SELECTED_PLAN",
-          payload: { formattedData },
-        });
-      } else {
-        console.error("Dữ liệu không đúng định dạng hoặc không có dữ liệu.");
-      }
-    } catch (error) {
-      console.error("Lỗi khi gọi API:", error);
-    }
-  };
-};
+// export const getPlanIdForCreateTicket = (
+//   roomId,
+//   movieId,
+//   startTime,
+//   dateScreen
+// ) => {
+//   return async (dispatch, getState) => {
+//     try {
+//       const res = await handleGetPlanId(roomId, movieId, startTime, dateScreen);
+//       console.log("get plan id: ", res);
+//       if (res && res.errCode === 0) {
+//         const formattedData = res.planScreenMovieId;
+//         dispatch({
+//           type: "GET_SELECTED_PLAN",
+//           payload: { formattedData },
+//         });
+//       } else {
+//         console.error("Dữ liệu không đúng định dạng hoặc không có dữ liệu.");
+//       }
+//     } catch (error) {
+//       console.error("Lỗi khi gọi API:", error);
+//     }
+//   };
+// };
 
-export const getPlanTime = (dateScreen, movieId) => {
+// export const getPlanTime = (dateScreen, movieId) => {
+//   return async (dispatch, getState) => {
+//     try {
+//       const resTimes = await handleGetStartTimeAndRoom(dateScreen, movieId);
+//       console.log("resTime: ", resTimes);
+//       if (resTimes && resTimes.errCode === 0) {
+//         const formattedData = resTimes.planScreens.map((item) => ({
+//           roomId: item.roomId,
+//           startTime: item.startTime,
+//         }));
+//         dispatch({
+//           type: "GET_PLAN_TIMES_AND_ROOM",
+//           payload: { formattedData },
+//         });
+//       } else {
+//         console.error("Dữ liệu không đúng định dạng hoặc không có dữ liệu.");
+//       }
+//     } catch (error) {
+//       console.error("Lỗi khi gọi API:", error);
+//     }
+//   };
+// };
+
+export const getPlanID = (dateScreen, movieId) => {
   return async (dispatch, getState) => {
     try {
       const resTimes = await handleGetStartTimeAndRoom(dateScreen, movieId);
@@ -53,6 +75,30 @@ export const getPlanTime = (dateScreen, movieId) => {
           type: "GET_PLAN_TIMES_AND_ROOM",
           payload: { formattedData },
         });
+
+        const planIds = await Promise.all(
+          resTimes.planScreens.map(async (plan) => {
+            const res = await handleGetPlanId(
+              plan.roomId,
+              movieId,
+              plan.startTime,
+              dateScreen
+            );
+            if (res && res.errCode === 0) {
+              const formatted = res.planScreenMovieId;
+              dispatch({
+                type: "GET_SELECTED_PLAN",
+                payload: { formatted },
+              });
+            } else {
+              console.error(
+                "Dữ liệu không đúng định dạng hoặc không có dữ liệu."
+              );
+            }
+            return [];
+          })
+        );
+        console.log(">> planIds: ", planIds);
       } else {
         console.error("Dữ liệu không đúng định dạng hoặc không có dữ liệu.");
       }
@@ -61,44 +107,6 @@ export const getPlanTime = (dateScreen, movieId) => {
     }
   };
 };
-
-// export const getPlanTime = (movieId) => {
-//   return async (dispatch, getState) => {
-//     try {
-//       const resPlans = await handleGetAllPlansByMovie(movieId);
-//       // console.log("resPlans: ", resPlans);
-
-//       if (
-//         resPlans &&
-//         resPlans.errCode === 0 &&
-//         Array.isArray(resPlans.planScreenMovieId)
-//       ) {
-//         const timeArray = await Promise.all(
-//           resPlans.planScreenMovieId.map(async (planId) => {
-//             const resPlan = await handleGetPlanById(planId);
-//             // console.log("resPlanTime: ", resPlan);
-//             if (resPlan && resPlan.errCode === 0) {
-//               return resPlan.planScreenMovie.startTime;
-//             }
-//             return [];
-//           })
-//         );
-//         console.log(">> timeArray: ", timeArray);
-
-//         const flattenedTimeArray = timeArray.flatMap((times) => times);
-
-//         dispatch({
-//           type: "SET_PLAN_TIME",
-//           payload: { planTime: flattenedTimeArray },
-//         });
-//       } else {
-//         console.error("Dữ liệu không đúng định dạng hoặc không có dữ liệu.");
-//       }
-//     } catch (error) {
-//       console.error("Lỗi khi gọi API:", error);
-//     }
-//   };
-// };
 
 export const setSelectedSeat = (seat, roomType, seatType, isWeekend) => {
   return async (dispatch, getState) => {

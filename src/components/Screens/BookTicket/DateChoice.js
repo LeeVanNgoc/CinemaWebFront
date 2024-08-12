@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   clearSelectedSeatsAndTime,
   setDate,
-  getPlanTime,
+  // getPlanTime,
+  getPlanID,
 } from "./redux/actions/bookingAction";
 import "./scss/DateChoice.scss";
 
@@ -33,7 +34,7 @@ export default function DateChoice() {
   const handlesetDate = (date) => {
     dispatch(setDate(date));
     handleClearSelectedSeats();
-    dispatch(getPlanTime(date, movie.movieId));
+    dispatch(getPlanID(date, movie.movieId));
   };
 
   return (
@@ -70,11 +71,9 @@ export default function DateChoice() {
         <TimeChoice />
       </TabPanel>
       <TabPanel value={1} sx={{ color: "#fff", textAlign: "center" }}>
-        <b>Second</b> tab panel
         <TimeChoice />
       </TabPanel>
       <TabPanel value={2} sx={{ color: "#fff", textAlign: "center" }}>
-        <b>Third</b> tab panel
         <TimeChoice />
       </TabPanel>
     </Tabs>

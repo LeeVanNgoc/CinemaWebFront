@@ -163,7 +163,6 @@ export const handleCreateBookedSeats = async (ticketId) => {
         },
       }
     );
-    alert(response.message);
     return response;
   } catch (error) {
     console.error("Error creating booked seats:", error);
@@ -192,6 +191,27 @@ export const handleGetBookedSeats = async (planScreenMovieId) => {
     return response;
   } catch (error) {
     console.error("Error getting booked seats:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
+// Trả về các ghế trong 1 phòng
+export const handleGetSeatsInRoom = async (roomId) => {
+  try {
+    const response = await axios.get("/api/seats/get-seats-in-one-room/", {
+      params: {
+        roomId: roomId,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error in fetching seats in a room:", error);
     if (error.response) {
       return { error: error.response.data.message };
     } else if (error.request) {
