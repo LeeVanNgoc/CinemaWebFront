@@ -10,28 +10,19 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
-import { handleAddMovie } from "./config";
+import { handleCreateMovie } from "./config";
 
-export default function ModalAddMovie({ isOpen, handleOpen, handleClose }) {
+export function ModalAddMovie({ isOpen, handleOpen, handleClose }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [genreID, setGenreID] = useState("");
+  const [releaseDate, setReleaseDate] = useState("");
   const [duration, setDuration] = useState("");
   const [country, setCountry] = useState("");
-  const [cast, setCast] = useState("");
-  const [sTimeid, setSTimeid] = useState("");
-
+  const [genreId, setGenreId] = useState("");
+  const [image, setImage] = useState("");
 
   const handleAddMovie = async () => {
-    handleAddMovie(
-      title,
-      description,
-      genreID,
-      duration,
-      country,
-      cast,
-      sTimeid,
-    );
+    handleCreateMovie(title, description, releaseDate, duration, country, genreId, image);
     handleClose();
     // window.location.reload();
   };
@@ -55,7 +46,7 @@ export default function ModalAddMovie({ isOpen, handleOpen, handleClose }) {
           border: "none",
         }}
       >
-        Thêm phim
+        Thêm phim mới
       </TriggerButton>
       <Modal
         aria-labelledby="unstyled-modal-title"
@@ -66,15 +57,15 @@ export default function ModalAddMovie({ isOpen, handleOpen, handleClose }) {
       >
         <ModalContent
           sx={{
-            width: "fit-content",
+            width: 450,
           }}
         >
           <h1
             id="unstyled-modal-title"
-            className="add-modal-title"
+            className="modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Thêm phim
+            Thêm phim mới
           </h1>
           <div
             style={{
@@ -84,22 +75,18 @@ export default function ModalAddMovie({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl defaultValue="" required sx={{ flex: 1 }}>
+              <FormControl defaultValue="" required>
                 <Label>Tên phim</Label>
                 <StyledInput
-                  // placeholder="Mật khẩu"
                   onChange={(e) => setTitle(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
                 />
                 <HelperText />
               </FormControl>
-
-              <FormControl defaultValue="" required sx={{ flex: 1 }}>
+              <FormControl defaultValue="" required>
                 <Label>Mô tả</Label>
                 <StyledInput
-                  // placeholder="Mật khẩu"
                   onChange={(e) => setDescription(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
                 />
@@ -108,19 +95,16 @@ export default function ModalAddMovie({ isOpen, handleOpen, handleClose }) {
             </div>
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
               <FormControl defaultValue="" required sx={{ flex: 1 }}>
-                <Label>Thể loại</Label>
-                <StyledInput
-                  // placeholder="Mật khẩu"
-                  onChange={(e) => setGenreID(e.target.value)}
+                <Label>Ngày công chiếu</Label>
+                <StyledInput               
+                  onChange={(e) => setReleaseDate(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
                 />
                 <HelperText />
               </FormControl>
-
               <FormControl defaultValue="" required sx={{ flex: 1 }}>
                 <Label>Thời lượng</Label>
-                <StyledInput
-                  // placeholder="Mật khẩu"
+                <StyledInput               
                   onChange={(e) => setDuration(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
                 />
@@ -130,36 +114,30 @@ export default function ModalAddMovie({ isOpen, handleOpen, handleClose }) {
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
               <FormControl defaultValue="" required sx={{ flex: 1 }}>
                 <Label>Quốc gia</Label>
-                <StyledInput
-                  // placeholder="Mật khẩu"
+                <StyledInput                
                   onChange={(e) => setCountry(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
                 />
                 <HelperText />
               </FormControl>
-
               <FormControl defaultValue="" required sx={{ flex: 1 }}>
-                <Label>Diễn viên</Label>
-                <StyledInput
-                  // placeholder="Mật khẩu"
-                  onChange={(e) => setCast(e.target.value)}
-                  onKeyDown={(e) => handleEnter(e)}
-                />
-                <HelperText />
-              </FormControl>
-
-              <FormControl defaultValue="" required sx={{ flex: 1 }}>
-                <Label>Lịch chiếu</Label>
-                <StyledInput
-                  // placeholder="Mật khẩu"
-                  onChange={(e) => setSTimeid(e.target.value)}
+                <Label>Mã thể loại</Label>
+                <StyledInput               
+                  onChange={(e) => setGenreId(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
                 />
                 <HelperText />
               </FormControl>
             </div>
+            <FormControl defaultValue="" required>
+              <Label>Url poster</Label>
+              <StyledInput               
+                onChange={(e) => setImage(e.target.value)}
+                onKeyDown={(e) => handleEnter(e)}
+              />
+              <HelperText />
+            </FormControl>
           </div>
-
           <Button
             sx={{
               borderRadius: "40px",
@@ -172,7 +150,7 @@ export default function ModalAddMovie({ isOpen, handleOpen, handleClose }) {
             href="#outlined-buttons"
             onClick={handleAddMovie}
           >
-            Tạo mới
+            Thêm mới
           </Button>
         </ModalContent>
       </Modal>

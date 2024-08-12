@@ -4,12 +4,12 @@ import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import { useDispatch, useSelector } from "react-redux";
+import { handleGetListPosts } from "./config";
+import { useDispatch } from "react-redux";
 import {
-  setSelectedMovie,
-  clearSelectedMovie,
-  getMovies,
-} from "./redux/actions/movieActions";
+  setSelectedPost,
+  clearSelectedPost,
+} from "./redux/actions/postActions";
 import {
   Table,
   TableBody,
@@ -23,45 +23,42 @@ import {
   FormControl,
 } from "@mui/material";
 import { StyledInput, HelperText } from "./style";
-import ModalAddMovie from "./ModalAddMovie";
-import ModalEditMovie from "./ModalEditMovie";
-import ModalDeleteMovie from "./ModalDeleteMovie";
-import "./Movies.scss";
+import ModalAddPost from "./ModalAddPost";
+import ModalEditPost from "./ModalEditPost";
+import ModalDeletePost from "./ModalDeletePost";
+import "./Post.scss";
 
-export const Movies = () => {
+export const Post = () => {
   const dispatch = useDispatch();
-  const movies = useSelector((state) => state.manageMovies.movies);
-  const loading = useSelector((state) => state.manageMovies.loading);
-  const error = useSelector((state) => state.manageMovies.error);
-
+  const [posts, setPosts] = useState([]);
   const [query, setQuery] = useState("");
 
-  const [openAddMovie, setOpenAddMovie] = useState(false);
-  const [openEditMovie, setOpenEditMovie] = useState(false);
-  const [openDeleteMovie, setOpenDeleteMovie] = useState(false);
+  const [openAddPost, setOpenAddPost] = useState(false);
+  const [openEditPost, setOpenEditPost] = useState(false);
+  const [openDeletePost, setOpenDeletePost] = useState(false);
 
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("movieId");
+  const [orderBy, setOrderBy] = useState("postsDate");
 
-  const handleOpenAddMovie = () => setOpenAddMovie(true);
-  const handleCloseAddMovie = () => setOpenAddMovie(false);
+  const handleOpenAddPost = () => setOpenAddPost(true);
+  const handleCloseAddPost = () => setOpenAddPost(false);
 
-  const handleOpenEditMovie = (movie) => {
-    dispatch(setSelectedMovie(movie));
-    setOpenEditMovie(true);
+  const handleOpenEditPost = (post) => {
+    dispatch(setSelectedPost(post));
+    setOpenEditPost(true);
   };
-  const handleCloseEditMovie = () => {
-    setOpenEditMovie(false);
-    dispatch(clearSelectedMovie());
+  const handleCloseEditPost = () => {
+    setOpenEditPost(false);
+    dispatch(clearSelectedPost());
   };
 
-  const handleOpenDeleteMovie = (movie) => {
-    dispatch(setSelectedMovie(movie));
-    setOpenDeleteMovie(true);
+  const handleOpenDeletePost = (post) => {
+    dispatch(setSelectedPost(post));
+    setOpenDeletePost(true);
   };
-  const handleCloseDeleteMovie = () => {
-    setOpenDeleteMovie(false);
-    dispatch(clearSelectedMovie());
+  const handleCloseDeletePost = () => {
+    setOpenDeletePost(false);
+    dispatch(clearSelectedPost());
   };
 
   const [page, setPage] = React.useState(0);
@@ -69,7 +66,7 @@ export const Movies = () => {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - movies.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - posts.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -80,22 +77,22 @@ export const Movies = () => {
     setPage(0);
   };
 
-  const filteredMovies = movies.filter((movie) => {
+  const filteredPosts = posts.filter((post) => {
     if (query === "") {
-      return movies;
-    } else if (movie.title && movie.title.includes(query)) {
-      return movie;
+      return posts;
+    } else if (post.type && post.type.includes(query)) {
+      return post;
     }
     return null;
   });
 
-  const displayedMovies =
+  const displayedPosts =
     rowsPerPage > 0
-      ? filteredMovies.slice(
+      ? filteredPosts.slice(
           page * rowsPerPage,
           page * rowsPerPage + rowsPerPage
         )
-      : filteredMovies;
+      : filteredPosts;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -104,11 +101,26 @@ export const Movies = () => {
   };
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      dispatch(getMovies());
+    const fetchPosts = async () => {
+      try {
+        let res = await handleGetListPosts();
+        console.log("res list posts >>>", res);
+        if (res && res.posts) {
+          const formattedData = res.posts.map((item) => ({
+            postsId: item.postsId,
+            cost: item.cost,
+            roomType: item.roomType,
+            seatType: item.seatType,
+            isWeekend: item.isWeekend,
+          }));
+          setPosts(formattedData);
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
     };
 
-    fetchMovies();
+    fetchPosts();
   }, []);
 
   return (
@@ -123,70 +135,35 @@ export const Movies = () => {
             <HelperText />
           </FormControl>
         </span>
-        <ModalAddMovie
-          isOpen={openAddMovie}
-          handleOpen={handleOpenAddMovie}
-          handleClose={handleCloseAddMovie}
+        <ModalAddPost
+          isOpen={openAddPost}
+          handleOpen={handleOpenAddPost}
+          handleClose={handleCloseAddPost}
         />
       </div>
 
-      {loading && <div>Loading...</div>}
-      {error && <div>Error: {error}</div>}
-
-      <TableContainer
-        component={Paper}
-        sx={{ maxHeight: "fit-content", overflow: "auto" }}
-      >
-        <Table stickyHeader aria-label="sticky table">
+      <TableContainer component={Paper} sx={{ maxHeight: "fit-content" }}>
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>
-                <TableSortLabel
-                  active={orderBy === "movieId"}
-                  direction={orderBy === "movieId" ? order : "asc"}
-                  onClick={(event) => handleRequestSort(event, "movieId")}
-                >
-                  ID
-                </TableSortLabel>
-              </TableCell>
-              <TableCell>
-                <TableSortLabel
-                  active={orderBy === "title"}
-                  direction={orderBy === "title" ? order : "asc"}
-                  onClick={(event) => handleRequestSort(event, "title")}
-                >
-                  Tên
-                </TableSortLabel>
-              </TableCell>
-              <TableCell>Mô tả</TableCell>
-              <TableCell>Thời lượng</TableCell>
-              <TableCell>Quốc Gia</TableCell>
-              <TableCell>Ngày Khởi Chiếu</TableCell>
-              <TableCell>Ảnh</TableCell>
-              <TableCell>Mã thể loại</TableCell>
-              <TableCell></TableCell>
+              <TableCell>Mã tin tức</TableCell>
+              <TableCell>Tên tin tức</TableCell>
+              <TableCell>Nội dung</TableCell>
+              <TableCell>Hình ảnh</TableCell>
+              <TableCell>Đường dẫn</TableCell>
+              <TableCell>Ngày đăng</TableCell>
             </TableRow>
           </TableHead>
-
           <TableBody>
-            {stableSort(displayedMovies, getComparator(order, orderBy)).map(
-              (movie, index) => (
+            {stableSort(displayedPosts, getComparator(order, orderBy)).map(
+              (post, index) => (
                 <TableRow key={index}>
-                  <TableCell>{movie.movieId}</TableCell>
-                  <TableCell>{movie.title}</TableCell>
-                  <TableCell>{movie.description}</TableCell>
-                  <TableCell>{movie.duration}</TableCell>
-                  <TableCell>{movie.country}</TableCell>
-                  <TableCell>{movie.releaseDate}</TableCell>
-                  <TableCell>
-                    <img
-                      src={movie.image}
-                      style={{ height: "6rem" }}
-                      alt={movie.title}
-                    />
-                  </TableCell>
-                  <TableCell>{movie.genreId}</TableCell>
-
+                  <TableCell>{post.newCode}</TableCell>
+                  <TableCell>{post.title}</TableCell>
+                  <TableCell>{post.content}</TableCell>
+                  <TableCell>{post.image}</TableCell>
+                  <TableCell>{post.link}</TableCell>
+                  <TableCell>{post.postDate}</TableCell>
                   <TableCell>
                     <div
                       style={{
@@ -195,35 +172,33 @@ export const Movies = () => {
                         gap: "10px",
                       }}
                     >
-                      <ModalEditMovie
-                        isOpen={openEditMovie}
-                        handleOpen={() => handleOpenEditMovie(movie)}
-                        handleClose={handleCloseEditMovie}
+                      <ModalEditPost
+                        isOpen={openEditPost}
+                        handleOpen={() => handleOpenEditPost(post)}
+                        handleClose={handleCloseEditPost}
                       />
-                      <ModalDeleteMovie
-                        isOpen={openDeleteMovie}
-                        handleOpen={() => handleOpenDeleteMovie(movie)}
-                        handleClose={handleCloseDeleteMovie}
+                      <ModalDeletePost
+                        isOpen={openDeletePost}
+                        handleOpen={() => handleOpenDeletePost(post)}
+                        handleClose={handleCloseDeletePost}
                       />
                     </div>
                   </TableCell>
                 </TableRow>
               )
             )}
-
             {emptyRows > 0 && (
               <TableRow style={{ height: 34 * emptyRows }}>
                 <TableCell colSpan={8} aria-hidden />
               </TableRow>
             )}
           </TableBody>
-
           <TableFooter>
             <tr>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={8}
-                count={movies.length}
+                count={posts.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 slotProps={{

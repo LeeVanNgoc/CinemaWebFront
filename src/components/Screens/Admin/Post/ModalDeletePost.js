@@ -1,14 +1,14 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import { TriggerButton, Modal, StyledBackdrop, ModalContent } from "./style";
-import { handleDeleteMovie } from "./config";
+import { handleDeletePost } from "./config";
 import { useSelector } from "react-redux";
 
-export default function ModalDeleteMovie({ isOpen, handleOpen, handleClose }) {
-  const movie = useSelector((state) => state.manageMovies.selectedMovie);
+export default function ModalDeletePost({ isOpen, handleOpen, handleClose }) {
+  const post = useSelector((state) => state.managePosts.selectedPost);
 
   const handleDelete = async () => {
-    await handleDeleteMovie(movie.movieId);
+    await handleDeletePost(post.postId);
     handleClose();
   };
 
@@ -43,7 +43,7 @@ export default function ModalDeleteMovie({ isOpen, handleOpen, handleClose }) {
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Xóa phim {movie.title}?
+            Xóa vé mã = {post.postCode}?
           </h1>
           <div style={{ display: "flex", gap: "10px" }}>
             <Button

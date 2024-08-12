@@ -4,12 +4,15 @@ import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import { handleGetListTrailers } from "./config";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { ModalAddMovie } from "./ModalAddMovie";
+import { ModalEditMovie } from "./ModalEditMovie";
+import { ModalDeleteMovie } from "./ModalDeleteMovie";
 import {
-  setSelectedTrailer,
-  clearSelectedTrailer,
-} from "./redux/actions/trailerActions";
+  setSelectedMovie,
+  clearSelectedMovie,
+  getMovies,
+} from "./redux/actions/movieActions";
 import {
   Table,
   TableBody,
@@ -23,53 +26,49 @@ import {
   FormControl,
 } from "@mui/material";
 import { StyledInput, HelperText } from "./style";
-import ModalAddTrailer from "./ModalAddTrailer";
-import ModalEditTrailer from "./ModalEditTrailer";
-import ModalScreenTrailer from "./ModalScreenTrailer";
 
-export const Trailers = () => {
+export const Movie = () => {
   const dispatch = useDispatch();
-  const [trailers, setTrailers] = useState([]);
+  const movies = useSelector((state) => state.manageMovies.movies.movies || []);
+  const loading = useSelector((state) => state.manageMovies.loading);
+  const error = useSelector((state) => state.manageMovies.error);
+
   const [query, setQuery] = useState("");
 
-  //Screen Trailer open modal
-  const [openScreenTrailer, setOpenScreenTrailer] = useState(false);
-  const handleOpenScreenTrailer = (trailer) => {
-    dispatch(setSelectedTrailer(trailer));
-    setOpenScreenTrailer(true);
-  };
-
-  const handleCloseScreenTrailer = () => {
-    setOpenScreenTrailer(false);
-    dispatch(clearSelectedTrailer());
-  };
-
-  // Open modal edit trailer
-  const [openEditTrailer, setOpenEditTrailer] = useState(false);
-
-  const handleOpenEditTrailer = (trailer) => {
-    dispatch(setSelectedTrailer(trailer));
-    setOpenEditTrailer(true);
-  };
-  const handleCloseEditTrailer = () => {
-    setOpenEditTrailer(false);
-    dispatch(clearSelectedTrailer());
-  };
-
-  // Open Modal add trailer
-  const [openAddTrailer, setOpenAddTrailer] = useState(false);
-  const handleOpenAddTrailer = () => setOpenAddTrailer(true);
-  const handleCloseAddTrailer = () => setOpenAddTrailer(false);
+  const [openAddMovie, setOpenAddMovie] = useState(false);
+  const [openEditMovie, setOpenEditMovie] = useState(false);
+  const [openDeleteMovie, setOpenDeleteMovie] = useState(false);
 
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("");
+  const [orderBy, setOrderBy] = useState("moviesDate");
+
+  const handleOpenAddMovie = () => setOpenAddMovie(true);
+  const handleCloseAddMovie = () => setOpenAddMovie(false);
+
+  const handleOpenEditMovie = (movie) => {
+    dispatch(setSelectedMovie(movie));
+    setOpenEditMovie(true);
+  };
+  const handleCloseEditMovie = () => {
+    setOpenEditMovie(false);
+    dispatch(clearSelectedMovie());
+  };
+
+  const handleOpenDeleteMovie = (movie) => {
+    dispatch(setSelectedMovie(movie));
+    setOpenDeleteMovie(true);
+  };
+  const handleCloseDeleteMovie = () => {
+    setOpenDeleteMovie(false);
+    dispatch(clearSelectedMovie());
+  };
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - trailers.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - movies.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -80,22 +79,22 @@ export const Trailers = () => {
     setPage(0);
   };
 
-  const filteredTrailers = trailers.filter((trailer) => {
+  const filteredMovies = movies.filter((movie) => {
     if (query === "") {
-      return trailers;
-    } else if (trailer.isAvailable && trailer.isAvailable.includes(query)) {
-      return trailer;
+      return movies;
+    } else if (movie.title && movie.title.includes(query)) {
+      return movie;
     }
     return null;
   });
 
-  const displayedTrailers =
+  const displayedMovies =
     rowsPerPage > 0
-      ? filteredTrailers.slice(
+      ? filteredMovies.slice(
           page * rowsPerPage,
           page * rowsPerPage + rowsPerPage
         )
-      : filteredTrailers;
+      : filteredMovies;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -104,24 +103,11 @@ export const Trailers = () => {
   };
 
   useEffect(() => {
-    const fetchTrailers = async () => {
-      try {
-        let res = await handleGetListTrailers();
-        console.log("res list trailers >>>", res);
-        if (res && res.trailers) {
-          const formattedData = res.trailers.map((item) => ({
-            trailerId: item.trailerId,
-            movieId: item.movieId,
-            link: item.link,
-          }));
-          setTrailers(formattedData);
-        }
-      } catch (error) {
-        console.error("Error fetching trailers:", error);
-      }
+    const fetchMovies = async () => {
+      dispatch(getMovies());
     };
 
-    fetchTrailers();
+    fetchMovies();
   }, []);
 
   return (
@@ -136,30 +122,50 @@ export const Trailers = () => {
             <HelperText />
           </FormControl>
         </span>
-        <ModalAddTrailer
-          isOpen={openAddTrailer}
-          handleOpen={handleOpenAddTrailer}
-          handleClose={handleCloseAddTrailer}
-        />
+        {<ModalAddMovie
+          isOpen={openAddMovie}
+          handleOpen={handleOpenAddMovie}
+          handleClose={handleCloseAddMovie}
+        />}
       </div>
+
+      {loading && <div>Loading...</div>}
+      {error && <div>Error: {error}</div>}
 
       <TableContainer component={Paper} sx={{ maxHeight: "fit-content" }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>Mã Trailer</TableCell>
               <TableCell>Mã Phim</TableCell>
-              <TableCell>Đường dẫn</TableCell>
-              <TableCell>Hành động</TableCell>
+              <TableCell>Tên Phim</TableCell>
+              <TableCell>Mô Tả</TableCell>
+              <TableCell>Thời Lượng</TableCell>
+              <TableCell>Quốc Gia</TableCell>
+              <TableCell>Ngày Khởi Chiếu</TableCell>
+              <TableCell>Ảnh</TableCell>
+              <TableCell>Mã Thể Loại</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {stableSort(displayedTrailers, getComparator(order, orderBy)).map(
-              (trailer, index) => (
+            {stableSort(displayedMovies, getComparator(order, orderBy)).map(
+              (movie, index) => (
                 <TableRow key={index}>
-                  <TableCell>{trailer.trailerId}</TableCell>
-                  <TableCell>{trailer.movieId}</TableCell>
-                  <TableCell>{trailer.link}</TableCell>
+                  <TableCell>{movie.movieId}</TableCell>
+                  <TableCell>{movie.title}</TableCell>
+                  <TableCell>{movie.description}</TableCell>
+                  <TableCell>{movie.duration}</TableCell>
+                  <TableCell>{movie.country}</TableCell>
+                  <TableCell>{movie.releaseDate}</TableCell>
+                  <TableCell>
+                    <img
+                      src={movie.image}
+                      style={{ height: "6rem" }}
+                      alt={movie.title}
+                    />
+                  </TableCell>
+                  <TableCell>{movie.genreId}</TableCell>
+
                   <TableCell>
                     <div
                       style={{
@@ -168,18 +174,16 @@ export const Trailers = () => {
                         gap: "10px",
                       }}
                     >
-                      <ModalEditTrailer
-                        isOpen={openEditTrailer}
-                        handleOpen={() => handleOpenEditTrailer(trailer)}
-                        handleClose={handleCloseEditTrailer}
-                      />
-                      <ModalScreenTrailer
-                        isOpen={openScreenTrailer}
-                        link={trailer.link}
-                        movieId={trailer.movieId}
-                        handleOpen={() => handleOpenScreenTrailer(trailer)}
-                        handleClose={handleCloseScreenTrailer}
-                      />
+                      {<ModalEditMovie
+                        isOpen={openEditMovie}
+                        handleOpen={() => handleOpenEditMovie(movie)}
+                        handleClose={handleCloseEditMovie}
+                      />}
+                      {<ModalDeleteMovie
+                        isOpen={openDeleteMovie}
+                        handleOpen={() => handleOpenDeleteMovie(movie)}
+                        handleClose={handleCloseDeleteMovie}
+                      />}
                     </div>
                   </TableCell>
                 </TableRow>
@@ -194,9 +198,9 @@ export const Trailers = () => {
           <TableFooter>
             <tr>
               <TablePagination
-                rowsPerPageOptions={[10, 30, 50, { label: "All", value: -1 }]}
+                rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={8}
-                count={trailers.length}
+                count={movies.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 slotProps={{

@@ -36,6 +36,28 @@ const handleGetSeatById = async (seatId) => {
   }
 };
 
+const handleGetSeatsInOneRoom = async (roomId) => {
+  console.log("Check room Id from config: ", roomId);
+
+  try {
+    const response = await axios.get("/api/seats/get-seats-in-one-room", {
+      params: {
+        roomId: roomId,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error getting seat by ID:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
 const handleCreateSeat = async (type, roomId, row, col, isAvailable) => {
   try {
     const response = await axios.post("/api/seats/create-seat/", null, {
@@ -115,4 +137,5 @@ export {
   handleCreateSeat,
   handleAddMultipleSeats,
   handleEditSeat,
+  handleGetSeatsInOneRoom,
 };

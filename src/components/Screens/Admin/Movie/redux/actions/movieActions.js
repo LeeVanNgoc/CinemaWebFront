@@ -42,7 +42,7 @@ export const getMovies = () => {
         }));
         dispatch({
           type: "GET_MOVIES_SUCCESS",
-          payload: { formattedData },
+          payload: { movies: formattedData },
         });
       }
     } catch (error) {

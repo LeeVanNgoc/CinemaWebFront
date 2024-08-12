@@ -13,27 +13,19 @@ import {
 import { handleEditMovie } from "./config";
 import { useSelector } from "react-redux";
 
-export default function ModalEditmovie({ isOpen, handleOpen, handleClose }) {
+export function ModalEditMovie({ isOpen, handleOpen, handleClose }) {
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
 
   const [title, setTitle] = useState(movie.title);
   const [description, setDescription] = useState(movie.description);
-  const [genreID, setGenreID] = useState(movie.genreID);
   const [duration, setDuration] = useState(movie.duration);
   const [country, setCountry] = useState(movie.country);
-  const [cast, setCast] = useState(movie.cast);
-  const [sTimeid, setSTimeid] = useState(movie.sTimeid);
+  const [genreId, setGenreId] = useState(movie.genreId);
+  const [releaseDate, setReleaseDate] = useState(movie.releaseDate);
+  const [image, setImage] = useState(movie.image);
 
   const handleUpdateMovie = async () => {
-    await handleEditMovie(
-      title,
-      description,
-      genreID,
-      duration,
-      country,
-      cast,
-      sTimeid,
-    );
+    await handleEditMovie(movie.movieId, title, description, duration, country, genreId, releaseDate, image);
     handleClose();
   };
 
@@ -68,7 +60,7 @@ export default function ModalEditmovie({ isOpen, handleOpen, handleClose }) {
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Sửa phim
+            Cập nhật phim
           </h1>
           <div
             style={{
@@ -78,18 +70,21 @@ export default function ModalEditmovie({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-            <FormControl
-                defaultValue={movie.title}
-                required
-                sx={{ flex: 1 }}
-              >
+              <FormControl defaultValue={movie.movieId} aria-readonly sx={{ flex: 1 }}>
+                <Label>Mã phim</Label>
+                <StyledInput readOnly />
+                <HelperText />
+              </FormControl>
+
+              <FormControl defaultValue={movie.title} required sx={{ flex: 1 }}>
                 <Label>Tên phim</Label>
                 <StyledInput onChange={(e) => setTitle(e.target.value)} />
                 <HelperText />
               </FormControl>
-              
+            </div>
+
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
               <FormControl
                 defaultValue={movie.description}
                 required
@@ -100,51 +95,37 @@ export default function ModalEditmovie({ isOpen, handleOpen, handleClose }) {
                 <HelperText />
               </FormControl>
 
-              <FormControl
-                defaultValue={movie.genreID}
-                required
-                sx={{ flex: 1 }}
-              >
-                <Label>Thể loại</Label>
-                <StyledInput onChange={(e) => setGenreID(e.target.value)} />
+              <FormControl defaultValue={movie.duration} required sx={{ flex: 1 }}>
+                <Label>Thời lượng</Label>
+                <StyledInput onChange={(e) => setDuration(e.target.value)} />
                 <HelperText />
               </FormControl>
             </div>
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl value={movie.duration} aria-readonly sx={{ flex: 1 }}>
-                <Label>Thời lượng</Label>
-                <StyledInput readOnly />
-                <HelperText />
-              </FormControl>
 
-              <FormControl
-                defaultValue={movie.country}
-                required
-                sx={{ flex: 1 }}
-              >
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue={movie.country} required sx={{ flex: 1 }}>
                 <Label>Quốc gia</Label>
                 <StyledInput onChange={(e) => setCountry(e.target.value)} />
                 <HelperText />
               </FormControl>
+
+              <FormControl defaultValue={movie.genreId} required sx={{ flex: 1 }}>
+                <Label>Mã thể loại</Label>
+                <StyledInput onChange={(e) => setGenreId(e.target.value)} />
+                <HelperText />
+              </FormControl>
             </div>
+
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl
-                defaultValue={movie.cast}
-                required
-                sx={{ flex: 1 }}
-              >
-                <Label>Diễn viên</Label>
-                <StyledInput onChange={(e) => setCast(e.target.value)} />
+              <FormControl defaultValue={movie.releaseDate} required sx={{ flex: 1 }}>
+                <Label>Ngày công chiếu</Label>
+                <StyledInput onChange={(e) => setReleaseDate(e.target.value)} />
                 <HelperText />
               </FormControl>
 
-              <FormControl
-                defaultValue={movie.sTimeid}
-                required
-                sx={{ flex: 1 }}
-              >
-                <Label>Giờ chiếu</Label>
-                <StyledInput onChange={(e) => setSTimeid(e.target.value)} />
+              <FormControl defaultValue={movie.image} required sx={{ flex: 1 }}>
+                <Label>Url poster</Label>
+                <StyledInput onChange={(e) => setImage(e.target.value)} />
                 <HelperText />
               </FormControl>
             </div>
