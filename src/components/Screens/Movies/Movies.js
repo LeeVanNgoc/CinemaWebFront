@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Brightness1SharpIcon from "@mui/icons-material/Brightness1Sharp";
 import { Container } from "@mui/material";
-import { getMovies } from "../Admin/Movies/redux/actions/movieActions";
+import { getMovies } from "../Admin/Movie/redux/actions/movieActions";
 import "./Movies.scss";
 
 const Movies = () => {

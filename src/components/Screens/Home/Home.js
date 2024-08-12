@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "./Home.scss";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getMovies } from "../Admin/Movies/redux/actions/movieActions";
+import { getMovies } from "../Admin/Movie/redux/actions/movieActions";
 
 const Home = () => {
   const dispatch = useDispatch();

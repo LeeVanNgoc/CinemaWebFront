@@ -7,12 +7,12 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectedMovie } from "../Admin/Movies/redux/actions/movieActions";
+import { setSelectedMovie } from "../Admin/Movie/redux/actions/movieActions";
 import "./MovieCard.scss";
 
 export default function MovieCard() {
   const dispatch = useDispatch();
-  const movies = useSelector((state) => state.manageMovies.movies);
+  const movies = useSelector((state) => state.manageMovies.movies.movies);
   const navigate = useNavigate();
 
   // const today = new Date().toLocaleDateString("vi-VN");

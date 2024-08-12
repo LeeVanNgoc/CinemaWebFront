@@ -12,9 +12,9 @@ import { Seats } from "../Seat/Seat";
 
 export default function ModalScreenSeat({
   isOpen,
-  handleOpen,
-  handleClose,
   roomId,
+
+  handleClose,
 }) {
   useEffect(() => {
     if (roomId) {
