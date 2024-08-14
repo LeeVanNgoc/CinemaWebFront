@@ -93,8 +93,10 @@ const Header = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <img
-            src="https://chieuphimquocgia.com.vn/_next/image?url=%2Fimages%2Flogo.png&w=96&q=75"
+            src={`${process.env.PUBLIC_URL}/logo.png`}
             alt="logo"
+            style={{ cursor: "pointer", width: "40px", height: "auto" }}
+            onClick={() => handleNavigation("/", 1)}
           ></img>
 
           {/* small screen */}
