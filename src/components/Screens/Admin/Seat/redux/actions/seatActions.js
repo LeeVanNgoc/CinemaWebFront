@@ -1,4 +1,4 @@
-import { handleAddMultipleSeats, handleGetListSeats } from "../../config";
+import { handleAddMultipleSeats, handleGetSeatsInOneRoom } from "../../config";
 
 export const SET_SELECTED_SEAT = "SET_SELECTED_SEAT";
 export const CLEAR_SELECTED_SEAT = "CLEAR_SELECTED_SEAT";
@@ -15,11 +15,11 @@ export const handleCreateSeats = (rows) => {
   };
 };
 
-export const handleGetSeats = () => {
+export const handleGetSeats = (roomId) => {
   return async (dispatch, getState) => {
     try {
-      let res = await handleGetListSeats();
-      console.log("res list seats >>>", res);
+      let res = await handleGetSeatsInOneRoom(roomId);
+      console.log("res seats in a room >>>", res);
       if (res && res.seats) {
         const formattedData = res.seats.map((item) => ({
           seatId: item.seatId,

@@ -8,7 +8,6 @@ import {
   clearSelectedSeatsAndTime,
   setTime,
   setRoom,
-  getPlanIdForCreateTicket,
   setTotalBill,
 } from "./redux/actions/bookingAction";
 import { useNavigate } from "react-router-dom";
@@ -21,24 +20,16 @@ export default function TimeChoice() {
 
   const [isVisibleTime, setIsVisibleTime] = useState(true);
   const [isVisibleSeat, setIsVisibleSeat] = useState(false);
-  localStorage.setItem("totalRow", 9);
-  localStorage.setItem("seatsPerRow", 14);
 
-  const selectedMovie = useSelector(
-    (state) => state.manageMovies.selectedMovie
+  const releasedTime = useSelector((state) => state.userBookTicket.time);
+  const room = useSelector((state) => state.userBookTicket.room);
+  const planScreenMovie = useSelector(
+    (state) => state.userBookTicket.planScreens
   );
-
-  const seletedDate = useSelector((state) => state.userBookTicket.date);
-  const selectedTime = useSelector((state) => state.userBookTicket.time);
-
-  const planScreens = useSelector((state) => state.userBookTicket.planScreens);
-
-  const selectedSeats = useSelector((state) =>
-    state.userBookTicket.selectedSeats.seat.map((item) => item)
+  const selectedSeatCode = useSelector((state) =>
+    state.userBookTicket.seat.map((item) => item)
   );
-  const prices = useSelector(
-    (state) => state.userBookTicket.selectedSeats.pricePerSeat
-  );
+  const prices = useSelector((state) => state.userBookTicket.pricePerSeat);
   const totalAmount = prices.reduce((sum, item) => {
     const itemSum = item.reduce((itemSum, bill) => itemSum + bill, 0);
     return sum + itemSum;
@@ -48,20 +39,16 @@ export default function TimeChoice() {
     dispatch(setTotalBill(totalAmount));
   }, [dispatch, totalAmount]);
 
-  const releasedTime = useSelector((state) => state.userBookTicket.time);
-  const room = useSelector((state) => state.userBookTicket.room);
-
   const getRoom = (releasedTime) => {
-    for (let i = 0; i < planScreens.length; i++) {
-      if (planScreens[i].startTime === releasedTime) {
-        dispatch(setRoom(planScreens[i].roomId));
+    for (let i = 0; i < planScreenMovie.length; i++) {
+      if (planScreenMovie[i].startTime === releasedTime) {
+        dispatch(setRoom(planScreenMovie[i].roomId));
         break;
       }
     }
   };
 
-  const goToFinalTicket = (roomId, movieId, startTime, dateScreen) => {
-    dispatch(getPlanIdForCreateTicket(roomId, movieId, startTime, dateScreen));
+  const goToFinalTicket = () => {
     navigate("/finalticket");
   };
 
@@ -70,7 +57,7 @@ export default function TimeChoice() {
     toggleVisibility();
   };
 
-  const handlesetTime = (time) => {
+  const handleClickTime = (time) => {
     dispatch(clearSelectedSeatsAndTime());
     dispatch(setTime(time));
     getRoom(time);
@@ -80,7 +67,6 @@ export default function TimeChoice() {
   const toggleVisibility = () => {
     setIsVisibleTime(!isVisibleTime);
     setIsVisibleSeat(!isVisibleSeat);
-    // dispatch(clearSelectedSeatsAndTime());
   };
 
   return (
@@ -96,14 +82,14 @@ export default function TimeChoice() {
             justifyContent: "center",
           }}
         >
-          {planScreens &&
-            planScreens.map((plan, index) => (
+          {planScreenMovie &&
+            planScreenMovie.map((plan, index) => (
               <Button
                 key={index}
                 variant="contained"
                 size="small"
                 sx={{ bgcolor: "grey.700", width: "60px" }}
-                onClick={() => handlesetTime(plan.startTime)}
+                onClick={() => handleClickTime(plan.startTime)}
               >
                 {plan.startTime}
               </Button>
@@ -115,7 +101,7 @@ export default function TimeChoice() {
         <div>
           <div className="flex justify-between">
             <p>Giờ chiếu: {releasedTime}</p>
-            <CountdownTimer initialTime={100} onTimeUp={toggleVisibility} />
+            <CountdownTimer initialTime={1000} onTimeUp={toggleVisibility} />
           </div>
 
           <img
@@ -124,15 +110,12 @@ export default function TimeChoice() {
           />
           <p>Phòng chiếu số {room}</p>
           <div className="seatmap-container">
-            <SeatMap
-              rows={`${localStorage.getItem("totalRow")}`}
-              seatsPerRow={`${localStorage.getItem("seatsPerRow")}`}
-            />
+            <SeatMap />
           </div>
           <Legend />
           <div className="flex justify-between mt-6">
             <p>
-              {`Ghế đã chọn: ${selectedSeats.join(", ")}`}
+              {`Ghế đã chọn: ${selectedSeatCode.join(", ")}`}
               <br />
               {`Tổng tiền: ${totalAmount}`}
             </p>
@@ -155,15 +138,8 @@ export default function TimeChoice() {
                   backgroundColor: "red",
                   height: "40px",
                 }}
-                onClick={() =>
-                  goToFinalTicket(
-                    3, // roomId
-                    selectedMovie.movieId,
-                    selectedTime,
-                    seletedDate
-                  )
-                }
-                disabled={selectedSeats.length === 0}
+                onClick={() => goToFinalTicket()}
+                disabled={selectedSeatCode.length === 0}
               >
                 Đặt vé
               </Button>

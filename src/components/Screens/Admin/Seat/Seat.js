@@ -14,7 +14,7 @@ export const Seats = (roomId) => {
   const handleCloseAddSeats = () => setOpenAddSeats(false);
 
   useEffect(() => {
-    dispatch(handleGetSeats());
+    dispatch(handleGetSeats(roomId.roomId));
   }, [dispatch]);
 
   return (
@@ -27,7 +27,7 @@ export const Seats = (roomId) => {
         />
       </div>
       <h1 className="text-center font-bold text-2xl mb-4">
-        Phòng {seats[0].roomId}
+        Phòng {roomId.roomId}
       </h1>
       <div className="flex justify-center">
         <table>

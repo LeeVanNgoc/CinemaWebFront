@@ -5,7 +5,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Img = styled("img")({
   margin: "auto",
@@ -15,7 +15,6 @@ const Img = styled("img")({
 });
 
 export default function MovieDetail() {
-  const dispatch = useDispatch();
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
 
   return (
@@ -30,9 +29,6 @@ export default function MovieDetail() {
         bgcolor: "transparent",
         boxShadow: "none",
         color: "white",
-
-        // backgroundColor: (theme) =>
-        //   theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
       }}
     >
       <Grid container spacing={4}>
@@ -71,7 +67,7 @@ export default function MovieDetail() {
                   Hài, Hoạt hình, Phiêu lưu - {movie.country} - {movie.duration}{" "}
                   phút
                   <br />
-                  Khởi chiếu: {movie.releaseDate}
+                  Khởi chiếu: {movie.releaseDate.split("T")[0]}
                   <br />
                   <br />
                   {movie.description}
