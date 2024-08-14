@@ -16,10 +16,10 @@ export const handleGetListMovies = async () => {
   }
 };
 
-export const handleGetMovieById = async (movieId) => {
+export const handleGetMovieByCode = async (movieCode) => {
   try {
-    const response = await axios.get("/api/movie/get-movie-by-id", {
-      params: { movieId: movieId },
+    const response = await axios.get("/api/movie/get-movie-by-code", {
+      params: { movieCode: movieCode },
     });
     return response;
   } catch (error) {
@@ -34,7 +34,7 @@ export const handleGetMovieById = async (movieId) => {
   }
 };
 
-export const handleCreateMovie = async (title, description, releaseDate, duration, country, genreId, image) => {
+export const handleCreateMovie = async (title, description, releaseDate, duration, country, genreCode, image) => {
   try {
     const response = await axios.post("/api/movie/create-new-movie", null, {
       params: {
@@ -43,7 +43,7 @@ export const handleCreateMovie = async (title, description, releaseDate, duratio
         releaseDate: releaseDate, 
         duration: duration, 
         country: country,
-        genreId: genreId,
+        genreCode: genreCode,
         image: image
       }
     });
@@ -61,10 +61,10 @@ export const handleCreateMovie = async (title, description, releaseDate, duratio
   }
 }
 
-export const handleDeleteMovie = async (movieId) => {
+export const handleDeleteMovie = async (movieCode) => {
   try {
     const response = await axios.delete(`/api/movie/delete-movie`, {
-      params: { movieId: movieId },
+      params: { movieCode: movieCode },
     });
     return response;
   } catch (error) {
@@ -79,16 +79,16 @@ export const handleDeleteMovie = async (movieId) => {
   }
 }
 
-export const handleEditMovie = async (movieId, title, description, duration, country, genreId, releaseDate, image) => {
+export const handleEditMovie = async (movieCode, title, description, duration, country, genreCode, releaseDate, image) => {
   try {
     const response = await axios.put(`/api/movie/edit-movie`, null, {
       params: {
-        movieId: movieId,
+        movieCode: movieCode,
         title: title,
         description: description,
         duration: duration,
         country: country,
-        genreId: genreId,
+        genreCode: genreCode,
         releaseDate: releaseDate,
         image: image,
       },

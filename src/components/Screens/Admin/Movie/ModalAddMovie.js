@@ -18,11 +18,11 @@ export function ModalAddMovie({ isOpen, handleOpen, handleClose }) {
   const [releaseDate, setReleaseDate] = useState("");
   const [duration, setDuration] = useState("");
   const [country, setCountry] = useState("");
-  const [genreId, setGenreId] = useState("");
+  const [genreCode, setGenreCode] = useState("");
   const [image, setImage] = useState("");
 
   const handleAddMovie = async () => {
-    handleCreateMovie(title, description, releaseDate, duration, country, genreId, image);
+    handleCreateMovie(title, description, releaseDate, duration, country, genreCode, image);
     handleClose();
     // window.location.reload();
   };
@@ -123,7 +123,7 @@ export function ModalAddMovie({ isOpen, handleOpen, handleClose }) {
               <FormControl defaultValue="" required sx={{ flex: 1 }}>
                 <Label>Mã thể loại</Label>
                 <StyledInput               
-                  onChange={(e) => setGenreId(e.target.value)}
+                  onChange={(e) => setGenreCode(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
                 />
                 <HelperText />
