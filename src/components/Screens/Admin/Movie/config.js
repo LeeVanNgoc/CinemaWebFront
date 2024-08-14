@@ -43,7 +43,7 @@ export const handleCreateMovie = async (title, description, releaseDate, duratio
         releaseDate: releaseDate, 
         duration: duration, 
         country: country,
-        genreID: genreId,
+        genreId: genreId,
         image: image
       }
     });
