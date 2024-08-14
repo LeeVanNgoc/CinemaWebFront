@@ -37,6 +37,7 @@ export default function Signin({
 
     dispatch(handleLoginRedux(email, password));
   };
+
   const handleEnter = (e) => {
     if (e && e.key === "Enter") {
       handleLogin();
@@ -104,7 +105,7 @@ export default function Signin({
               <Label>Mật khẩu</Label>
               <StyledInput
                 placeholder="Mật khẩu"
-                type={showPassword ? "text" : "password"}
+                type="password"
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />
