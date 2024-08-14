@@ -31,14 +31,14 @@ export const getMovies = () => {
       console.log("res list movies >>>", res);
       if (res && res.movies) {
         const formattedData = res.movies.map((item) => ({
-          movieId: item.movieId,
+          movieCode: item.movieCode,
           title: item.title,
           description: item.description,
           duration: item.duration,
           country: item.country,
           releaseDate: item.releaseDate,
           image: item.image,
-          genreId: item.genreId,
+          genreCode: item.genreCode,
         }));
         dispatch({
           type: "GET_MOVIES_SUCCESS",
