@@ -139,7 +139,7 @@ export const Movie = () => {
               <TableCell>Mã Phim</TableCell>
               <TableCell>Tên Phim</TableCell>
               <TableCell>Mô Tả</TableCell>
-              <TableCell>Thời Lượng</TableCell>
+              <TableCell>Thời Lượng (Phút)</TableCell>
               <TableCell>Quốc Gia</TableCell>
               <TableCell>Ngày Khởi Chiếu</TableCell>
               <TableCell>Ảnh</TableCell>
