@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { handleGetTitleMovieByMovieId } from "./config";
+import { handleGetTitleMovieByMovieCode } from "./config";
 export default function ModalScreenTrailer({
   isOpen,
   handleOpen,
@@ -16,7 +16,7 @@ export default function ModalScreenTrailer({
 }) {
   const trailer = useSelector((state) => state.manageTrailers.selectedTrailer);
 
-  const [movieId, setMovieId] = useState(trailer.movieId);
+  const [movieCode, setMovieCode] = useState(trailer.movieCode);
   const [movieTitle, setMovieTitle] = useState("");
   const [trailerLink, setTrailerLink] = useState(trailer.link);
 
@@ -47,10 +47,11 @@ export default function ModalScreenTrailer({
     const embedUrl = `https://www.youtube.com/embed/${videoId}`;
     return embedUrl;
   }
+
   useEffect(() => {
     const handleGetMovieTitle = async () => {
-      if (!movieId) return;
-      const fetchMovieTitle = await handleGetTitleMovieByMovieId(movieId);
+      if (!movieCode) return;
+      const fetchMovieTitle = await handleGetTitleMovieByMovieCode(movieCode);
       if (fetchMovieTitle && fetchMovieTitle.movie) {
         setMovieTitle(fetchMovieTitle.movie.title);
       } else {
@@ -58,11 +59,11 @@ export default function ModalScreenTrailer({
       }
     };
     handleGetMovieTitle();
-  }, [movieId]);
+  }, [movieCode]);
 
   useEffect(() => {
     setTrailerLink(convertToEmbedUrl(trailer.link));
-    setMovieId(trailer.movieId);
+    setMovieCode(trailer.movieCode);
   });
 
   const handleCloseTrailer = () => {

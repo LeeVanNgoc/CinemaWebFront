@@ -4,7 +4,7 @@ import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import { handleGetListPlans } from "./config";
+import { handleGetListPlansInformation } from "./config";
 import { useDispatch } from "react-redux";
 import {
   setSelectedPlan,
@@ -102,13 +102,13 @@ export const Plans = () => {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        let res = await handleGetListPlans();
+        let res = await handleGetListPlansInformation();
         console.log("res list plans >>>", res);
         if (res && res.planScreenMovies) {
           const formattedData = res.planScreenMovies.map((item) => ({
-            planScreenMovieId: item.planScreenMovieId,
-            roomId: item.roomId,
-            movieId: item.movieId,
+            planScreenMovieCode: item.planScreenMovieCode,
+            roomCode: item.roomCode,
+            movieTitle: item.movieTitle,
             dateScreen: item.dateScreen,
             startTime: item.startTime,
             endTime: item.endTime,
@@ -147,8 +147,8 @@ export const Plans = () => {
           <TableHead>
             <TableRow>
               <TableCell>Mã Lịch Chiếu</TableCell>
-              <TableCell>Mã Phim</TableCell>
               <TableCell>Mã Phòng</TableCell>
+              <TableCell>Tên Phim</TableCell>
               <TableCell>Ngày Chiếu</TableCell>
               <TableCell>
                 <TableSortLabel
@@ -168,9 +168,9 @@ export const Plans = () => {
             {stableSort(displayedPlans, getComparator(order, orderBy)).map(
               (plan, index) => (
                 <TableRow key={index}>
-                  <TableCell>{plan.planScreenMovieId}</TableCell>
-                  <TableCell>{plan.movieId}</TableCell>
-                  <TableCell>{plan.roomId}</TableCell>
+                  <TableCell>{plan.planScreenMovieCode}</TableCell>
+                  <TableCell>{plan.roomCode}</TableCell>
+                  <TableCell>{plan.movieTitle}</TableCell>
                   <TableCell>{plan.dateScreen}</TableCell>
                   <TableCell>{plan.startTime}</TableCell>
                   <TableCell>{plan.endTime}</TableCell>
