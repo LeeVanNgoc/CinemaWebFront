@@ -7,7 +7,7 @@ import {
 } from "../actions/userAction";
 
 const INITIAL_STATE = {
-  account: { email: "", id: "", role: "", auth: null },
+  account: { email: "", code: "", role: "", auth: null },
   isError: false,
 };
 
@@ -25,7 +25,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           email: action.data.email,
-          id: action.data.id,
+          code: action.data.code,
           role: action.data.role,
           auth: true,
         },
@@ -44,7 +44,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           email: "",
-          id: "",
+          code: "",
           role: "",
           auth: false,
         },
@@ -55,7 +55,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           email: localStorage.getItem("email"),
-          id: localStorage.getItem("userId"),
+          code: localStorage.getItem("userCode"),
           role: localStorage.getItem("role"),
           auth: true,
         },

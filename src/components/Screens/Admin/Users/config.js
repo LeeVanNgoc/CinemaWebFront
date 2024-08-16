@@ -16,9 +16,9 @@ const handleGetListUsers = async () => {
   }
 };
 
-const handleGetUserById = async (userCode) => {
+const handleGetUserByCode = async (userCode) => {
   try {
-    const response = await axios.get("/api/user/get-user-by-id", {
+    const response = await axios.get("/api/user/get-user-by-code", {
       params: { userCode: userCode },
     });
     return response;
@@ -41,7 +41,8 @@ const handleCreateUser = async (
   lastName,
   birthYear,
   userName,
-  phonenumber
+  phonenumber,
+  city
 ) => {
   try {
     const response = await axios.post("/api/user/create-new-user/", null, {
@@ -53,6 +54,7 @@ const handleCreateUser = async (
         birthYear: birthYear,
         userName: userName,
         phonenumber: phonenumber,
+        city: city,
       },
     });
     alert(response.message);
@@ -76,17 +78,19 @@ const handleEditUser = async (
   lastName,
   userName,
   phonenumber,
-  birthYear
+  birthYear,
+  city
 ) => {
   try {
     const response = await axios.put("/api/user/edit-user/", null, {
       params: {
-        usercode: userCode,
+        userCode: userCode,
         firstName: firstName,
         lastName: lastName,
         userName: userName,
         phonenumber: phonenumber,
         birthYear: birthYear,
+        city: city,
       },
     });
     alert(response.message);
@@ -110,7 +114,7 @@ const handleDeleteUser = async (userCode) => {
   try {
     const response = await axios.delete("/api/user/delete-user", {
       params: {
-        userCode: userCode,
+        code: userCode,
       },
     });
     alert("Xóa người dùng thành công!");
@@ -131,7 +135,7 @@ const handleDeleteUser = async (userCode) => {
 
 export {
   handleGetListUsers,
-  handleGetUserById,
+  handleGetUserByCode,
   handleCreateUser,
   handleEditUser,
   handleDeleteUser,

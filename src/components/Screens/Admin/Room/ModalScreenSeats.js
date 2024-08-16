@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { FormControl } from "@mui/base/FormControl";
+import React, { useEffect } from "react";
 import {
   Button,
   Dialog,
@@ -7,20 +6,23 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
+import ChangeSeats from "../Seat/ChangeSeats";
+import { clearSeats } from "../Seat/redux/actions/seatActions";
+import { useDispatch } from "react-redux";
 
-import { Seats } from "../Seat/Seat";
+export default function ModalScreenSeat({ isOpen, roomCode, handleClose }) {
+  const dispatch = useDispatch();
 
-export default function ModalScreenSeat({
-  isOpen,
-  roomId,
-
-  handleClose,
-}) {
   useEffect(() => {
-    if (roomId) {
-      console.log("Check roomId from Modal screen seat: ", roomId);
+    if (roomCode) {
+      console.log("Check roomCode from Modal screen seat: ", roomCode);
     }
-  }, [roomId]);
+  }, [roomCode]);
+
+  const handleCloseModal = () => {
+    handleClose();
+    dispatch(clearSeats());
+  };
 
   return (
     <div>
@@ -31,12 +33,12 @@ export default function ModalScreenSeat({
         aria-describedby="modal-description"
         maxWidth="xl"
       >
-        <DialogTitle id="modal-title">Quản lý ghế</DialogTitle>
+        <DialogTitle id="modal-title">Quản lý ghế phòng {roomCode}</DialogTitle>
         <DialogContent>
-          <Seats roomId={roomId} />
+          <ChangeSeats roomCode={roomCode} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={() => handleCloseModal()} color="primary">
             Đóng
           </Button>
         </DialogActions>

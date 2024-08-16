@@ -15,14 +15,20 @@ import { useSelector } from "react-redux";
 
 export default function ModalEditRoom({ isOpen, handleOpen, handleClose }) {
   const room = useSelector((state) => state.manageRooms.selectedRoom);
-  
-  const [theaterId, setTheaterId] = useState(room.theaterId);
+
+  const [theaterCode, setTheaterCode] = useState(room.theaterCode);
   const [type, setType] = useState(room.type);
   const [numberSeats, setNumberSeats] = useState(room.numberSeats);
   const [isAvailable, setIsAvailable] = useState(room.isAvailable);
 
   const handleUpdateRoom = async () => {
-    await handleEditRoom(room.roomId, theaterId, type, numberSeats, isAvailable);
+    await handleEditRoom(
+      room.roomCode,
+      theaterCode,
+      type,
+      numberSeats,
+      isAvailable
+    );
     handleClose();
   };
 
@@ -67,13 +73,17 @@ export default function ModalEditRoom({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue={room.roomId} aria-readonly>
+            <FormControl defaultValue={room.roomCode} aria-readonly>
               <Label>Mã phòng</Label>
               <StyledInput readOnly />
               <HelperText />
             </FormControl>
 
-            <FormControl defaultValue={room.theaterId} aria-readonly sx={{ flex: 1 }}>
+            <FormControl
+              defaultValue={room.theaterCode}
+              aria-readonly
+              sx={{ flex: 1 }}
+            >
               <Label>Rạp</Label>
               <StyledInput readOnly />
               <HelperText />
@@ -85,9 +95,13 @@ export default function ModalEditRoom({ isOpen, handleOpen, handleClose }) {
               <HelperText />
             </FormControl>
 
-            <FormControl defaultValue={room.numberSeats} required sx={{ flex: 1 }}>
+            <FormControl
+              defaultValue={room.numberSeats}
+              required
+              sx={{ flex: 1 }}
+            >
               <Label>Số ghế</Label>
-              <StyledInput onChange={(e) => setNumberSeats(e.target.value)} />
+              <StyledInput readOnly />
               <HelperText />
             </FormControl>
 

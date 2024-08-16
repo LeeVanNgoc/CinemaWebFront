@@ -18,12 +18,12 @@ export const handleLoginRedux = (email, password) => {
       if (res) {
         if (res.errCode === 0) {
           localStorage.setItem("email", email.trim());
-          localStorage.setItem("userId", res.userId);
+          localStorage.setItem("userCode", res.userCode);
           localStorage.setItem("role", res.role);
 
           dispatch({
             type: "FETCH_USER_SUCCESS",
-            data: { email: email.trim(), id: res.userId, role: res.role },
+            data: { email: email.trim(), code: res.userCode, role: res.role },
           });
         } else if (res.errCode === 5) {
           dispatch({ type: "FETCH_USER_ERROR" });

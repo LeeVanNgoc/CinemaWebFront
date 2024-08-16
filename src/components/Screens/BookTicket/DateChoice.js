@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import Tabs from "@mui/joy/Tabs";
 import TabList from "@mui/joy/TabList";
 import Tab from "@mui/joy/Tab";
@@ -6,18 +6,19 @@ import TabPanel from "@mui/joy/TabPanel";
 import TimeChoice from "./TimeChoice";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  clearSelectedSeatsAndTime,
+  clearStartTimeAndRoom,
   setDate,
-  // getPlanTime,
-  getPlanID,
+  getPlanTime,
 } from "./redux/actions/bookingAction";
 import "./scss/DateChoice.scss";
 
 export default function DateChoice() {
   const dispatch = useDispatch();
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
+  const dateScreen = useSelector((state) => state.userBookTicket.date);
 
   const today = new Date();
+
   const getNextDay = (current) => {
     const nextDay = new Date(current);
     nextDay.setDate(current.getDate() + 1);
@@ -27,14 +28,15 @@ export default function DateChoice() {
   const tomorrow = getNextDay(today);
   const nextTomorrow = getNextDay(tomorrow);
 
-  const handleClearSelectedSeats = () => {
-    dispatch(clearSelectedSeatsAndTime());
-  };
+  useEffect(() => {
+    dispatch(clearStartTimeAndRoom());
+    dispatch(getPlanTime(dateScreen, movie.movieCode));
+  }, [dateScreen, movie, dispatch]);
 
   const handlesetDate = (date) => {
     dispatch(setDate(date));
-    handleClearSelectedSeats();
-    dispatch(getPlanID(date, movie.movieId));
+    dispatch(clearStartTimeAndRoom());
+    // dispatch(getPlanTime(date, movie.movieCode));
   };
 
   return (

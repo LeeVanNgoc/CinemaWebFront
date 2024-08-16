@@ -83,7 +83,7 @@ export default function MovieDetail() {
                   Hài, Hoạt hình, Phiêu lưu - {movie.country} - {movie.duration}{" "}
                   phút
                   <br />
-                  Khởi chiếu: {movie.releaseDate.split("T")[0]}
+                  Khởi chiếu: {movie.releaseDate}
                   <br />
                   <br />
                   {movie.description}

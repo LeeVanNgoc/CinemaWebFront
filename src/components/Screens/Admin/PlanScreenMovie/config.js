@@ -18,6 +18,23 @@ const handleGetListPlans = async () => {
   }
 };
 
+const handleGetListPlansInformation = async () => {
+  try {
+    const response = await axios.get(
+      "/api/plan-screen-movie/get-list-plan-information"
+    );
+    return response;
+  } catch (error) {
+    console.error("Error getting list of plans information:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
 const handleCreatePlan = async (roomId, movieId, dateScreen, startTime) => {
   try {
     const response = await axios.post(
@@ -108,9 +125,31 @@ const handleDeletePlan = async (planScreenMovieId) => {
   }
 };
 
+const handleGetTitleMovieByMovieCode = async (movieCode) => {
+  try {
+    const response = await axios.get("/api/movie/get-movie-by-code", {
+      params: {
+        movieCode: movieCode,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error getting title movie by movie ID:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
 export {
   handleGetListPlans,
   handleCreatePlan,
   handleEditPlan,
   handleDeletePlan,
+  handleGetTitleMovieByMovieCode,
+  handleGetListPlansInformation,
 };
