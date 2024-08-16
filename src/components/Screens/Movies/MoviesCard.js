@@ -30,7 +30,7 @@ const MoviesCard = () => {
             <Card
               sx={{
                 maxHeight: "fit-content",
-                height: "300px",
+                height: "280px",
                 bgcolor: "grey.900",
                 color: "white",
                 margin: "10px",
@@ -52,7 +52,6 @@ const MoviesCard = () => {
                   container
                   justifyContent="space-between"
                   alignItems="center"
-                  sx={{ marginBottom: 2 }}
                 >
                   <Typography variant="caption" color="grey.500">
                     Hài, Hoạt hình, Phiêu lưu - {movie.duration} phút
@@ -63,18 +62,20 @@ const MoviesCard = () => {
                     sx={{ bgcolor: "grey.700", color: "white" }}
                   />
                 </Grid>
-                <Typography gutterBottom variant="h6" component="div">
-                  {movie.title}
-                </Typography>
-                <Typography variant="body2" color="white">
-                  Xuất xứ: {movie.country}
-                </Typography>
-                <Typography variant="body2" color="white">
-                  Khởi chiếu: {movie.releaseDate.split("T")[0]}
-                </Typography>
-                <Typography variant="body2" color="red">
-                  P - PHIM ĐƯỢC PHÉP PHỔ BIẾN ĐẾN NGƯỜI XEM Ở MỌI ĐỘ TUỔI.
-                </Typography>
+                <div className="box-border translate-y-0">
+                  <Typography gutterBottom variant="h6" component="div">
+                    {movie.title}
+                  </Typography>
+                  <Typography variant="body2" color="white">
+                    Xuất xứ: {movie.country}
+                  </Typography>
+                  <Typography variant="body2" color="white">
+                    Khởi chiếu: {movie.releaseDate.split("T")[0]}
+                  </Typography>
+                  <Typography variant="body2" color="red">
+                    P - PHIM ĐƯỢC PHÉP PHỔ BIẾN ĐẾN NGƯỜI XEM Ở MỌI ĐỘ TUỔI.
+                  </Typography>
+                </div>
               </CardContent>
             </Card>
           </Grid>

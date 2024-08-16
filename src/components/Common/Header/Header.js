@@ -98,7 +98,6 @@ const Header = () => {
             style={{ cursor: "pointer", width: "40px", height: "auto" }}
             onClick={() => handleNavigation("/", 1)}
           ></img>
-
           {/* small screen */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
