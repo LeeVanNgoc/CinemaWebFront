@@ -58,9 +58,9 @@ const Header = () => {
   useEffect(() => {
     if (user && user.auth === false) {
       navigate("/");
-      toast.success("Logouted");
+      toast.success("Logged out");
     }
-  }, [user, navigate]);
+  }, [user]);
 
   const handleClick = (index) => {
     setClickedIndex(index);
@@ -90,10 +90,14 @@ const Header = () => {
 
   return (
     <AppBar position="fixed">
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Toolbar disableGutters>
-          <img src={require("./assets/logo.png")} alt="logo" />
-
+          <img
+            src={`${process.env.PUBLIC_URL}/logo.png`}
+            alt="logo"
+            style={{ cursor: "pointer", width: "40px", height: "auto" }}
+            onClick={() => handleNavigation("/", 1)}
+          ></img>
           {/* small screen */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton

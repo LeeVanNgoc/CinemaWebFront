@@ -20,12 +20,12 @@ export function ModalEditMovie({ isOpen, handleOpen, handleClose }) {
   const [description, setDescription] = useState(movie.description);
   const [duration, setDuration] = useState(movie.duration);
   const [country, setCountry] = useState(movie.country);
-  const [genreId, setGenreId] = useState(movie.genreId);
+  const [genreCode, setGenreCode] = useState(movie.genreCode);
   const [releaseDate, setReleaseDate] = useState(movie.releaseDate);
   const [image, setImage] = useState(movie.image);
 
   const handleUpdateMovie = async () => {
-    await handleEditMovie(movie.movieId, title, description, duration, country, genreId, releaseDate, image);
+    await handleEditMovie(movie.movieCode, title, description, duration, country, genreCode, releaseDate, image);
     handleClose();
   };
 
@@ -71,7 +71,7 @@ export function ModalEditMovie({ isOpen, handleOpen, handleClose }) {
             }}
           >
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl defaultValue={movie.movieId} aria-readonly sx={{ flex: 1 }}>
+              <FormControl defaultValue={movie.movieCode} aria-readonly sx={{ flex: 1 }}>
                 <Label>Mã phim</Label>
                 <StyledInput readOnly />
                 <HelperText />
@@ -109,9 +109,9 @@ export function ModalEditMovie({ isOpen, handleOpen, handleClose }) {
                 <HelperText />
               </FormControl>
 
-              <FormControl defaultValue={movie.genreId} required sx={{ flex: 1 }}>
+              <FormControl defaultValue={movie.genreCode} required sx={{ flex: 1 }}>
                 <Label>Mã thể loại</Label>
-                <StyledInput onChange={(e) => setGenreId(e.target.value)} />
+                <StyledInput onChange={(e) => setGenreCode(e.target.value)} />
                 <HelperText />
               </FormControl>
             </div>

@@ -2,7 +2,7 @@ import axios from "../../../../axios";
 
 const handleGetListPosts = async () => {
   try {
-    const response = await axios.get("/api/news/get-all-news");
+    const response = await axios.get("/api/posts/get-all-posts");
     return response;
   } catch (error) {
     console.error("Error getting list of posts:", error);
@@ -18,7 +18,7 @@ const handleGetListPosts = async () => {
 
 const handleGetPostByCode = async (postCode) => {
   try {
-    const response = await axios.get("/api/news/get-news-by-code", null, {
+    const response = await axios.get("/api/posts/get-post-by-code", null, {
       params: {
         postCode: postCode,
       },
@@ -38,7 +38,7 @@ const handleGetPostByCode = async (postCode) => {
 
 const handleCreatePost = async (title, content, image, link) => {
   try {
-    const response = await axios.post("/api/news/create-new-news/", null, {
+    const response = await axios.post("/api/posts/create-new-post/", null, {
       params: {
         title: title,
         content: content,
@@ -61,11 +61,11 @@ const handleCreatePost = async (title, content, image, link) => {
   }
 };
 
-const handleEditPost = async (postId, title, content, image, link) => {
+const handleEditPost = async (postCode, title, content, image, link) => {
   try {
-    const response = await axios.put("/api/news/edit-news/", null, {
+    const response = await axios.put("/api/posts/edit-post/", null, {
       params: {
-        postId: postId,
+        postCode: postCode,
         title: title,
         content: content,
         image: image,
@@ -90,7 +90,7 @@ const handleEditPost = async (postId, title, content, image, link) => {
 
 const handleDeletePost = async (postCode) => {
   try {
-    const response = await axios.delete("/api/news/delete-news", {
+    const response = await axios.delete("/api/posts/delete-post", {
       params: {
         postCode: postCode,
       },
