@@ -147,7 +147,7 @@ export const Prices = () => {
           <TableHead>
             <TableRow>
               <TableCell>Mã Giá Vé</TableCell>
-              <TableCell>Mức Giá</TableCell>
+              <TableCell>Mức Giá (VNĐ)</TableCell>
               <TableCell>Loại Phòng</TableCell>
               <TableCell>Loại Ghế</TableCell>
               <TableCell>Cuối Tuần/Lễ</TableCell>
@@ -162,7 +162,7 @@ export const Prices = () => {
                   <TableCell>{price.cost}</TableCell>
                   <TableCell>{price.roomType}</TableCell>
                   <TableCell>{price.seatType}</TableCell>
-                  <TableCell>{price.isWeekend ? 1 : 0}</TableCell>
+                  <TableCell>{price.isWeekend ? 'Có' : 'Không'}</TableCell>
                   <TableCell>
                     <div
                       style={{
