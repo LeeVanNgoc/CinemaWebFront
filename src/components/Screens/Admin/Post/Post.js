@@ -107,11 +107,12 @@ export const Post = () => {
         console.log("res list posts >>>", res);
         if (res && res.posts) {
           const formattedData = res.posts.map((item) => ({
-            postsId: item.postsId,
-            cost: item.cost,
-            roomType: item.roomType,
-            seatType: item.seatType,
-            isWeekend: item.isWeekend,
+            postCode: item.postCode,
+            title: item.title,
+            content: item.content,
+            postDate: item.postDate,
+            image: item.image,
+            link: item.link,
           }));
           setPosts(formattedData);
         }
@@ -152,17 +153,44 @@ export const Post = () => {
               <TableCell>Hình ảnh</TableCell>
               <TableCell>Đường dẫn</TableCell>
               <TableCell>Ngày đăng</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {stableSort(displayedPosts, getComparator(order, orderBy)).map(
               (post, index) => (
                 <TableRow key={index}>
-                  <TableCell>{post.newCode}</TableCell>
+                  <TableCell>{post.postCode}</TableCell>
                   <TableCell>{post.title}</TableCell>
                   <TableCell>{post.content}</TableCell>
-                  <TableCell>{post.image}</TableCell>
-                  <TableCell>{post.link}</TableCell>
+                  <TableCell
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      src={post.image}
+                      style={{
+                        height: "6rem",
+                        maxWidth: "100vw",
+                        maxHeight: "100vh",
+                        cursor: "pointer",
+                      }}
+                      alt={post.title}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <a
+                      href={post.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "#007bff", textDecoration: "none" }}
+                    >
+                      {post.link}
+                    </a>
+                  </TableCell>
                   <TableCell>{post.postDate}</TableCell>
                   <TableCell>
                     <div
