@@ -41,7 +41,7 @@ export const Users = () => {
   const [openDeleteUser, setOpenDeleteUser] = useState(false);
 
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("userId");
+  const [orderBy, setOrderBy] = useState("userCode");
 
   const handleOpenAddUser = () => setOpenAddUser(true);
   const handleCloseAddUser = () => {
@@ -115,7 +115,7 @@ export const Users = () => {
       let res = await handleGetListUsers();
       if (res && res.users) {
         const formattedData = res.users.map((item) => ({
-          userId: item.userId,
+          userCode: item.userCode,
           email: item.email,
           firstName: item.firstName,
           lastName: item.lastName,
@@ -169,9 +169,9 @@ export const Users = () => {
             <TableRow>
               <TableCell>
                 <TableSortLabel
-                  active={orderBy === "userId"}
-                  direction={orderBy === "userId" ? order : "asc"}
-                  onClick={(event) => handleRequestSort(event, "userId")}
+                  active={orderBy === "userCode"}
+                  direction={orderBy === "userCode" ? order : "asc"}
+                  onClick={(event) => handleRequestSort(event, "userCode")}
                 >
                   ID
                 </TableSortLabel>
@@ -198,7 +198,7 @@ export const Users = () => {
             {stableSort(displayedUsers, getComparator(order, orderBy)).map(
               (user, index) => (
                 <TableRow key={index}>
-                  <TableCell>{user.userId}</TableCell>
+                  <TableCell>{user.userCode}</TableCell>
                   <TableCell>{user.lastName}</TableCell>
                   <TableCell>{user.firstName}</TableCell>
                   <TableCell>{user.userName}</TableCell>

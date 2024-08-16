@@ -25,7 +25,7 @@ export default function ModalEditUser({ isOpen, handleOpen, handleClose }) {
 
   const handleUpdateUser = async () => {
     await handleEditUser(
-      user.userId,
+      user.userCode,
       firstName,
       lastName,
       userName,

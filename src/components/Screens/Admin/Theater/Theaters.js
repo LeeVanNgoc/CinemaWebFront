@@ -40,7 +40,7 @@ export const Theaters = () => {
   const [openDeleteTheater, setOpenDeleteTheater] = useState(false);
 
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("theaterId");
+  const [orderBy, setOrderBy] = useState("theaterCode");
 
   const handleOpenAddTheater = () => setOpenAddTheater(true);
   const handleCloseAddTheater = () => setOpenAddTheater(false);
@@ -113,7 +113,7 @@ export const Theaters = () => {
         console.log("res list theaters >>>", res);
         if (res && res.theaters) {
           const formattedData = res.theaters.map((item) => ({
-            theaterId: item.theaterId,
+            theaterCode: item.theaterCode,
             name: item.name,
             address: item.address,
             city: item.city,
@@ -159,9 +159,9 @@ export const Theaters = () => {
             <TableRow>
               <TableCell>
                 <TableSortLabel
-                  active={orderBy === "theaterId"}
-                  direction={orderBy === "theaterId" ? order : "asc"}
-                  onClick={(event) => handleRequestSort(event, "theaterId")}
+                  active={orderBy === "theaterCode"}
+                  direction={orderBy === "theaterCode" ? order : "asc"}
+                  onClick={(event) => handleRequestSort(event, "theaterCode")}
                 >
                   ID
                 </TableSortLabel>
@@ -186,7 +186,7 @@ export const Theaters = () => {
             {stableSort(displayedTheaters, getComparator(order, orderBy)).map(
               (theater, index) => (
                 <TableRow key={index}>
-                  <TableCell>{theater.theaterId}</TableCell>
+                  <TableCell>{theater.theaterCode}</TableCell>
                   <TableCell>{theater.name}</TableCell>
                   <TableCell>{theater.address}</TableCell>
                   <TableCell>{theater.city}</TableCell>

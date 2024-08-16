@@ -12,7 +12,7 @@ export default function ModalDeleteTheater({
   const theater = useSelector((state) => state.manageTheaters.selectedTheater);
 
   const handleDelete = async () => {
-    await handleDeleteTheater(theater.theaterId);
+    await handleDeleteTheater(theater.theaterCode);
     handleClose();
   };
 
@@ -47,7 +47,7 @@ export default function ModalDeleteTheater({
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Xóa rạp ID = {theater.theaterId}?
+            Xóa rạp ID = {theater.theaterCode}?
           </h1>
           <div style={{ display: "flex", gap: "10px" }}>
             <Button

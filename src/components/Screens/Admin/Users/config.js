@@ -16,10 +16,10 @@ const handleGetListUsers = async () => {
   }
 };
 
-const handleGetUserById = async (userId) => {
+const handleGetUserById = async (userCode) => {
   try {
     const response = await axios.get("/api/user/get-user-by-id", {
-      params: { userId: userId },
+      params: { userCode: userCode },
     });
     return response;
   } catch (error) {
@@ -71,7 +71,7 @@ const handleCreateUser = async (
 };
 
 const handleEditUser = async (
-  userId,
+  userCode,
   firstName,
   lastName,
   userName,
@@ -81,7 +81,7 @@ const handleEditUser = async (
   try {
     const response = await axios.put("/api/user/edit-user/", null, {
       params: {
-        userId: userId,
+        usercode: userCode,
         firstName: firstName,
         lastName: lastName,
         userName: userName,
@@ -106,11 +106,11 @@ const handleEditUser = async (
   }
 };
 
-const handleDeleteUser = async (userId) => {
+const handleDeleteUser = async (userCode) => {
   try {
     const response = await axios.delete("/api/user/delete-user", {
       params: {
-        id: userId,
+        userCode: userCode,
       },
     });
     alert("Xóa người dùng thành công!");
