@@ -20,8 +20,6 @@ export default function MovieDetail() {
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
 
   const [openScreenTrailer, setOpenScreenTrailer] = useState(false);
-  const [trailer, setTrailer] = useState(null);
-
   const handleOpenScreenTrailer = (trailer) => {
     dispatch(setSelectedTrailer(trailer));
     setOpenScreenTrailer(true);
@@ -30,7 +28,6 @@ export default function MovieDetail() {
   const handleCloseScreenTrailer = () => {
     setOpenScreenTrailer(false);
     dispatch(clearSelectedTrailer());
-    setTrailer(null);
   };
 
   return (
@@ -83,7 +80,7 @@ export default function MovieDetail() {
                   Hài, Hoạt hình, Phiêu lưu - {movie.country} - {movie.duration}{" "}
                   phút
                   <br />
-                  Khởi chiếu: {movie.releaseDate}
+                  Khởi chiếu: {movie.releaseDate.split("T")[0]}
                   <br />
                   <br />
                   {movie.description}
@@ -95,15 +92,13 @@ export default function MovieDetail() {
                 Khuyến cáo: P - PHIM ĐƯỢC PHÉP PHỔ BIẾN ĐẾN NGƯỜI XEM Ở MỌI ĐỘ
                 TUỔI.
               </Typography>
-              {trailer && (
-                <ModalScreenTrailer
-                  isOpen={openScreenTrailer}
-                  link={trailer.link}
-                  movieCode={movie.movieCode}
-                  handleOpen={() => handleOpenScreenTrailer(trailer)}
-                  handleClose={handleCloseScreenTrailer}
-                />
-              )}
+              <ModalScreenTrailer
+                isOpen={openScreenTrailer}
+                link={trailer.link}
+                movieCode={movie.movieCode}
+                handleOpen={() => handleOpenScreenTrailer(trailer)}
+                handleClose={handleCloseScreenTrailer}
+              />
             </Grid>
           </Grid>
         </Grid>
