@@ -12,7 +12,7 @@ export function ModalDeleteMovie({
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
 
   const handleDelete = async () => {
-    await handleDeleteMovie(movie.movieId);
+    await handleDeleteMovie(movie.movieCode);
     handleClose();
   };
 
