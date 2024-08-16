@@ -19,7 +19,6 @@ export const handleGetListMovies = async () => {
 export const handleGetMovieByCode = async (movieCode) => {
   try {
     const response = await axios.get("/api/movie/get-movie-by-code", {
-
       params: { movieCode: movieCode },
     });
     return response;
@@ -35,8 +34,15 @@ export const handleGetMovieByCode = async (movieCode) => {
   }
 };
 
-
-export const handleCreateMovie = async (title, description, releaseDate, duration, country, genreCode, image) => {
+export const handleCreateMovie = async (
+  title,
+  description,
+  releaseDate,
+  duration,
+  country,
+  genreCode,
+  image
+) => {
   try {
     const response = await axios.post("/api/movie/create-new-movie", null, {
       params: {
@@ -46,8 +52,8 @@ export const handleCreateMovie = async (title, description, releaseDate, duratio
         duration: duration,
         country: country,
         genreCode: genreCode,
-        image: image
-      }
+        image: image,
+      },
     });
     alert(response.message);
     return response;
@@ -81,8 +87,16 @@ export const handleDeleteMovie = async (movieCode) => {
   }
 };
 
-
-export const handleEditMovie = async (movieCode, title, description, duration, country, genreCode, releaseDate, image) => {
+export const handleEditMovie = async (
+  movieCode,
+  title,
+  description,
+  duration,
+  country,
+  genreCode,
+  releaseDate,
+  image
+) => {
   try {
     const response = await axios.put(`/api/movie/edit-movie`, null, {
       params: {
@@ -99,6 +113,24 @@ export const handleEditMovie = async (movieCode, title, description, duration, c
     return response;
   } catch (error) {
     console.error("Error editing movie:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
+export const handleGetListMoviesTitleAndCode = async () => {
+  try {
+    const response = await axios.get(
+      "/api/movie/get-list-movies-title-and-code"
+    );
+    return response;
+  } catch (error) {
+    console.error("Error getting list of movies title and code:", error);
     if (error.response) {
       return { error: error.response.data.message };
     } else if (error.request) {
