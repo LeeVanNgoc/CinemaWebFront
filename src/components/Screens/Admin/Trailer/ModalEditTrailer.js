@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl } from "@mui/base/FormControl";
-import Button from "@mui/material/Button";
+import { Button, TextField, Autocomplete } from "@mui/material/";
 import {
   TriggerButton,
   StyledInput,
@@ -11,18 +11,31 @@ import {
   ModalContent,
 } from "./style";
 import { handleEditTrailer } from "./config";
+import { handleGetListMoviesTitleAndCode } from "../../Admin/Movie/config";
 import { useSelector } from "react-redux";
 
 export default function ModalEditTrailer({ isOpen, handleOpen, handleClose }) {
   const trailer = useSelector((state) => state.manageTrailers.selectedTrailer);
 
-
-  const [movieId, setMovieId] = useState(trailer.movieId);
+  const [movieTitle, setMovieTitle] = useState(trailer.movieTitle);
+  const [movieCode, setMovieCode] = useState(trailer.movieCode);
   const [link, setLink] = useState(trailer.link);
+  const [listMovies, setListMovies] = useState([]);
 
+  // Giả sử bạn đã có hàm lấy danh sách phim
+  const handleFetchMovies = async () => {
+    const response = await handleGetListMoviesTitleAndCode();
+    setListMovies(response.movies);
+  };
+
+  useEffect(() => {
+    handleFetchMovies();
+  }, []);
+
+  console.log("Movie title list : ", listMovies);
 
   const handleUpdateTrailer = async () => {
-    await handleEditTrailer(trailer.trailerId,  movieId, link);
+    await handleEditTrailer(trailer.trailerCode, movieTitle, link);
     handleClose();
   };
 
@@ -32,7 +45,7 @@ export default function ModalEditTrailer({ isOpen, handleOpen, handleClose }) {
         type="button"
         onClick={handleOpen}
         sx={{
-    borderRadius: "40px",
+          borderRadius: "40px",
           backgroundColor: "#dc1313f0",
           textTransform: "none",
           color: "white",
@@ -57,7 +70,7 @@ export default function ModalEditTrailer({ isOpen, handleOpen, handleClose }) {
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Cập nhật ghế
+            Cập nhật trailer
           </h1>
           <div
             style={{
@@ -65,18 +78,38 @@ export default function ModalEditTrailer({ isOpen, handleOpen, handleClose }) {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              width: "400px",
             }}
           >
-            <FormControl defaultValue={trailer.trailerId} aria-readonly>
+            <FormControl defaultValue={trailer.trailerCode} aria-readonly>
               <Label>Mã Trailer</Label>
               <StyledInput readOnly />
               <HelperText />
             </FormControl>
 
-            <FormControl defaultValue={trailer.movieId} required sx={{ flex: 1 }}>
-              <Label>Mã Phim</Label>
-              <StyledInput onChange={(e) => setMovieId(e.target.value)} />
-              <HelperText />
+            <FormControl
+              defaultValue={trailer.movieTitle}
+              required
+              sx={{ flex: 1 }}
+            >
+              <Label>Tên Phim</Label>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={listMovies}
+                getOptionLabel={(option) => option.title}
+                onChange={(e, value) => {
+                  // setMovieTitle(value ? value.title : "");
+                  setMovieCode(value ? value.code : "");
+                }}
+                sx={{ width: "400px" }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={trailer.movieTitle ? trailer.movieTitle : "Movie"}
+                  />
+                )}
+              />
             </FormControl>
 
             <FormControl defaultValue={trailer.link} required sx={{ flex: 1 }}>

@@ -6,7 +6,10 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import { useSelector, useDispatch } from "react-redux";
 import ModalScreenTrailer from "../Admin/Trailer/ModalScreenTrailer";
-import { setSelectedTrailer, clearSelectedTrailer } from "../Admin/Trailer/redux/actions/trailerActions";
+import {
+  setSelectedTrailer,
+  clearSelectedTrailer,
+} from "../Admin/Trailer/redux/actions/trailerActions";
 
 const Img = styled("img")({
   margin: "auto",
@@ -94,9 +97,9 @@ export default function MovieDetail() {
               </Typography>
               <ModalScreenTrailer
                 isOpen={openScreenTrailer}
-                link={trailer.link}
+                // link={trailer.link}
                 movieCode={movie.movieCode}
-                handleOpen={() => handleOpenScreenTrailer(trailer)}
+                // handleOpen={() => handleOpenScreenTrailer(trailer)}
                 handleClose={handleCloseScreenTrailer}
               />
             </Grid>
