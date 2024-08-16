@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl } from "@mui/base/FormControl";
 import Button from "@mui/material/Button";
 import {
@@ -16,13 +16,25 @@ import { useSelector } from "react-redux";
 export function ModalEditMovie({ isOpen, handleOpen, handleClose }) {
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
 
-  const [title, setTitle] = useState(movie.title);
-  const [description, setDescription] = useState(movie.description);
-  const [duration, setDuration] = useState(movie.duration);
-  const [country, setCountry] = useState(movie.country);
-  const [genreCode, setGenreCode] = useState(movie.genreCode);
-  const [releaseDate, setReleaseDate] = useState(movie.releaseDate);
-  const [image, setImage] = useState(movie.image);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [duration, setDuration] = useState("");
+  const [country, setCountry] = useState("");
+  const [genreCode, setGenreCode] = useState("");
+  const [releaseDate, setReleaseDate] = useState("");
+  const [image, setImage] = useState("");
+
+  useEffect(() => {
+    if (movie) {
+      setTitle(movie.title);
+      setDescription(movie.description);
+      setDuration(movie.duration);
+      setCountry(movie.country);
+      setGenreCode(movie.genreCode);
+      setReleaseDate(movie.releaseDate);
+      setImage(movie.image);
+    }
+  }, [movie]);
 
   const handleUpdateMovie = async () => {
     await handleEditMovie(movie.movieCode, title, description, duration, country, genreCode, releaseDate, image);

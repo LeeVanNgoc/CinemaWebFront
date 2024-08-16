@@ -115,7 +115,7 @@ export default function MovieDetail() {
                 </Typography>
               </div>
 
-              <Typography variant="body2" color="red">
+              <Typography variant="body2" color="red" sx={{ mb: 2 }}>
                 <br />
                 Khuyến cáo: P - PHIM ĐƯỢC PHÉP PHỔ BIẾN ĐẾN NGƯỜI XEM Ở MỌI ĐỘ
                 TUỔI.
