@@ -17,11 +17,11 @@ const handleGetListRoom = async () => {
   }
 };
 
-const handleGetRoomId = async (roomId) => {
+const handleGetRoomCode = async (roomCode) => {
   try {
-    const response = await axios.get("/api/room/get-room-by-id", null, {
+    const response = await axios.get("/api/room/get-room-by-code", null, {
       params: {
-        roomId: roomId,
+        roomCode: roomCode,
       },
     });
     return response;
@@ -37,11 +37,16 @@ const handleGetRoomId = async (roomId) => {
   }
 };
 
-const handleCreateRoom = async (theaterId, type, numberSeats, isAvailable) => {
+const handleCreateRoom = async (
+  theaterCode,
+  type,
+  numberSeats,
+  isAvailable
+) => {
   try {
     const response = await axios.post("/api/room/create-new-room/", null, {
       params: {
-        theaterId: theaterId,
+        theaterCode: theaterCode,
         type: type,
         numberSeats: numberSeats,
         isAvailable: isAvailable,
@@ -63,8 +68,8 @@ const handleCreateRoom = async (theaterId, type, numberSeats, isAvailable) => {
 };
 
 const handleEditRoom = async (
-  roomId,
-  theaterId,
+  roomCode,
+  theaterCode,
   type,
   numberSeats,
   isAvailable
@@ -72,8 +77,8 @@ const handleEditRoom = async (
   try {
     const response = await axios.put("/api/room/edit-room/", null, {
       params: {
-        roomId: roomId,
-        theaterId: theaterId,
+        roomCode: roomCode,
+        theaterCode: theaterCode,
         type: type,
         numberSeats: numberSeats,
         isAvailable: isAvailable,
@@ -95,4 +100,30 @@ const handleEditRoom = async (
   }
 };
 
-export { handleGetListRoom, handleGetRoomId, handleCreateRoom, handleEditRoom };
+const handleUpdateNumberSeats = async (roomCode) => {
+  try {
+    const response = await axios.get("api/room/update-number-seat-in-room", {
+      params: {
+        roomCode: roomCode,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error updating number seats:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
+export {
+  handleGetListRoom,
+  handleGetRoomCode,
+  handleCreateRoom,
+  handleEditRoom,
+  handleUpdateNumberSeats,
+};

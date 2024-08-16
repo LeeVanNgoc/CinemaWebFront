@@ -1,20 +1,21 @@
 import {
   GET_SELECTED_PLAN,
   SET_SELECTED_SEAT,
-  CLEAR_SELECTED_SEATS_AND_TIME,
   SET_DATE,
   SET_TIME,
   SET_ROOM,
   SET_TOTAL_BILL,
   GET_PLAN_TIMES_AND_ROOM,
+  NO_PLAN_TIMES_AND_ROOM,
+  CLEAR_PLAN_TIMES_AND_ROOM,
   SET_BANK,
 } from "../actions/bookingAction";
 
 const initialState = {
-  // selectedSeats: { seat: [], pricePerSeat: [] },
   seat: [],
   pricePerSeat: [],
   planScreens: [],
+  noPlanScreen: "",
   selectedPlan: "",
   date: new Date().toISOString().slice(0, 10),
   time: "",
@@ -42,14 +43,6 @@ const bookingReducer = (state = initialState, action) => {
           pricePerSeat: [...state.pricePerSeat, action.payload.pricePerSeat],
         };
       }
-    case CLEAR_SELECTED_SEATS_AND_TIME:
-      return {
-        ...state,
-        seat: [],
-        pricePerSeat: [],
-
-        time: "",
-      };
 
     case GET_SELECTED_PLAN:
       return {
@@ -61,6 +54,23 @@ const bookingReducer = (state = initialState, action) => {
       return {
         ...state,
         planScreens: action.payload.formattedData,
+      };
+
+    case NO_PLAN_TIMES_AND_ROOM:
+      return {
+        ...state,
+        noPlanScreen: action.payload.message,
+      };
+
+    case CLEAR_PLAN_TIMES_AND_ROOM:
+      return {
+        ...state,
+        noPlanScreen: "",
+        planScreens: [],
+        seat: [],
+        pricePerSeat: [],
+        time: "",
+        room: "",
       };
 
     case SET_DATE:

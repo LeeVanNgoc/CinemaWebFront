@@ -1,24 +1,30 @@
 import { useState, useEffect } from "react";
-import { handleGetUserById } from "../Admin/Users/config";
-import { useSelector } from "react-redux";
-import Button from "@mui/material/Button";
+import { handleGetUserByCode } from "../Admin/Users/config";
+import { useSelector, useDispatch } from "react-redux";
 import { Table } from "@mui/material";
+// import ModalEditUser from "./ModalEditUser";
 
 const UserAccount = () => {
-  const userId = useSelector((state) => state.user.account.id);
+  const userCode = useSelector((state) => state.user.account.code);
   const [info, setInfo] = useState(null);
+  const [openEditUser, setOpenEditUser] = useState(false);
+  const handleOpenEditUser = () => {
+    setOpenEditUser(true);
+  };
+  const handleCloseEditUser = () => {
+    setOpenEditUser(false);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      let res = await handleGetUserById(userId);
+      let res = await handleGetUserByCode(userCode);
       console.log("res info >>>", res);
       if (res && res.errCode === 0) {
         setInfo(res.user);
       }
     };
-
     fetchData();
-  }, [userId]);
+  }, [userCode]);
 
   return (
     <>
@@ -31,9 +37,12 @@ const UserAccount = () => {
           }}
         >
           <h5>Tài khoản của tôi</h5>
-
-          {/* <ModalUpdateInfo item={info}></ModalUpdateInfo> */}
-          <Button>Sửa</Button>
+          {/* 
+          <ModalEditUser
+            isOpen={openEditUser}
+            handleOpen={handleOpenEditUser}
+            handleClose={handleCloseEditUser}
+          /> */}
         </div>
 
         {info && (

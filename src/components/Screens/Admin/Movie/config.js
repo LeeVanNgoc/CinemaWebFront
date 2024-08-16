@@ -19,6 +19,7 @@ export const handleGetListMovies = async () => {
 export const handleGetMovieByCode = async (movieCode) => {
   try {
     const response = await axios.get("/api/movie/get-movie-by-code", {
+
       params: { movieCode: movieCode },
     });
     return response;
@@ -34,14 +35,15 @@ export const handleGetMovieByCode = async (movieCode) => {
   }
 };
 
+
 export const handleCreateMovie = async (title, description, releaseDate, duration, country, genreCode, image) => {
   try {
     const response = await axios.post("/api/movie/create-new-movie", null, {
       params: {
-        title: title, 
+        title: title,
         description: description,
-        releaseDate: releaseDate, 
-        duration: duration, 
+        releaseDate: releaseDate,
+        duration: duration,
         country: country,
         genreCode: genreCode,
         image: image
@@ -59,7 +61,7 @@ export const handleCreateMovie = async (title, description, releaseDate, duratio
       return { error: "Error setting up request" };
     }
   }
-}
+};
 
 export const handleDeleteMovie = async (movieCode) => {
   try {
@@ -77,7 +79,8 @@ export const handleDeleteMovie = async (movieCode) => {
       return { error: "Error setting up request" };
     }
   }
-}
+};
+
 
 export const handleEditMovie = async (movieCode, title, description, duration, country, genreCode, releaseDate, image) => {
   try {
@@ -104,4 +107,4 @@ export const handleEditMovie = async (movieCode, title, description, duration, c
       return { error: "Error setting up request" };
     }
   }
-}
+};

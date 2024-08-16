@@ -15,8 +15,6 @@ export default function MovieCard() {
   const movies = useSelector((state) => state.manageMovies.movies.movies);
   const navigate = useNavigate();
 
-  // const today = new Date().toLocaleDateString("vi-VN");
-
   const handleClick = (movie) => {
     dispatch(setSelectedMovie(movie));
     navigate("/bookticket");

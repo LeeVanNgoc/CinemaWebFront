@@ -6,7 +6,7 @@ import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import { handleGetListRoom } from "./config";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setSelectedRoom,
   clearSelectedRoom,
@@ -19,7 +19,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TableSortLabel,
   Paper,
   TableFooter,
   FormControl,
@@ -28,12 +27,12 @@ import { StyledInput, HelperText } from "./style";
 import ModalAddRoom from "./ModalAddRoom";
 import ModalEditRoom from "./ModalEditRoom";
 import ModalScreenSeat from "./ModalScreenSeats";
-import { border, display } from "@mui/system";
 
 export const Rooms = () => {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
   const [query, setQuery] = useState("");
+  // const numberSeats = useSelector((state) => state.manageSeats.seatNumber);
 
   const [openAddSeat, setOpenAddRoom] = useState(false);
   const [openEditRoom, setOpenEditRoom] = useState(false);
@@ -54,13 +53,13 @@ export const Rooms = () => {
   };
 
   const [openScreenSeat, setOpenScreenSeat] = useState(false);
-  const [selectedRoomId, setSelectedRoomId] = useState(null);
+  const [selectedRoomCode, setSelectedRoomCode] = useState(null);
 
-  const handleOpenScreenSeat = (roomId) => {
-    if (roomId !== null) {
-      console.log("Check roomId form handle open screen seat : ", roomId);
-      if (selectedRoomId !== roomId) {
-        setSelectedRoomId(roomId);
+  const handleOpenScreenSeat = (roomCode) => {
+    if (roomCode !== null) {
+      console.log("Check roomCode form handle open screen seat : ", roomCode);
+      if (selectedRoomCode !== roomCode) {
+        setSelectedRoomCode(roomCode);
       }
       setOpenScreenSeat(true);
     }
@@ -116,8 +115,8 @@ export const Rooms = () => {
         console.log("res list rooms >>>", res);
         if (res && res.rooms) {
           const formattedData = res.rooms.map((item) => ({
-            roomId: item.roomId,
-            theaterId: item.theaterId,
+            roomCode: item.roomCode,
+            theaterCode: item.theaterCode,
             type: item.type,
             numberSeats: item.numberSeats,
             isAvailable: item.isAvailable,
@@ -167,8 +166,8 @@ export const Rooms = () => {
             {stableSort(displayedRooms, getComparator(order, orderBy)).map(
               (room, index) => (
                 <TableRow key={index}>
-                  <TableCell>{room.roomId}</TableCell>
-                  <TableCell>{room.theaterId}</TableCell>
+                  <TableCell>{room.roomCode}</TableCell>
+                  <TableCell>{room.theaterCode}</TableCell>
                   <TableCell>{room.type}</TableCell>
                   <TableCell>{room.numberSeats}</TableCell>
                   <TableCell>{room.isAvailable ? 1 : 0}</TableCell>
@@ -201,7 +200,7 @@ export const Rooms = () => {
                             // borderColor: "#c81010",
                           },
                         }}
-                        onClick={() => handleOpenScreenSeat(room.roomId)}
+                        onClick={() => handleOpenScreenSeat(room.roomCode)}
                       >
                         Xem chi tiết
                       </Button>
@@ -213,7 +212,7 @@ export const Rooms = () => {
             {openScreenSeat && (
               <ModalScreenSeat
                 isOpen={openScreenSeat}
-                roomId={selectedRoomId}
+                roomCode={selectedRoomCode}
                 handleClose={handleCloseScreenSeat}
               />
             )}

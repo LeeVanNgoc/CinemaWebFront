@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import { clearSelectedSeatsAndTime } from "./redux/actions/bookingAction";
+import { clearStartTimeAndRoom } from "./redux/actions/bookingAction";
 import {
   Table,
   TableHead,
@@ -22,11 +22,12 @@ export default function FinalTicket() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userId = useSelector((state) => state.user.account.id);
+  const userCode = useSelector((state) => state.user.account.code);
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
-  const planId = useSelector((state) => state.userBookTicket.selectedPlan);
+  const planCode = useSelector((state) => state.userBookTicket.selectedPlan[0]);
   const date = useSelector((state) => state.userBookTicket.date);
   const time = useSelector((state) => state.userBookTicket.time);
+  const room = useSelector((state) => state.userBookTicket.room);
   const bank = useSelector((state) => state.userBookTicket.bank);
   const seats = useSelector((state) =>
     state.userBookTicket.seat.map((item) => item)
@@ -34,28 +35,29 @@ export default function FinalTicket() {
   const totalBill = useSelector((state) => state.userBookTicket.totalBill);
 
   const goBack = () => {
-    dispatch(clearSelectedSeatsAndTime());
+    dispatch(clearStartTimeAndRoom());
     navigate("/bookticket");
   };
 
-  const createBookedSeats = async (ticketId) => {
-    const res = await handleCreateBookedSeats(ticketId);
+  const createBookedSeats = async (ticketCode) => {
+    const res = await handleCreateBookedSeats(ticketCode);
     console.log("booked seats: ", res);
   };
 
   const bookTicket = async () => {
     try {
       const res = await handleCreateTicket(
-        userId,
-        planId,
+        userCode,
+        planCode,
         seats.join(", "),
         bank,
         totalBill
       );
-      dispatch(clearSelectedSeatsAndTime());
+      dispatch(clearStartTimeAndRoom());
       console.log("create ticket: ", res);
-      localStorage.setItem("ticketId", res.newTickets.ticketId);
-      await createBookedSeats(res.newTickets.ticketId);
+      localStorage.setItem("ticketCode", res.newTickets.ticketCode);
+      await createBookedSeats(res.newTickets.ticketCode);
+      navigate("/myticket");
     } catch (error) {
       console.error("Error booking ticket:", error);
     }
@@ -63,19 +65,16 @@ export default function FinalTicket() {
 
   return (
     <div className="mt-24 mx-40">
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className="flex flex-row justify-between">
         <div className="flex-col" style={{ width: "60%" }}>
           <Box sx={{ width: "100%" }}>
             <Card variant="outlined">
               <React.Fragment>
                 <CardContent>
-                  <Typography color="text.secondary">
+                  <Typography
+                    color="text.primary"
+                    sx={{ fontWeight: 800, fontFamily: "Segoe UI" }}
+                  >
                     Thông tin phim <br /> <br /> Phim
                   </Typography>
                   <Typography variant="h6" component="div">
@@ -87,16 +86,30 @@ export default function FinalTicket() {
                     columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                   >
                     <Grid item xs={6}>
-                      <Typography sx={{ mt: 1.5 }} color="text.secondary">
+                      <Typography
+                        sx={{
+                          mt: 1.5,
+                          fontWeight: 800,
+                          fontFamily: "Segoe UI",
+                        }}
+                        color="text.primary"
+                      >
                         Ngày giờ chiếu
                       </Typography>
-                      <Typography variant="body2">
+                      <Typography>
                         {time} - {date}
                       </Typography>
                     </Grid>
 
                     <Grid item xs={6}>
-                      <Typography sx={{ mt: 1.5 }} color="text.secondary">
+                      <Typography
+                        sx={{
+                          mt: 1.5,
+                          fontWeight: 800,
+                          fontFamily: "Segoe UI",
+                        }}
+                        color="text.primary"
+                      >
                         Ghế
                       </Typography>
 
@@ -104,17 +117,31 @@ export default function FinalTicket() {
                     </Grid>
 
                     <Grid item xs={6}>
-                      <Typography sx={{ mt: 1.5 }} color="text.secondary">
+                      <Typography
+                        sx={{
+                          mt: 1.5,
+                          fontWeight: 800,
+                          fontFamily: "Segoe UI",
+                        }}
+                        color="text.primary"
+                      >
                         Định dạng
                       </Typography>
-                      <Typography variant="body2">2D</Typography>
+                      <Typography>2D</Typography>
                     </Grid>
 
                     <Grid item xs={6}>
-                      <Typography sx={{ mt: 1.5 }} color="text.secondary">
+                      <Typography
+                        sx={{
+                          mt: 1.5,
+                          fontWeight: 800,
+                          fontFamily: "Segoe UI",
+                        }}
+                        color="text.primary"
+                      >
                         Phòng chiếu
                       </Typography>
-                      <Typography variant="body2">2D</Typography>
+                      <Typography>{room}</Typography>
                     </Grid>
                   </Grid>
                 </CardContent>
@@ -125,7 +152,10 @@ export default function FinalTicket() {
             <Card variant="outlined">
               <React.Fragment>
                 <CardContent>
-                  <Typography color="text.secondary">
+                  <Typography
+                    color="text.primary"
+                    sx={{ fontWeight: 800, fontFamily: "Segoe UI" }}
+                  >
                     Thông tin thanh toán
                   </Typography>
                   <Table
@@ -136,9 +166,15 @@ export default function FinalTicket() {
                   >
                     <TableHead>
                       <TableRow>
-                        <TableCell>Danh mục</TableCell>
-                        <TableCell>Số lượng</TableCell>
-                        <TableCell>Tổng tiền</TableCell>
+                        <TableCell sx={{ textAlign: "center" }}>
+                          Danh mục
+                        </TableCell>
+                        <TableCell sx={{ textAlign: "center" }}>
+                          Số lượng
+                        </TableCell>
+                        <TableCell sx={{ textAlign: "center" }}>
+                          Tổng tiền
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -160,20 +196,35 @@ export default function FinalTicket() {
             <Card variant="outlined">
               <React.Fragment>
                 <CardContent>
-                  <Typography color="text.secondary">
+                  <Typography
+                    color="text.primary"
+                    sx={{ fontWeight: 800, fontFamily: "Segoe UI" }}
+                  >
                     Phương thức thanh toán
                   </Typography>
                   <BankRadioButton />
-                  <Typography sx={{ mt: 1.5 }} color="text.secondary">
+                  <Typography
+                    sx={{ mt: 1.5, fontWeight: 800, fontFamily: "Segoe UI" }}
+                    color="text.primary"
+                  >
                     Chi phí
                   </Typography>
-                  <Typography variant="body2">
-                    Thanh toán: {totalBill}đ
-                  </Typography>
-                  <Typography variant="body2">Phí: 0đ</Typography>
-                  <Typography variant="body2">
-                    Tổng cộng: {totalBill}đ
-                  </Typography>
+                  <table className="w-full">
+                    <tbody>
+                      <tr>
+                        <td>Thanh toán:</td>
+                        <td>{totalBill}đ</td>
+                      </tr>
+                      <tr>
+                        <td>Phí:</td>
+                        <td>0đ</td>
+                      </tr>
+                      <tr>
+                        <td>Tổng cộng:</td>
+                        <td>{totalBill}đ</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </CardContent>
               </React.Fragment>
             </Card>

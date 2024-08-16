@@ -16,11 +16,11 @@ const handleGetListTrailers = async () => {
   }
 };
 
-const handleGetTrailerById = async (trailerId) => {
+const handleGetTrailerByCode = async (trailerCode) => {
   try {
     const response = await axios.get("/api/trailer/get-trailer-by-id", null, {
       params: {
-        trailerId: trailerId,
+        trailerCode: trailerCode,
       },
     });
     return response;
@@ -36,11 +36,11 @@ const handleGetTrailerById = async (trailerId) => {
   }
 };
 
-const handleCreateTrailer = async (movieId, link) => {
+const handleCreateTrailer = async (movieCode, link) => {
   try {
     const response = await axios.post("/api/trailer/create-trailer/", null, {
       params: {
-        movieId: movieId,
+        movieCode: movieCode,
         link: link,
       },
     });
@@ -58,12 +58,12 @@ const handleCreateTrailer = async (movieId, link) => {
   }
 };
 
-const handleEditTrailer = async (trailerId, movieId, link) => {
+const handleEditTrailer = async (trailerCode, movieCode, link) => {
   try {
     const response = await axios.put("/api/trailer/edit-trailer/", null, {
       params: {
-        trailerId: trailerId,
-        movieId: movieId,
+        trailerCode: trailerCode,
+        movieCode: movieCode,
         link: link,
       },
     });
@@ -82,11 +82,11 @@ const handleEditTrailer = async (trailerId, movieId, link) => {
   }
 };
 
-const handleGetTitleMovieByMovieId = async (movieId) => {
+const handleGetTitleMovieByMovieCode = async (movieCode) => {
   try {
-    const response = await axios.get("/api/movie/get-movie-by-id", {
+    const response = await axios.get("/api/movie/get-movie-by-code", {
       params: {
-        movieId: movieId,
+        movieCode: movieCode,
       },
     });
     return response;
@@ -104,8 +104,8 @@ const handleGetTitleMovieByMovieId = async (movieId) => {
 
 export {
   handleGetListTrailers,
-  handleGetTrailerById,
+  handleGetTrailerByCode,
   handleCreateTrailer,
   handleEditTrailer,
-  handleGetTitleMovieByMovieId,
+  handleGetTitleMovieByMovieCode,
 };
