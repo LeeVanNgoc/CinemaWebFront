@@ -17,12 +17,10 @@ import { useSelector } from "react-redux";
 export default function ModalEditTrailer({ isOpen, handleOpen, handleClose }) {
   const trailer = useSelector((state) => state.manageTrailers.selectedTrailer);
 
-  const [movieTitle, setMovieTitle] = useState(trailer.movieTitle);
   const [movieCode, setMovieCode] = useState(trailer.movieCode);
   const [link, setLink] = useState(trailer.link);
   const [listMovies, setListMovies] = useState([]);
 
-  // Giả sử bạn đã có hàm lấy danh sách phim
   const handleFetchMovies = async () => {
     const response = await handleGetListMoviesTitleAndCode();
     setListMovies(response.movies);
@@ -32,10 +30,8 @@ export default function ModalEditTrailer({ isOpen, handleOpen, handleClose }) {
     handleFetchMovies();
   }, []);
 
-  console.log("Movie title list : ", listMovies);
-
   const handleUpdateTrailer = async () => {
-    await handleEditTrailer(trailer.trailerCode, movieTitle, link);
+    await handleEditTrailer(trailer.trailerCode, movieCode, link);
     handleClose();
   };
 
@@ -87,12 +83,9 @@ export default function ModalEditTrailer({ isOpen, handleOpen, handleClose }) {
               <HelperText />
             </FormControl>
 
-            <FormControl
-              defaultValue={trailer.movieTitle}
-              required
-              sx={{ flex: 1 }}
-            >
+            <FormControl required sx={{ flex: 1 }}>
               <Label>Tên Phim</Label>
+
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
@@ -100,7 +93,7 @@ export default function ModalEditTrailer({ isOpen, handleOpen, handleClose }) {
                 getOptionLabel={(option) => option.title}
                 onChange={(e, value) => {
                   // setMovieTitle(value ? value.title : "");
-                  setMovieCode(value ? value.code : "");
+                  setMovieCode(value ? value.movieCode : "");
                 }}
                 sx={{ width: "400px" }}
                 renderInput={(params) => (

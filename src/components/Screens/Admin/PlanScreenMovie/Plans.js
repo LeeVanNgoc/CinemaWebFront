@@ -108,6 +108,7 @@ export const Plans = () => {
           const formattedData = res.planScreenMovies.map((item) => ({
             planScreenMovieCode: item.planScreenMovieCode,
             roomCode: item.roomCode,
+            movieCode: item.movieCode,
             movieTitle: item.movieTitle,
             dateScreen: item.dateScreen,
             startTime: item.startTime,

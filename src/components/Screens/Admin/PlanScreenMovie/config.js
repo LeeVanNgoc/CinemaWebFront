@@ -63,21 +63,30 @@ const handleCreatePlan = async (roomId, movieId, dateScreen, startTime) => {
 };
 
 const handleEditPlan = async (
-  planScreenMovieId,
-  roomId,
-  movieId,
+  planScreenMovieCode,
+  roomCode,
+  movieCode,
   dateScreen,
   startTime
 ) => {
+  console.log(
+    "Plan Screen Movie Code : ",
+    planScreenMovieCode,
+    roomCode,
+    movieCode,
+    dateScreen,
+    startTime
+  );
+
   try {
     const response = await axios.put(
       "/api/plan-screen-movie/edit-plan-screen-movie/",
       null,
       {
         params: {
-          planScreenMovieId: planScreenMovieId,
-          roomId: roomId,
-          movieId: movieId,
+          planScreenMovieCode: planScreenMovieCode,
+          roomCode: roomCode,
+          movieCode: movieCode,
           schedule: {
             dateScreen: dateScreen,
             startTime: startTime,

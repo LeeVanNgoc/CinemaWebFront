@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl } from "@mui/base/FormControl";
-import Button from "@mui/material/Button";
+import { Button, Autocomplete, TextField } from "@mui/material/";
 import {
   TriggerButton,
   StyledInput,
@@ -11,14 +11,24 @@ import {
   ModalContent,
 } from "./style";
 import { handleCreateTrailer } from "./config";
+import { handleGetListMoviesTitleAndCode } from "../Movie/config";
 
 export default function ModalAddTrailer({ isOpen, handleOpen, handleClose }) {
-
-  const [movieId, setMovieId] = useState("");
+  const [movieCode, setMovieCode] = useState("");
   const [link, setLink] = useState("");
+  const [listMovies, setListMovies] = useState([]);
+
+  const handleFetchMovies = async () => {
+    const response = await handleGetListMoviesTitleAndCode();
+    setListMovies(response.movies);
+  };
+
+  useEffect(() => {
+    handleFetchMovies();
+  }, []);
 
   const handleAddTrailer = async () => {
-    handleCreateTrailer(movieId, link);
+    handleCreateTrailer(movieCode, link);
     handleClose();
     // window.location.reload();
   };
@@ -65,10 +75,29 @@ export default function ModalAddTrailer({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue="" required>
-              <Label>Mã phim</Label>
-              <StyledInput onChange={(e) => setMovieId(e.target.value)} />
-              <HelperText />
+            <FormControl
+              // defaultValue={trailer.movieTitle}
+              required
+              sx={{ flex: 1 }}
+            >
+              <Label>Tên Phim</Label>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={listMovies}
+                getOptionLabel={(option) => option.title}
+                onChange={(e, value) => {
+                  // setMovieTitle(value ? value.title : "");
+                  setMovieCode(value ? value.movieCode : "");
+                }}
+                sx={{ width: "400px" }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    // label={trailer.movieTitle ? trailer.movieTitle : "Movie"}
+                  />
+                )}
+              />
             </FormControl>
             <FormControl defaultValue="" required>
               <Label>Đường dẫn</Label>
