@@ -16,16 +16,16 @@ const handleGetListPrices = async () => {
   }
 };
 
-const handleGetPriceById = async (priceCode) => {
+const handleGetPriceByCode = async (priceCode) => {
   try {
-    const response = await axios.get("/api/prices/get-price-by-id", null, {
+    const response = await axios.get("/api/prices/get-price-by-code", null, {
       params: {
         priceCode: priceCode,
       },
     });
     return response;
   } catch (error) {
-    console.error("Error getting price by id:", error);
+    console.error("Error getting price by code:", error);
     if (error.response) {
       return { error: error.response.data.message };
     } else if (error.request) {
@@ -118,7 +118,7 @@ const handleDeletePrice = async (priceCode) => {
 
 export {
   handleGetListPrices,
-  handleGetPriceById,
+  handleGetPriceByCode,
   handleCreatePrice,
   handleEditPrice,
   handleDeletePrice,

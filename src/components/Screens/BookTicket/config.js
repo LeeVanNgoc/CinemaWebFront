@@ -225,3 +225,23 @@ export const handleGetSeatsInRoom = async (roomCode) => {
     }
   }
 };
+
+export const handleGetTrailerByMovieCode = async (movieCode) => {
+  try {
+    const response = await axios.get("/api/trailer/get-trailer-by-movie-code", {
+      params: {
+        movieCode: movieCode,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error getting trailer by movie Code:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};

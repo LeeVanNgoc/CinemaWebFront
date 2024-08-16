@@ -18,14 +18,14 @@ const handleGetListTrailers = async () => {
 
 const handleGetTrailerByCode = async (trailerCode) => {
   try {
-    const response = await axios.get("/api/trailer/get-trailer-by-id", null, {
+    const response = await axios.get("/api/trailer/get-trailer-by-code", null, {
       params: {
         trailerCode: trailerCode,
       },
     });
     return response;
   } catch (error) {
-    console.error("Error getting trailer by ID:", error);
+    console.error("Error getting trailer by Code:", error);
     if (error.response) {
       return { error: error.response.data.message };
     } else if (error.request) {
@@ -91,7 +91,7 @@ const handleGetTitleMovieByMovieCode = async (movieCode) => {
     });
     return response;
   } catch (error) {
-    console.error("Error getting title movie by movie ID:", error);
+    console.error("Error getting title movie by movie Code:", error);
     if (error.response) {
       return { error: error.response.data.message };
     } else if (error.request) {
