@@ -1,12 +1,12 @@
 import axios from "../../../axios";
 
-// export const handleGetAllPlansByMovie = async (movieId) => {
+// export const handleGetAllPlansByMovie = async (movieCode) => {
 //   try {
 //     const response = await axios.get(
 //       "/api/plan-screen-movie/get-all-plan-screen-id-by-movie-id/",
 //       {
 //         params: {
-//           movieId: movieId,
+//           movieCode: movieCode,
 //         },
 //       }
 //     );
@@ -23,12 +23,12 @@ import axios from "../../../axios";
 // };
 
 // Trả về list các giờ chiếu từ mã phim và ngày chiếu
-export const handleGetStartTimeAndRoom = async (dateScreen, movieId) => {
+export const handleGetStartTimeAndRoom = async (dateScreen, movieCode) => {
   try {
     const response = await axios.get("/api/plan-screen-movie/get-start-time/", {
       params: {
         dateScreen: dateScreen,
-        movieId: movieId,
+        movieCode: movieCode,
       },
     });
     return response;
@@ -44,19 +44,19 @@ export const handleGetStartTimeAndRoom = async (dateScreen, movieId) => {
 };
 
 // Trả về mã lịch chiếu dựa trên phim, phòng, ngày giờ chiếu
-export const handleGetPlanId = async (
-  roomId,
-  movieId,
+export const handleGetPlanCode = async (
+  roomCode,
+  movieCode,
   startTime,
   dateScreen
 ) => {
   try {
     const response = await axios.get(
-      "/api/plan-screen-movie/get-all-plan-screen-id-for-create-ticket/",
+      "/api/plan-screen-movie/get-all-plan-screen-code-for-create-ticket/",
       {
         params: {
-          roomId: roomId,
-          movieId: movieId,
+          roomCode: roomCode,
+          movieCode: movieCode,
           startTime: startTime,
           dateScreen: dateScreen,
         },
@@ -75,15 +75,19 @@ export const handleGetPlanId = async (
 };
 
 // Trả về giá của từng ghế được chọn
-export const handleGetCost = async (roomType, seatType, isWeekend) => {
+export const handleGetCost = async (
+  roomType,
+  seatType,
+  isWeekend,
+  timeFrame
+) => {
   try {
-    console.log("Check get cost", roomType, seatType, isWeekend);
-
     const response = await axios.get("/api/prices/get-cost/", {
       params: {
         roomType: roomType,
         seatType: seatType,
         isWeekend: isWeekend,
+        timeFrame: timeFrame,
       },
     });
     return response;
@@ -100,8 +104,8 @@ export const handleGetCost = async (roomType, seatType, isWeekend) => {
 
 // Đặt vé
 export const handleCreateTicket = async (
-  userId,
-  planScreenMovieId,
+  userCode,
+  planScreenMovieCode,
   seats,
   bank,
   totalPrice
@@ -109,8 +113,8 @@ export const handleCreateTicket = async (
   try {
     const response = await axios.post("/api/ticket/create-ticket/", null, {
       params: {
-        userId: userId,
-        planScreenMovieId: planScreenMovieId,
+        userCode: userCode,
+        planScreenMovieCode: planScreenMovieCode,
         seats: seats,
         bank: bank,
         totalPrice: totalPrice,
@@ -131,11 +135,11 @@ export const handleCreateTicket = async (
   }
 };
 
-export const handleGetRoomById = async (roomId) => {
+export const handleGetRoomByCode = async (roomCode) => {
   try {
-    const response = await axios.get("/api/room/get-room-by-id", {
+    const response = await axios.get("/api/room/get-room-by-code", {
       params: {
-        roomId: roomId,
+        roomCode: roomCode,
       },
     });
     return response;
@@ -152,14 +156,14 @@ export const handleGetRoomById = async (roomId) => {
 };
 
 // Create Booked Seats
-export const handleCreateBookedSeats = async (ticketId) => {
+export const handleCreateBookedSeats = async (ticketCode) => {
   try {
     const response = await axios.post(
       "/api/bookedSeat/create-booked-seat/",
       null,
       {
         params: {
-          ticketId: ticketId,
+          ticketCode: ticketCode,
         },
       }
     );
@@ -178,13 +182,13 @@ export const handleCreateBookedSeats = async (ticketId) => {
 };
 
 // Trả về các ghế đã được đặt
-export const handleGetBookedSeats = async (planScreenMovieId) => {
+export const handleGetBookedSeats = async (planScreenMovieCode) => {
   try {
     const response = await axios.get(
       "/api/bookedSeat/get-row-and-col-of-booked-seat/",
       {
         params: {
-          planScreenMovieId: planScreenMovieId,
+          planScreenMovieCode: planScreenMovieCode,
         },
       }
     );
@@ -202,11 +206,11 @@ export const handleGetBookedSeats = async (planScreenMovieId) => {
 };
 
 // Trả về các ghế trong 1 phòng
-export const handleGetSeatsInRoom = async (roomId) => {
+export const handleGetSeatsInRoom = async (roomCode) => {
   try {
     const response = await axios.get("/api/seats/get-seats-in-one-room/", {
       params: {
-        roomId: roomId,
+        roomCode: roomCode,
       },
     });
     return response;

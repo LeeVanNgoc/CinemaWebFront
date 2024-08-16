@@ -18,7 +18,7 @@ export const handleGetListMovies = async () => {
 
 export const handleGetMovieById = async (movieId) => {
   try {
-    const response = await axios.get("/api/movie/get-movie-by-id", {
+    const response = await axios.get("/api/movie/get-movie-by-code", {
       params: { movieId: movieId },
     });
     return response;
@@ -34,18 +34,26 @@ export const handleGetMovieById = async (movieId) => {
   }
 };
 
-export const handleCreateMovie = async (title, description, releaseDate, duration, country, genreId, image) => {
+export const handleCreateMovie = async (
+  title,
+  description,
+  releaseDate,
+  duration,
+  country,
+  genreId,
+  image
+) => {
   try {
     const response = await axios.post("/api/movie/create-new-movie", null, {
       params: {
-        title: title, 
+        title: title,
         description: description,
-        releaseDate: releaseDate, 
-        duration: duration, 
+        releaseDate: releaseDate,
+        duration: duration,
         country: country,
         genreID: genreId,
-        image: image
-      }
+        image: image,
+      },
     });
     alert(response.message);
     return response;
@@ -59,7 +67,7 @@ export const handleCreateMovie = async (title, description, releaseDate, duratio
       return { error: "Error setting up request" };
     }
   }
-}
+};
 
 export const handleDeleteMovie = async (movieId) => {
   try {
@@ -77,9 +85,18 @@ export const handleDeleteMovie = async (movieId) => {
       return { error: "Error setting up request" };
     }
   }
-}
+};
 
-export const handleEditMovie = async (movieId, title, description, duration, country, genreId, releaseDate, image) => {
+export const handleEditMovie = async (
+  movieId,
+  title,
+  description,
+  duration,
+  country,
+  genreId,
+  releaseDate,
+  image
+) => {
   try {
     const response = await axios.put(`/api/movie/edit-movie`, null, {
       params: {
@@ -104,4 +121,4 @@ export const handleEditMovie = async (movieId, title, description, duration, cou
       return { error: "Error setting up request" };
     }
   }
-}
+};

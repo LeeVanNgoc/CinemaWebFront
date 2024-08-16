@@ -92,10 +92,7 @@ const Header = () => {
     <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <img
-            src="https://chieuphimquocgia.com.vn/_next/image?url=%2Fimages%2Flogo.png&w=96&q=75"
-            alt="logo"
-          ></img>
+          <img src={require("./assets/logo.png")} alt="logo" />
 
           {/* small screen */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

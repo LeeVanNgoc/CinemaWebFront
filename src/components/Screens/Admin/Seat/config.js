@@ -16,11 +16,11 @@ const handleGetListSeats = async () => {
   }
 };
 
-const handleGetSeatById = async (seatId) => {
+const handleGetSeatByCode = async (seatCode) => {
   try {
-    const response = await axios.get("/api/seats/get-seat-by-id", null, {
+    const response = await axios.get("/api/seats/get-seat-by-code", null, {
       params: {
-        seatId: seatId,
+        seatCode: seatCode,
       },
     });
     return response;
@@ -36,13 +36,13 @@ const handleGetSeatById = async (seatId) => {
   }
 };
 
-const handleGetSeatsInOneRoom = async (roomId) => {
-  console.log("Check room Id from config: ", roomId);
+const handleGetSeatsInOneRoom = async (roomCode) => {
+  console.log("Check room Code from config: ", roomCode);
 
   try {
     const response = await axios.get("/api/seats/get-seats-in-one-room", {
       params: {
-        roomId: roomId,
+        roomCode: roomCode,
       },
     });
     return response;
@@ -58,12 +58,12 @@ const handleGetSeatsInOneRoom = async (roomId) => {
   }
 };
 
-const handleCreateSeat = async (type, roomId, row, col, isAvailable) => {
+const handleCreateSeat = async (type, roomCode, row, col, isAvailable) => {
   try {
     const response = await axios.post("/api/seats/create-seat/", null, {
       params: {
         type: type,
-        roomId: roomId,
+        roomCode: roomCode,
         row: row,
         col: col,
         isAvailable: isAvailable,
@@ -104,19 +104,13 @@ const handleAddMultipleSeats = async (data) => {
   }
 };
 
-const handleEditSeat = async (seatId, type, roomId, row, col, isAvailable) => {
+const handleEditSeats = async (data) => {
   try {
-    const response = await axios.put("/api/seats/edit-seat/", null, {
-      params: {
-        seatId: seatId,
-        type: type,
-        roomId: roomId,
-        row: row,
-        col: col,
-        isAvailable: isAvailable,
-      },
+    const response = await axios.put("/api/seats/edit-multiple-seat", {
+      rows: data,
     });
-    console.log(">>> edit seat res: ", response);
+    alert(response.message);
+    console.log(">>> edit seats res: ", response);
     return response;
   } catch (error) {
     console.error("Error editing seat:", error);
@@ -133,9 +127,9 @@ const handleEditSeat = async (seatId, type, roomId, row, col, isAvailable) => {
 
 export {
   handleGetListSeats,
-  handleGetSeatById,
+  handleGetSeatByCode,
   handleCreateSeat,
   handleAddMultipleSeats,
-  handleEditSeat,
+  handleEditSeats,
   handleGetSeatsInOneRoom,
 };

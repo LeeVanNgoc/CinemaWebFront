@@ -1,19 +1,25 @@
-import React, { useEffect } from "react";
-import { Container, Grid } from "@mui/material";
-import CarouselComponent from "../../Common/Carousel/CarouselComponent";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+// import material-ui
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import { Button, Container, Grid } from "@mui/material";
 import Brightness1SharpIcon from "@mui/icons-material/Brightness1Sharp";
+// import project component
+import CarouselComponent from "../../Common/Carousel/CarouselComponent";
 import NewsCarousel from "../../Common/Carousel/NewsCarousel";
 import MovieCard from "./MovieCard";
-import { ToastContainer } from "react-toastify";
-import "./Home.scss";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { getMovies } from "../Admin/Movie/redux/actions/movieActions";
+import { useDispatch, useSelector } from "react-redux";
+import "./Home.scss";
+import { getMovieByTitle } from "./config";
 
 const Home = () => {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
+  const movies = useSelector((state) => state.manageMovies.movies.movies);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -26,6 +32,25 @@ const Home = () => {
   return (
     <>
       <CarouselComponent />
+      <div className="box-border translate-x-1/3 sticky top-0">
+        {movies && movies.length > 0 && (
+          <div>
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={movies.map((movie) => ({
+                label: movie.title,
+              }))}
+              onChange={(event, newValue) => {
+                setQuery(newValue);
+              }}
+              sx={{ width: 300, backgroundColor: "white" }}
+              renderInput={(params) => <TextField {...params} label="Movie" />}
+            />
+            <Button>Tìm kiếm</Button>
+          </div>
+        )}
+      </div>
       <Container>
         <Grid container spacing={3}>
           <Grid item xs>
@@ -51,7 +76,7 @@ const Home = () => {
               </Grid>
             </Grid>
             <Grid item>
-              <MovieCard />
+              <MovieCard query={query.label} />
             </Grid>
           </Grid>
           <Grid item xs={2.5}>

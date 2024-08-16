@@ -13,14 +13,13 @@ import {
 import { handleCreateRoom } from "./config";
 
 export default function ModalAddRoom({ isOpen, handleOpen, handleClose }) {
-
-  const [theaterId, setTheaterId] = useState("");
+  const [theaterCode, setTheaterCode] = useState("");
   const [type, setType] = useState("");
   const [numberSeats, setNumberSeats] = useState("");
   const [isAvailable, setIsAvailable] = useState("");
 
   const handleAddRoom = async () => {
-    handleCreateRoom(theaterId, type, numberSeats, isAvailable);
+    handleCreateRoom(theaterCode, type, numberSeats, isAvailable);
     handleClose();
     window.location.reload();
   };
@@ -69,7 +68,7 @@ export default function ModalAddRoom({ isOpen, handleOpen, handleClose }) {
           >
             <FormControl defaultValue="" required>
               <Label>Mã rạp</Label>
-              <StyledInput onChange={(e) => setTheaterId(e.target.value)} />
+              <StyledInput onChange={(e) => setTheaterCode(e.target.value)} />
               <HelperText />
             </FormControl>
 

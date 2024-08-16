@@ -2,10 +2,12 @@ import {
   SET_SELECTED_SEAT,
   CLEAR_SELECTED_SEAT,
   GET_SEATS,
+  CLEAR_SEATS,
 } from "../actions/seatActions";
 
 const initialState = {
   rows: [],
+  seatNumber: 0,
   selectedSeat: [],
   loading: false,
   error: null,
@@ -17,6 +19,12 @@ const seatReducer = (state = initialState, action) => {
       return {
         ...state,
         rows: action.payload.formattedData,
+        seatNumber: action.payload.formattedData.length,
+      };
+    case CLEAR_SEATS:
+      return {
+        ...state,
+        rows: [],
       };
     case SET_SELECTED_SEAT:
       return {
