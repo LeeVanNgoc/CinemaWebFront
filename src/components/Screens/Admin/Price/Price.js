@@ -107,7 +107,7 @@ export const Prices = () => {
         console.log("res list prices >>>", res);
         if (res && res.prices) {
           const formattedData = res.prices.map((item) => ({
-            pricesId: item.pricesId,
+            priceCode: item.priceCode,
             cost: item.cost,
             roomType: item.roomType,
             seatType: item.seatType,
@@ -158,7 +158,7 @@ export const Prices = () => {
             {stableSort(displayedPrices, getComparator(order, orderBy)).map(
               (price, index) => (
                 <TableRow key={index}>
-                  <TableCell>{price.pricesId}</TableCell>
+                  <TableCell>{price.priceCode}</TableCell>
                   <TableCell>{price.cost}</TableCell>
                   <TableCell>{price.roomType}</TableCell>
                   <TableCell>{price.seatType}</TableCell>

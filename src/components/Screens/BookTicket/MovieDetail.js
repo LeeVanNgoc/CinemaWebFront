@@ -1,11 +1,12 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
-import Button from "@mui/material/Button";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import ModalScreenTrailer from "../Admin/Trailer/ModalScreenTrailer";
+import { setSelectedTrailer, clearSelectedTrailer } from "../Admin/Trailer/redux/actions/trailerActions";
 
 const Img = styled("img")({
   margin: "auto",
@@ -15,7 +16,19 @@ const Img = styled("img")({
 });
 
 export default function MovieDetail() {
+  const dispatch = useDispatch();
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
+
+  const [openScreenTrailer, setOpenScreenTrailer] = useState(false);
+  const handleOpenScreenTrailer = (trailer) => {
+    dispatch(setSelectedTrailer(trailer));
+    setOpenScreenTrailer(true);
+  };
+
+  const handleCloseScreenTrailer = () => {
+    setOpenScreenTrailer(false);
+    dispatch(clearSelectedTrailer());
+  };
 
   return (
     <Paper
@@ -67,7 +80,7 @@ export default function MovieDetail() {
                   Hài, Hoạt hình, Phiêu lưu - {movie.country} - {movie.duration}{" "}
                   phút
                   <br />
-                  Khởi chiếu: {movie.releaseDate}
+                  Khởi chiếu: {movie.releaseDate.split("T")[0]}
                   <br />
                   <br />
                   {movie.description}
@@ -79,18 +92,13 @@ export default function MovieDetail() {
                 Khuyến cáo: P - PHIM ĐƯỢC PHÉP PHỔ BIẾN ĐẾN NGƯỜI XEM Ở MỌI ĐỘ
                 TUỔI.
               </Typography>
-              <Button
-                variant="outlined"
-                size="small"
-                sx={{
-                  marginTop: "20px",
-                  borderRadius: "20px",
-                  color: "orange",
-                  borderColor: "orange",
-                }}
-              >
-                Xem trailer
-              </Button>
+              <ModalScreenTrailer
+                isOpen={openScreenTrailer}
+                link={trailer.link}
+                movieCode={movie.movieCode}
+                handleOpen={() => handleOpenScreenTrailer(trailer)}
+                handleClose={handleCloseScreenTrailer}
+              />
             </Grid>
           </Grid>
         </Grid>

@@ -8,7 +8,7 @@ export default function ModalDeleteUser({ isOpen, handleOpen, handleClose }) {
   const user = useSelector((state) => state.manageUsers.selectedUser);
 
   const handleDelete = async () => {
-    await handleDeleteUser(user.userId);
+    await handleDeleteUser(user.userCode);
     handleClose();
   };
 

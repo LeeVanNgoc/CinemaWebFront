@@ -16,11 +16,11 @@ const handleGetListTheaters = async () => {
   }
 };
 
-const handleGetTheaterById = async (theaterId) => {
+const handleGetTheaterById = async (theaterCode) => {
   try {
     const response = await axios.get("/api/theater/get-theaters-by-id", null, {
       params: {
-        theaterId: theaterId,
+        theaterCode: theaterCode,
       },
     });
     return response;
@@ -83,11 +83,11 @@ const handleCreateTheater = async (name, address, city) => {
   }
 };
 
-const handleEditTheater = async (theaterId, name, address, city) => {
+const handleEditTheater = async (theaterCode, name, address, city) => {
   try {
     const response = await axios.put("/api/theater/edit-theater/", null, {
       params: {
-        theaterId: theaterId,
+        theaterCode: theaterCode,
         name: name,
         address: address,
         city: city,
@@ -108,11 +108,11 @@ const handleEditTheater = async (theaterId, name, address, city) => {
   }
 };
 
-const handleDeleteTheater = async (theaterId) => {
+const handleDeleteTheater = async (theaterCode) => {
   try {
     const response = await axios.delete("/api/theater/delete-theater", {
       params: {
-        theaterId: theaterId,
+        theaterCode: theaterCode,
       },
     });
     return response;

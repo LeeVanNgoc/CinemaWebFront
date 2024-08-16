@@ -21,7 +21,7 @@ export default function ModalEditTheater({ isOpen, handleOpen, handleClose }) {
   const [city, setCity] = useState(theater.city);
 
   const handleUpdateTheater = async () => {
-    await handleEditTheater(theater.theaterId, name, address, city);
+    await handleEditTheater(theater.theaterCode, name, address, city);
     handleClose();
   };
 
@@ -66,7 +66,7 @@ export default function ModalEditTheater({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue={theater.theaterId} aria-readonly>
+            <FormControl defaultValue={theater.theaterCode} aria-readonly>
               <Label>Mã rạp</Label>
               <StyledInput readOnly />
               <HelperText />

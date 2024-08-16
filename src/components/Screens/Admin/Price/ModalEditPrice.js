@@ -22,7 +22,7 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
   const [isWeekend, setIsWeekend] = useState(price.isWeekend);
 
   const handleUpdatePrice = async () => {
-    await handleEditPrice(price.priceId, cost, roomType, seatType, isWeekend);
+    await handleEditPrice(price.priceCode, cost, roomType, seatType, isWeekend);
     handleClose();
   };
 
@@ -67,7 +67,7 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue={price.priceId} aria-readonly>
+            <FormControl defaultValue={price.priceCode} aria-readonly>
               <Label>Mã giá vé</Label>
               <StyledInput readOnly />
               <HelperText />

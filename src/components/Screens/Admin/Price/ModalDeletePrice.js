@@ -8,7 +8,7 @@ export default function ModalDeletePrice({ isOpen, handleOpen, handleClose }) {
   const price = useSelector((state) => state.managePrices.selectedPrice);
 
   const handleDelete = async () => {
-    await handleDeletePrice(price.priceId);
+    await handleDeletePrice(price.priceCode);
     handleClose();
   };
 
@@ -43,7 +43,7 @@ export default function ModalDeletePrice({ isOpen, handleOpen, handleClose }) {
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Xóa vé ID = {price.priceId}?
+            Xóa vé ID = {price.priceCode}?
           </h1>
           <div style={{ display: "flex", gap: "10px" }}>
             <Button

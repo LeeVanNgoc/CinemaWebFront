@@ -89,7 +89,6 @@ export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
               <FormControl defaultValue="" required>
                 <Label>Email</Label>
                 <StyledInput
-                  // placeholder="UserId"
                   onChange={(e) => setEmail(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
                 />
