@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { handleAddMultipleSeats, handleEditSeats } from "./config";
+import {
+  handleAddMultipleSeats,
+  handleDeleteAllSeatsInRoom,
+  handleEditSeats,
+} from "./config";
 import { handleGetSeats } from "./redux/actions/seatActions";
 import { handleUpdateNumberSeats } from "../Room/config";
 
@@ -11,7 +15,7 @@ function ChangeSeats(roomCode) {
   const [selectedCell, setSelectedCell] = useState([]);
   const [type, setType] = useState("");
   const [VIP, setVIP] = useState([]);
-  const [double, setDouble] = useState([]);
+  const [sweetbox, setSweetbox] = useState([]);
   const [rows, setRows] = useState([
     {
       id: "A",
@@ -19,7 +23,7 @@ function ChangeSeats(roomCode) {
         {
           cellId: "A1",
           roomId: roomCode.roomCode,
-          type: "Regular",
+          type: "Standard",
           row: "A",
           col: 1,
           isAvailable: true,
@@ -71,8 +75,8 @@ function ChangeSeats(roomCode) {
 
     if (type === "VIP") {
       setVIP(selectedCell);
-    } else if (type === "Double") {
-      setDouble(selectedCell);
+    } else if (type === "Sweetbox") {
+      setSweetbox(selectedCell);
     }
   }, [selectedCell, type, seats]);
 
@@ -87,7 +91,7 @@ function ChangeSeats(roomCode) {
             columns: Array.from({ length: newCount }, (_, index) => ({
               cellId: `${row.id}${index + 1}`,
               roomCode: roomCode.roomCode,
-              type: "Regular",
+              type: "Standard",
               row: row.id,
               col: index + 1,
               isAvailable: true,
@@ -109,7 +113,7 @@ function ChangeSeats(roomCode) {
           {
             cellId: `${newRowId}1`,
             roomCode: roomCode.roomCode,
-            type: "Regular",
+            type: "Standard",
             row: newRowId,
             col: 1,
             isAvailable: true,
@@ -141,10 +145,10 @@ function ChangeSeats(roomCode) {
       prevRows.map((row) => ({
         ...row,
         columns: row.columns.map((column) => {
-          if (double.includes(column.cellId)) {
+          if (sweetbox.includes(column.cellId)) {
             return {
               ...column,
-              type: "Double",
+              type: "Sweetbox",
             };
           } else if (VIP.includes(column.cellId)) {
             return {
@@ -168,9 +172,9 @@ function ChangeSeats(roomCode) {
     ) {
       return "bg-orange-500";
     } else if (
-      (selectedCell.includes(cellId) && type === "Double") ||
-      (double && double.includes(cellId)) ||
-      cellType === "Double"
+      (selectedCell.includes(cellId) && type === "Sweetbox") ||
+      (sweetbox && sweetbox.includes(cellId)) ||
+      cellType === "Sweetbox"
     ) {
       return "bg-red-500";
     } else {
@@ -179,8 +183,8 @@ function ChangeSeats(roomCode) {
   };
 
   const handleDeleteType = () => {
-    setType("Regular");
-    setDouble([]);
+    setType("Standard");
+    setSweetbox([]);
     setVIP([]);
     setSelectedCell([]);
     setRows((prevRows) =>
@@ -189,7 +193,7 @@ function ChangeSeats(roomCode) {
         columns: row.columns.map((column) => {
           return {
             ...column,
-            type: "Regular",
+            type: "Standard",
           };
         }),
       }))
@@ -198,13 +202,7 @@ function ChangeSeats(roomCode) {
 
   const handleChangeSeats = (action, seats) => {
     if (action === "Add") {
-      handleAddMultipleSeats(seats)
-        .then(() => {
-          handleUpdateNumberSeats(roomCode.roomCode);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      handleAddMultipleSeats(seats);
     } else {
       handleEditSeats(seats);
     }
@@ -222,11 +220,11 @@ function ChangeSeats(roomCode) {
         </button>
         <button
           className="bg-red-500 py-1 px-2 rounded-md"
-          onClick={() => handleClickButton("Double")}
+          onClick={() => handleClickButton("Sweetbox")}
         >
-          Set Double
+          Set Sweetbox
         </button>
-        {type !== "Regular" && (
+        {type !== "Standard" && (
           <button
             className="bg-green-400  py-1 px-2 rounded-md"
             onClick={() => handleConfirmType()}
@@ -242,12 +240,20 @@ function ChangeSeats(roomCode) {
         </button>
 
         {seats && seats.length > 0 ? (
-          <button
-            className="bg-green-400  py-1 px-2 rounded-md"
-            onClick={() => handleChangeSeats("Edit", rows)}
-          >
-            Cập nhật ghế
-          </button>
+          <div>
+            <button
+              className="bg-green-400  py-1 px-2 rounded-md"
+              onClick={() => handleChangeSeats("Edit", rows)}
+            >
+              Cập nhật ghế
+            </button>
+            <button
+              className="bg-green-400  py-1 px-2 rounded-md"
+              onClick={() => handleDeleteAllSeatsInRoom(roomCode.roomCode)}
+            >
+              Xóa tất cả ghế
+            </button>
+          </div>
         ) : (
           <button
             className="bg-green-400  py-1 px-2 rounded-md"
@@ -292,7 +298,7 @@ function ChangeSeats(roomCode) {
                     type="number"
                     min="1"
                     onChange={(event) => setSeatsPerRow(event, row.id)}
-                    className="text-black w-12 text-center"
+                    className="text-black w-12 text-center rounded-sm border border-slate-600 ml-4"
                   />
                 </td>
               </tr>

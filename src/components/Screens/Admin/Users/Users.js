@@ -110,7 +110,7 @@ export const Users = () => {
     setOrderBy(property);
   };
 
-  const fetchUsers = useCallback(async () => {
+  const fetchUsers = async () => {
     try {
       let res = await handleGetListUsers();
       if (res && res.users) {
@@ -128,7 +128,7 @@ export const Users = () => {
     } catch (error) {
       console.error("Error fetching users:", error);
     }
-  }, []);
+  };
 
   useEffect(() => {
     // const intervalId = setInterval(() => {
@@ -136,7 +136,7 @@ export const Users = () => {
     // }, 5000); // Gọi API mỗi 5 giây
 
     // return () => clearInterval(intervalId); // Dọn dẹp interval khi component unmount hoặc khi useEffect chạy lại
-  }, [fetchUsers]);
+  }, [fetchUsers, users]);
 
   return (
     <div>

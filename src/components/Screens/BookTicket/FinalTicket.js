@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -17,12 +17,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handleCreateTicket, handleCreateBookedSeats } from "./config";
 import { BankRadioButton } from "./BankRadioButton";
+import Signin from "../../Common/SignIn/Signin";
 
 export default function FinalTicket() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userCode = useSelector((state) => state.user.account.code);
+  const user = useSelector((state) => state.user.account);
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
   const planCode = useSelector((state) => state.userBookTicket.selectedPlan[0]);
   const date = useSelector((state) => state.userBookTicket.date);
@@ -33,6 +34,20 @@ export default function FinalTicket() {
     state.userBookTicket.seat.map((item) => item)
   );
   const totalBill = useSelector((state) => state.userBookTicket.totalBill);
+
+  const [isSignInOpen, setSignInOpen] = useState(false);
+  const [isSignUpOpen, setSignUpOpen] = useState(false);
+
+  const handleSignInOpen = () => setSignInOpen(true);
+  const handleSignInClose = () => setSignInOpen(false);
+
+  const handleSignUpOpen = () => setSignUpOpen(true);
+  const handleSignUpClose = () => setSignUpOpen(false);
+
+  const switchToSignUp = () => {
+    handleSignInClose();
+    handleSignUpOpen();
+  };
 
   const goBack = () => {
     dispatch(clearStartTimeAndRoom());
@@ -45,21 +60,25 @@ export default function FinalTicket() {
   };
 
   const bookTicket = async () => {
-    try {
-      const res = await handleCreateTicket(
-        userCode,
-        planCode,
-        seats.join(", "),
-        bank,
-        totalBill
-      );
-      dispatch(clearStartTimeAndRoom());
-      console.log("create ticket: ", res);
-      localStorage.setItem("ticketCode", res.newTickets.ticketCode);
-      await createBookedSeats(res.newTickets.ticketCode);
-      navigate("/myticket");
-    } catch (error) {
-      console.error("Error booking ticket:", error);
+    if (user.auth !== true) {
+      handleSignInOpen();
+    } else {
+      try {
+        const res = await handleCreateTicket(
+          user.code,
+          planCode,
+          seats.join(", "),
+          bank,
+          totalBill
+        );
+        dispatch(clearStartTimeAndRoom());
+        console.log("create ticket: ", res);
+        localStorage.setItem("ticketCode", res.newTickets.ticketCode);
+        await createBookedSeats(res.newTickets.ticketCode);
+        navigate("/myticket");
+      } catch (error) {
+        console.error("Error booking ticket:", error);
+      }
     }
   };
 
@@ -255,6 +274,12 @@ export default function FinalTicket() {
           </div>
         </div>
       </div>
+      <Signin
+        isOpen={isSignInOpen}
+        handleOpen={() => handleSignInOpen()}
+        handleClose={handleSignInClose}
+        switchToSignUp={switchToSignUp}
+      />
     </div>
   );
 }

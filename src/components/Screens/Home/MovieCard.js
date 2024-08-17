@@ -23,39 +23,45 @@ export default function MovieCard() {
   return (
     <Grid container spacing={3}>
       {movies &&
-        movies.map((movie, index) => (
-          <Grid item xs={9.5} sm={6} md={4} lg={3} key={index}>
-            <Card
-              className="image-card"
-              sx={{
-                width: "100%", // Đảm bảo card chiếm hết chiều rộng của grid item
-                backgroundColor: "transparent",
-                color: "white",
-              }}
-              onClick={() => handleClick(movie)}
-            >
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  image={movie.image}
-                  alt={movie.title}
-                  sx={{ borderRadius: "20px", height: "400px" }}
-                />
-                <CardContent>
-                  <Typography variant="body2" color="grey">
-                    Hài, Hoạt hình, Phiêu lưu
-                  </Typography>
-                  <Typography variant="body2" color="grey">
-                    {movie.releaseDate.split("T")[0]}
-                  </Typography>
-                  <Typography gutterBottom variant="h6" component="div">
-                    {movie.title}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        ))}
+        movies
+          .filter((movie) => {
+            if (new Date(movie.releaseDate.split("T")[0]) <= new Date()) {
+              return movie;
+            }
+          })
+          .map((movie, index) => (
+            <Grid item xs={9.5} sm={6} md={4} lg={3} key={index}>
+              <Card
+                className="image-card"
+                sx={{
+                  width: "100%", // Đảm bảo card chiếm hết chiều rộng của grid item
+                  backgroundColor: "transparent",
+                  color: "white",
+                }}
+                onClick={() => handleClick(movie)}
+              >
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    image={movie.image}
+                    alt={movie.title}
+                    sx={{ borderRadius: "20px", height: "400px" }}
+                  />
+                  <CardContent>
+                    <Typography variant="body2" color="grey">
+                      Hài, Hoạt hình, Phiêu lưu
+                    </Typography>
+                    <Typography variant="body2" color="grey">
+                      {movie.releaseDate.split("T")[0]}
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="div">
+                      {movie.title}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          ))}
     </Grid>
   );
 }

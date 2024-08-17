@@ -13,10 +13,12 @@ import roomReducer from "./components/Screens/Admin/Room/redux/reducers/roomRedu
 import trailerReducer from "./components/Screens/Admin/Trailer/redux/reducers/trailerReducer";
 import postReducer from "./components/Screens/Admin/Post/redux/reducers/postReducer";
 import movieReducer from "./components/Screens/Admin/Movie/redux/reducers/movieReducer";
+import movieDetailActions from "./components/Screens/Home/redux/reducers/movieDetailReducers";
 
 const rootReducer = combineReducers({
   userCreateReducer,
   user: userReducer,
+  home: movieDetailActions,
   userBookTicket: bookingReducer,
   manageUsers: userReducerAdmin,
   manageTickets: ticketReducer,
