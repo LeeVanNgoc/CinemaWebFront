@@ -6,7 +6,6 @@ import {
   handleEditSeats,
 } from "./config";
 import { handleGetSeats } from "./redux/actions/seatActions";
-import { handleUpdateNumberSeats } from "../Room/config";
 
 function ChangeSeats(roomCode) {
   const dispatch = useDispatch();
@@ -16,6 +15,7 @@ function ChangeSeats(roomCode) {
   const [type, setType] = useState("");
   const [VIP, setVIP] = useState([]);
   const [sweetbox, setSweetbox] = useState([]);
+  const [totalSeats, setTotalSeats] = useState(0);
   const [rows, setRows] = useState([
     {
       id: "A",
@@ -129,7 +129,7 @@ function ChangeSeats(roomCode) {
   };
 
   // thay đổi type trên giao diện
-  const handleSetType = (cellId) => {
+  const handleSetTypeName = (cellId) => {
     setSelectedCell((prevSelectedCell) => {
       if (prevSelectedCell.includes(cellId)) {
         return prevSelectedCell.filter((id) => id !== cellId);
@@ -140,7 +140,7 @@ function ChangeSeats(roomCode) {
   };
 
   // thay đổi type vào data
-  const handleConfirmType = () => {
+  const handleSetType = () => {
     setRows((prevRows) =>
       prevRows.map((row) => ({
         ...row,
@@ -207,7 +207,17 @@ function ChangeSeats(roomCode) {
       handleEditSeats(seats);
     }
   };
-  console.log("rows: ", rows);
+
+  useEffect(() => {
+    let calculatedTotalSeats = 0;
+    rows.forEach((row) => {
+      calculatedTotalSeats += row.columns.filter(
+        (column) => column.isAvailable
+      ).length;
+    });
+    setTotalSeats(calculatedTotalSeats);
+    console.log("rows: ", rows);
+  }, [rows]);
 
   return (
     <div className="mt-4 flex-col justify-center items-center">
@@ -226,21 +236,21 @@ function ChangeSeats(roomCode) {
         </button>
         {type !== "Standard" && (
           <button
-            className="bg-green-400  py-1 px-2 rounded-md"
-            onClick={() => handleConfirmType()}
+            className="bg-green-400 py-1 px-2 rounded-md"
+            onClick={() => handleSetType()}
           >
             Lưu {type}
           </button>
         )}
         <button
-          className="bg-green-400  py-1 px-2 rounded-md"
+          className="bg-green-400 py-1 px-2 rounded-md"
           onClick={() => handleDeleteType()}
         >
           Xóa kiểu ghế
         </button>
 
         {seats && seats.length > 0 ? (
-          <div>
+          <div className="flex flex-row gap-5">
             <button
               className="bg-green-400  py-1 px-2 rounded-md"
               onClick={() => handleChangeSeats("Edit", rows)}
@@ -285,7 +295,7 @@ function ChangeSeats(roomCode) {
                         column.type
                       )} 
                       }`}
-                      onClick={() => handleSetType(column.cellId)}
+                      onClick={() => handleSetTypeName(column.cellId)}
                     >
                       {column.cellId}
                     </span>
@@ -306,7 +316,7 @@ function ChangeSeats(roomCode) {
           </tbody>
         </table>
         <div className="text-right font-medium text-lg">
-          Tổng số ghế: {seats.length}
+          Tổng số ghế: {totalSeats}
         </div>
         <button
           onClick={addRow}

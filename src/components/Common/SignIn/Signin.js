@@ -14,6 +14,7 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
+import { useNavigate } from "react-router-dom";
 
 export default function Signin({
   isOpen,
@@ -21,6 +22,7 @@ export default function Signin({
   handleClose,
   switchToSignUp,
 }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const account = useSelector((state) => state.user.account);
@@ -37,6 +39,7 @@ export default function Signin({
 
     dispatch(handleLoginRedux(email, password));
   };
+
   const handleEnter = (e) => {
     if (e && e.key === "Enter") {
       handleLogin();
@@ -104,7 +107,7 @@ export default function Signin({
               <Label>Mật khẩu</Label>
               <StyledInput
                 placeholder="Mật khẩu"
-                type={showPassword ? "text" : "password"}
+                type="password"
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />

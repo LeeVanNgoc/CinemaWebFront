@@ -24,7 +24,6 @@ import Signin from "../SignIn/Signin";
 const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.account);
-  console.log(">> login account: ", user);
 
   const dispatch = useDispatch();
 
@@ -56,11 +55,19 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (user && user.auth === false) {
-      navigate("/");
-      toast.success("Logouted");
+    if (user && user.auth === null) {
+      handleNavigation("/", 1);
+    } else if (user.auth === true) {
+      if (user.role === "admin") {
+        handleNavigation("/dashboard", 11);
+      }
+      handleSignInClose();
+    } else if (user.auth === false) {
+      handleNavigation("/", 1);
+      // toast.success("Logged out");
+      // alert("Đăng xuất thành công!");
     }
-  }, [user, navigate]);
+  }, [user.auth]);
 
   const handleClick = (index) => {
     setClickedIndex(index);
@@ -90,10 +97,14 @@ const Header = () => {
 
   return (
     <AppBar position="fixed">
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Toolbar disableGutters>
-          <img src={require("./assets/logo.png")} alt="logo" />
-
+          <img
+            src={`${process.env.PUBLIC_URL}/logo.png`}
+            alt="logo"
+            style={{ cursor: "pointer", width: "40px", height: "auto" }}
+            onClick={() => handleNavigation("/", 1)}
+          ></img>
           {/* small screen */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -144,9 +155,14 @@ const Header = () => {
                 Giới thiệu
               </MenuItem>
               {user.role === "admin" && (
-                <MenuItem onClick={() => handleNavigation("/manage", 10)}>
-                  Quản lý
-                </MenuItem>
+                <div>
+                  <MenuItem onClick={() => handleNavigation("/dashboard", 11)}>
+                    Thống kê
+                  </MenuItem>
+                  <MenuItem onClick={() => handleNavigation("/manage", 10)}>
+                    Quản lý
+                  </MenuItem>
+                </div>
               )}
             </Menu>
           </Box>
@@ -154,6 +170,39 @@ const Header = () => {
           {/* full screen */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <ButtonGroup variant="text" aria-label="Basic button group">
+              {user.role === "admin" && (
+                <span className="flex flex-row">
+                  <Button
+                    onClick={() => handleNavigation("/dashboard", 11)}
+                    sx={{
+                      my: 2,
+                      color: clickedIndex === 11 ? "red" : "white",
+                      "&:hover": {
+                        color: "red",
+                      },
+                      display: "block",
+                      textTransform: "none",
+                    }}
+                  >
+                    Thống kê
+                  </Button>
+                  <Button
+                    onClick={() => handleNavigation("/manage", 10)}
+                    sx={{
+                      my: 2,
+                      color: clickedIndex === 10 ? "red" : "white",
+                      "&:hover": {
+                        color: "red",
+                      },
+                      display: "block",
+                      textTransform: "none",
+                    }}
+                  >
+                    Quản lý
+                  </Button>
+                </span>
+              )}
+
               <Button
                 onClick={() => handleNavigation("/", 1)}
                 sx={{
@@ -238,22 +287,6 @@ const Header = () => {
               >
                 Giới thiệu
               </Button>
-              {user.role === "admin" && (
-                <Button
-                  onClick={() => handleNavigation("/manage", 10)}
-                  sx={{
-                    my: 2,
-                    color: clickedIndex === 10 ? "red" : "white",
-                    "&:hover": {
-                      color: "red",
-                    },
-                    display: "block",
-                    textTransform: "none",
-                  }}
-                >
-                  Quản lý
-                </Button>
-              )}
             </ButtonGroup>
           </Box>
 

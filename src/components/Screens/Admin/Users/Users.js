@@ -27,10 +27,13 @@ import ModalAddUser from "./ModalAddUser";
 import ModalEditUser from "./ModalEditUser";
 import ModalDeleteUser from "./ModalDeleteUser";
 import "./Users.scss";
+import { setRender } from "../../../../redux/renderAction";
 
 export const Users = () => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
+  const isRender = useSelector((state) => state.render.isRender);
+
   const loading = useSelector((state) => state.manageUsers.loading);
   const error = useSelector((state) => state.manageUsers.error);
 
@@ -41,7 +44,7 @@ export const Users = () => {
   const [openDeleteUser, setOpenDeleteUser] = useState(false);
 
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("userId");
+  const [orderBy, setOrderBy] = useState("userCode");
 
   const handleOpenAddUser = () => setOpenAddUser(true);
   const handleCloseAddUser = () => {
@@ -109,19 +112,19 @@ export const Users = () => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-
   const fetchUsers = async () => {
     try {
       let res = await handleGetListUsers();
       if (res && res.users) {
         const formattedData = res.users.map((item) => ({
-          userId: item.userId,
+          userCode: item.userCode,
           email: item.email,
           firstName: item.firstName,
           lastName: item.lastName,
           userName: item.userName,
           birthYear: item.birthYear,
           phonenumber: item.phonenumber,
+          // role: item.role,
         }));
         setUsers(formattedData);
       }
@@ -129,14 +132,18 @@ export const Users = () => {
       console.error("Error fetching users:", error);
     }
   };
-
   useEffect(() => {
-    // const intervalId = setInterval(() => {
-    fetchUsers(); // Gọi API để cập nhật dữ liệu
-    // }, 5000); // Gọi API mỗi 5 giây
+    if (users.length === 0) {
+      fetchUsers();
+    }
 
-    // return () => clearInterval(intervalId); // Dọn dẹp interval khi component unmount hoặc khi useEffect chạy lại
-  }, [fetchUsers, users]);
+    if (isRender) {
+      fetchUsers();
+      setTimeout(() => {
+        dispatch(setRender(false));
+      }, 0);
+    }
+  }, [isRender]);
 
   return (
     <div>
@@ -169,9 +176,9 @@ export const Users = () => {
             <TableRow>
               <TableCell>
                 <TableSortLabel
-                  active={orderBy === "userId"}
-                  direction={orderBy === "userId" ? order : "asc"}
-                  onClick={(event) => handleRequestSort(event, "userId")}
+                  active={orderBy === "userCode"}
+                  direction={orderBy === "userCode" ? order : "asc"}
+                  onClick={(event) => handleRequestSort(event, "userCode")}
                 >
                   ID
                 </TableSortLabel>
@@ -190,6 +197,7 @@ export const Users = () => {
               <TableCell>Email</TableCell>
               <TableCell>Số điện thoại</TableCell>
               <TableCell>Năm sinh</TableCell>
+              {/* <TableCell>Vai trò</TableCell> */}
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -198,13 +206,14 @@ export const Users = () => {
             {stableSort(displayedUsers, getComparator(order, orderBy)).map(
               (user, index) => (
                 <TableRow key={index}>
-                  <TableCell>{user.userId}</TableCell>
+                  <TableCell>{user.userCode}</TableCell>
                   <TableCell>{user.lastName}</TableCell>
                   <TableCell>{user.firstName}</TableCell>
                   <TableCell>{user.userName}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.phonenumber}</TableCell>
                   <TableCell>{user.birthYear}</TableCell>
+                  {/* <TableCell>{user.role}</TableCell> */}
                   <TableCell>
                     <div
                       style={{

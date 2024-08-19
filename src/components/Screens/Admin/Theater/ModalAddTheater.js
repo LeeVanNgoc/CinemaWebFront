@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { FormControl } from "@mui/base/FormControl";
 import Button from "@mui/material/Button";
 import {
@@ -11,8 +12,11 @@ import {
   ModalContent,
 } from "./style";
 import { handleCreateTheater } from "./config";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalAddTheater({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -20,13 +24,7 @@ export default function ModalAddTheater({ isOpen, handleOpen, handleClose }) {
   const handleAddTheater = async () => {
     handleCreateTheater(name, address, city);
     handleClose();
-    window.location.reload();
-  };
-
-  const handleEnter = (e) => {
-    if (e && e.key === "Enter") {
-      handleAddTheater();
-    }
+    dispatch(setRender(true));
   };
 
   return (

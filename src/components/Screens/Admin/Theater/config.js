@@ -16,16 +16,16 @@ const handleGetListTheaters = async () => {
   }
 };
 
-const handleGetTheaterById = async (theaterId) => {
+const handleGetTheaterByCode = async (theaterCode) => {
   try {
-    const response = await axios.get("/api/theater/get-theaters-by-id", null, {
+    const response = await axios.get("/api/theater/get-theaters-by-code", null, {
       params: {
-        theaterId: theaterId,
+        theaterCode: theaterCode,
       },
     });
     return response;
   } catch (error) {
-    console.error("Error getting theater by ID:", error);
+    console.error("Error getting theater by Code:", error);
     if (error.response) {
       return { error: error.response.data.message };
     } else if (error.request) {
@@ -83,11 +83,11 @@ const handleCreateTheater = async (name, address, city) => {
   }
 };
 
-const handleEditTheater = async (theaterId, name, address, city) => {
+const handleEditTheater = async (theaterCode, name, address, city) => {
   try {
     const response = await axios.put("/api/theater/edit-theater/", null, {
       params: {
-        theaterId: theaterId,
+        theaterCode: theaterCode,
         name: name,
         address: address,
         city: city,
@@ -108,11 +108,11 @@ const handleEditTheater = async (theaterId, name, address, city) => {
   }
 };
 
-const handleDeleteTheater = async (theaterId) => {
+const handleDeleteTheater = async (theaterCode) => {
   try {
     const response = await axios.delete("/api/theater/delete-theater", {
       params: {
-        theaterId: theaterId,
+        theaterCode: theaterCode,
       },
     });
     return response;
@@ -131,7 +131,7 @@ const handleDeleteTheater = async (theaterId) => {
 
 export {
   handleGetListTheaters,
-  handleGetTheaterById,
+  handleGetTheaterByCode,
   handleGetTheaterByCity,
   handleCreateTheater,
   handleEditTheater,

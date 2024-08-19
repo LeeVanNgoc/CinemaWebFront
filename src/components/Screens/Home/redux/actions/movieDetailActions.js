@@ -14,7 +14,7 @@ export const fetchMoviesByDate = (date) => {
           description: element.movie.description,
           duration: element.movie.duration,
           country: element.movie.country,
-          //   releaseDate: item.releaseDate,
+          releaseDate: element.movie.releaseDate,
           image: element.movie.image,
           genreName: element.movie.genreName,
         }));

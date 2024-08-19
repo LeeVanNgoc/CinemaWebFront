@@ -11,9 +11,11 @@ import {
   ModalContent,
 } from "./style";
 import { handleEditUser } from "./config";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalEditUser({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.manageUsers.selectedUser);
 
   // Khởi tạo state với dữ liệu người dùng từ props
@@ -25,14 +27,14 @@ export default function ModalEditUser({ isOpen, handleOpen, handleClose }) {
 
   const handleUpdateUser = async () => {
     await handleEditUser(
-      user.userId,
+      user.userCode,
       firstName,
       lastName,
       userName,
       phonenumber,
       birthYear
     );
-
+    dispatch(setRender(true));
     handleClose();
   };
 

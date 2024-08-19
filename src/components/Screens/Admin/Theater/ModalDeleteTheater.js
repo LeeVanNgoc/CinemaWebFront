@@ -2,17 +2,21 @@ import React from "react";
 import Button from "@mui/material/Button";
 import { TriggerButton, Modal, StyledBackdrop, ModalContent } from "./style";
 import { handleDeleteTheater } from "./config";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalDeleteTheater({
   isOpen,
   handleOpen,
   handleClose,
 }) {
+  const dispatch = useDispatch();
+
   const theater = useSelector((state) => state.manageTheaters.selectedTheater);
 
   const handleDelete = async () => {
-    await handleDeleteTheater(theater.theaterId);
+    await handleDeleteTheater(theater.theaterCode);
+    dispatch(setRender(true));
     handleClose();
   };
 
@@ -47,7 +51,7 @@ export default function ModalDeleteTheater({
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Xóa rạp ID = {theater.theaterId}?
+            Xóa rạp ID = {theater.theaterCode}?
           </h1>
           <div style={{ display: "flex", gap: "10px" }}>
             <Button

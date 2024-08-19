@@ -43,7 +43,7 @@ export default function ModalAddPost({ isOpen, handleOpen, handleClose }) {
           border: "none",
         }}
       >
-        Tạo giá vé mới
+        Tạo tin tức mới
       </TriggerButton>
       <Modal
         aria-labelledby="unstyled-modal-title"
@@ -73,7 +73,7 @@ export default function ModalAddPost({ isOpen, handleOpen, handleClose }) {
             }}
           >
             <FormControl defaultValue="" required>
-              <Label>Mức vé</Label>
+              <Label>Tên tin tức</Label>
               <StyledInput
                 // placeholder="title"
                 onChange={(e) => setTitle(e.target.value)}
@@ -82,7 +82,7 @@ export default function ModalAddPost({ isOpen, handleOpen, handleClose }) {
               <HelperText />
             </FormControl>
             <FormControl defaultValue="" required>
-              <Label>Loại phòng</Label>
+              <Label>Nội dung</Label>
               <StyledInput
                 // placeholder="Mật khẩu"
                 onChange={(e) => setContent(e.target.value)}
@@ -91,7 +91,7 @@ export default function ModalAddPost({ isOpen, handleOpen, handleClose }) {
               <HelperText />
             </FormControl>
             <FormControl defaultValue="" required>
-              <Label>Loại ghế</Label>
+              <Label>Hình ảnh</Label>
               <StyledInput
                 // placeholder="Mật khẩu"
                 onChange={(e) => setImage(e.target.value)}
@@ -100,7 +100,7 @@ export default function ModalAddPost({ isOpen, handleOpen, handleClose }) {
               <HelperText />
             </FormControl>
             <FormControl defaultValue="" required>
-              <Label>Cuối tuần/Lễ</Label>
+              <Label>Đường dẫn</Label>
               <StyledInput
                 // placeholder="Mật khẩu"
                 onChange={(e) => setLink(e.target.value)}

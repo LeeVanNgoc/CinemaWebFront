@@ -139,7 +139,7 @@ export const Movie = () => {
               <TableCell>Mã Phim</TableCell>
               <TableCell>Tên Phim</TableCell>
               <TableCell>Mô Tả</TableCell>
-              <TableCell>Thời Lượng</TableCell>
+              <TableCell>Thời Lượng (Phút)</TableCell>
               <TableCell>Quốc Gia</TableCell>
               <TableCell>Ngày Khởi Chiếu</TableCell>
               <TableCell>Ảnh</TableCell>
@@ -151,7 +151,7 @@ export const Movie = () => {
             {stableSort(displayedMovies, getComparator(order, orderBy)).map(
               (movie, index) => (
                 <TableRow key={index}>
-                  <TableCell>{movie.movieId}</TableCell>
+                  <TableCell>{movie.movieCode}</TableCell>
                   <TableCell>{movie.title}</TableCell>
                   <TableCell>{movie.description}</TableCell>
                   <TableCell>{movie.duration}</TableCell>
@@ -164,7 +164,7 @@ export const Movie = () => {
                       alt={movie.title}
                     />
                   </TableCell>
-                  <TableCell>{movie.genreId}</TableCell>
+                  <TableCell>{movie.genreCode}</TableCell>
 
                   <TableCell>
                     <div

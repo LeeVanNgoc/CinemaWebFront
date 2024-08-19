@@ -54,7 +54,7 @@ export const handleLogoutRedux = () => {
   return async (dispatch, getState) => {
     dispatch({ type: USER_LOGOUT });
     localStorage.clear();
-    window.location.reload();
+    sessionStorage.clear();
   };
 };
 

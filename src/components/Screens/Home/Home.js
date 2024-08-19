@@ -1,31 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 // import material-ui
-import { Container, Grid, FormControl } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import Brightness1SharpIcon from "@mui/icons-material/Brightness1Sharp";
 
 // import project component
 import CarouselComponent from "../../Common/Carousel/CarouselComponent";
 import NewsCarousel from "../../Common/Carousel/NewsCarousel";
 import MovieCard from "./MovieCard";
-import { getMovies } from "../Admin/Movie/redux/actions/movieActions";
-import { useDispatch, useSelector } from "react-redux";
-import { StyledInput } from "./style";
 import "./Home.scss";
 
 const Home = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      dispatch(getMovies());
-    };
-
-    fetchMovies();
-  }, [dispatch]);
 
   return (
     <>
@@ -56,7 +44,7 @@ const Home = () => {
               </Grid>
             </Grid>
             <Grid item>
-              <MovieCard />
+              <MovieCard status="showing" />
             </Grid>
           </Grid>
           <Grid item xs={2.5}>
@@ -90,7 +78,7 @@ const Home = () => {
           />
           <span>Phim sắp chiếu</span>
         </div>
-        <MovieCard />
+        <MovieCard status="upcoming" />
       </Container>
       <ToastContainer position="top-right" autoClose={1000} />
     </>

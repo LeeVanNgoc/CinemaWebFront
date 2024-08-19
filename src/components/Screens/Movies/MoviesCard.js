@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectedMovie } from "../Admin/Movie/redux/actions/movieActions";
 import {
   Card,
   CardContent,
@@ -10,13 +9,23 @@ import {
   Chip,
   Grid,
 } from "@mui/material";
+import { setSelectedMovie } from "../Admin/Movie/redux/actions/movieActions";
+import { fetchMoviesByDate } from "../Home/redux/actions/movieDetailActions";
 
 const MoviesCard = (query) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const movies = useSelector((state) => state.home.movies);
-  // const movies = useSelector((state) => state.manageMovies.movies.movies);
+  const dateScreen = useSelector((state) => state.userBookTicket.date);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      dispatch(fetchMoviesByDate(dateScreen));
+    };
+
+    fetchMovies();
+  }, [dateScreen]);
 
   const handleClick = (movie) => {
     dispatch(setSelectedMovie(movie));
@@ -68,13 +77,13 @@ const MoviesCard = (query) => {
                     <Typography variant="caption" color="grey.500">
                       {movie.genreName} - {movie.duration} phút
                     </Typography>
-                    <Chip
+                    {/* <Chip
                       label="2D"
                       size="small"
                       sx={{ bgcolor: "grey.700", color: "white" }}
-                    />
+                    /> */}
                   </Grid>
-                  <div className="box-border translate-y-0">
+                  <div className="flex flex-col align-middle">
                     <Typography gutterBottom variant="h6" component="div">
                       {movie.title}
                     </Typography>
@@ -82,7 +91,7 @@ const MoviesCard = (query) => {
                       Xuất xứ: {movie.country}
                     </Typography>
                     <Typography variant="body2" color="white">
-                      Khởi chiếu: {/* {movie.releaseDate.split("T")[0]} */}
+                      Khởi chiếu: {movie.releaseDate.slice(0, 10)}
                     </Typography>
                     <Typography variant="body2" color="red">
                       P - PHIM ĐƯỢC PHÉP PHỔ BIẾN ĐẾN NGƯỜI XEM Ở MỌI ĐỘ TUỔI.

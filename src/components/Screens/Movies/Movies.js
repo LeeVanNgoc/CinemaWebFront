@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import MoviesCard from "./MoviesCard";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Brightness1SharpIcon from "@mui/icons-material/Brightness1Sharp";
 import { Container, FormControl } from "@mui/material";
-// import { getMovies } from "../Admin/Movie/redux/actions/movieActions";
-
 import { StyledInput } from "./style";
 import "./Movies.scss";
-import { fetchMoviesByDate } from "../Home/redux/actions/movieDetailActions";
 import { setDate } from "../BookTicket/redux/actions/bookingAction";
 
 const Movies = () => {
   const dispatch = useDispatch();
 
   const [query, setQuery] = useState("");
-  const dateScreen = useSelector((state) => state.userBookTicket.date);
 
   const today = new Date();
   const getNextDay = (current) => {
@@ -29,12 +25,8 @@ const Movies = () => {
   const nextTomorrow = getNextDay(tomorrow);
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      dispatch(fetchMoviesByDate(dateScreen));
-    };
-
-    fetchMovies();
-  }, [dispatch, dateScreen]);
+    dispatch(setDate(today.toISOString().slice(0, 10)));
+  }, []);
 
   return (
     <div className="movies-container">
@@ -56,7 +48,7 @@ const Movies = () => {
       </div>
       <ButtonGroup variant="contained" aria-label="Basic button group">
         <Button
-          className="focus: bg-red-600"
+          // className="button1"
           onClick={() => dispatch(setDate(today.toISOString().slice(0, 10)))}
         >
           {today.toLocaleDateString("vi-VN")}

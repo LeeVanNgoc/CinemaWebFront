@@ -7,7 +7,7 @@ export const GET_MOVIES_SUCCESS = "GET_MOVIES_SUCCESS";
 export const MOVIE_REFRESH = "MOVIE_REFRESH";
 
 export const setSelectedMovie = (movie) => {
-  localStorage.setItem("selectedMovie", JSON.stringify(movie));
+  sessionStorage.setItem("selectedMovie", JSON.stringify(movie));
   return async (dispatch, getState) => {
     dispatch({ type: SET_SELECTED_MOVIE, payload: movie });
   };
@@ -31,7 +31,6 @@ export const getMovies = () => {
       console.log("res list movies >>>", res);
       if (res && res.movies) {
         const formattedData = res.movies.map((item) => ({
-          movieId: item.movieId,
           movieCode: item.movieCode,
           title: item.title,
           description: item.description,
@@ -39,7 +38,7 @@ export const getMovies = () => {
           country: item.country,
           releaseDate: item.releaseDate,
           image: item.image,
-          genreId: item.genreCode,
+          genreCode: item.genreCode,
         }));
         dispatch({
           type: "GET_MOVIES_SUCCESS",

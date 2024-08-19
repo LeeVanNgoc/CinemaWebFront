@@ -11,9 +11,12 @@ import {
   ModalContent,
 } from "./style";
 import { handleEditTheater } from "./config";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalEditTheater({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
+
   const theater = useSelector((state) => state.manageTheaters.selectedTheater);
 
   const [name, setName] = useState(theater.name);
@@ -21,7 +24,8 @@ export default function ModalEditTheater({ isOpen, handleOpen, handleClose }) {
   const [city, setCity] = useState(theater.city);
 
   const handleUpdateTheater = async () => {
-    await handleEditTheater(theater.theaterId, name, address, city);
+    await handleEditTheater(theater.theaterCode, name, address, city);
+    dispatch(setRender(true));
     handleClose();
   };
 
@@ -66,7 +70,7 @@ export default function ModalEditTheater({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue={theater.theaterId} aria-readonly>
+            <FormControl defaultValue={theater.theaterCode} aria-readonly>
               <Label>Mã rạp</Label>
               <StyledInput readOnly />
               <HelperText />

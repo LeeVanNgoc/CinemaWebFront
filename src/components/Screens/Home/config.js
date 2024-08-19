@@ -1,17 +1,5 @@
 import axios from "../../../axios";
 
-export const getMovieByTitle = async (title) => {
-  try {
-    const res = await axios.get("/api/movie/get-movie-by-title", {
-      params: { title: title },
-    });
-    console.log(res);
-    return res;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
 export const getMovieByDate = async (date) => {
   try {
     const res = await axios.get(
@@ -20,7 +8,6 @@ export const getMovieByDate = async (date) => {
         params: { dateScreen: date },
       }
     );
-    console.log("movie details", res);
     return res;
   } catch (error) {
     console.log(error.message);

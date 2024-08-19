@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Card from "@mui/material/Card";
 import { Grid } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
@@ -7,26 +7,47 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectedMovie } from "../Admin/Movie/redux/actions/movieActions";
+import {
+  getMovies,
+  setSelectedMovie,
+} from "../Admin/Movie/redux/actions/movieActions";
 import "./MovieCard.scss";
 
-export default function MovieCard() {
+export default function MovieCard(status) {
   const dispatch = useDispatch();
-  const movies = useSelector((state) => state.manageMovies.movies.movies);
   const navigate = useNavigate();
+  const movies = useSelector((state) => state.manageMovies.movies.movies);
 
   const handleClick = (movie) => {
     dispatch(setSelectedMovie(movie));
     navigate("/bookticket");
   };
 
+  useEffect(() => {
+    const fetchMovies = async () => {
+      dispatch(getMovies());
+    };
+
+    fetchMovies();
+  }, []);
+
   return (
     <Grid container spacing={3}>
       {movies &&
         movies
           .filter((movie) => {
-            if (new Date(movie.releaseDate.split("T")[0]) <= new Date()) {
-              return movie;
+            if (status.status === "showing") {
+              // Lọc ra những phim có ngày phát hành trong vòng 2 tháng trở lại so với ngày hiện tại
+              const releaseDate = new Date(movie.releaseDate.split("T")[0]);
+              const daysDifference =
+                (new Date() - releaseDate) / (1000 * 60 * 60 * 24);
+              return releaseDate <= new Date() && daysDifference <= 60
+                ? movie
+                : null;
+            } else if (status.status === "upcoming") {
+              return new Date(movie.releaseDate.split("T")[0]) > new Date()
+                ? movie
+                : null;
             }
           })
           .map((movie, index) => (

@@ -18,7 +18,7 @@ const handleGetListSeats = async () => {
 
 const handleGetSeatByCode = async (seatCode) => {
   try {
-    const response = await axios.get("/api/seats/get-seat-by-code", null, {
+    const response = await axios.get("/api/seats/get-seat-by-code", {
       params: {
         seatCode: seatCode,
       },

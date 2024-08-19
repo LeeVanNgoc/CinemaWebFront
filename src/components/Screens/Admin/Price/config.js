@@ -16,16 +16,16 @@ const handleGetListPrices = async () => {
   }
 };
 
-const handleGetPriceById = async (priceId) => {
+const handleGetPriceByCode = async (priceCode) => {
   try {
-    const response = await axios.get("/api/prices/get-price-by-id", null, {
+    const response = await axios.get("/api/prices/get-price-by-code", null, {
       params: {
-        priceId: priceId,
+        priceCode: priceCode,
       },
     });
     return response;
   } catch (error) {
-    console.error("Error getting price by id:", error);
+    console.error("Error getting price by code:", error);
     if (error.response) {
       return { error: error.response.data.message };
     } else if (error.request) {
@@ -62,7 +62,7 @@ const handleCreatePrice = async (cost, roomType, seatType, isWeekend) => {
 };
 
 const handleEditPrice = async (
-  priceId,
+  priceCode,
   cost,
   roomType,
   seatType,
@@ -71,7 +71,7 @@ const handleEditPrice = async (
   try {
     const response = await axios.put("/api/prices/edit-price/", null, {
       params: {
-        priceId: priceId,
+        priceCode: priceCode,
         cost: cost,
         roomType: roomType,
         seatType: seatType,
@@ -94,11 +94,11 @@ const handleEditPrice = async (
   }
 };
 
-const handleDeletePrice = async (priceId) => {
+const handleDeletePrice = async (priceCode) => {
   try {
     const response = await axios.delete("/api/prices/delete-price", {
       params: {
-        priceId: priceId,
+        priceCode: priceCode,
       },
     });
     alert(response.message);
@@ -118,7 +118,7 @@ const handleDeletePrice = async (priceId) => {
 
 export {
   handleGetListPrices,
-  handleGetPriceById,
+  handleGetPriceByCode,
   handleCreatePrice,
   handleEditPrice,
   handleDeletePrice,

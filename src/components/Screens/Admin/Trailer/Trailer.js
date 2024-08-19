@@ -110,8 +110,9 @@ export const Trailers = () => {
         console.log("res list trailers >>>", res);
         if (res && res.trailers) {
           const formattedData = res.trailers.map((item) => ({
-            trailerId: item.trailerId,
-            movieId: item.movieId,
+            trailerCode: item.trailerCode,
+            movieCode: item.movieCode,
+            movieTitle: item.movieTitle,
             link: item.link,
           }));
           setTrailers(formattedData);
@@ -148,7 +149,7 @@ export const Trailers = () => {
           <TableHead>
             <TableRow>
               <TableCell>Mã Trailer</TableCell>
-              <TableCell>Mã Phim</TableCell>
+              <TableCell>Tên Phim</TableCell>
               <TableCell>Đường dẫn</TableCell>
               <TableCell>Hành động</TableCell>
             </TableRow>
@@ -157,8 +158,8 @@ export const Trailers = () => {
             {stableSort(displayedTrailers, getComparator(order, orderBy)).map(
               (trailer, index) => (
                 <TableRow key={index}>
-                  <TableCell>{trailer.trailerId}</TableCell>
-                  <TableCell>{trailer.movieId}</TableCell>
+                  <TableCell>{trailer.trailerCode}</TableCell>
+                  <TableCell>{trailer.movieTitle}</TableCell>
                   <TableCell>{trailer.link}</TableCell>
                   <TableCell>
                     <div
