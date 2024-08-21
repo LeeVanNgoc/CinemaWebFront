@@ -2,22 +2,16 @@ import React, { useState } from "react";
 import OTP from "./OTP";
 import { Box } from "@mui/system";
 import { Button } from "@mui/material";
-import { handleLoginByOTP } from "../config";
-import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { handleLoginByOtpRedux } from "../redux/actions/userAction";
 
-export default function OTPInput(userEmail, type, handleClose) {
+export default function OTPInput(userEmail) {
+  const dispatch = useDispatch();
+
   const [otp, setOtp] = useState("");
 
-  const handleLoginByOtpCode = async (userEmail, otp, type) => {
-    try {
-      const res = await handleLoginByOTP(userEmail.userEmail, otp);
-      if (res && res.errCode === 0) {
-        handleClose(type);
-        toast.success("Đăng nhập thành công!");
-      }
-    } catch (error) {
-      console.log("Error: ", error);
-    }
+  const handleLoginByOtpCode = async () => {
+    dispatch(handleLoginByOtpRedux(userEmail.userEmail, otp));
   };
 
   return (
@@ -29,9 +23,7 @@ export default function OTPInput(userEmail, type, handleClose) {
       }}
     >
       <OTP separator={<span></span>} value={otp} onChange={setOtp} length={6} />
-      <Button onClick={() => handleLoginByOtpCode(userEmail, otp, "otp-input")}>
-        Submit
-      </Button>
+      <Button onClick={() => handleLoginByOtpCode()}>Submit</Button>
     </Box>
   );
 }

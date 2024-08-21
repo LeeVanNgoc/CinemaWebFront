@@ -26,10 +26,10 @@ export default function Signin({
   const dispatch = useDispatch();
 
   const account = useSelector((state) => state.user.account);
+  const isLoading = useSelector((state) => state.user.isLoading);
 
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -132,6 +132,7 @@ export default function Signin({
           >
             Đăng nhập
           </Button>
+          {isLoading ? <p>isLoading...</p> : null}
           <p
             id="parent-modal-description"
             className="modal-description"

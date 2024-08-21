@@ -5,11 +5,11 @@ import {
   USER_LOGOUT,
   USER_REFRESH,
 } from "../actions/userAction";
-import jwtDecode from "jwt-decode";
 
 const INITIAL_STATE = {
   account: { email: "", token: "", auth: null },
   isError: false,
+  isLoading: false,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -18,6 +18,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isError: false,
+        isLoading: true,
       };
 
     case FETCH_USER_SUCCESS:
@@ -29,6 +30,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
           auth: true,
         },
         isError: false,
+        isLoading: false,
       };
 
     case FETCH_USER_ERROR:
@@ -36,6 +38,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: { auth: false },
         isError: true,
+        isLoading: false,
       };
 
     case USER_LOGOUT:

@@ -54,7 +54,6 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(handleLogoutRedux());
-    toast.success("Đăng xuất thành công!");
   };
 
   useEffect(() => {
@@ -66,6 +65,7 @@ const Header = () => {
       }
       handleSignInClose();
     } else if (user.auth === false) {
+      // toast.success("Đăng xuất thành công!");
       handleNavigation("/", 1);
     }
   }, [user.auth]);

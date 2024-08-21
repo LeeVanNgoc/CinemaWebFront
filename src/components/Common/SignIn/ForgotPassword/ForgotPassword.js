@@ -6,12 +6,14 @@ import clsx from "clsx";
 import { styled, css } from "@mui/system";
 import { Modal as BaseModal } from "@mui/base/Modal";
 import { Button } from "@mui/material";
-import { handleGetOTP, handleLoginByOTP } from "../config";
+import { handleGetOTP } from "../config";
+import { useSelector } from "react-redux";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
+
   const handleOpen = (type) => {
     type === "modal" ? setOpen(true) : setShow(!show);
   };
@@ -67,11 +69,7 @@ const ForgotPassword = () => {
             <div>
               A message with a verification code has been sent to your email.
               Enter the code to continue.
-              <OTPInput
-                userEmail={email}
-                type="otp-input"
-                handleClose={handleClose}
-              />
+              <OTPInput userEmail={email} />
             </div>
           )}
         </ModalContent>
