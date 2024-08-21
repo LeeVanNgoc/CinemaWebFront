@@ -59,6 +59,8 @@ const handleCreateTrailer = async (movieCode, link) => {
 };
 
 const handleEditTrailer = async (trailerCode, movieCode, link) => {
+  console.log("MovieCode : ", movieCode, link);
+
   try {
     const response = await axios.put("/api/trailer/edit-trailer/", null, {
       params: {
