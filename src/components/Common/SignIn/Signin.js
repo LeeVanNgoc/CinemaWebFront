@@ -14,7 +14,8 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
-import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import ForgotPassword from "./ForgotPassword/ForgotPassword";
 
 export default function Signin({
@@ -132,7 +133,11 @@ export default function Signin({
           >
             Đăng nhập
           </Button>
-          {isLoading ? <p>isLoading...</p> : null}
+          {isLoading ? (
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <CircularProgress />
+            </Box>
+          ) : null}
           <p
             id="parent-modal-description"
             className="modal-description"

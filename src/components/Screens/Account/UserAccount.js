@@ -6,7 +6,10 @@ import { jwtDecode } from "jwt-decode";
 // import ModalEditUser from "./ModalEditUser";
 
 const UserAccount = () => {
-  const decoded = jwtDecode(localStorage.token);
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
   const userCode = decoded.userCode;
   const [info, setInfo] = useState(null);
   const [openEditUser, setOpenEditUser] = useState(false);

@@ -24,10 +24,13 @@ import { jwtDecode } from "jwt-decode";
 
 const Header = () => {
   const navigate = useNavigate();
-  const decoded = jwtDecode(localStorage.getItem("token"));
-  const user = useSelector((state) => state.user.account);
-
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user.account);
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);

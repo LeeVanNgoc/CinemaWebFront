@@ -15,7 +15,10 @@ import { handleEditUser } from "../Admin/Users/config";
 import jwtDecode from "jwt-decode";
 
 export default function ModalEditUser({ isOpen, handleOpen, handleClose }) {
-  const decoded = jwtDecode(localStorage.getItem("token"));
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
   const [info, setInfo] = useState(null);
   const userCode = decoded.userCode;
 
