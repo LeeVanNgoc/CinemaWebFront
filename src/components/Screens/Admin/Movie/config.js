@@ -128,6 +128,8 @@ export const handleGetListMoviesTitleAndCode = async () => {
     const response = await axios.get(
       "/api/movie/get-list-movies-title-and-code"
     );
+    console.log("List movies: ", response.movies);
+
     return response;
   } catch (error) {
     console.error("Error getting list of movies title and code:", error);
