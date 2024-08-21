@@ -31,8 +31,8 @@ const Footer = () => {
           Giấy phép số: 224/GP- TTĐT ngày 31/8/2010 - Chịu trách nhiệm: Vũ Yến
           Hoa - Giám đốc
           <br />
-          Địa chỉ: 87 Láng Hạ, Quận Ba Đình, Tp. Hà Nội - Điện thoại:
-          024.35141791
+          Địa chỉ: 35 Lê Văn Thiêm, Quận Thanh Xuân, Tp. Hà Nội - Điện thoại:
+          024.88888888
         </div>
       </div>
     </>

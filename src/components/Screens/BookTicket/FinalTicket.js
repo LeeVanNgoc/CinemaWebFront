@@ -1,9 +1,18 @@
-import * as React from "react";
+// import react
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+
+// import material-ui
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import { clearStartTimeAndRoom } from "./redux/actions/bookingAction";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 import {
   Table,
   TableHead,
@@ -11,18 +20,19 @@ import {
   TableCell,
   TableRow,
 } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+
+// import project component
+import Signin from "../../Common/SignIn/Signin";
+import { clearStartTimeAndRoom } from "./redux/actions/bookingAction";
 import { handleCreateTicket, handleCreateBookedSeats } from "./config";
 import { BankRadioButton } from "./BankRadioButton";
 
 export default function FinalTicket() {
+  const decoded = jwtDecode(localStorage.token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userCode = useSelector((state) => state.user.account.code);
+  const user = useSelector((state) => state.user.account);
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
   const planCode = useSelector((state) => state.userBookTicket.selectedPlan[0]);
   const date = useSelector((state) => state.userBookTicket.date);
@@ -34,9 +44,34 @@ export default function FinalTicket() {
   );
   const totalBill = useSelector((state) => state.userBookTicket.totalBill);
 
+  const [isSignInOpen, setSignInOpen] = useState(false);
+  const [isSignUpOpen, setSignUpOpen] = useState(false);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const handleSignInOpen = () => setSignInOpen(true);
+  const handleSignInClose = () => setSignInOpen(false);
+
+  const handleSignUpOpen = () => setSignUpOpen(true);
+  const handleSignUpClose = () => setSignUpOpen(false);
+
+  const switchToSignUp = () => {
+    handleSignInClose();
+    handleSignUpOpen();
+  };
+
   const goBack = () => {
     dispatch(clearStartTimeAndRoom());
     navigate("/bookticket");
+    // window.location.reload();
   };
 
   const createBookedSeats = async (ticketCode) => {
@@ -45,21 +80,29 @@ export default function FinalTicket() {
   };
 
   const bookTicket = async () => {
-    try {
-      const res = await handleCreateTicket(
-        userCode,
-        planCode,
-        seats.join(", "),
-        bank,
-        totalBill
-      );
-      dispatch(clearStartTimeAndRoom());
-      console.log("create ticket: ", res);
-      localStorage.setItem("ticketCode", res.newTickets.ticketCode);
-      await createBookedSeats(res.newTickets.ticketCode);
-      navigate("/myticket");
-    } catch (error) {
-      console.error("Error booking ticket:", error);
+    if (user.auth !== true) {
+      handleSignInOpen();
+    } else {
+      try {
+        const res = await handleCreateTicket(
+          decoded.userCode,
+          planCode,
+          seats.join(", "),
+          bank,
+          totalBill
+        );
+        dispatch(clearStartTimeAndRoom());
+        console.log("create ticket: ", res);
+        localStorage.setItem("ticketCode", res.newTickets.ticketCode);
+        await createBookedSeats(res.newTickets.ticketCode);
+
+        if (res && res.errCode === 0) {
+          setOpen(true);
+        }
+        // navigate("/myticket");
+      } catch (error) {
+        console.error("Error booking ticket:", error);
+      }
     }
   };
 
@@ -237,7 +280,7 @@ export default function FinalTicket() {
                 backgroundColor: "grey",
                 height: "40px",
               }}
-              onClick={goBack}
+              onClick={() => goBack()}
             >
               Trở về
             </Button>
@@ -255,6 +298,23 @@ export default function FinalTicket() {
           </div>
         </div>
       </div>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert
+          anchorOrigin={("top", "right")}
+          onClose={handleClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          Bạn đã đặt vé thành công!
+        </Alert>
+      </Snackbar>
+      <Signin
+        isOpen={isSignInOpen}
+        handleOpen={() => handleSignInOpen()}
+        handleClose={handleSignInClose}
+        switchToSignUp={switchToSignUp}
+      />
     </div>
   );
 }

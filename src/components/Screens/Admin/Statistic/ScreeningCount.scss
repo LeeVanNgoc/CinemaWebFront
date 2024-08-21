@@ -1,0 +1,37 @@
+// Đổi màu bar chart
+.css-1qdzy9k-MuiBarElement-root {
+  fill: #03bac5 !important;
+}
+
+.MuiChartsLegend-mark {
+  fill: #03bac5 !important;
+}
+text {
+  fill: #bfcfe7 !important;
+}
+
+// màu trục
+.css-1k2u9zb-MuiChartsAxis-root .MuiChartsAxis-line {
+  stroke: #bfcfe7 !important;
+}
+
+// nhãn
+.css-1k2u9zb-MuiChartsAxis-root .MuiChartsAxis-tickLabel {
+  fill: #bfcfe7 !important;
+}
+// mốc
+.css-1k2u9zb-MuiChartsAxis-root .MuiChartsAxis-tick {
+  stroke: #bfcfe7 !important;
+}
+// label select month - year
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root {
+  color: #bfcfe7 !important;
+}
+// màu value month-year
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+  color: #bfcfe7 !important;
+}
+
+.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
+  color: #bfcfe7 !important;
+}
