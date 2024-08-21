@@ -5,9 +5,10 @@ import {
   USER_LOGOUT,
   USER_REFRESH,
 } from "../actions/userAction";
+import jwtDecode from "jwt-decode";
 
 const INITIAL_STATE = {
-  account: { email: "", code: "", role: "", auth: null },
+  account: { email: "", token: "", auth: null },
   isError: false,
 };
 
@@ -24,8 +25,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           email: action.data.email,
-          code: action.data.code,
-          role: action.data.role,
+          token: action.data.token,
           auth: true,
         },
         isError: false,
@@ -43,8 +43,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           email: "",
-          code: "",
-          role: "",
+          token: "",
           auth: false,
         },
       };
@@ -54,8 +53,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           email: localStorage.getItem("email"),
-          code: localStorage.getItem("userCode"),
-          role: localStorage.getItem("role"),
+          token: localStorage.getItem("token"),
           auth: true,
         },
       };

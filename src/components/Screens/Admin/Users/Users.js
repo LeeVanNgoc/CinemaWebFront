@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { TablePagination } from "@mui/base/TablePagination";
 import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
@@ -28,8 +28,10 @@ import ModalEditUser from "./ModalEditUser";
 import ModalDeleteUser from "./ModalDeleteUser";
 import "./Users.scss";
 import { setRender } from "../../../../redux/renderAction";
+import { jwtDecode } from "jwt-decode";
 
 export const Users = () => {
+  const decoded = jwtDecode(localStorage.token);
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
   const isRender = useSelector((state) => state.render.isRender);
@@ -115,23 +117,27 @@ export const Users = () => {
   const fetchUsers = async () => {
     try {
       let res = await handleGetListUsers();
+      console.log("get users: ", res);
       if (res && res.users) {
-        const formattedData = res.users.map((item) => ({
-          userCode: item.userCode,
-          email: item.email,
-          firstName: item.firstName,
-          lastName: item.lastName,
-          userName: item.userName,
-          birthYear: item.birthYear,
-          phonenumber: item.phonenumber,
-          // role: item.role,
-        }));
+        const formattedData = res.users
+          .filter((item) => item.city.includes(decoded.city))
+          .map((item) => ({
+            userCode: item.userCode,
+            email: item.email,
+            firstName: item.firstName,
+            lastName: item.lastName,
+            userName: item.userName,
+            birthYear: item.birthYear,
+            phonenumber: item.phonenumber,
+            city: item.city,
+          }));
         setUsers(formattedData);
       }
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
+
   useEffect(() => {
     if (users.length === 0) {
       fetchUsers();
@@ -197,7 +203,6 @@ export const Users = () => {
               <TableCell>Email</TableCell>
               <TableCell>Số điện thoại</TableCell>
               <TableCell>Năm sinh</TableCell>
-              {/* <TableCell>Vai trò</TableCell> */}
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -213,7 +218,6 @@ export const Users = () => {
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.phonenumber}</TableCell>
                   <TableCell>{user.birthYear}</TableCell>
-                  {/* <TableCell>{user.role}</TableCell> */}
                   <TableCell>
                     <div
                       style={{

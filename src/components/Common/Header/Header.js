@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -13,16 +14,17 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Tooltip from "@mui/material/Tooltip";
-import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handleLogoutRedux } from "../SignIn/redux/actions/userAction";
 import "./Header.scss";
 import Signup from "../SignUp/SignUp";
 import Signin from "../SignIn/Signin";
+import { jwtDecode } from "jwt-decode";
 
 const Header = () => {
   const navigate = useNavigate();
+  const decoded = jwtDecode(localStorage.getItem("token"));
   const user = useSelector((state) => state.user.account);
 
   const dispatch = useDispatch();
@@ -52,20 +54,19 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(handleLogoutRedux());
+    toast.success("Đăng xuất thành công!");
   };
 
   useEffect(() => {
     if (user && user.auth === null) {
       handleNavigation("/", 1);
     } else if (user.auth === true) {
-      if (user.role === "admin") {
+      if (decoded.role !== "user") {
         handleNavigation("/dashboard", 11);
       }
       handleSignInClose();
     } else if (user.auth === false) {
       handleNavigation("/", 1);
-      // toast.success("Logged out");
-      // alert("Đăng xuất thành công!");
     }
   }, [user.auth]);
 
@@ -154,7 +155,7 @@ const Header = () => {
               <MenuItem onClick={() => handleNavigation("/about", 6)}>
                 Giới thiệu
               </MenuItem>
-              {user.role === "admin" && (
+              {user.auth && decoded.role !== "user" && (
                 <div>
                   <MenuItem onClick={() => handleNavigation("/dashboard", 11)}>
                     Thống kê
@@ -170,7 +171,7 @@ const Header = () => {
           {/* full screen */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <ButtonGroup variant="text" aria-label="Basic button group">
-              {user.role === "admin" && (
+              {user.auth && decoded.role !== "user" && (
                 <span className="flex flex-row">
                   <Button
                     onClick={() => handleNavigation("/dashboard", 11)}

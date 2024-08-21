@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { axisClasses } from "@mui/x-charts/ChartsAxis";
 import { handleScreeningCount } from "./config";
+import "./ScreeningCount.scss";
 
 export default function ScreeningCount() {
   const [data, setData] = useState([]);
@@ -64,12 +65,16 @@ export default function ScreeningCount() {
     sx: {
       [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
         transform: "translateX(-10px)",
+        fill: "#bfcfe7",
       },
     },
   };
 
   return (
-    <div className="mx-3 bg-slate-50 rounded-md p-3">
+    <div
+      className="mx-3 rounded-md p-3 shadow-lg shadow-stone-950"
+      style={{ backgroundColor: "#3D3B40" }}
+    >
       <Stack direction="row" spacing={1} className="flex justify-end">
         <TextField
           select
@@ -86,7 +91,7 @@ export default function ScreeningCount() {
         </TextField>
         <TextField
           inputMode="text"
-          sx={{ width: 80 }}
+          sx={{ width: 80, color: "white" }}
           label="Năm"
           value={year}
           onChange={(event) => setYear(event.target.value)}

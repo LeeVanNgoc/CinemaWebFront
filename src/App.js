@@ -3,7 +3,12 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+// import component
+import AppRoutes from "./routers/AppRoutes";
+import Footer from "./components/Common/Footer/Footer";
 import Header from "./components/Common/Header/Header";
 
 // import redux store
@@ -11,8 +16,6 @@ import store from "./redux/store";
 import { handleRefreshRedux } from "./components/Common/SignIn/redux/actions/userAction";
 import { handleRefreshMovie } from "./components/Screens/Admin/Movie/redux/actions/movieActions";
 import { setDate } from "./components/Screens/BookTicket/redux/actions/bookingAction";
-import AppRoutes from "./routers/AppRoutes";
-import Footer from "./components/Common/Footer/Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,6 +38,7 @@ function App() {
             <Header />
             <AppRoutes />
             <Footer />
+            <ToastContainer />
           </div>
         </Router>
       </Provider>

@@ -14,7 +14,7 @@ import FinalTicket from "../components/Screens/BookTicket/FinalTicket";
 import UserAccount from "../components/Screens/Account/UserAccount";
 import TicketDetailed from "../components/Screens/BookTicket/TicketDetailed";
 import Dashboard from "../components/Screens/Admin/Dashboard/Dashboard";
-import TwoFactorAuthentication from "../components/Common/SignIn/TwoFactorAuthentication";
+import ForgotPassword from "../components/Common/SignIn/ForgotPassword/ForgotPassword";
 
 const AppRoutes = () => {
   return (
@@ -31,7 +31,8 @@ const AppRoutes = () => {
         <Route path="/news" element={<News />} />
         <Route path="/price" element={<Price />} />
         <Route path="/promotions" element={<Promotions />} />
-        <Route path="/test" element={<TwoFactorAuthentication />} />
+        <Route path="/login-by-otp" element={<ForgotPassword />} />
+
         {/* admin */}
         <Route
           path="/manage"

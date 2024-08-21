@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 // import material-ui
 import Box from "@mui/material/Box";
@@ -27,6 +28,7 @@ import { handleCreateTicket, handleCreateBookedSeats } from "./config";
 import { BankRadioButton } from "./BankRadioButton";
 
 export default function FinalTicket() {
+  const decoded = jwtDecode(localStorage.token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -83,7 +85,7 @@ export default function FinalTicket() {
     } else {
       try {
         const res = await handleCreateTicket(
-          user.code,
+          decoded.userCode,
           planCode,
           seats.join(", "),
           bank,
@@ -278,7 +280,7 @@ export default function FinalTicket() {
                 backgroundColor: "grey",
                 height: "40px",
               }}
-              onClick={goBack}
+              onClick={() => goBack()}
             >
               Trở về
             </Button>

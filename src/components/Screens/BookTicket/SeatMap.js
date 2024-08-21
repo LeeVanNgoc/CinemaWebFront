@@ -132,11 +132,7 @@ const SeatMap = (isWeekend) => {
                               : "cursor-pointer"
                           }`}
                           onClick={() =>
-                            handleClickSeat(
-                              `${s.row}${s.col}`,
-
-                              s.type
-                            )
+                            handleClickSeat(`${s.row}${s.col}`, s.type)
                           }
                         >
                           {bookedSeats.includes(`${s.row}${s.col}`) ? (

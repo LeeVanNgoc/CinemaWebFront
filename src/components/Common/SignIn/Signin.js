@@ -15,6 +15,7 @@ import {
   ModalContent,
 } from "./style";
 import { useNavigate } from "react-router-dom";
+import ForgotPassword from "./ForgotPassword/ForgotPassword";
 
 export default function Signin({
   isOpen,
@@ -22,7 +23,6 @@ export default function Signin({
   handleClose,
   switchToSignUp,
 }) {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const account = useSelector((state) => state.user.account);
@@ -115,17 +115,8 @@ export default function Signin({
             </FormControl>
           </div>
 
-          <span
-            id="parent-modal-description"
-            className="modal-description"
-            style={{
-              textAlign: "right",
-              color: "#d65712",
-              marginTop: "8px",
-              fontSize: 15,
-            }}
-          >
-            Quên mật khẩu?
+          <span className="flex justify-end">
+            <ForgotPassword />
           </span>
 
           <Button
