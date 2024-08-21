@@ -5,7 +5,7 @@ const backendURL = 'http://localhost:6060'
 
 export const handleCreateUser = createAsyncThunk(
   'user/create-new-user',
-  async ({ firstName, lastName, userName, phonenumber, email, password }, { rejectWithValue }) => {
+  async ({ firstName, lastName, userName, phonenumber, email, password, city }, { rejectWithValue }) => {
     const birthYear = 0;
     try {
       const config = {
@@ -24,6 +24,7 @@ export const handleCreateUser = createAsyncThunk(
             birthYear: birthYear,
             userName: userName,
             phonenumber: phonenumber,
+            city: city,
           },
           config
         });

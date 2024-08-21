@@ -93,7 +93,7 @@ export default function ModalEditPost({ isOpen, handleOpen, handleClose }) {
             </FormControl>
 
             <FormControl defaultValue={post.link} required sx={{ flex: 1 }}>
-              <Label>Cuối tuần/Lễ</Label>
+              <Label>Đường dẫn</Label>
               <StyledInput onChange={(e) => setLink(e.target.value)} />
               <HelperText />
             </FormControl>
