@@ -15,7 +15,7 @@ function NewsCarousel() {
         dispatch(getPosts());
     }, [dispatch]);
 
-    const limitedPosts = posts.slice(0, 8);
+    const limitedPosts = posts ? posts.slice(0, 8) : [];
 
     const groupedPosts = [];
     for (let i = 0; i < limitedPosts.length; i += 4) {
