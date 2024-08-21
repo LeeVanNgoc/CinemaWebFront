@@ -18,6 +18,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimeField } from "@mui/x-date-pickers/TimeField";
 import { handleEditPlan } from "./config";
 import { handleGetListMoviesTitleAndCode } from "../../Admin/Movie/config";
+import { handleGetListRoomCode } from "../../Admin/Room/config";
 import { useSelector } from "react-redux";
 
 export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
@@ -28,7 +29,8 @@ export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
   const [dateScreen, setDateScreen] = useState();
   const [startTime, setStartTime] = useState(dayjs());
   const [endTime, setEndTime] = useState();
-
+  const [listMovies, setListMovies] = useState([]);
+  const [listRooms, setListRooms] = useState([]);
   useEffect(() => {
     setRoomCode(plan.roomCode);
     setMovieCode(plan.movieCode);
@@ -42,7 +44,6 @@ export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
     plan.startTime,
     plan.endTime,
   ]);
-  const [listMovies, setListMovies] = useState([]);
 
   const handleFetchMovies = async () => {
     const response = await handleGetListMoviesTitleAndCode();
@@ -51,6 +52,15 @@ export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
 
   useEffect(() => {
     handleFetchMovies();
+  }, []);
+
+  const handleFetchRooms = async () => {
+    const response = await handleGetListRoomCode();
+    setListRooms(response.roomCodes);
+  };
+
+  useEffect(() => {
+    handleFetchRooms();
   }, []);
 
   const handleUpdatePlan = async () => {
@@ -117,7 +127,19 @@ export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
 
               <FormControl value={roomCode || ""} required sx={{ flex: 1 }}>
                 <Label>Mã phòng</Label>
-                <StyledInput onChange={(e) => setRoomCode(e.target.value)} />
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={listRooms}
+                  getOptionLabel={(option) => option.roomCode}
+                  onChange={(e, value) => {
+                    setRoomCode(value ? value.roomCode : "");
+                  }}
+                  sx={{ width: "250px" }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Chọn mã phòng" />
+                  )}
+                />
                 <HelperText />
               </FormControl>
             </Box>

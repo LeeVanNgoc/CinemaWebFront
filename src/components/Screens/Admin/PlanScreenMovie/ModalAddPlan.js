@@ -18,6 +18,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimeField } from "@mui/x-date-pickers/TimeField";
 import { handleCreatePlan } from "./config";
 import { handleGetListMoviesTitleAndCode } from "../../Admin/Movie/config";
+import { handleGetListRoomCode } from "../../Admin/Room/config";
 
 export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
   const [roomCode, setRoomCode] = useState(0);
@@ -26,6 +27,7 @@ export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
   const [startTime, setStartTime] = useState(dayjs());
   const [endTime, setEndTime] = useState(dayjs());
   const [listMovies, setListMovies] = useState([]);
+  const [listRooms, setListRooms] = useState([]);
 
   const handleFetchMovies = async () => {
     const response = await handleGetListMoviesTitleAndCode();
@@ -34,6 +36,15 @@ export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
 
   useEffect(() => {
     handleFetchMovies();
+  }, []);
+
+  const handleFetchRooms = async () => {
+    const response = await handleGetListRoomCode();
+    setListRooms(response.roomCodes);
+  };
+
+  useEffect(() => {
+    handleFetchRooms();
   }, []);
 
   const handleAddPlan = async () => {
@@ -107,11 +118,20 @@ export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
                 )}
               />
             </FormControl>
-            <FormControl defaultValue="" required>
+            <FormControl required>
               <Label>Mã phòng chiếu</Label>
-              <StyledInput
-                // placeholder="RoomId"
-                onChange={(e) => setRoomCode(e.target.value)}
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={listRooms}
+                getOptionLabel={(option) => option.roomCode}
+                onChange={(e, value) => {
+                  setRoomCode(value ? value.roomCode : "");
+                }}
+                sx={{ width: "400px" }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Chọn mã phòng" />
+                )}
               />
               <HelperText />
             </FormControl>
