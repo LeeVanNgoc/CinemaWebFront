@@ -21,7 +21,6 @@ export default function ModalAddRoom({ isOpen, handleOpen, handleClose }) {
   const handleAddRoom = async () => {
     handleCreateRoom(theaterCode, type, numberSeats, isAvailable);
     handleClose();
-    window.location.reload();
   };
 
   return (
