@@ -98,7 +98,7 @@ export const handleLogoutRedux = () => {
   return async (dispatch, getState) => {
     dispatch({ type: USER_LOGOUT });
     // toast.success("Đăng xuất thành công!");
-    localStorage.removeItem("email");
+    localStorage.clear();
     sessionStorage.clear();
   };
 };
