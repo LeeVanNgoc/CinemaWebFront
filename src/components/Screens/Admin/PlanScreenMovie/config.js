@@ -35,16 +35,24 @@ const handleGetListPlansInformation = async () => {
     }
   }
 };
-const handleCreatePlan = async (roomId, movieId, dateScreen, startTime) => {
+const handleCreatePlan = async (
+  roomCode,
+  movieCode,
+  dateScreen,
+  startTime,
+  endTime
+) => {
   try {
     const response = await axios.post(
-      "/api/plan-screen-movie/create-plan-screen-with-movie/",
+      "/api/plan-screen-movie/create-plan-screen-movie",
       null,
       {
         params: {
-          roomId: roomId,
-          movieId: movieId,
-          schedule: { dateScreen: dateScreen, startTime: startTime },
+          roomCode: roomCode,
+          movieCode: movieCode,
+          dateScreen: dateScreen,
+          startTime: startTime,
+          endTime: endTime,
         },
       }
     );
@@ -63,25 +71,35 @@ const handleCreatePlan = async (roomId, movieId, dateScreen, startTime) => {
 };
 
 const handleEditPlan = async (
-  planScreenMovieId,
-  roomId,
-  movieId,
+  planScreenMovieCode,
+  roomCode,
+  movieCode,
   dateScreen,
-  startTime
+  startTime,
+  endTime
 ) => {
+  console.log(
+    "Plan Screen Movie Code : ",
+    planScreenMovieCode,
+    roomCode,
+    movieCode,
+    dateScreen,
+    startTime,
+    endTime
+  );
+
   try {
     const response = await axios.put(
       "/api/plan-screen-movie/edit-plan-screen-movie/",
       null,
       {
         params: {
-          planScreenMovieId: planScreenMovieId,
-          roomId: roomId,
-          movieId: movieId,
-          schedule: {
-            dateScreen: dateScreen,
-            startTime: startTime,
-          },
+          planScreenMovieCode: planScreenMovieCode,
+          roomCode: roomCode,
+          movieCode: movieCode,
+          dateScreen: dateScreen,
+          startTime: startTime,
+          endTime: endTime,
         },
       }
     );
@@ -101,13 +119,13 @@ const handleEditPlan = async (
   }
 };
 
-const handleDeletePlan = async (planScreenMovieId) => {
+const handleDeletePlan = async (planScreenMovieCode) => {
   try {
     const response = await axios.delete(
       "/api/plan-screen-movie/delete-plan-screen-movie",
       {
         params: {
-          planScreenMovieId: planScreenMovieId,
+          planScreenMovieCode: planScreenMovieCode,
         },
       }
     );

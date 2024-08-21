@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl } from "@mui/base/FormControl";
-import Button from "@mui/material/Button";
+import { Button, Box, Autocomplete, TextField } from "@mui/material";
 import {
   TriggerButton,
   StyledInput,
@@ -17,23 +17,35 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimeField } from "@mui/x-date-pickers/TimeField";
 import { handleCreatePlan } from "./config";
+import { handleGetListMoviesTitleAndCode } from "../../Admin/Movie/config";
 
 export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
-  const [roomId, setRoomId] = useState(0);
-  const [movieId, setMovieId] = useState(0);
+  const [roomCode, setRoomCode] = useState(0);
+  const [movieCode, setMovieCode] = useState(0);
   const [dateScreen, setDateScreen] = useState(dayjs());
   const [startTime, setStartTime] = useState(dayjs());
-  // const [endTime, setEndTime] = useState("");
+  const [endTime, setEndTime] = useState(dayjs());
+  const [listMovies, setListMovies] = useState([]);
+
+  const handleFetchMovies = async () => {
+    const response = await handleGetListMoviesTitleAndCode();
+    setListMovies(response.movies);
+  };
+
+  useEffect(() => {
+    handleFetchMovies();
+  }, []);
 
   const handleAddPlan = async () => {
     handleCreatePlan(
-      roomId,
-      movieId,
+      roomCode,
+      movieCode,
       dateScreen.format("YYYY-MM-DD"),
-      startTime?.format("HH:mm:ss")
+      startTime?.format("HH:mm:ss"),
+      endTime?.format("HH:mm:ss")
     );
+    alert("Create plan successfully");
     handleClose();
-    // window.location.reload();
   };
 
   return (
@@ -78,28 +90,37 @@ export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
+            <FormControl required sx={{ flex: 2 }}>
+              <Label>Tên Phim</Label>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={listMovies}
+                getOptionLabel={(option) => option.title}
+                onChange={(e, value) => {
+                  // setMovieTitle(value ? value.title : "");
+                  setMovieCode(value ? value.movieCode : "");
+                }}
+                sx={{ width: "400px" }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Chọn phim" />
+                )}
+              />
+            </FormControl>
             <FormControl defaultValue="" required>
               <Label>Mã phòng chiếu</Label>
               <StyledInput
                 // placeholder="RoomId"
-                onChange={(e) => setRoomId(e.target.value)}
-              />
-              <HelperText />
-            </FormControl>
-            <FormControl defaultValue="" required>
-              <Label>Mã phim</Label>
-              <StyledInput
-                // placeholder="Mật khẩu"
-                onChange={(e) => setMovieId(e.target.value)}
+                onChange={(e) => setRoomCode(e.target.value)}
               />
               <HelperText />
             </FormControl>
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <div className="flex-row mt-6">
+              <div className="flex-row">
                 <DemoContainer
                   components={["DatePicker", "DatePicker"]}
-                  sx={{ marginBottom: "24px" }}
+                  sx={{ marginBottom: "12px", marginTop: "12px" }}
                 >
                   <DatePicker
                     label="Ngày chiếu"
@@ -107,16 +128,34 @@ export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
                     onChange={(newValue) => setDateScreen(newValue)}
                   />
                 </DemoContainer>
-                <DemoContainer
-                  components={["TimeField", "TimeField", "TimeField"]}
-                >
-                  <TimeField
-                    label="Giờ chiếu"
-                    defaultValue={startTime}
-                    format="HH:mm:ss"
-                    onChange={(newValue) => setStartTime(newValue)}
-                  />
-                </DemoContainer>
+              </div>
+            </LocalizationProvider>
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <div className="flex-row">
+                <Box display={"flex"} gap={"20px"}>
+                  <DemoContainer
+                    components={["TimeField", "TimeField", "TimeField"]}
+                    sx={{ marginBottom: "12px" }}
+                  >
+                    <TimeField
+                      label="Giờ chiếu"
+                      defaultValue={startTime}
+                      format="HH:mm:ss"
+                      onChange={(newValue) => setStartTime(newValue)}
+                    />
+                  </DemoContainer>
+                  <DemoContainer
+                    components={["TimeField", "TimeField", "TimeField"]}
+                  >
+                    <TimeField
+                      label="Giờ kết"
+                      defaultValue={endTime}
+                      format="HH:mm:ss"
+                      onChange={(newValue) => setEndTime(newValue)}
+                    />
+                  </DemoContainer>
+                </Box>
               </div>
             </LocalizationProvider>
           </div>
