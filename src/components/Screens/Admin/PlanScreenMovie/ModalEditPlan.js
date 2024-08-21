@@ -115,7 +115,7 @@ export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
                 >
                   <TimeField
                     label="Giờ chiếu"
-                    defaultValue={dayjs(plan.startTime, "HH:mm:ss")}
+                    value={dayjs(plan.startTime, "HH:mm:ss")}
                     format="HH:mm:ss"
                     onChange={(newValue) => setStartTime(newValue)}
                   />

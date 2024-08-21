@@ -11,8 +11,12 @@ import {
   ModalContent,
 } from "./style";
 import { handleCreateUser } from "./config";
+import { useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -34,7 +38,7 @@ export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
       phonenumber
     );
     handleClose();
-    // window.location.reload();
+    dispatch(setRender(true));
   };
 
   const handleEnter = (e) => {

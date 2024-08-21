@@ -5,8 +5,8 @@ import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import { handleGetListRoom } from "./config";
-import { useDispatch, useSelector } from "react-redux";
+import { handleGetAllRooms } from "./config";
+import { useDispatch } from "react-redux";
 import {
   setSelectedRoom,
   clearSelectedRoom,
@@ -32,7 +32,6 @@ export const Rooms = () => {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
   const [query, setQuery] = useState("");
-  // const numberSeats = useSelector((state) => state.manageSeats.seatNumber);
 
   const [openAddSeat, setOpenAddRoom] = useState(false);
   const [openEditRoom, setOpenEditRoom] = useState(false);
@@ -111,14 +110,14 @@ export const Rooms = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        let res = await handleGetListRoom();
+        let res = await handleGetAllRooms();
         console.log("res list rooms >>>", res);
-        if (res && res.rooms) {
-          const formattedData = res.rooms.map((item) => ({
+        if (res && res.roomData) {
+          const formattedData = res.roomData.map((item) => ({
             roomCode: item.roomCode,
             theaterCode: item.theaterCode,
             type: item.type,
-            numberSeats: item.numberSeats,
+            totalSeats: item.totalSeats,
             isAvailable: item.isAvailable,
           }));
           setRooms(formattedData);
@@ -169,7 +168,7 @@ export const Rooms = () => {
                   <TableCell>{room.roomCode}</TableCell>
                   <TableCell>{room.theaterCode}</TableCell>
                   <TableCell>{room.type}</TableCell>
-                  <TableCell>{room.numberSeats}</TableCell>
+                  <TableCell>{room.totalSeats}</TableCell>
                   <TableCell>{room.isAvailable ? 1 : 0}</TableCell>
                   <TableCell>
                     <div

@@ -18,11 +18,15 @@ const handleGetListTheaters = async () => {
 
 const handleGetTheaterByCode = async (theaterCode) => {
   try {
-    const response = await axios.get("/api/theater/get-theaters-by-code", null, {
-      params: {
-        theaterCode: theaterCode,
-      },
-    });
+    const response = await axios.get(
+      "/api/theater/get-theaters-by-code",
+      null,
+      {
+        params: {
+          theaterCode: theaterCode,
+        },
+      }
+    );
     return response;
   } catch (error) {
     console.error("Error getting theater by Code:", error);
@@ -115,6 +119,7 @@ const handleDeleteTheater = async (theaterCode) => {
         theaterCode: theaterCode,
       },
     });
+
     return response;
   } catch (error) {
     console.error("Error deleting theater:", error);

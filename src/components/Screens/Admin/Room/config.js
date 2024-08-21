@@ -17,6 +17,22 @@ const handleGetListRoom = async () => {
   }
 };
 
+const handleGetAllRooms = async () => {
+  try {
+    const response = await axios.get("/api/room/get-list-room-information");
+    return response;
+  } catch (error) {
+    console.error("Error getting rooms:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
 const handleGetRoomCode = async (roomCode) => {
   try {
     const response = await axios.get("/api/room/get-room-by-code", null, {
@@ -122,6 +138,7 @@ const handleUpdateNumberSeats = async (roomCode) => {
 
 export {
   handleGetListRoom,
+  handleGetAllRooms,
   handleGetRoomCode,
   handleCreateRoom,
   handleEditRoom,

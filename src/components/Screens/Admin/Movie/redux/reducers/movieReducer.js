@@ -1,7 +1,6 @@
 import {
   SET_SELECTED_MOVIE,
   CLEAR_SELECTED_MOVIE,
-  GET_MOVIES,
   GET_MOVIES_SUCCESS,
   MOVIE_REFRESH,
 } from "../actions/movieActions";
@@ -28,7 +27,7 @@ const movieReducer = (state = initialState, action) => {
     case MOVIE_REFRESH:
       return {
         ...state,
-        selectedMovie: JSON.parse(localStorage.getItem("selectedMovie")),
+        selectedMovie: JSON.parse(sessionStorage.getItem("selectedMovie")),
       };
     case CLEAR_SELECTED_MOVIE:
       return {

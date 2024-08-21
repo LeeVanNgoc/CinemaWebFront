@@ -7,8 +7,9 @@ import {
 } from "../actions/userAction";
 
 const INITIAL_STATE = {
-  account: { email: "", code: "", role: "", auth: null },
+  account: { email: "", token: "", auth: null },
   isError: false,
+  isLoading: false,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -17,19 +18,19 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isError: false,
+        isLoading: true,
       };
 
     case FETCH_USER_SUCCESS:
-      console.log(">>> check action: ", action);
       return {
         ...state,
         account: {
           email: action.data.email,
-          code: action.data.code,
-          role: action.data.role,
+          token: action.data.token,
           auth: true,
         },
         isError: false,
+        isLoading: false,
       };
 
     case FETCH_USER_ERROR:
@@ -37,6 +38,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: { auth: false },
         isError: true,
+        isLoading: false,
       };
 
     case USER_LOGOUT:
@@ -44,8 +46,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           email: "",
-          code: "",
-          role: "",
+          token: "",
           auth: false,
         },
       };
@@ -55,8 +56,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           email: localStorage.getItem("email"),
-          code: localStorage.getItem("userCode"),
-          role: localStorage.getItem("role"),
+          token: localStorage.getItem("token"),
           auth: true,
         },
       };

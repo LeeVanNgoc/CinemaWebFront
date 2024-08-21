@@ -123,7 +123,7 @@ const SeatMap = (isWeekend) => {
                               ? "bg-blue-500"
                               : s.type === "VIP"
                               ? "bg-orange-500"
-                              : s.type === "Double"
+                              : s.type === "Sweetbox"
                               ? "bg-red-500"
                               : "bg-slate-600"
                           } ${
@@ -132,11 +132,7 @@ const SeatMap = (isWeekend) => {
                               : "cursor-pointer"
                           }`}
                           onClick={() =>
-                            handleClickSeat(
-                              `${s.row}${s.col}`,
-
-                              s.type
-                            )
+                            handleClickSeat(`${s.row}${s.col}`, s.type)
                           }
                         >
                           {bookedSeats.includes(`${s.row}${s.col}`) ? (
@@ -155,28 +151,7 @@ const SeatMap = (isWeekend) => {
         </tbody>
       </table>
     </div>
-  ); // const renderRows = () => {
-  //   const rowLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-  //   return Array.from({ length: `${localStorage.getItem("totalRow")}` }).map(
-  //     (_, rowIndex) => {
-  //       const rowLetter = rowLetters[rowIndex];
-  //       const seats = Array.from({
-  //         length: `${localStorage.getItem("seatsPerRow")}`,
-  //       }).map((_, seatIndex) => seatIndex + 1);
-
-  //       return (
-  //         <Row
-  //           key={rowIndex}
-  //           rowLetter={rowLetter}
-  //           seats={seats}
-  //           rowIndex={rowIndex}
-  //         />
-  //       );
-  //     }
-  //   );
-  // };
-
-  // return <div>{renderRows()}</div>;
+  );
 };
 
 export default SeatMap;

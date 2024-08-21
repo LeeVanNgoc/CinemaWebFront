@@ -1,11 +1,13 @@
 import axios from "../../../axios";
 
-export const getMovieByTitle = async (title) => {
+export const getMovieByDate = async (date) => {
   try {
-    const res = await axios.get("/api/movie/get-movie-by-title", {
-      params: { title: title },
-    });
-    console.log(res);
+    const res = await axios.get(
+      "/api/plan-screen-movie/get-movie-details-by-date",
+      {
+        params: { dateScreen: date },
+      }
+    );
     return res;
   } catch (error) {
     console.log(error.message);
