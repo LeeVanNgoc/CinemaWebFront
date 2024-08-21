@@ -8,7 +8,7 @@ export default function ModalDeletePlan({ isOpen, handleOpen, handleClose }) {
   const plan = useSelector((state) => state.managePlans.selectedPlan);
 
   const handleDelete = async () => {
-    await handleDeletePlan(plan.planScreenMovieId);
+    await handleDeletePlan(plan.planScreenMovieCode);
     handleClose();
   };
 
@@ -43,7 +43,7 @@ export default function ModalDeletePlan({ isOpen, handleOpen, handleClose }) {
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Xóa lịch chiếu ID = {plan.planScreenMovieId}?
+            Xóa lịch chiếu ID = {plan.planScreenMovieCode}?
           </h1>
           <div style={{ display: "flex", gap: "10px" }}>
             <Button

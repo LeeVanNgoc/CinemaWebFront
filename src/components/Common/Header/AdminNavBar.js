@@ -17,48 +17,47 @@ export default function AdminNavBar() {
     <div className="admin-nav">
       <Tabs defaultValue={0}>
         <TabsList>
-          <Tab value={0}>Người dùng</Tab>
-          <Tab value={1}>Quản lý phim</Tab>
-          <Tab value={2}>Quản lý vé</Tab>
-          <Tab value={3}>Rạp chiếu</Tab>
-          <Tab value={4}>Giá vé</Tab>
-          <Tab value={5}>Phòng</Tab>
-          <Tab value={6}>Trailer</Tab>
-          <Tab value={7}>Lịch chiếu</Tab>
+          <Tab value={0}>Rạp chiếu</Tab>
+          <Tab value={1}>Phòng</Tab>
+          <Tab value={2}>Người dùng</Tab>
+          <Tab value={3}>Quản lý phim</Tab>
+          <Tab value={4}>Trailer</Tab>
+          <Tab value={5}>Lịch chiếu</Tab>
+          <Tab value={6}>Quản lý vé</Tab>
+          <Tab value={7}>Giá vé</Tab>
           <Tab value={8}>Tin tức</Tab>
-          <Tab value={9}>Khuyến mãi</Tab>
+          {/* <Tab value={9}>Khuyến mãi</Tab> */}
         </TabsList>
-
         <TabPanel value={0}>
-          <Users />
-        </TabPanel>
-
-        <TabPanel value={1}>
-          <Movie />
-        </TabPanel>
-
-        <TabPanel value={2}>
-          <Tickets />
-        </TabPanel>
-
-        <TabPanel value={3}>
           <Theaters />
         </TabPanel>
 
-        <TabPanel value={4}>
-          <Prices />
-        </TabPanel>
-
-        <TabPanel value={5}>
+        <TabPanel value={1}>
           <Rooms />
         </TabPanel>
 
-        <TabPanel value={6}>
+        <TabPanel value={2}>
+          <Users />
+        </TabPanel>
+
+        <TabPanel value={3}>
+          <Movie />
+        </TabPanel>
+
+        <TabPanel value={4}>
           <Trailers />
         </TabPanel>
 
-        <TabPanel value={7}>
+        <TabPanel value={5}>
           <Plans />
+        </TabPanel>
+
+        <TabPanel value={6}>
+          <Tickets />
+        </TabPanel>
+
+        <TabPanel value={7}>
+          <Prices />
         </TabPanel>
 
         <TabPanel value={8}>

@@ -30,7 +30,6 @@ export default function ModalAddTrailer({ isOpen, handleOpen, handleClose }) {
   const handleAddTrailer = async () => {
     handleCreateTrailer(movieCode, link);
     handleClose();
-    // window.location.reload();
   };
 
   return (

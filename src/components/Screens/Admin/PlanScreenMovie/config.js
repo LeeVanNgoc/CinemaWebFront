@@ -35,16 +35,24 @@ const handleGetListPlansInformation = async () => {
     }
   }
 };
-const handleCreatePlan = async (roomId, movieId, dateScreen, startTime) => {
+const handleCreatePlan = async (
+  roomCode,
+  movieCode,
+  dateScreen,
+  startTime,
+  endTime
+) => {
   try {
     const response = await axios.post(
-      "/api/plan-screen-movie/create-plan-screen-with-movie/",
+      "/api/plan-screen-movie/create-plan-screen-movie",
       null,
       {
         params: {
-          roomId: roomId,
-          movieId: movieId,
-          schedule: { dateScreen: dateScreen, startTime: startTime },
+          roomCode: roomCode,
+          movieCode: movieCode,
+          dateScreen: dateScreen,
+          startTime: startTime,
+          endTime: endTime,
         },
       }
     );
@@ -67,7 +75,8 @@ const handleEditPlan = async (
   roomCode,
   movieCode,
   dateScreen,
-  startTime
+  startTime,
+  endTime
 ) => {
   console.log(
     "Plan Screen Movie Code : ",
@@ -75,7 +84,8 @@ const handleEditPlan = async (
     roomCode,
     movieCode,
     dateScreen,
-    startTime
+    startTime,
+    endTime
   );
 
   try {
@@ -87,10 +97,9 @@ const handleEditPlan = async (
           planScreenMovieCode: planScreenMovieCode,
           roomCode: roomCode,
           movieCode: movieCode,
-          schedule: {
-            dateScreen: dateScreen,
-            startTime: startTime,
-          },
+          dateScreen: dateScreen,
+          startTime: startTime,
+          endTime: endTime,
         },
       }
     );
@@ -110,13 +119,13 @@ const handleEditPlan = async (
   }
 };
 
-const handleDeletePlan = async (planScreenMovieId) => {
+const handleDeletePlan = async (planScreenMovieCode) => {
   try {
     const response = await axios.delete(
       "/api/plan-screen-movie/delete-plan-screen-movie",
       {
         params: {
-          planScreenMovieId: planScreenMovieId,
+          planScreenMovieCode: planScreenMovieCode,
         },
       }
     );

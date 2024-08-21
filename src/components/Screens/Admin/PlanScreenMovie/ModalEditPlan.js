@@ -24,10 +24,24 @@ export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
   const plan = useSelector((state) => state.managePlans.selectedPlan);
 
   const [roomCode, setRoomCode] = useState(plan.roomCode);
-  const [movieCode, setMovieCode] = useState(plan.movieCode);
-  const [dateScreen, setDateScreen] = useState(plan.dateScreen);
-  const [startTime, setStartTime] = useState(dayjs(plan.startTime));
-  // const [endTime, setEndTime] = useState(plan.endTime);
+  const [movieCode, setMovieCode] = useState();
+  const [dateScreen, setDateScreen] = useState();
+  const [startTime, setStartTime] = useState(dayjs());
+  const [endTime, setEndTime] = useState();
+
+  useEffect(() => {
+    setRoomCode(plan.roomCode);
+    setMovieCode(plan.movieCode);
+    setDateScreen(dayjs(plan.dateScreen));
+    setStartTime(plan.startTime);
+    setEndTime(plan.endTime);
+  }, [
+    plan.roomCode,
+    plan.movieCode,
+    plan.dateScreen,
+    plan.startTime,
+    plan.endTime,
+  ]);
   const [listMovies, setListMovies] = useState([]);
 
   const handleFetchMovies = async () => {
@@ -40,19 +54,17 @@ export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
   }, []);
 
   const handleUpdatePlan = async () => {
+    console.log(dateScreen);
+
     await handleEditPlan(
       plan.planScreenMovieCode,
       roomCode,
       movieCode,
-      dateScreen.format("YYYY-MM-DD"),
-      startTime?.format("HH:mm:ss")
+      dateScreen?.format("YYYY-MM-DD"),
+      startTime?.format("HH:mm:ss"),
+      endTime?.format("HH:mm:ss")
     );
     handleClose();
-  };
-
-  const handleChange = (e) => {
-    console.log("New roomCode:", e.target.value);
-    setRoomCode(e.target.value);
   };
 
   return (
@@ -97,22 +109,15 @@ export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
             }}
           >
             <Box display={"flex"} gap={"20px"}>
-              <FormControl
-                defaultValue={plan.planScreenMovieCode}
-                aria-readonly
-              >
+              <FormControl value={plan.planScreenMovieCode} aria-readonly>
                 <Label>Mã lịch chiếu</Label>
                 <StyledInput readOnly />
                 <HelperText />
               </FormControl>
 
-              <FormControl
-                defaultValue={plan.roomCode}
-                required
-                sx={{ flex: 1 }}
-              >
+              <FormControl value={roomCode || ""} required sx={{ flex: 1 }}>
                 <Label>Mã phòng</Label>
-                <StyledInput onChange={(e) => handleChange} />
+                <StyledInput onChange={(e) => setRoomCode(e.target.value)} />
                 <HelperText />
               </FormControl>
             </Box>
@@ -147,8 +152,8 @@ export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
                   >
                     <DatePicker
                       label="Ngày chiếu"
-                      value={dayjs(plan.dateScreen)}
-                      onChange={(newValue) => setDateScreen(newValue)}
+                      value={dayjs(dateScreen)}
+                      onChange={(value) => setDateScreen(value)}
                     />
                   </DemoContainer>
                   <DemoContainer
@@ -156,9 +161,19 @@ export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
                   >
                     <TimeField
                       label="Giờ chiếu"
-                      defaultValue={dayjs(plan.startTime, "HH:mm:ss")}
+                      value={dayjs(startTime, "HH:mm:ss")}
                       format="HH:mm:ss"
-                      onChange={(newValue) => setStartTime(newValue)}
+                      onChange={(value) => setStartTime(value)}
+                    />
+                  </DemoContainer>
+                  <DemoContainer
+                    components={["TimeField", "TimeField", "TimeField"]}
+                  >
+                    <TimeField
+                      label="Giờ kết thúc"
+                      value={dayjs(endTime, "HH:mm:ss")}
+                      format="HH:mm:ss"
+                      onChange={(value) => setEndTime(value)}
                     />
                   </DemoContainer>
                 </Box>
