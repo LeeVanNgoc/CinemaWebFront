@@ -1,31 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Carousel from 'react-material-ui-carousel';
 import { Card, CardMedia, Stack } from '@mui/material';
-
-const items = [
-    [
-        { imageUrl: "https://chieuphimquocgia.com.vn/_next/image?url=http%3A%2F%2Fapiv2.chieuphimquocgia.com.vn%2FContent%2FImages%2FThumbs%2F0017339.png&w=256&q=75" },
-        { imageUrl: "https://chieuphimquocgia.com.vn/_next/image?url=http%3A%2F%2Fapiv2.chieuphimquocgia.com.vn%2FContent%2FImages%2FThumbs%2F0012808.jpeg&w=256&q=75" },
-        { imageUrl: "https://chieuphimquocgia.com.vn/_next/image?url=http%3A%2F%2Fapiv2.chieuphimquocgia.com.vn%2FContent%2FImages%2FThumbs%2F0017333.png&w=256&q=75" }
-    ],
-    [
-        { imageUrl: "https://chieuphimquocgia.com.vn/_next/image?url=http%3A%2F%2Fapiv2.chieuphimquocgia.com.vn%2FContent%2FImages%2FThumbs%2F0017735.jpg&w=256&q=75" },
-        { imageUrl: "https://chieuphimquocgia.com.vn/_next/image?url=http%3A%2F%2Fapiv2.chieuphimquocgia.com.vn%2FContent%2FImages%2FThumbs%2F0013153.png&w=256&q=75" },
-        { imageUrl: "https://chieuphimquocgia.com.vn/_next/image?url=http%3A%2F%2Fapiv2.chieuphimquocgia.com.vn%2FContent%2FImages%2FThumbs%2F0012851.jpeg&w=256&q=75" },
-    ]
-];
-
+import { useSelector, useDispatch } from "react-redux";
+import {
+    getPosts,
+    setSelectedPost,
+  } from "../../Screens/Admin/Post/redux/actions/postActions";
 
 function NewsCarousel() {
+    const dispatch = useDispatch();
+    const posts = useSelector((state) => state.managePosts.posts.posts);
+
+    useEffect(() => {
+        dispatch(getPosts());
+    }, [dispatch]);
+
+    const limitedPosts = posts.slice(0, 8);
+
+    const groupedPosts = [];
+    for (let i = 0; i < limitedPosts.length; i += 4) {
+        groupedPosts.push(limitedPosts.slice(i, i + 4));
+    }
+
     return (
         <Carousel navButtonsAlwaysInvisible={true}>
-            {items.map((group, i) => (
+            {groupedPosts.map((group, i) => (
                 <Stack 
                 key={i} 
                 spacing={3}
                 >
-                    {group.map((item, j) => (
-                        <Item key={j} item={item} />
+                    {group.map((post, j) => (
+                        <Item key={j} post={post} />
                     ))}
                 </Stack>
             ))}
@@ -33,14 +38,22 @@ function NewsCarousel() {
     );
 }
 
-function Item(props) {
+function Item({ post }) {
+    const dispatch = useDispatch();
+
+    const handleClick = (post) => {
+        dispatch(setSelectedPost(post));
+        window.open(post.link, "_blank");
+    };
+
     return (
         <Card className="news-card" sx={{ backgroundColor: "transparent", borderRadius: "15px" }}>
             <CardMedia
                 component="img"
                 height="140"
-                image={props.item.imageUrl}
+                image={post.image}
                 sx={{ objectFit: 'cover' }}
+                onClick={() => handleClick(post)}
             />
         </Card>
     );

@@ -29,6 +29,7 @@ export default function Signup({
     email: '',
     password: '',
     confirmPassword: '',
+    city: '',
   });
 
   const { error } = useSelector((state) => state.user);
@@ -50,6 +51,7 @@ export default function Signup({
     const formattedData = {
       ...userData,
       email: userData.email.toLowerCase(),
+      city: "Không xác định",
     };
     dispatch(handleCreateUser(formattedData));
   };

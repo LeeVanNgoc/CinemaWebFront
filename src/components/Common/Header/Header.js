@@ -264,20 +264,6 @@ const Header = () => {
                 Giá vé
               </Button>
               <Button
-                onClick={() => handleNavigation("/promotions", 5)}
-                sx={{
-                  my: 2,
-                  color: clickedIndex === 5 ? "red" : "white",
-                  "&:hover": {
-                    color: "red",
-                  },
-                  display: "block",
-                  textTransform: "none",
-                }}
-              >
-                Khuyến mãi
-              </Button>
-              <Button
                 onClick={() => handleNavigation("/about", 6)}
                 sx={{
                   my: 2,
