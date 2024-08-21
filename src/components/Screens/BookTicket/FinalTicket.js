@@ -28,7 +28,10 @@ import { handleCreateTicket, handleCreateBookedSeats } from "./config";
 import { BankRadioButton } from "./BankRadioButton";
 
 export default function FinalTicket() {
-  const decoded = jwtDecode(localStorage.token);
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

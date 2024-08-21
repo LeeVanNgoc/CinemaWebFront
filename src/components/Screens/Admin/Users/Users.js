@@ -31,7 +31,10 @@ import { setRender } from "../../../../redux/renderAction";
 import { jwtDecode } from "jwt-decode";
 
 export const Users = () => {
-  const decoded = jwtDecode(localStorage.token);
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
   const isRender = useSelector((state) => state.render.isRender);
