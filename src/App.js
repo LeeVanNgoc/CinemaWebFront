@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import ScrollToTop from "./components/Common/ScrollToTop/ScrollToTop";
 import "react-toastify/dist/ReactToastify.css";
 
 // import component
@@ -34,6 +35,7 @@ function App() {
     <React.StrictMode>
       <Provider store={store}>
         <Router>
+          <ScrollToTop />
           <div className="App">
             <Header />
             <AppRoutes />
