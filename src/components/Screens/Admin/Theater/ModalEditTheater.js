@@ -11,9 +11,12 @@ import {
   ModalContent,
 } from "./style";
 import { handleEditTheater } from "./config";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalEditTheater({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
+
   const theater = useSelector((state) => state.manageTheaters.selectedTheater);
 
   const [name, setName] = useState(theater.name);
@@ -22,6 +25,7 @@ export default function ModalEditTheater({ isOpen, handleOpen, handleClose }) {
 
   const handleUpdateTheater = async () => {
     await handleEditTheater(theater.theaterCode, name, address, city);
+    dispatch(setRender(true));
     handleClose();
   };
 

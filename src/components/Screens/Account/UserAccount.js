@@ -2,10 +2,15 @@ import { useState, useEffect } from "react";
 import { handleGetUserByCode } from "../Admin/Users/config";
 import { useSelector, useDispatch } from "react-redux";
 import { Table } from "@mui/material";
+import { jwtDecode } from "jwt-decode";
 // import ModalEditUser from "./ModalEditUser";
 
 const UserAccount = () => {
-  const userCode = useSelector((state) => state.user.account.code);
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
+  const userCode = decoded.userCode;
   const [info, setInfo] = useState(null);
   const [openEditUser, setOpenEditUser] = useState(false);
   const handleOpenEditUser = () => {

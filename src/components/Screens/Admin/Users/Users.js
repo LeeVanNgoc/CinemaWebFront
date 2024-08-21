@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { TablePagination } from "@mui/base/TablePagination";
 import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
@@ -27,10 +27,18 @@ import ModalAddUser from "./ModalAddUser";
 import ModalEditUser from "./ModalEditUser";
 import ModalDeleteUser from "./ModalDeleteUser";
 import "./Users.scss";
+import { setRender } from "../../../../redux/renderAction";
+import { jwtDecode } from "jwt-decode";
 
 export const Users = () => {
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
+  const isRender = useSelector((state) => state.render.isRender);
+
   const loading = useSelector((state) => state.manageUsers.loading);
   const error = useSelector((state) => state.manageUsers.error);
 
@@ -109,34 +117,42 @@ export const Users = () => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-
-  const fetchUsers = useCallback(async () => {
+  const fetchUsers = async () => {
     try {
       let res = await handleGetListUsers();
+      console.log("get users: ", res);
       if (res && res.users) {
-        const formattedData = res.users.map((item) => ({
-          userCode: item.userCode,
-          email: item.email,
-          firstName: item.firstName,
-          lastName: item.lastName,
-          userName: item.userName,
-          birthYear: item.birthYear,
-          phonenumber: item.phonenumber,
-        }));
+        const formattedData = res.users
+          .filter((item) => item.city.includes(decoded.city))
+          .map((item) => ({
+            userCode: item.userCode,
+            email: item.email,
+            firstName: item.firstName,
+            lastName: item.lastName,
+            userName: item.userName,
+            birthYear: item.birthYear,
+            phonenumber: item.phonenumber,
+            city: item.city,
+          }));
         setUsers(formattedData);
       }
     } catch (error) {
       console.error("Error fetching users:", error);
     }
-  }, []);
+  };
 
   useEffect(() => {
-    // const intervalId = setInterval(() => {
-    fetchUsers(); // Gọi API để cập nhật dữ liệu
-    // }, 5000); // Gọi API mỗi 5 giây
+    if (users.length === 0) {
+      fetchUsers();
+    }
 
-    // return () => clearInterval(intervalId); // Dọn dẹp interval khi component unmount hoặc khi useEffect chạy lại
-  }, [fetchUsers]);
+    if (isRender) {
+      fetchUsers();
+      setTimeout(() => {
+        dispatch(setRender(false));
+      }, 0);
+    }
+  }, [isRender]);
 
   return (
     <div>

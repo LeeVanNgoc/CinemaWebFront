@@ -26,10 +26,14 @@ import { StyledInput, HelperText } from "./style";
 import ModalAddTheater from "./ModalAddTheater";
 import ModalEditTheater from "./ModalEditTheater";
 import ModalDeleteTheater from "./ModalDeleteTheater";
+import { setRender } from "../../../../redux/renderAction";
 
 export const Theaters = () => {
   const dispatch = useDispatch();
+
   const [theaters, setTheaters] = useState([]);
+  const isRender = useSelector((state) => state.render.isRender);
+
   const loading = useSelector((state) => state.manageTheaters.loading);
   const error = useSelector((state) => state.manageTheaters.error);
 
@@ -106,27 +110,36 @@ export const Theaters = () => {
     setOrderBy(property);
   };
 
-  useEffect(() => {
-    const fetchTheaters = async () => {
-      try {
-        let res = await handleGetListTheaters();
-        console.log("res list theaters >>>", res);
-        if (res && res.theaters) {
-          const formattedData = res.theaters.map((item) => ({
-            theaterCode: item.theaterCode,
-            name: item.name,
-            address: item.address,
-            city: item.city,
-          }));
-          setTheaters(formattedData);
-        }
-      } catch (error) {
-        console.error("Error fetching theaters:", error);
+  const fetchTheaters = async () => {
+    try {
+      let res = await handleGetListTheaters();
+      console.log("res list theaters >>>", res);
+      if (res && res.theaters) {
+        const formattedData = res.theaters.map((item) => ({
+          theaterCode: item.theaterCode,
+          name: item.name,
+          address: item.address,
+          city: item.city,
+        }));
+        setTheaters(formattedData);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching theaters:", error);
+    }
+  };
 
-    fetchTheaters();
-  }, []);
+  useEffect(() => {
+    if (theaters.length === 0) {
+      fetchTheaters();
+    }
+
+    if (isRender) {
+      fetchTheaters();
+      setTimeout(() => {
+        dispatch(setRender(false));
+      }, 0);
+    }
+  }, [isRender]);
 
   return (
     <div>

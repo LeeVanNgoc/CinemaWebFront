@@ -14,6 +14,9 @@ import {
   StyledBackdrop,
   ModalContent,
 } from "./style";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import ForgotPassword from "./ForgotPassword/ForgotPassword";
 
 export default function Signin({
   isOpen,
@@ -24,10 +27,10 @@ export default function Signin({
   const dispatch = useDispatch();
 
   const account = useSelector((state) => state.user.account);
+  const isLoading = useSelector((state) => state.user.isLoading);
 
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -113,17 +116,8 @@ export default function Signin({
             </FormControl>
           </div>
 
-          <span
-            id="parent-modal-description"
-            className="modal-description"
-            style={{
-              textAlign: "right",
-              color: "#d65712",
-              marginTop: "8px",
-              fontSize: 15,
-            }}
-          >
-            Quên mật khẩu?
+          <span className="flex justify-end">
+            <ForgotPassword />
           </span>
 
           <Button
@@ -139,6 +133,11 @@ export default function Signin({
           >
             Đăng nhập
           </Button>
+          {isLoading ? (
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <CircularProgress />
+            </Box>
+          ) : null}
           <p
             id="parent-modal-description"
             className="modal-description"

@@ -12,11 +12,15 @@ import {
   ModalContent,
 } from "./style";
 import { handleEditUser } from "../Admin/Users/config";
-import { useSelector, useDispatch } from "react-redux";
+import jwtDecode from "jwt-decode";
 
 export default function ModalEditUser({ isOpen, handleOpen, handleClose }) {
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
   const [info, setInfo] = useState(null);
-  const userId = useSelector((state) => state.user.account.id);
+  const userCode = decoded.userCode;
 
   // Khởi tạo state với dữ liệu người dùng từ props
   const [firstName, setFirstName] = useState("");
@@ -27,18 +31,18 @@ export default function ModalEditUser({ isOpen, handleOpen, handleClose }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      let res = await handleGetUserById(userId);
+      let res = await handleGetUserById(userCode);
       console.log("res info >>>", res);
       if (res && res.errCode === 0) {
         setInfo(res.user);
       }
     };
     fetchData();
-  }, [userId]);
+  }, [userCode]);
 
   const handleUpdateUser = async () => {
     await handleEditUser(
-      userId,
+      userCode,
       firstName,
       lastName,
       userName,

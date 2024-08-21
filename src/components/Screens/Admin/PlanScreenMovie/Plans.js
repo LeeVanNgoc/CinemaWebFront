@@ -25,6 +25,7 @@ import {
 import { StyledInput, HelperText } from "./style";
 import ModalAddPlan from "./ModalAddPlan";
 import ModalEditPlan from "./ModalEditPlan";
+
 import ModalDeletePlan from "./ModalDeletePlan";
 
 export const Plans = () => {
@@ -108,6 +109,7 @@ export const Plans = () => {
           const formattedData = res.planScreenMovies.map((item) => ({
             planScreenMovieCode: item.planScreenMovieCode,
             roomCode: item.roomCode,
+            movieCode: item.movieCode,
             movieTitle: item.movieTitle,
             dateScreen: item.dateScreen,
             startTime: item.startTime,
