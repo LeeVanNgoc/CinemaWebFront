@@ -6,6 +6,7 @@ import {
   handleEditSeats,
 } from "./config";
 import { handleGetSeats } from "./redux/actions/seatActions";
+import { toast } from "react-toastify";
 
 function ChangeSeats(roomCode) {
   const dispatch = useDispatch();
@@ -160,7 +161,8 @@ function ChangeSeats(roomCode) {
         }),
       }))
     );
-    alert("Đặt kiểu ghế thành công!");
+    // alert("Đặt kiểu ghế thành công!");
+    toast.success("Đặt kiểu ghế thành công!");
   };
 
   // set màu mỗi ghế
@@ -248,30 +250,6 @@ function ChangeSeats(roomCode) {
         >
           Xóa kiểu ghế
         </button>
-
-        {seats && seats.length > 0 ? (
-          <div className="flex flex-row gap-5">
-            <button
-              className="bg-green-400  py-1 px-2 rounded-md"
-              onClick={() => handleChangeSeats("Edit", rows)}
-            >
-              Cập nhật ghế
-            </button>
-            <button
-              className="bg-green-400  py-1 px-2 rounded-md"
-              onClick={() => handleDeleteAllSeatsInRoom(roomCode.roomCode)}
-            >
-              Xóa tất cả ghế
-            </button>
-          </div>
-        ) : (
-          <button
-            className="bg-green-400  py-1 px-2 rounded-md"
-            onClick={() => handleChangeSeats("Add", rows)}
-          >
-            Tạo ghế
-          </button>
-        )}
       </div>
       {selectedCell}
 
@@ -318,12 +296,37 @@ function ChangeSeats(roomCode) {
         <div className="text-right font-medium text-lg">
           Tổng số ghế: {totalSeats}
         </div>
-        <button
-          onClick={addRow}
-          className="rounded-2xl border-2 border-red-500 px-3 py-1"
-        >
-          +
-        </button>
+        <div className="flex justify-end gap-5 mb-4">
+          <button
+            onClick={addRow}
+            className="rounded-2xl border-2 border-red-500 px-3 py-1"
+          >
+            +
+          </button>
+          {seats && seats.length > 0 ? (
+            <div className="flex flex-row gap-5">
+              <button
+                className="bg-green-400  py-1 px-2 rounded-md"
+                onClick={() => handleChangeSeats("Edit", rows)}
+              >
+                Cập nhật ghế
+              </button>
+              <button
+                className="bg-green-400  py-1 px-2 rounded-md"
+                onClick={() => handleDeleteAllSeatsInRoom(roomCode.roomCode)}
+              >
+                Xóa tất cả ghế
+              </button>
+            </div>
+          ) : (
+            <button
+              className="bg-green-400  py-1 px-2 rounded-md"
+              onClick={() => handleChangeSeats("Add", rows)}
+            >
+              Tạo ghế
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

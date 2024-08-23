@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "./Signin.scss";
 import {
-  TriggerButton,
   StyledInput,
   Label,
   HelperText,
@@ -18,12 +17,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import ForgotPassword from "./ForgotPassword/ForgotPassword";
 
-export default function Signin({
-  isOpen,
-  handleOpen,
-  handleClose,
-  switchToSignUp,
-}) {
+export default function Signin({ isOpen, handleClose, switchToSignUp }) {
   const dispatch = useDispatch();
 
   const account = useSelector((state) => state.user.account);
@@ -51,23 +45,10 @@ export default function Signin({
     if (account && account.auth === true) {
       handleClose();
     }
-  }, [account, handleClose]);
+  }, []);
 
   return (
     <div>
-      <TriggerButton
-        type="button"
-        onClick={handleOpen}
-        sx={{
-          borderRadius: "40px",
-          backgroundColor: "#dc1313f0",
-          textTransform: "none",
-          color: "white",
-          border: "none",
-        }}
-      >
-        Đăng nhập
-      </TriggerButton>
       <Modal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"

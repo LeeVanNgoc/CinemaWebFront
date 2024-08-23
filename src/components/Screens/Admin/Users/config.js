@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axios from "../../../../axios";
 
 const handleGetListUsers = async () => {
@@ -57,7 +58,7 @@ const handleCreateUser = async (
         city: city,
       },
     });
-    alert(response.message);
+    toast.success(response.message);
     return response;
   } catch (error) {
     console.error("Error creating user:", error);
@@ -93,13 +94,13 @@ const handleEditUser = async (
         city: city,
       },
     });
-    alert(response.message);
+    toast.success(response.message);
     console.log(">>> edit user res: ", response);
     return response;
   } catch (error) {
     console.error("Error editing user:", error);
     if (error.response) {
-      alert(error.response.data.message);
+      toast.success(error.response.data.message);
       console.error("Response data:", error.response.data);
       return { error: error.response.data.message };
     } else if (error.request) {
@@ -117,13 +118,13 @@ const handleDeleteUser = async (userCode) => {
         code: userCode,
       },
     });
-    alert("Xóa người dùng thành công!");
+    toast.success("Xóa người dùng thành công!");
     return response;
   } catch (error) {
     console.error("Error deleting user:", error);
     if (error.response) {
       console.error("Response data:", error.response.data);
-      alert(error.response.data.message);
+      toast.success(error.response.data.message);
       return { error: error.response.data.message };
     } else if (error.request) {
       return { error: "No response from server" };
