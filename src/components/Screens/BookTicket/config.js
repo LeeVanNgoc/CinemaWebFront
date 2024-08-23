@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axios from "../../../axios";
 
 // export const handleGetAllPlansByMovie = async (movieCode) => {
@@ -120,7 +121,7 @@ export const handleCreateTicket = async (
         totalPrice: totalPrice,
       },
     });
-    alert(response.message);
+    toast.success(response.message);
     return response;
   } catch (error) {
     console.error("Error creating ticket:", error);
@@ -236,6 +237,27 @@ export const handleGetTrailerByMovieCode = async (movieCode) => {
     return response;
   } catch (error) {
     console.error("Error getting trailer by movie Code:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
+// Trả về hóa đơn vừa đặt
+export const handleGetBill = async (ticketCode) => {
+  try {
+    const response = await axios.get("/api/ticket/get-ticket-details/", {
+      params: {
+        ticketCode: ticketCode,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error getting bill:", error);
     if (error.response) {
       return { error: error.response.data.message };
     } else if (error.request) {
