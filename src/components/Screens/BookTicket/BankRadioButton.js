@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { setBank } from "./redux/actions/bookingAction";
 
 export const BankRadioButton = () => {
-  const [selectedOption, setSelectedOption] = useState("Vietcombank");
+  const [selectedOption, setSelectedOption] = useState("MoMo");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export const BankRadioButton = () => {
           onChange={(event) => setSelectedOption(event.target.value)}
         >
           <FormControlLabel
-            value="Vietcombank"
+            value="MoMo"
             control={<Radio />}
             label={
               <Box
@@ -36,17 +36,17 @@ export const BankRadioButton = () => {
                 }}
               >
                 <img
-                  src="https://admin.tamlyvietphap.vn/uploaded/Images/Original/2020/10/16/logo_vietcombank_1610091313.jpg"
-                  alt="Vietcombank"
+                  src={require("./assets/momo-logo.png")}
+                  alt="MoMo"
                   width={24}
                   height={24}
                 />
-                Vietcombank
+                MoMo
               </Box>
             }
           />
           <FormControlLabel
-            value="MB Bank"
+            value="ZaloPay"
             control={<Radio />}
             label={
               <Box
@@ -57,17 +57,17 @@ export const BankRadioButton = () => {
                 }}
               >
                 <img
-                  src="https://brandlogos.net/wp-content/uploads/2021/10/mb-bank-logo.png"
-                  alt="MB Bank"
+                  src={require("./assets/ZaloPay_logo.png")}
+                  alt="ZaloPay"
                   width={24}
                   height={24}
                 />
-                MB Bank
+                ZaloPay
               </Box>
             }
           />
           <FormControlLabel
-            value="Vietin Bank"
+            value="Cards"
             control={<Radio />}
             label={
               <Box
@@ -78,33 +78,12 @@ export const BankRadioButton = () => {
                 }}
               >
                 <img
-                  src="https://pluspng.com/img-png/logo-vietinbank-png-t-p-tin-logo-c-a-vietinbank-png-400.png"
-                  alt="Vietin Bank"
+                  src={require("./assets/debitcard.png")}
+                  alt="Cards"
                   width={24}
                   height={24}
                 />
-                Vietin Bank
-              </Box>
-            }
-          />
-          <FormControlLabel
-            value="BIDV"
-            control={<Radio />}
-            label={
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                }}
-              >
-                <img
-                  src="https://1000logos.net/wp-content/uploads/2022/09/BIDV-logo.png"
-                  alt="BIDV"
-                  width={24}
-                  height={24}
-                />
-                BIDV
+                Cards
               </Box>
             }
           />
