@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -24,6 +25,7 @@ import { jwtDecode } from "jwt-decode";
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.account);
@@ -77,6 +79,34 @@ const Header = () => {
       handleNavigation("/", 1);
     }
   }, [user.auth]);
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case "/manage":
+        setClickedIndex(10);
+        break;
+      case "/dashboard":
+        setClickedIndex(11);
+        break;
+      case "/":
+        setClickedIndex(1);
+        break;
+      case "/movies":
+        setClickedIndex(2);
+        break;
+      case "/news":
+        setClickedIndex(3);
+        break;
+      case "/price":
+        setClickedIndex(4);
+        break;
+      case "/about":
+        setClickedIndex(5);
+        break;
+      default:
+        setClickedIndex(null);
+    }
+  }, [location.pathname]);
 
   const handleClick = (index) => {
     setClickedIndex(index);
@@ -157,10 +187,7 @@ const Header = () => {
               <MenuItem onClick={() => handleNavigation("/price", 4)}>
                 Giá vé
               </MenuItem>
-              <MenuItem onClick={() => handleNavigation("/promotions", 5)}>
-                Khuyến mãi
-              </MenuItem>
-              <MenuItem onClick={() => handleNavigation("/about", 6)}>
+              <MenuItem onClick={() => handleNavigation("/about", 5)}>
                 Giới thiệu
               </MenuItem>
               {user.auth && decoded.role !== "user" && (
@@ -269,24 +296,10 @@ const Header = () => {
                 Giá vé
               </Button>
               <Button
-                onClick={() => handleNavigation("/promotions", 5)}
+                onClick={() => handleNavigation("/about", 5)}
                 sx={{
                   my: 2,
                   color: clickedIndex === 5 ? "red" : "white",
-                  "&:hover": {
-                    color: "red",
-                  },
-                  display: "block",
-                  textTransform: "none",
-                }}
-              >
-                Khuyến mãi
-              </Button>
-              <Button
-                onClick={() => handleNavigation("/about", 6)}
-                sx={{
-                  my: 2,
-                  color: clickedIndex === 6 ? "red" : "white",
                   "&:hover": {
                     color: "red",
                   },
