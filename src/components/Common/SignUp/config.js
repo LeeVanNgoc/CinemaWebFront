@@ -4,11 +4,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 const backendURL = "http://localhost:6060";
 
 export const handleCreateUser = createAsyncThunk(
-  "user/create-new-user",
-  async (
-    { firstName, lastName, userName, phonenumber, email, password },
-    { rejectWithValue }
-  ) => {
+
+  'user/create-new-user',
+  async ({ firstName, lastName, userName, phonenumber, email, password, city }, { rejectWithValue }) => {
     const birthYear = 0;
     try {
       const config = {
@@ -17,19 +15,21 @@ export const handleCreateUser = createAsyncThunk(
         },
       };
 
-      await axios.post(`${backendURL}/api/user/create-new-user`, null, {
-        params: {
-          email: email,
-          password: password,
-          firstName: firstName,
-          lastName: lastName,
-          birthYear: birthYear,
-          userName: userName,
-          phonenumber: phonenumber,
-          city: "Hà Nội",
-        },
-        config,
-      });
+
+      await axios.post(
+        `${backendURL}/api/user/create-new-user`, null, {
+          params: {
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName,
+            birthYear: birthYear,
+            userName: userName,
+            phonenumber: phonenumber,
+            city: city,
+          },
+          config
+        });
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);

@@ -109,12 +109,12 @@ export const Tickets = () => {
         console.log("res list tickets >>>", res);
         if (res && res.tickets) {
           const formattedData = res.tickets.map((item) => ({
-            ticketId: item.ticketId,
-            userId: item.userId,
-            planScreenMovieId: item.planScreenMovieId,
-            seatTicketId: item.seatTicketId,
+            ticketCode: item.ticketCode,
+            userCode: item.userCode,
+            planScreenMovieCode: item.planScreenMovieCode,
+            seats: item.seats,
+            totalPrice: item.totalPrice,
             bank: item.bank,
-            price: item.price,
             ticketsDate: item.ticketsDate,
           }));
           setTickets(formattedData);
@@ -139,11 +139,11 @@ export const Tickets = () => {
             <HelperText />
           </FormControl>
         </span>
-        <ModalAddTicket
+        {/* <ModalAddTicket
           isOpen={openAddTicket}
           handleOpen={handleOpenAddTicket}
           handleClose={handleCloseAddTicket}
-        />
+        /> */}
       </div>
 
       <TableContainer component={Paper} sx={{ maxHeight: "fit-content" }}>
@@ -153,9 +153,9 @@ export const Tickets = () => {
               <TableCell>Mã Vé</TableCell>
               <TableCell>Mã Người Dùng</TableCell>
               <TableCell>Mã Giờ Chiếu</TableCell>
-              <TableCell>Mã Ghế</TableCell>
-              <TableCell>Thanh Toán</TableCell>
-              <TableCell>Tổng Đơn</TableCell>
+              <TableCell>Ghế</TableCell>
+              <TableCell>Tổng thanh toán</TableCell>
+              <TableCell>Ngân hàng</TableCell>
               <TableCell>
                 <TableSortLabel
                   active={orderBy === "ticketSDate"}
@@ -172,12 +172,12 @@ export const Tickets = () => {
             {stableSort(displayedTickets, getComparator(order, orderBy)).map(
               (ticket, index) => (
                 <TableRow key={index}>
-                  <TableCell>{ticket.ticketId}</TableCell>
-                  <TableCell>{ticket.userId}</TableCell>
-                  <TableCell>{ticket.planScreenMovieId}</TableCell>
-                  <TableCell>{ticket.seatTicketId}</TableCell>
+                  <TableCell>{ticket.ticketCode}</TableCell>
+                  <TableCell>{ticket.userCode}</TableCell>
+                  <TableCell>{ticket.planScreenMovieCode}</TableCell>
+                  <TableCell>{ticket.seats}</TableCell>
+                  <TableCell>{ticket.totalPrice}</TableCell>
                   <TableCell>{ticket.bank}</TableCell>
-                  <TableCell>{ticket.price}</TableCell>
                   <TableCell>{ticket.ticketsDate}</TableCell>
                   <TableCell>
                     <div

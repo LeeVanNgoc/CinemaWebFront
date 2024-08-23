@@ -13,14 +13,14 @@ import {
 import { handleCreateTicket } from "./config";
 
 export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
-  const [userId, setUserId] = useState("");
-  const [planScreenMovieId, setPlanScreenMovieId] = useState("");
-  const [price, setPrice] = useState("");
+  const [userCode, setUserCode] = useState("");
+  const [planScreenMovieCode, setPlanScreenMovieCode] = useState("");
+  const [totalPrice, setTotalPrice] = useState("");
   const [bank, setBank] = useState("");
-  const [seatTicketId, setSeatTicketId] = useState("");
+  const [seats, setSeats] = useState("");
 
   const handleAddTicket = async () => {
-    handleCreateTicket(userId, planScreenMovieId, price, bank, seatTicketId);
+    handleCreateTicket(userCode, planScreenMovieCode, totalPrice, bank, seats);
     handleClose();
     window.location.reload();
   };
@@ -74,28 +74,28 @@ export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
             }}
           >
             <FormControl defaultValue="" required>
-              <Label>ID người dùng</Label>
+              <Label>Mã người dùng</Label>
               <StyledInput
                 // placeholder="UserId"
-                onChange={(e) => setUserId(e.target.value)}
+                onChange={(e) => setUserCode(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />
               <HelperText />
             </FormControl>
             <FormControl defaultValue="" required>
-              <Label>PSM ID</Label>
+              <Label>Mã giờ chiếu</Label>
               <StyledInput
                 // placeholder="Mật khẩu"
-                onChange={(e) => setPlanScreenMovieId(e.target.value)}
+                onChange={(e) => setPlanScreenMovieCode(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />
               <HelperText />
             </FormControl>
             <FormControl defaultValue="" required>
-              <Label>Giá vé</Label>
+              <Label>Ghế</Label>
               <StyledInput
                 // placeholder="Mật khẩu"
-                onChange={(e) => setPrice(e.target.value)}
+                onChange={(e) => setSeats(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />
               <HelperText />
@@ -110,10 +110,10 @@ export default function ModalAddTicket({ isOpen, handleOpen, handleClose }) {
               <HelperText />
             </FormControl>
             <FormControl defaultValue="" required>
-              <Label>St ID</Label>
+              <Label>Tổng đơn</Label>
               <StyledInput
                 // placeholder="Mật khẩu"
-                onChange={(e) => setSeatTicketId(e.target.value)}
+                onChange={(e) => setTotalPrice(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />
               <HelperText />

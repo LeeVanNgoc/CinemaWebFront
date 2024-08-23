@@ -168,6 +168,8 @@ export const handleCreateBookedSeats = async (ticketCode) => {
         },
       }
     );
+    console.log(response);
+
     return response;
   } catch (error) {
     console.error("Error creating booked seats:", error);

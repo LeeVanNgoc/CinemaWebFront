@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import { Grid } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
@@ -11,12 +11,14 @@ import {
   getMovies,
   setSelectedMovie,
 } from "../Admin/Movie/redux/actions/movieActions";
+import { handleGetGenresForMovie } from "../Admin/Genre/config";
 import "./MovieCard.scss";
 
 export default function MovieCard(status) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const movies = useSelector((state) => state.manageMovies.movies.movies);
+  const [genres, setGenres] = useState({});
 
   const handleClick = (movie) => {
     dispatch(setSelectedMovie(movie));
@@ -30,6 +32,30 @@ export default function MovieCard(status) {
 
     fetchMovies();
   }, []);
+
+  useEffect(() => {
+    const fetchGenresForAllMovies = async () => {
+      for (const movie of movies) {
+        if (movie.movieCode) {
+          try {
+            const res = await handleGetGenresForMovie(movie.movieCode);
+            if (res && res.movieGenre && res.movieGenre.length > 0) {
+              setGenres((prevGenres) => ({
+                ...prevGenres,
+                [movie.movieCode]: res.movieGenre.map((item) => item.name).join(", "),
+              }));
+            }
+          } catch (error) {
+            console.error("Error fetching genres:", error);
+          }
+        }
+      }
+    };
+
+    if (movies.length > 0) {
+      fetchGenresForAllMovies();
+    }
+  }, [movies]);
 
   return (
     <Grid container spacing={3}>
@@ -70,7 +96,7 @@ export default function MovieCard(status) {
                   />
                   <CardContent>
                     <Typography variant="body2" color="grey">
-                      Hài, Hoạt hình, Phiêu lưu
+                      {genres[movie.movieCode]  || "Đang tải..."}
                     </Typography>
                     <Typography variant="body2" color="grey">
                       {movie.releaseDate.split("T")[0]}
