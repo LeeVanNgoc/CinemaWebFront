@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FormControl } from "@mui/base/FormControl";
-import Button from "@mui/material/Button";
+import { Button } from "@mui/material";
 import {
   TriggerButton,
   StyledInput,
@@ -17,19 +17,19 @@ export default function ModalEditTicket({ isOpen, handleOpen, handleClose }) {
   const ticket = useSelector((state) => state.manageTickets.selectedTicket);
 
   // Khởi tạo state với dữ liệu vé từ props
-  const [seatTicketId, setSeatTicketId] = useState(ticket.seatTicketId);
-  const [planScreenMovieId, setPlanScreenMovieId] = useState(
-    ticket.planScreenMovieId
+  const [seats, setSeats] = useState(ticket.seats);
+  const [planScreenMovieCode, setPlanScreenMovieCode] = useState(
+    ticket.planScreenMovieCode
   );
   const [bank, setBank] = useState(ticket.bank);
-  const [price, setPrice] = useState(ticket.price);
+  const [totalPrice, setTotalPrice] = useState(ticket.totalPrice);
 
   const handleUpdateTicket = async () => {
     await handleEditTicket(
-      ticket.ticketId,
-      seatTicketId,
-      planScreenMovieId,
-      price,
+      ticket.ticketCode,
+      seats,
+      planScreenMovieCode,
+      totalPrice,
       bank
     );
     handleClose();
@@ -76,37 +76,33 @@ export default function ModalEditTicket({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue={ticket.ticketId} aria-readonly>
+            <FormControl value={ticket.ticketCode} aria-readonly>
               <Label>Mã vé</Label>
               <StyledInput readOnly />
               <HelperText />
             </FormControl>
 
-            <FormControl
-              defaultValue={ticket.seatTicketId}
-              required
-              sx={{ flex: 1 }}
-            >
-              <Label>Mã ghế</Label>
-              <StyledInput onChange={(e) => setSeatTicketId(e.target.value)} />
+            <FormControl value={ticket.seats} required sx={{ flex: 1 }}>
+              <Label>Ghế</Label>
+              <StyledInput onChange={(e) => setSeats(e.target.value)} />
               <HelperText />
             </FormControl>
 
             <FormControl
-              defaultValue={ticket.planScreenMovieId}
+              value={ticket.planScreenMovieCode}
               required
               sx={{ flex: 1 }}
             >
               <Label>Giờ chiếu</Label>
               <StyledInput
-                onChange={(e) => setPlanScreenMovieId(e.target.value)}
+                onChange={(e) => setPlanScreenMovieCode(e.target.value)}
               />
               <HelperText />
             </FormControl>
 
             {/* <Paragraph>Thanh toán</Paragraph>
             <Select
-              defaultValue={ticket.bank}
+              value={ticket.bank}
               onChange={(_, newValue) => setBank(newValue)}
               sx={{ flex: 1 }}
             >
@@ -114,15 +110,15 @@ export default function ModalEditTicket({ isOpen, handleOpen, handleClose }) {
               <Option value="cost">cost</Option>
             </Select> */}
 
-            <FormControl defaultValue={ticket.bank} required sx={{ flex: 1 }}>
+            <FormControl value={ticket.bank} required sx={{ flex: 1 }}>
               <Label>Thanh toán</Label>
               <StyledInput onChange={(e) => setBank(e.target.value)} />
               <HelperText />
             </FormControl>
 
-            <FormControl defaultValue={ticket.price} required sx={{ flex: 1 }}>
+            <FormControl value={ticket.totalPrice} required sx={{ flex: 1 }}>
               <Label>Tổng đơn</Label>
-              <StyledInput onChange={(e) => setPrice(e.target.value)} />
+              <StyledInput onChange={(e) => setTotalPrice(e.target.value)} />
               <HelperText />
             </FormControl>
           </div>

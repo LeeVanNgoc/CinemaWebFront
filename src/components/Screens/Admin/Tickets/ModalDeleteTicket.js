@@ -8,7 +8,7 @@ export default function ModalDeleteTicket({ isOpen, handleOpen, handleClose }) {
   const ticket = useSelector((state) => state.manageTickets.selectedTicket);
 
   const handleDelete = async () => {
-    await handleDeleteTicket(ticket.ticketId);
+    await handleDeleteTicket(ticket.ticketCode);
     handleClose();
   };
 
@@ -43,7 +43,7 @@ export default function ModalDeleteTicket({ isOpen, handleOpen, handleClose }) {
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Xóa vé ID = {ticket.ticketId}?
+            Xóa vé ID = {ticket.ticketCode}?
           </h1>
           <div style={{ display: "flex", gap: "10px" }}>
             <Button
