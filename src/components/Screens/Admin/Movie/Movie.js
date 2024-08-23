@@ -13,6 +13,7 @@ import {
   clearSelectedMovie,
   getMovies,
 } from "./redux/actions/movieActions";
+import { handleGetGenresForMovie } from "../Genre/config";
 import {
   Table,
   TableBody,
@@ -41,6 +42,8 @@ export const Movie = () => {
 
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("moviesDate");
+
+  const [genres, setGenres] = useState({});
 
   const handleOpenAddMovie = () => setOpenAddMovie(true);
   const handleCloseAddMovie = () => setOpenAddMovie(false);
@@ -103,6 +106,34 @@ export const Movie = () => {
   };
 
   useEffect(() => {
+    const fetchGenresForAllMovies = async () => {
+      for (const movie of movies) {
+        if (movie.movieCode) {
+          try {
+            const res = await handleGetGenresForMovie(movie.movieCode);
+            if (res && res.movieGenre && res.movieGenre.length > 0) {
+              setGenres((prevGenres) => ({
+                ...prevGenres,
+                [movie.movieCode]: res.movieGenre.map((item) => item.name).join(", "),
+              }));
+            } else {
+              console.log(`No genres found for movieCode: ${movie.movieCode}`);
+            }
+          } catch (error) {
+            console.error(`Error fetching genres for movieCode ${movie.movieCode}:`, error);
+          }
+        } else {
+          console.error("Movie code is undefined:", movie);
+        }
+      }
+    };
+
+    if (movies.length > 0) {
+      fetchGenresForAllMovies();
+    }
+  }, [movies]);
+
+  useEffect(() => {
     const fetchMovies = async () => {
       dispatch(getMovies());
     };
@@ -143,7 +174,7 @@ export const Movie = () => {
               <TableCell>Quốc Gia</TableCell>
               <TableCell>Ngày Khởi Chiếu</TableCell>
               <TableCell>Ảnh</TableCell>
-              <TableCell>Mã Thể Loại</TableCell>
+              <TableCell>Thể Loại</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -164,7 +195,7 @@ export const Movie = () => {
                       alt={movie.title}
                     />
                   </TableCell>
-                  <TableCell>{movie.genreCode}</TableCell>
+                  <TableCell>{genres[movie.movieCode]  || "Đang tải..."}</TableCell>
 
                   <TableCell>
                     <div
