@@ -20,14 +20,7 @@ export default function Bill() {
   const getBill = async () => {
     const res = await handleGetBill(localStorage.getItem("ticketCode"));
     if (res && res.errCode === 0) {
-      const formattedData = res.ticket.map((item) => ({
-        ticketCode: item.ticketCode,
-        userCode: item.userCode,
-        seats: item.seats,
-        bank: item.bank,
-        totalPrice: item.totalPrice,
-        planScreenMovieCode: item.planScreenMovieCode,
-      }));
+      const formattedData = res.ticket;
       setBill(formattedData);
     }
   };
@@ -89,7 +82,7 @@ export default function Bill() {
                         Ghế
                       </Typography>
 
-                      {bill.seats.join(", ")}
+                      {bill.seats}
                     </Grid>
 
                     <Grid item xs={6}>
