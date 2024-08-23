@@ -75,6 +75,7 @@ const Header = () => {
   useEffect(() => {
     if (user && user.auth === false) {
       handleNavigation("/", 1);
+      handleSignInClose();
     }
   }, [user.auth]);
 

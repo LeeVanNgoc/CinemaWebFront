@@ -24,6 +24,7 @@ import Signin from "../../Common/SignIn/Signin";
 import { clearStartTimeAndRoom } from "./redux/actions/bookingAction";
 import { handleCreateTicket, handleCreateBookedSeats } from "./config";
 import { BankRadioButton } from "./BankRadioButton";
+import { toast } from "react-toastify";
 
 export default function FinalTicket() {
   let decoded = "";
@@ -91,6 +92,7 @@ export default function FinalTicket() {
           totalBill
         );
         dispatch(clearStartTimeAndRoom());
+        alert("Đặt vé thành công!");
         console.log("create ticket: ", res);
         localStorage.setItem("ticketCode", res.newTickets.ticketCode);
         await createBookedSeats(res.newTickets.ticketCode);
@@ -98,6 +100,7 @@ export default function FinalTicket() {
         if (res && res.errCode === 0) {
           setOpen(true);
         }
+        toast.success("Đặt vé thành công!");
         navigate("/myticket");
       } catch (error) {
         console.error("Error booking ticket:", error);

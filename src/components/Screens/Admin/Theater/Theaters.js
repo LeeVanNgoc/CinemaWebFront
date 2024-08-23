@@ -27,9 +27,15 @@ import ModalAddTheater from "./ModalAddTheater";
 import ModalEditTheater from "./ModalEditTheater";
 import ModalDeleteTheater from "./ModalDeleteTheater";
 import { setRender } from "../../../../redux/renderAction";
+import { jwtDecode } from "jwt-decode";
 
 export const Theaters = () => {
   const dispatch = useDispatch();
+
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
 
   const [theaters, setTheaters] = useState([]);
   const isRender = useSelector((state) => state.render.isRender);
@@ -115,12 +121,14 @@ export const Theaters = () => {
       let res = await handleGetListTheaters();
       console.log("res list theaters >>>", res);
       if (res && res.theaters) {
-        const formattedData = res.theaters.map((item) => ({
-          theaterCode: item.theaterCode,
-          name: item.name,
-          address: item.address,
-          city: item.city,
-        }));
+        const formattedData = res.theaters
+          .filter((item) => item.theaterCode.includes(decoded.theaterCode))
+          .map((item) => ({
+            theaterCode: item.theaterCode,
+            name: item.name,
+            address: item.address,
+            city: item.city,
+          }));
         setTheaters(formattedData);
       }
     } catch (error) {
