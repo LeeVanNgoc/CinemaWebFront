@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axios from "../../../../axios";
 
 const handleGetListSeats = async () => {
@@ -67,6 +68,7 @@ const handleCreateSeat = async (type, roomCode, row, col, isAvailable) => {
         isAvailable: isAvailable,
       },
     });
+    toast.success("Tạo ghế thành công!");
     return response;
   } catch (error) {
     console.error("Error creating seat:", error);
@@ -86,7 +88,7 @@ const handleAddMultipleSeats = async (data) => {
     const response = await axios.post("/api/seats/create-multiple-seat", {
       rows: data,
     });
-    alert(response.message);
+    toast.success("Tạo ghế thành công!");
     console.log("Create seats: ", response);
     return response;
   } catch (error) {
@@ -107,7 +109,7 @@ const handleEditSeats = async (data) => {
     const response = await axios.put("/api/seats/edit-multiple-seat", {
       rows: data,
     });
-    alert(response.message);
+    toast.success("Cập nhật ghế thành công!");
     console.log(">>> edit seats res: ", response);
     return response;
   } catch (error) {
@@ -130,7 +132,7 @@ const handleDeleteAllSeatsInRoom = async (roomCode) => {
 
       { params: { roomCode: roomCode } }
     );
-    alert(response.message);
+    toast.success("Xóa ghế thành công!");
     console.log(">>> delete seats res: ", response);
     return response;
   } catch (error) {

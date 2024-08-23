@@ -35,7 +35,8 @@ export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
       lastName,
       birthYear,
       userName,
-      phonenumber
+      phonenumber,
+      ""
     );
     handleClose();
     dispatch(setRender(true));

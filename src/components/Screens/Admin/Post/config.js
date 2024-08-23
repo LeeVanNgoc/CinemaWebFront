@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axios from "../../../../axios";
 
 const handleGetListPosts = async () => {
@@ -46,7 +47,7 @@ const handleCreatePost = async (title, content, image, link) => {
         link: link,
       },
     });
-    alert(response.message);
+    toast.success(response.message);
     return response;
   } catch (error) {
     console.error("Error creating post:", error);
@@ -73,7 +74,7 @@ const handleEditPost = async (postCode, title, content, image, link) => {
       },
     });
     console.log(">>> edit post res: ", response);
-    alert(response.message);
+    toast.success(response.message);
     return response;
   } catch (error) {
     console.error("Error editing post:", error);
@@ -95,7 +96,7 @@ const handleDeletePost = async (postCode) => {
         postCode: postCode,
       },
     });
-    alert(response.message);
+    toast.success(response.message);
     return response;
   } catch (error) {
     console.error("Error deleting post:", error);
