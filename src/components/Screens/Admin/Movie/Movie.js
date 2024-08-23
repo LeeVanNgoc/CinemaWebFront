@@ -116,14 +116,10 @@ export const Movie = () => {
                 ...prevGenres,
                 [movie.movieCode]: res.movieGenre.map((item) => item.name).join(", "),
               }));
-            } else {
-              console.log(`No genres found for movieCode: ${movie.movieCode}`);
             }
           } catch (error) {
-            console.error(`Error fetching genres for movieCode ${movie.movieCode}:`, error);
+            console.error("Error fetching genres:", error);
           }
-        } else {
-          console.error("Movie code is undefined:", movie);
         }
       }
     };
