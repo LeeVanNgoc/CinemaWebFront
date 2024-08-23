@@ -59,16 +59,21 @@ const Header = () => {
     dispatch(handleLogoutRedux());
   };
 
+  // useEffect(() => {
+  //   if (user && user.auth === null) {
+  //     handleNavigation("/", 1);
+  //   } else if (user.auth === true) {
+  //     if (decoded.role !== "user") {
+  //       handleNavigation("/dashboard", 11);
+  //     }
+  //     handleSignInClose();
+  //   } else if (user.auth === false) {
+  //     // toast.success("Đăng xuất thành công!");
+  //     handleNavigation("/", 1);
+  //   }
+  // }, [user.auth]);
   useEffect(() => {
-    if (user && user.auth === null) {
-      handleNavigation("/", 1);
-    } else if (user.auth === true) {
-      if (decoded.role !== "user") {
-        handleNavigation("/dashboard", 11);
-      }
-      handleSignInClose();
-    } else if (user.auth === false) {
-      // toast.success("Đăng xuất thành công!");
+    if (user && user.auth === false) {
       handleNavigation("/", 1);
     }
   }, [user.auth]);
@@ -302,9 +307,20 @@ const Header = () => {
                 handleClose={handleSignUpClose}
                 switchToSignIn={switchToSignIn}
               />
+              <Button
+                sx={{
+                  borderRadius: "40px",
+                  backgroundColor: "#dc1313f0",
+                  textTransform: "none",
+                  color: "white",
+                  border: "none",
+                }}
+                onClick={handleSignInOpen}
+              >
+                Đăng nhập
+              </Button>
               <Signin
                 isOpen={isSignInOpen}
-                handleOpen={handleSignInOpen}
                 handleClose={handleSignInClose}
                 switchToSignUp={switchToSignUp}
               />

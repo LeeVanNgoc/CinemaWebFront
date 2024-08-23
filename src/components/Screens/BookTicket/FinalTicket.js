@@ -9,8 +9,6 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import {
@@ -64,7 +62,6 @@ export default function FinalTicket() {
   const handleSignInClose = () => setSignInOpen(false);
 
   const handleSignUpOpen = () => setSignUpOpen(true);
-  const handleSignUpClose = () => setSignUpOpen(false);
 
   const switchToSignUp = () => {
     handleSignInClose();
@@ -74,7 +71,6 @@ export default function FinalTicket() {
   const goBack = () => {
     dispatch(clearStartTimeAndRoom());
     navigate("/bookticket");
-    // window.location.reload();
   };
 
   const createBookedSeats = async (ticketCode) => {
@@ -102,7 +98,7 @@ export default function FinalTicket() {
         if (res && res.errCode === 0) {
           setOpen(true);
         }
-        // navigate("/myticket");
+        navigate("/myticket");
       } catch (error) {
         console.error("Error booking ticket:", error);
       }
@@ -301,20 +297,9 @@ export default function FinalTicket() {
           </div>
         </div>
       </div>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert
-          anchorOrigin={("top", "right")}
-          onClose={handleClose}
-          severity="success"
-          variant="filled"
-          sx={{ width: "100%" }}
-        >
-          Bạn đã đặt vé thành công!
-        </Alert>
-      </Snackbar>
+
       <Signin
         isOpen={isSignInOpen}
-        handleOpen={() => handleSignInOpen()}
         handleClose={handleSignInClose}
         switchToSignUp={switchToSignUp}
       />

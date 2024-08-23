@@ -19,6 +19,7 @@ import { TimeField } from "@mui/x-date-pickers/TimeField";
 import { handleCreatePlan } from "./config";
 import { handleGetListMoviesTitleAndCode } from "../../Admin/Movie/config";
 import { handleGetListRoomCode } from "../../Admin/Room/config";
+import { toast } from "react-toastify";
 
 export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
   const [roomCode, setRoomCode] = useState(0);
@@ -55,7 +56,7 @@ export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
       startTime?.format("HH:mm:ss"),
       endTime?.format("HH:mm:ss")
     );
-    alert("Create plan successfully");
+    toast.success("Create plan successfully");
     handleClose();
   };
 

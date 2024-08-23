@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axios from "../../../../axios";
 
 const handleGetListPrices = async () => {
@@ -46,7 +47,7 @@ const handleCreatePrice = async (cost, roomType, seatType, isWeekend) => {
         isWeekend: isWeekend,
       },
     });
-    alert(response.message);
+    toast.success(response.message);
     return response;
   } catch (error) {
     console.error("Error creating price:", error);
@@ -79,7 +80,7 @@ const handleEditPrice = async (
       },
     });
     console.log(">>> edit price res: ", response);
-    alert(response.message);
+    toast.success(response.message);
     return response;
   } catch (error) {
     console.error("Error editing price:", error);
@@ -101,7 +102,7 @@ const handleDeletePrice = async (priceCode) => {
         priceCode: priceCode,
       },
     });
-    alert(response.message);
+    toast.success(response.message);
     return response;
   } catch (error) {
     console.error("Error deleting price:", error);

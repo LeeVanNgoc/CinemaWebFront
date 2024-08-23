@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axios from "../../../../axios";
 
 export const handleGetListMovies = async () => {
@@ -55,7 +56,7 @@ export const handleCreateMovie = async (
         image: image,
       },
     });
-    alert(response.message);
+    toast.success(response.message);
     return response;
   } catch (error) {
     console.error("Error adding movie:", error);
