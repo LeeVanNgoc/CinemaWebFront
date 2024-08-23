@@ -13,6 +13,7 @@ import {
   clearSelectedTrailer,
 } from "../Admin/Trailer/redux/actions/trailerActions";
 import { handleGetTrailerByMovieCode } from "./config";
+import { handleGetGenresForMovie } from "../Admin/Genre/config";
 
 const Img = styled("img")({
   margin: "auto",
@@ -24,8 +25,10 @@ const Img = styled("img")({
 export default function MovieDetail() {
   const dispatch = useDispatch();
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
+  const movies = useSelector((state) => state.manageMovies.movies.movies);
   const [trailerLink, setTrailerLink] = useState("");
   const [trailer, setTrailer] = useState("");
+  const [genres, setGenres] = useState({});
 
   const [openScreenTrailer, setOpenScreenTrailer] = useState(false);
   const handleOpenScreenTrailer = (trailer) => {
@@ -57,6 +60,30 @@ export default function MovieDetail() {
 
     fetchData();
   }, [movie.movieCode]);
+
+  useEffect(() => {
+    const fetchGenresForAllMovies = async () => {
+      for (const movie of movies) {
+        if (movie.movieCode) {
+          try {
+            const res = await handleGetGenresForMovie(movie.movieCode);
+            if (res && res.movieGenre && res.movieGenre.length > 0) {
+              setGenres((prevGenres) => ({
+                ...prevGenres,
+                [movie.movieCode]: res.movieGenre.map((item) => item.name).join(", "),
+              }));
+            }
+          } catch (error) {
+            console.error("Error fetching genres:", error);
+          }
+        }
+      }
+    };
+
+    if (movies.length > 0) {
+      fetchGenresForAllMovies();
+    }
+  }, [movies]);
 
   return (
     <Paper
@@ -105,7 +132,7 @@ export default function MovieDetail() {
                 </Typography>
 
                 <Typography variant="body2" gutterBottom>
-                  Hài, Hoạt hình, Phiêu lưu - {movie.country} - {movie.duration}{" "}
+                  {genres[movie.movieCode]  || "Đang tải..."} - {movie.country} - {movie.duration}{" "}
                   phút
                   <br />
                   Khởi chiếu: {movie.releaseDate}
