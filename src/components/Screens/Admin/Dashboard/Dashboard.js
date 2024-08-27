@@ -1,24 +1,22 @@
-import ScreeningCount from "../Statistic/ScreeningCount";
 import { Grid } from "@mui/material";
-import "./Dashboard.scss";
+import ScreeningCount from "../Statistic/ScreeningCount";
 import TotalRenvenue from "../Statistic/TotalRenvenue";
 import MovieRevenue from "../Statistic/MovieRevenue";
-import AvgAge from "../Statistic/AvgAge";
-import TotalMovies from "../Statistic/TotalMovies";
 import BookedTickets from "../Statistic/BookedTickets";
+import TotalMovies from "../Statistic/TotalMovies";
 import TotalUsers from "../Statistic/TotalUsers";
+import AvgAge from "../Statistic/AvgAge";
+import "./Dashboard.scss";
 
 const Dashboard = () => {
   return (
     <div
       style={{
         backgroundColor: "#0d0F11",
-        marginLeft: "20px",
-        marginRight: "20px",
         borderRadius: "16px",
       }}
     >
-      <div className="my-24">
+      <div>
         <div className="flex justify-evenly">
           <span>
             <TotalRenvenue />

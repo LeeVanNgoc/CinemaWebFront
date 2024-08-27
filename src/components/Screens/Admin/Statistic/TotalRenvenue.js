@@ -50,11 +50,11 @@ export default function TotalRenvenue() {
 
   return (
     <div
-      className=" box-border translate-y-6 rounded-2xl p-6 text-white flex flex-row gap-3"
+      className=" box-border translate-y-6 rounded-2xl p-2 text-white flex flex-row gap-3"
       style={{ background: "linear-gradient(to bottom, #262C36, #1B1E24)" }}
     >
       <img src={require("../Dashboard/assets/revenue.png")} className="w-16" />
-      <div className="flex flex-col">
+      <div className="flex flex-col text-sm">
         {data && <p className="font-bold text-2xl">{data}đ</p>}
         <p>Tổng doanh thu rạp {decoded.city}</p>
       </div>

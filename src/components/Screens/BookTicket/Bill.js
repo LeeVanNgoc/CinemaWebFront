@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { handleGetBill } from "./config";
 import React, { useEffect, useState } from "react";
+import Header from "../../Common/Header/Header";
 
 export default function Bill() {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ export default function Bill() {
 
   return (
     <div className="flex justify-center">
+      <Header />
       <div className="my-20 flex flex-col justify-center h-screen w-1/2 bg-neutral-800 border rounded-md border-slate-500">
         {bill && (
           <Box sx={{ width: "100%" }}>
