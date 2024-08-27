@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AdminNavBar from "../../../Common/Header/AdminNavBar";
-import SideNavigation from "../SideNavigation";
+import SideNavigation from "../Dashboard/SideNavigation";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";

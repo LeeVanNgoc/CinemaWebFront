@@ -3,9 +3,9 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import Dashboard from "./Dashboard/Dashboard";
-import { AppBar, Body, DrawerHeader } from "./Manage/utils";
-import { Manage } from "./Manage/Manage";
+import Dashboard from "./Dashboard";
+import { AppBar, Body, DrawerHeader } from "../Manage/utils";
+import { Manage } from "../Manage/Manage";
 import SideNavigation from "./SideNavigation";
 import "./AdminView.scss";
 

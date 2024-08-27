@@ -13,7 +13,7 @@ import FinalTicket from "../components/Screens/BookTicket/FinalTicket";
 import UserAccount from "../components/Screens/Account/UserAccount";
 import Bill from "../components/Screens/BookTicket/Bill";
 import ForgotPassword from "../components/Common/SignIn/ForgotPassword/ForgotPassword";
-import AdminView from "../components/Screens/Admin/AdminView";
+import AdminView from "../components/Screens/Admin/Dashboard/AdminView";
 
 const AppRoutes = () => {
   return (
