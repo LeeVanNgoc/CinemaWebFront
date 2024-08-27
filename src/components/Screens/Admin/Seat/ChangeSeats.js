@@ -1,21 +1,19 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { handleGetSeats } from "./redux/actions/seatActions";
+import { toast } from "react-toastify";
 import {
   handleAddMultipleSeats,
   handleDeleteAllSeatsInRoom,
   handleEditSeats,
 } from "./config";
-import { handleGetSeats } from "./redux/actions/seatActions";
-import { toast } from "react-toastify";
 
 function ChangeSeats(roomCode) {
   const dispatch = useDispatch();
 
   const seats = useSelector((state) => state.manageSeats.rows);
   const [selectedCell, setSelectedCell] = useState([]);
-  const [type, setType] = useState("");
-  const [VIP, setVIP] = useState([]);
-  const [sweetbox, setSweetbox] = useState([]);
+  const [available, setAvailable] = useState(true);
   const [totalSeats, setTotalSeats] = useState(0);
   const [rows, setRows] = useState([
     {
@@ -43,7 +41,7 @@ function ChangeSeats(roomCode) {
           type: seat.type,
           row: seat.row,
           col: seat.col,
-          isAvailable: true,
+          isAvailable: seat.isAvailable,
         });
       } else {
         acc.push({
@@ -55,7 +53,7 @@ function ChangeSeats(roomCode) {
               type: seat.type,
               row: seat.row,
               col: seat.col,
-              isAvailable: true,
+              isAvailable: seat.isAvailable,
             },
           ],
         });
@@ -73,14 +71,9 @@ function ChangeSeats(roomCode) {
       const transformedRows = transformSeatsToRows(seats);
       setRows(transformedRows);
     }
+  }, [seats]);
 
-    if (type === "VIP") {
-      setVIP(selectedCell);
-    } else if (type === "Sweetbox") {
-      setSweetbox(selectedCell);
-    }
-  }, [selectedCell, type, seats]);
-
+  // Thay đổi số lượng ghế mỗi hàng
   const setSeatsPerRow = (event, rowId) => {
     const newCount = parseInt(event.target.value, 10);
 
@@ -104,6 +97,7 @@ function ChangeSeats(roomCode) {
     );
   };
 
+  // Thêm hàng ghế
   const addRow = () => {
     const newRowId = String.fromCharCode(rows.length + 65);
     setRows((prevRows) => [
@@ -124,13 +118,8 @@ function ChangeSeats(roomCode) {
     ]);
   };
 
-  const handleClickButton = (type) => {
-    setSelectedCell([]);
-    setType(type);
-  };
-
-  // thay đổi type trên giao diện
-  const handleSetTypeName = (cellId) => {
+  // chọn ghế
+  const handleSelectCell = (cellId) => {
     setSelectedCell((prevSelectedCell) => {
       if (prevSelectedCell.includes(cellId)) {
         return prevSelectedCell.filter((id) => id !== cellId);
@@ -140,54 +129,77 @@ function ChangeSeats(roomCode) {
     });
   };
 
-  // thay đổi type vào data
-  const handleSetType = () => {
+  // thay đổi loại ghế
+  const handleSetType = (type) => {
     setRows((prevRows) =>
       prevRows.map((row) => ({
         ...row,
         columns: row.columns.map((column) => {
-          if (sweetbox.includes(column.cellId)) {
+          if (selectedCell.includes(column.cellId) && type === "Sweetbox") {
             return {
               ...column,
               type: "Sweetbox",
             };
-          } else if (VIP.includes(column.cellId)) {
+          } else if (selectedCell.includes(column.cellId) && type === "VIP") {
             return {
               ...column,
               type: "VIP",
+            };
+          } else if (
+            selectedCell.includes(column.cellId) &&
+            type === "Standard"
+          ) {
+            return {
+              ...column,
+              type: "Standard",
             };
           }
           return column;
         }),
       }))
     );
-    // alert("Đặt kiểu ghế thành công!");
+    setSelectedCell([]);
+    toast.success("Đặt kiểu ghế thành công!");
+  };
+
+  // thay đổi trạng thái ghế
+  const handleSetUnavailable = () => {
+    setAvailable(!available);
+
+    setRows((prevRows) =>
+      prevRows.map((row) => ({
+        ...row,
+        columns: row.columns.map((column) => {
+          if (selectedCell.includes(column.cellId)) {
+            return {
+              ...column,
+              isAvailable: !column.isAvailable,
+            };
+          }
+          return column;
+        }),
+      }))
+    );
+    setSelectedCell([]);
     toast.success("Đặt kiểu ghế thành công!");
   };
 
   // set màu mỗi ghế
-  const setColor = (cellId, cellType) => {
-    if (
-      (selectedCell.includes(cellId) && type === "VIP") ||
-      (VIP && VIP.includes(cellId)) ||
-      cellType === "VIP"
-    ) {
+  const setColor = (cellId, cellType, cellAvailable) => {
+    if (selectedCell.includes(cellId)) {
+      return "bg-blue-500";
+    } else if (!cellAvailable) {
+      return "bg-slate-400";
+    } else if (cellType === "VIP") {
       return "bg-orange-500";
-    } else if (
-      (selectedCell.includes(cellId) && type === "Sweetbox") ||
-      (sweetbox && sweetbox.includes(cellId)) ||
-      cellType === "Sweetbox"
-    ) {
-      return "bg-red-500";
+    } else if (cellType === "Sweetbox") {
+      return "bg-red-500 w-20";
     } else {
       return "bg-slate-600";
     }
   };
 
-  const handleDeleteType = () => {
-    setType("Standard");
-    setSweetbox([]);
-    setVIP([]);
+  const handleResetAll = () => {
     setSelectedCell([]);
     setRows((prevRows) =>
       prevRows.map((row) => ({
@@ -196,6 +208,7 @@ function ChangeSeats(roomCode) {
           return {
             ...column,
             type: "Standard",
+            isAvailable: true,
           };
         }),
       }))
@@ -210,6 +223,7 @@ function ChangeSeats(roomCode) {
     }
   };
 
+  // Tính tổng số ghế
   useEffect(() => {
     let calculatedTotalSeats = 0;
     rows.forEach((row) => {
@@ -226,29 +240,33 @@ function ChangeSeats(roomCode) {
       <div className="flex justify-end gap-5 mb-4">
         <button
           className="bg-orange-500 py-1 px-2 rounded-md"
-          onClick={() => handleClickButton("VIP")}
+          onClick={() => handleSetType("VIP")}
         >
-          Set VIP
+          Ghế VIP
         </button>
         <button
           className="bg-red-500 py-1 px-2 rounded-md"
-          onClick={() => handleClickButton("Sweetbox")}
+          onClick={() => handleSetType("Sweetbox")}
         >
-          Set Sweetbox
+          Ghế đôi
         </button>
-        {type !== "Standard" && (
-          <button
-            className="bg-green-400 py-1 px-2 rounded-md"
-            onClick={() => handleSetType()}
-          >
-            Lưu {type}
-          </button>
-        )}
+        <button
+          className="bg-slate-600 py-1 px-2 rounded-md text-white"
+          onClick={() => handleSetType("Standard")}
+        >
+          Ghế thường
+        </button>
+        <button
+          className="bg-slate-400 py-1 px-2 rounded-md"
+          onClick={() => handleSetUnavailable()}
+        >
+          Hỏng
+        </button>
         <button
           className="bg-green-400 py-1 px-2 rounded-md"
-          onClick={() => handleDeleteType()}
+          onClick={() => handleResetAll()}
         >
-          Xóa kiểu ghế
+          Đặt lại
         </button>
       </div>
       {selectedCell}
@@ -268,27 +286,31 @@ function ChangeSeats(roomCode) {
                   {row.columns.map((column) => (
                     <span
                       key={column.cellId}
-                      className={`m-1 text-white rounded-md px-3 py-1 ${setColor(
+                      className={`m-1 text-white text-center rounded-md px-3 py-1 cursor-pointer ${setColor(
                         column.cellId,
-                        column.type
+                        column.type,
+                        column.isAvailable
                       )} 
                       }`}
-                      onClick={() => handleSetTypeName(column.cellId)}
+                      onClick={() => handleSelectCell(column.cellId)}
                     >
                       {column.cellId}
                     </span>
                   ))}
                 </td>
-                <td>
-                  Số lượng:
-                  <input
-                    id={`input-${row.id}`}
-                    type="number"
-                    min="1"
-                    onChange={(event) => setSeatsPerRow(event, row.id)}
-                    className="text-black w-12 text-center rounded-sm border border-slate-600 ml-4"
-                  />
-                </td>
+                {!seats ||
+                  (seats.length === 0 && (
+                    <td>
+                      Số lượng:
+                      <input
+                        id={`input-${row.id}`}
+                        type="number"
+                        min="1"
+                        onChange={(event) => setSeatsPerRow(event, row.id)}
+                        className="text-black w-12 text-center rounded-sm border border-slate-600 ml-4"
+                      />
+                    </td>
+                  ))}
               </tr>
             ))}
           </tbody>
@@ -297,25 +319,28 @@ function ChangeSeats(roomCode) {
           Tổng số ghế: {totalSeats}
         </div>
         <div className="flex justify-end gap-5 mb-4">
-          <button
-            onClick={addRow}
-            className="rounded-2xl border-2 border-red-500 px-3 py-1"
-          >
-            +
-          </button>
+          {!seats ||
+            (seats.length === 0 && (
+              <button
+                onClick={addRow}
+                className="rounded-2xl border-2 border-red-500 px-3 py-1"
+              >
+                +
+              </button>
+            ))}
           {seats && seats.length > 0 ? (
             <div className="flex flex-row gap-5">
               <button
                 className="bg-green-400  py-1 px-2 rounded-md"
                 onClick={() => handleChangeSeats("Edit", rows)}
               >
-                Cập nhật ghế
+                Cập nhật
               </button>
               <button
                 className="bg-green-400  py-1 px-2 rounded-md"
                 onClick={() => handleDeleteAllSeatsInRoom(roomCode.roomCode)}
               >
-                Xóa tất cả ghế
+                Xóa tất cả
               </button>
             </div>
           ) : (

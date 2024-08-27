@@ -19,19 +19,12 @@ export default function Bill() {
 
   const getBill = async () => {
     const res = await handleGetBill(localStorage.getItem("ticketCode"));
+    console.log("bill: ", res);
     if (res && res.errCode === 0) {
-      const formattedData = res.ticket.map((item) => ({
-        ticketCode: item.ticketCode,
-        userCode: item.userCode,
-        seats: item.seats,
-        bank: item.bank,
-        totalPrice: item.totalPrice,
-        planScreenMovieCode: item.planScreenMovieCode,
-      }));
+      const formattedData = res.ticket;
       setBill(formattedData);
     }
   };
-
   useEffect(() => {
     getBill();
   }, []);
@@ -39,11 +32,6 @@ export default function Bill() {
   return (
     <div className="flex justify-center">
       <div className="my-20 flex flex-col justify-center h-screen w-1/2 bg-neutral-800 border rounded-md border-slate-500">
-        {/* <div className="text-xl font-bold text-white mb-6 text-center">
-          Bạn đã đặt vé thành công!
-        </div>
-        <Button onClick={() => goBack()}>Trở về</Button>
-        <Button>Xem vé đã đặt</Button> */}
         {bill && (
           <Box sx={{ width: "100%" }}>
             <Card variant="outlined">
@@ -89,7 +77,7 @@ export default function Bill() {
                         Ghế
                       </Typography>
 
-                      {bill.seats.join(", ")}
+                      {bill.seats}
                     </Grid>
 
                     <Grid item xs={6}>
@@ -124,7 +112,20 @@ export default function Bill() {
               </React.Fragment>
             </Card>
           </Box>
-        )}
+        )}{" "}
+        <Button
+          variant="contained"
+          sx={{
+            borderRadius: 6,
+            backgroundColor: "grey",
+            height: "40px",
+            marginTop: "30px",
+            width: "100px",
+          }}
+          onClick={() => goBack()}
+        >
+          Trở về
+        </Button>
       </div>
     </div>
   );

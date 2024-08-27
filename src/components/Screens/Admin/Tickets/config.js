@@ -17,20 +17,22 @@ const handleGetListTickets = async () => {
 };
 
 const handleCreateTicket = async (
-  ticketId,
-  planScreenMovieId,
-  price,
+  ticketCode,
+  planScreenMovieCode,
+  userCode,
+  seats,
   bank,
-  seatTicketId
+  totalPrice
 ) => {
   try {
     const response = await axios.post("/api/ticket/create-ticket/", null, {
       params: {
-        ticketId: ticketId,
-        planScreenMovieId: planScreenMovieId,
-        price: price,
+        ticketCode: ticketCode,
+        planScreenMovieCode: planScreenMovieCode,
+        userCode: userCode,
+        seats: seats,
         bank: bank,
-        seatTicketId: seatTicketId,
+        totalPrice: totalPrice,
       },
     });
     return response;
@@ -48,20 +50,20 @@ const handleCreateTicket = async (
 };
 
 const handleEditTicket = async (
-  ticketId,
-  seatTicketId,
-  planScreenMovieId,
+  ticketCode,
+  planScreenMovieCode,
   price,
-  bank
+  bank,
+  totalPrice
 ) => {
   try {
     const response = await axios.put("/api/ticket/edit-ticket/", null, {
       params: {
-        ticketId: ticketId,
-        seatTicketId: seatTicketId,
-        planScreenMovieId: planScreenMovieId,
+        ticketCode: ticketCode,
+        planScreenMovieCode: planScreenMovieCode,
         price: price,
         bank: bank,
+        totalPrice: totalPrice,
       },
     });
     console.log(">>> edit ticket res: ", response);
@@ -79,11 +81,11 @@ const handleEditTicket = async (
   }
 };
 
-const handleDeleteTicket = async (ticketId) => {
+const handleDeleteTicket = async (ticketCode) => {
   try {
     const response = await axios.delete("/api/ticket/delete-ticket", {
       params: {
-        ticketId: ticketId,
+        ticketCode: ticketCode,
       },
     });
     return response;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -14,14 +15,14 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { Select, FormControl, InputLabel } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { handleLogoutRedux } from "../SignIn/redux/actions/userAction";
-import "./Header.scss";
 import Signup from "../SignUp/SignUp";
 import Signin from "../SignIn/Signin";
 import { jwtDecode } from "jwt-decode";
+import "./Header.scss";
+import { setTheater } from "./redux/actions/headerActions";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -29,13 +30,14 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.account);
+  const theater = useSelector((state) => state.theaterHeader.theater);
   let decoded = "";
   if (localStorage.token) {
     decoded = jwtDecode(localStorage.token);
   }
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const [clickedIndex, setClickedIndex] = useState(null);
 
   const [isSignInOpen, setSignInOpen] = useState(false);
@@ -77,6 +79,7 @@ const Header = () => {
   useEffect(() => {
     if (user && user.auth === false) {
       handleNavigation("/", 1);
+      handleSignInClose();
     }
   }, [user.auth]);
 
@@ -205,6 +208,21 @@ const Header = () => {
 
           {/* full screen */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <FormControl sx={{ marginTop: "16px", marginRight: "8px" }}>
+              <InputLabel id="theater-label">Chọn rạp</InputLabel>
+              <Select
+                labelId="theater-label"
+                value={theater}
+                label="Chọn rạp"
+                onChange={(event) => dispatch(setTheater(event.target.value))}
+                sx={{ color: "#fff", height: "40px" }}
+              >
+                <MenuItem value="T001">Rạp Hà Nội</MenuItem>
+                <MenuItem value="T002">Rạp Đà Nẵng</MenuItem>
+                <MenuItem value="T003">Rạp TP Hồ Chí Minh</MenuItem>
+              </Select>
+            </FormControl>
+
             <ButtonGroup variant="text" aria-label="Basic button group">
               {user.auth && decoded.role !== "user" && (
                 <span className="flex flex-row">
