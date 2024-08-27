@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { handleCreateUser } from '../config'
+import { toast } from "react-toastify";
 
 const userSlice = createSlice({
   name: 'user',
@@ -18,6 +19,7 @@ const userSlice = createSlice({
       })
       .addCase(handleCreateUser.fulfilled, (state, action) => {
         console.log('Fulfilled', action.payload)
+        toast.success("Đăng ký thành công!");
         state.loading = false
         state.userInfo = action.payload
       })

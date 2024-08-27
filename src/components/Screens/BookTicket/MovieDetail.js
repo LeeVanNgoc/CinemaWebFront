@@ -67,7 +67,7 @@ export default function MovieDetail() {
         if (movie.movieCode) {
           try {
             const res = await handleGetGenresForMovie(movie.movieCode);
-            if (res && res.movieGenre && res.movieGenre.length > 0) {
+            if (res && res.movieGenre) {
               setGenres((prevGenres) => ({
                 ...prevGenres,
                 [movie.movieCode]: res.movieGenre.map((item) => item.name).join(", "),

@@ -39,7 +39,7 @@ export default function MovieCard(status) {
         if (movie.movieCode) {
           try {
             const res = await handleGetGenresForMovie(movie.movieCode);
-            if (res && res.movieGenre && res.movieGenre.length > 0) {
+            if (res && res.movieGenre) {
               setGenres((prevGenres) => ({
                 ...prevGenres,
                 [movie.movieCode]: res.movieGenre.map((item) => item.name).join(", "),
@@ -51,10 +51,7 @@ export default function MovieCard(status) {
         }
       }
     };
-
-    if (movies.length > 0) {
       fetchGenresForAllMovies();
-    }
   }, [movies]);
 
   return (
