@@ -72,8 +72,8 @@ export default function ScreeningCount() {
 
   return (
     <div
-      className="mx-3 rounded-md p-3 shadow-lg shadow-stone-950"
-      style={{ backgroundColor: "#3D3B40" }}
+      className="mx-3 rounded-2xl p-3 shadow-lg shadow-stone-950"
+      style={{ background: "linear-gradient(to bottom, #262C36, #1B1E24)" }}
     >
       <Stack direction="row" spacing={1} className="flex justify-end">
         <TextField

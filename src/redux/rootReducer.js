@@ -15,9 +15,11 @@ import postReducer from "../components/Screens/Admin/Post/redux/reducers/postRed
 import movieReducer from "../components/Screens/Admin/Movie/redux/reducers/movieReducer";
 import movieDetailActions from "../components/Screens/Home/redux/reducers/movieDetailReducers";
 import renderReducer from "./renderReducer";
+import headerReducer from "../components/Common/Header/redux/reducers/headerReducer";
 
 const rootReducer = combineReducers({
   render: renderReducer,
+  theaterHeader: headerReducer,
   userCreateReducer,
   user: userReducer,
   home: movieDetailActions,

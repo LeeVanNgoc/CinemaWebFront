@@ -24,6 +24,7 @@ import Signin from "../../Common/SignIn/Signin";
 import { clearStartTimeAndRoom } from "./redux/actions/bookingAction";
 import { handleCreateTicket, handleCreateBookedSeats } from "./config";
 import { BankRadioButton } from "./BankRadioButton";
+import { toast } from "react-toastify";
 
 export default function FinalTicket() {
   let decoded = "";
@@ -48,7 +49,7 @@ export default function FinalTicket() {
   const [isSignInOpen, setSignInOpen] = useState(false);
   const [isSignUpOpen, setSignUpOpen] = useState(false);
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -94,10 +95,6 @@ export default function FinalTicket() {
         console.log("create ticket: ", res);
         localStorage.setItem("ticketCode", res.newTickets.ticketCode);
         await createBookedSeats(res.newTickets.ticketCode);
-
-        if (res && res.errCode === 0) {
-          setOpen(true);
-        }
         navigate("/myticket");
       } catch (error) {
         console.error("Error booking ticket:", error);
