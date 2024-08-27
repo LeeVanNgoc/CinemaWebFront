@@ -65,32 +65,35 @@ export default function ModalAddRoom({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue="" required>
-              <Label>Mã rạp</Label>
-              <StyledInput onChange={(e) => setTheaterCode(e.target.value)} />
-              <HelperText />
-            </FormControl>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue="" required>
+                <Label>Mã rạp</Label>
+                <StyledInput onChange={(e) => setTheaterCode(e.target.value)} />
+                <HelperText />
+              </FormControl>
 
-            <FormControl defaultValue="" required>
-              <Label>Loại ghế</Label>
-              <StyledInput
-                // placeholder="Type"
-                onChange={(e) => setType(e.target.value)}
-              />
-              <HelperText />
-            </FormControl>
+              <FormControl defaultValue="" required>
+                <Label>Loại ghế</Label>
+                <StyledInput
+                  // placeholder="Type"
+                  onChange={(e) => setType(e.target.value)}
+                />
+                <HelperText />
+              </FormControl>
+            </div>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue="" required>
+                <Label>Số ghế</Label>
+                <StyledInput onChange={(e) => setNumberSeats(e.target.value)} />
+                <HelperText />
+              </FormControl>
 
-            <FormControl defaultValue="" required>
-              <Label>Số ghế</Label>
-              <StyledInput onChange={(e) => setNumberSeats(e.target.value)} />
-              <HelperText />
-            </FormControl>
-
-            <FormControl defaultValue="" required>
-              <Label>Trạng thái</Label>
-              <StyledInput onChange={(e) => setIsAvailable(e.target.value)} />
-              <HelperText />
-            </FormControl>
+              <FormControl defaultValue="" required>
+                <Label>Trạng thái</Label>
+                <StyledInput onChange={(e) => setIsAvailable(e.target.value)} />
+                <HelperText />
+              </FormControl>
+            </div>
           </div>
 
           <Button

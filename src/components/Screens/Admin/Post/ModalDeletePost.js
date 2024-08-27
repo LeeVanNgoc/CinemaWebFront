@@ -43,7 +43,7 @@ export default function ModalDeletePost({ isOpen, handleOpen, handleClose }) {
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Xóa vé mã = {post.postCode}?
+            Xóa bài viết {post.postCode}?
           </h1>
           <div style={{ display: "flex", gap: "10px" }}>
             <Button

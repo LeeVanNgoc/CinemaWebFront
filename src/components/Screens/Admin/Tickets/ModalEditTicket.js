@@ -81,7 +81,7 @@ export default function ModalEditTicket({ isOpen, handleOpen, handleClose }) {
               <StyledInput readOnly />
               <HelperText />
             </FormControl>
-
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
             <FormControl value={ticket.seats} required sx={{ flex: 1 }}>
               <Label>Ghế</Label>
               <StyledInput onChange={(e) => setSeats(e.target.value)} />
@@ -99,6 +99,7 @@ export default function ModalEditTicket({ isOpen, handleOpen, handleClose }) {
               />
               <HelperText />
             </FormControl>
+            </div>
 
             {/* <Paragraph>Thanh toán</Paragraph>
             <Select
@@ -109,18 +110,19 @@ export default function ModalEditTicket({ isOpen, handleOpen, handleClose }) {
               <Option value="cash">cash</Option>
               <Option value="cost">cost</Option>
             </Select> */}
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl value={ticket.bank} required sx={{ flex: 1 }}>
+                <Label>Thanh toán</Label>
+                <StyledInput onChange={(e) => setBank(e.target.value)} />
+                <HelperText />
+              </FormControl>
 
-            <FormControl value={ticket.bank} required sx={{ flex: 1 }}>
-              <Label>Thanh toán</Label>
-              <StyledInput onChange={(e) => setBank(e.target.value)} />
-              <HelperText />
-            </FormControl>
-
-            <FormControl value={ticket.totalPrice} required sx={{ flex: 1 }}>
-              <Label>Tổng đơn</Label>
-              <StyledInput onChange={(e) => setTotalPrice(e.target.value)} />
-              <HelperText />
-            </FormControl>
+              <FormControl value={ticket.totalPrice} required sx={{ flex: 1 }}>
+                <Label>Tổng đơn</Label>
+                <StyledInput onChange={(e) => setTotalPrice(e.target.value)} />
+                <HelperText />
+              </FormControl>
+          </div>
           </div>
 
           <Button
