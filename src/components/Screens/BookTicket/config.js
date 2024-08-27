@@ -121,7 +121,7 @@ export const handleCreateTicket = async (
         totalPrice: totalPrice,
       },
     });
-    toast.success(response.message);
+    toast.success("Đặt vé thành công!");
     return response;
   } catch (error) {
     console.error("Error creating ticket:", error);

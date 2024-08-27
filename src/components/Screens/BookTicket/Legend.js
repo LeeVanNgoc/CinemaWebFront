@@ -4,6 +4,14 @@ import ClearIcon from "@mui/icons-material/Clear";
 const Legend = () => (
   <div className="legend-container">
     <div className="flex items-center mx-2">
+      <div className="w-6 h-6 bg-slate-400 mr-2">
+        <span className="text-white text-xl font-bold">
+          <ClearIcon />
+        </span>
+      </div>{" "}
+      Ghế hỏng
+    </div>
+    <div className="flex items-center mx-2">
       <div className="w-6 h-6 bg-slate-600 mr-2"></div> Ghế thường
     </div>
     <div className="flex items-center mx-2">
