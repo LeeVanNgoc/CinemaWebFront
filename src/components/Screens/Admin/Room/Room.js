@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useSelector } from "react";
 
 import { TablePagination } from "@mui/base/TablePagination";
 import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
@@ -27,11 +27,13 @@ import { StyledInput, HelperText } from "./style";
 import ModalAddRoom from "./ModalAddRoom";
 import ModalEditRoom from "./ModalEditRoom";
 import ModalScreenSeat from "./ModalScreenSeats";
+import { setRender } from "../../../../redux/renderAction";
 
 export const Rooms = () => {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
   const [query, setQuery] = useState("");
+  const isRender = useSelector((state) => state.render.isRender);
 
   const [openAddSeat, setOpenAddRoom] = useState(false);
   const [openEditRoom, setOpenEditRoom] = useState(false);
@@ -127,8 +129,17 @@ export const Rooms = () => {
       }
     };
 
-    fetchRooms();
-  }, []);
+    if (rooms.length === 0) {
+      fetchRooms();
+    }
+
+    if (isRender) {
+      fetchRooms();
+      setTimeout(() => {
+        dispatch(setRender(false));
+      }, 0);
+    }
+  }, [isRender]);
 
   return (
     <div>

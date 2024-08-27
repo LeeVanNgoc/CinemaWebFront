@@ -39,10 +39,12 @@ export default function MovieCard(status) {
         if (movie.movieCode) {
           try {
             const res = await handleGetGenresForMovie(movie.movieCode);
-            if (res && res.movieGenre && res.movieGenre.length > 0) {
+            if (res && res.movieGenre) {
               setGenres((prevGenres) => ({
                 ...prevGenres,
-                [movie.movieCode]: res.movieGenre.map((item) => item.name).join(", "),
+                [movie.movieCode]: res.movieGenre
+                  .map((item) => item.name)
+                  .join(", "),
               }));
             }
           } catch (error) {
@@ -52,7 +54,7 @@ export default function MovieCard(status) {
       }
     };
 
-    if (movies.length > 0) {
+    if (movies) {
       fetchGenresForAllMovies();
     }
   }, [movies]);
@@ -96,7 +98,7 @@ export default function MovieCard(status) {
                   />
                   <CardContent>
                     <Typography variant="body2" color="grey">
-                      {genres[movie.movieCode]  || "Đang tải..."}
+                      {genres[movie.movieCode] || "Đang tải..."}
                     </Typography>
                     <Typography variant="body2" color="grey">
                       {movie.releaseDate.split("T")[0]}
