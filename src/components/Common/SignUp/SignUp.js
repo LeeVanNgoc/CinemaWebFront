@@ -54,6 +54,7 @@ export default function Signup({
       city: "Không xác định",
     };
     dispatch(handleCreateUser(formattedData));
+    switchToSignIn();
   };
 
   return (
