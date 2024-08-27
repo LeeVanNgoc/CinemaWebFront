@@ -117,17 +117,27 @@ const SeatMap = (isWeekend) => {
                         <span
                           key={`seat-${s.seatCode}`}
                           className={`m-1 text-white rounded-md px-3 py-1 ${
-                            bookedSeats.includes(`${s.row}${s.col}`)
+                            bookedSeats.includes(`${s.row}${s.col}`) &&
+                            s.type === "Sweetbox"
+                              ? "bg-gray-500 w-20"
+                              : bookedSeats.includes(`${s.row}${s.col}`)
                               ? "bg-gray-500"
+                              : !s.isAvailable
+                              ? "bg-slate-400"
+                              : selectedSeats.includes(`${s.row}${s.col}`) &&
+                                s.type === "Sweetbox"
+                              ? "bg-blue-500 w-20"
                               : selectedSeats.includes(`${s.row}${s.col}`)
                               ? "bg-blue-500"
                               : s.type === "VIP"
                               ? "bg-orange-500"
                               : s.type === "Sweetbox"
-                              ? "bg-red-500"
+                              ? "bg-red-500 w-20"
                               : "bg-slate-600"
                           } ${
                             bookedSeats.includes(`${s.row}${s.col}`)
+                              ? "cursor-not-allowed"
+                              : !s.isAvailable
                               ? "cursor-not-allowed"
                               : "cursor-pointer"
                           }`}
@@ -135,7 +145,8 @@ const SeatMap = (isWeekend) => {
                             handleClickSeat(`${s.row}${s.col}`, s.type)
                           }
                         >
-                          {bookedSeats.includes(`${s.row}${s.col}`) ? (
+                          {bookedSeats.includes(`${s.row}${s.col}`) ||
+                          !s.isAvailable ? (
                             <ClearIcon />
                           ) : (
                             `${s.row}${s.col}`

@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import { BarChart } from "@mui/x-charts/BarChart";
-import { axisClasses } from "@mui/x-charts/ChartsAxis";
 import { handleGetMovieRevenue } from "./config";
 import "./ScreeningCount.scss";
-import { width } from "@mui/system";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 export default function MovieRevenue() {
   const [data, setData] = useState([]);
 
   const [startDate, setStartDate] = useState("2024-08-01");
   const [endDate, setEndDate] = useState("2024-08-31");
-
-  const [tickPlacement] = useState("middle");
-  const [tickLabelPlacement] = useState("middle");
-
-  const valueFormatter = (value) => `${value}đ`;
 
   const fetchMovieRevenue = async (startDate, endDate) => {
     const res = await handleGetMovieRevenue(startDate, endDate);
@@ -34,33 +36,10 @@ export default function MovieRevenue() {
     fetchMovieRevenue(startDate, endDate);
   }, [startDate, endDate]);
 
-  const chartSetting = {
-    yAxis: [
-      {
-        label: "Doanh thu (đ)",
-      },
-    ],
-    series: [
-      {
-        dataKey: "totalRevenue",
-        label: `Doanh thu từ ${startDate} đến ${endDate}`,
-        valueFormatter,
-      },
-    ],
-    height: 300,
-    sx: {
-      [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
-        transform: "translateX(-10px) translateY(-10px) rotate(-270deg)",
-        transformOrigin: "top left",
-        fill: "#bfcfe7",
-      },
-    },
-  };
-
   return (
     <div
-      className="ml-30 rounded-md p-3 shadow-lg shadow-stone-950"
-      style={{ backgroundColor: "#3D3B40" }}
+      className="ml-30 rounded-2xl p-3 shadow-lg shadow-stone-950"
+      style={{ background: "linear-gradient(to bottom, #262C36, #1B1E24)" }}
     >
       <Stack direction="row" spacing={1} className="flex justify-end">
         <TextField
@@ -78,18 +57,33 @@ export default function MovieRevenue() {
           onChange={(event) => setEndDate(event.target.value)}
         />
       </Stack>
-      <BarChart
-        dataset={data}
-        xAxis={[
-          {
-            scaleType: "band",
-            dataKey: "movieTitle",
-            tickPlacement,
-            tickLabelPlacement,
-          },
-        ]}
-        {...chartSetting}
-      />
+
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={data}>
+          <XAxis dataKey="movieTitle" />
+          <YAxis
+            type="number"
+            domain={[0, "dataMax"]}
+            tickFormatter={(value) => value.toString().slice(0, -3)}
+            label={{
+              value: "(Nghìn đồng)",
+              offset: -28,
+              angle: 0,
+              position: "insideTop",
+              dx: 20,
+            }}
+          />
+          {/* <CartesianGrid strokeDasharray="3 3" /> */}
+          <Tooltip />
+          <Legend layout="horizontal" verticalAlign="top" />
+          <Line
+            type="monotone"
+            dataKey="totalRevenue"
+            name="Doanh thu phim"
+            stroke="#8884d8"
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 }

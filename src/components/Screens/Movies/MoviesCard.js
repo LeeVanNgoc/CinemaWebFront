@@ -10,22 +10,28 @@ import {
   Grid,
 } from "@mui/material";
 import { setSelectedMovie } from "../Admin/Movie/redux/actions/movieActions";
-import { fetchMoviesByDate } from "../Home/redux/actions/movieDetailActions";
+import {
+  clearMovies,
+  fetchMoviesByDateAndTheater,
+} from "../Home/redux/actions/movieDetailActions";
 
 const MoviesCard = (query) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const movies = useSelector((state) => state.home.movies);
+  const theater = useSelector((state) => state.theaterHeader.theater);
+  const movies = useSelector((state) => state.home.movieScreens);
+  const errMess = useSelector((state) => state.home.errorMessage);
   const dateScreen = useSelector((state) => state.userBookTicket.date);
 
   useEffect(() => {
     const fetchMovies = async () => {
-      dispatch(fetchMoviesByDate(dateScreen));
+      dispatch(fetchMoviesByDateAndTheater(theater, dateScreen));
     };
 
     fetchMovies();
-  }, [dateScreen]);
+    dispatch(clearMovies());
+  }, [theater, dateScreen]);
 
   const handleClick = (movie) => {
     dispatch(setSelectedMovie(movie));
@@ -34,8 +40,12 @@ const MoviesCard = (query) => {
 
   return (
     <Grid container spacing={1}>
-      {movies &&
+      {movies && movies.length > 0 ? (
         movies
+          .filter(
+            (movie, index, self) =>
+              index === self.findIndex((m) => m.movieCode === movie.movieCode)
+          )
           .filter((movie) => {
             if (query.query === "") {
               return movies;
@@ -51,7 +61,7 @@ const MoviesCard = (query) => {
               <Card
                 sx={{
                   maxHeight: "fit-content",
-                  height: "280px",
+                  height: "250px",
                   bgcolor: "grey.900",
                   color: "white",
                   margin: "10px",
@@ -77,20 +87,19 @@ const MoviesCard = (query) => {
                     <Typography variant="caption" color="grey.500">
                       {movie.genreName} - {movie.duration} phút
                     </Typography>
-                    {/* <Chip
-                      label="2D"
+                    <Chip
+                      label={movie.roomType}
                       size="small"
                       sx={{ bgcolor: "grey.700", color: "white" }}
-                    /> */}
+                    />
                   </Grid>
-                  <div className="flex flex-col align-middle">
+                  <div className="flex flex-col h-full align-middle gap-3">
                     <Typography gutterBottom variant="h6" component="div">
                       {movie.title}
                     </Typography>
                     <Typography variant="body2" color="white">
                       Xuất xứ: {movie.country}
-                    </Typography>
-                    <Typography variant="body2" color="white">
+                      <br />
                       Khởi chiếu: {movie.releaseDate.slice(0, 10)}
                     </Typography>
                     <Typography variant="body2" color="red">
@@ -100,7 +109,10 @@ const MoviesCard = (query) => {
                 </CardContent>
               </Card>
             </Grid>
-          ))}
+          ))
+      ) : (
+        <div className=" w-full box-border translate-x-0">{errMess}</div>
+      )}
     </Grid>
   );
 };

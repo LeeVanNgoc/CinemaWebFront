@@ -14,6 +14,7 @@ export default function TotalRenvenue() {
     decoded = jwtDecode(localStorage.token);
   }
 
+  // Tổng doanh thu 1 rạp
   const fetchRevenue = async () => {
     const res = await handleGetTotalRevenue(
       decoded.theaterCode,
@@ -26,12 +27,13 @@ export default function TotalRenvenue() {
     }
   };
 
+  // Tổng doanh thu 3 rạp
   const fetchAllRevenue = async () => {
     const res = await handleGetTotalRevenueAllTheater(
       "2024-08-01",
       "2024-08-31"
     );
-    console.log("revenue data: ", res);
+    console.log("revenue all: ", res);
     if (res) {
       setData(res.totalRevenue);
     }
@@ -47,9 +49,15 @@ export default function TotalRenvenue() {
   }, []);
 
   return (
-    <div className="text-white box-border translate-y-6">
-      {data && <p className="font-bold text-2xl">{data}đ</p>}
-      <p>Tổng doanh thu rạp {decoded.city}</p>
+    <div
+      className=" box-border translate-y-6 rounded-2xl p-6 text-white flex flex-row gap-3"
+      style={{ background: "linear-gradient(to bottom, #262C36, #1B1E24)" }}
+    >
+      <img src={require("../Dashboard/assets/revenue.png")} className="w-16" />
+      <div className="flex flex-col">
+        {data && <p className="font-bold text-2xl">{data}đ</p>}
+        <p>Tổng doanh thu rạp {decoded.city}</p>
+      </div>
     </div>
   );
 }

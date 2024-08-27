@@ -94,3 +94,37 @@ export const handleGetMovieRevenue = async (startDate, endDate) => {
     }
   }
 };
+
+export const handleGetAvgAge = async () => {
+  try {
+    const response = await axios.get("/api/ticket/get-average-age-of-user");
+    return response;
+  } catch (error) {
+    console.error("Error handling:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
+export const handleGetAvgAgeInTheater = async (theaterCode) => {
+  try {
+    const response = await axios.get("/api/ticket/average-age-by-theater", {
+      params: { theaterCode: theaterCode },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error handling:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};

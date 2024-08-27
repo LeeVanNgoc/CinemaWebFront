@@ -122,7 +122,7 @@ export const Theaters = () => {
       console.log("res list theaters >>>", res);
       if (res && res.theaters) {
         const formattedData = res.theaters
-          .filter((item) => item.theaterCode.includes(decoded.theaterCode))
+          .filter((item) => item.city.includes(decoded.city))
           .map((item) => ({
             theaterCode: item.theaterCode,
             name: item.name,

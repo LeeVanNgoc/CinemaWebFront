@@ -49,7 +49,7 @@ export default function FinalTicket() {
   const [isSignInOpen, setSignInOpen] = useState(false);
   const [isSignUpOpen, setSignUpOpen] = useState(false);
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -92,15 +92,9 @@ export default function FinalTicket() {
           totalBill
         );
         dispatch(clearStartTimeAndRoom());
-        alert("Đặt vé thành công!");
         console.log("create ticket: ", res);
         localStorage.setItem("ticketCode", res.newTickets.ticketCode);
         await createBookedSeats(res.newTickets.ticketCode);
-
-        if (res && res.errCode === 0) {
-          setOpen(true);
-        }
-        toast.success("Đặt vé thành công!");
         navigate("/myticket");
       } catch (error) {
         console.error("Error booking ticket:", error);

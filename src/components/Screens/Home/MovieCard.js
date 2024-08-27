@@ -7,17 +7,16 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  getMovies,
-  setSelectedMovie,
-} from "../Admin/Movie/redux/actions/movieActions";
+import { setSelectedMovie } from "../Admin/Movie/redux/actions/movieActions";
 import { handleGetGenresForMovie } from "../Admin/Genre/config";
 import "./MovieCard.scss";
+import { fetchMoviesByTheater } from "./redux/actions/movieDetailActions";
 
 export default function MovieCard(status) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const movies = useSelector((state) => state.manageMovies.movies.movies);
+  const theater = useSelector((state) => state.theaterHeader.theater);
+  const movies = useSelector((state) => state.home.moviesInTheater);
   const [genres, setGenres] = useState({});
 
   const handleClick = (movie) => {
@@ -27,11 +26,11 @@ export default function MovieCard(status) {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      dispatch(getMovies());
+      dispatch(fetchMoviesByTheater(theater));
     };
 
     fetchMovies();
-  }, []);
+  }, [theater]);
 
   useEffect(() => {
     const fetchGenresForAllMovies = async () => {
@@ -39,10 +38,12 @@ export default function MovieCard(status) {
         if (movie.movieCode) {
           try {
             const res = await handleGetGenresForMovie(movie.movieCode);
-            if (res && res.movieGenre && res.movieGenre.length > 0) {
+            if (res && res.movieGenre) {
               setGenres((prevGenres) => ({
                 ...prevGenres,
-                [movie.movieCode]: res.movieGenre.map((item) => item.name).join(", "),
+                [movie.movieCode]: res.movieGenre
+                  .map((item) => item.name)
+                  .join(", "),
               }));
             }
           } catch (error) {
@@ -52,10 +53,10 @@ export default function MovieCard(status) {
       }
     };
 
-    if (movies.length > 0) {
+    if (movies && movies.length > 0) {
       fetchGenresForAllMovies();
     }
-  }, [movies]);
+  }, []);
 
   return (
     <Grid container spacing={3}>
@@ -81,7 +82,7 @@ export default function MovieCard(status) {
               <Card
                 className="image-card"
                 sx={{
-                  width: "100%", // Đảm bảo card chiếm hết chiều rộng của grid item
+                  width: "100%",
                   backgroundColor: "transparent",
                   color: "white",
                 }}
@@ -96,7 +97,7 @@ export default function MovieCard(status) {
                   />
                   <CardContent>
                     <Typography variant="body2" color="grey">
-                      {genres[movie.movieCode]  || "Đang tải..."}
+                      {genres[movie.movieCode] || "Đang tải..."}
                     </Typography>
                     <Typography variant="body2" color="grey">
                       {movie.releaseDate.split("T")[0]}
