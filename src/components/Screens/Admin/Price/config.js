@@ -37,13 +37,14 @@ const handleGetPriceByCode = async (priceCode) => {
   }
 };
 
-const handleCreatePrice = async (cost, roomType, seatType, isWeekend) => {
+const handleCreatePrice = async (cost, roomType, seatType, timeFrame, isWeekend) => {
   try {
     const response = await axios.post("/api/prices/create-price/", null, {
       params: {
         cost: cost,
         roomType: roomType,
         seatType: seatType,
+        timeFrame: timeFrame,
         isWeekend: isWeekend,
       },
     });

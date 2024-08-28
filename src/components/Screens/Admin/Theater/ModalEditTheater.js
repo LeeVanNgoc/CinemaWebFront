@@ -70,33 +70,36 @@ export default function ModalEditTheater({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue={theater.theaterCode} aria-readonly>
-              <Label>Mã rạp</Label>
-              <StyledInput readOnly />
-              <HelperText />
-            </FormControl>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue={theater.theaterCode} aria-readonly>
+                <Label>Mã rạp</Label>
+                <StyledInput readOnly />
+                <HelperText />
+              </FormControl>
 
-            <FormControl defaultValue={theater.name} required sx={{ flex: 1 }}>
-              <Label>Tên rạp</Label>
-              <StyledInput onChange={(e) => setName(e.target.value)} />
-              <HelperText />
-            </FormControl>
+              <FormControl defaultValue={theater.name} required sx={{ flex: 1 }}>
+                <Label>Tên rạp</Label>
+                <StyledInput onChange={(e) => setName(e.target.value)} />
+                <HelperText />
+              </FormControl>
+            </div>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl
+                defaultValue={theater.address}
+                required
+                sx={{ flex: 1 }}
+              >
+                <Label>Địa chỉ</Label>
+                <StyledInput onChange={(e) => setAddress(e.target.value)} />
+                <HelperText />
+              </FormControl>
 
-            <FormControl
-              defaultValue={theater.address}
-              required
-              sx={{ flex: 1 }}
-            >
-              <Label>Địa chỉ</Label>
-              <StyledInput onChange={(e) => setAddress(e.target.value)} />
-              <HelperText />
-            </FormControl>
-
-            <FormControl defaultValue={theater.city} required sx={{ flex: 1 }}>
-              <Label>Thành phố</Label>
-              <StyledInput readOnly />
-              <HelperText />
-            </FormControl>
+              <FormControl defaultValue={theater.city} required sx={{ flex: 1 }}>
+                <Label>Thành phố</Label>
+                <StyledInput readOnly />
+                <HelperText />
+              </FormControl>
+              </div>
           </div>
 
           <Button

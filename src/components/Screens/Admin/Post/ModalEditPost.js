@@ -58,7 +58,7 @@ export default function ModalEditPost({ isOpen, handleOpen, handleClose }) {
             className="edit-modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Cập nhật giá vé
+            Sửa bài viết
           </h1>
           <div
             style={{
@@ -68,35 +68,41 @@ export default function ModalEditPost({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue={post.postCode} aria-readonly>
-              <Label>Mã tin tức</Label>
-              <StyledInput readOnly />
-              <HelperText />
-            </FormControl>
-
-            <FormControl defaultValue={post.title} required sx={{ flex: 1 }}>
-              <Label>Tên tin tức</Label>
-              <StyledInput onChange={(e) => setTitle(e.target.value)} />
-              <HelperText />
-            </FormControl>
-
-            <FormControl defaultValue={post.content} required sx={{ flex: 1 }}>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue={post.postCode} aria-readonly>
+                <Label>Mã tin tức</Label>
+                <StyledInput readOnly />
+                <HelperText />
+              </FormControl>
+              <FormControl defaultValue={post.title} required sx={{ flex: 1 }}>
+                <Label>Tên tin tức</Label>
+                <StyledInput onChange={(e) => setTitle(e.target.value)} />
+                <HelperText />
+              </FormControl>
+            </div>
+            <FormControl defaultValue={post.content} required>
               <Label>Nội dung</Label>
-              <StyledInput onChange={(e) => setContent(e.target.value)} />
+              <StyledInput
+                as="textarea"
+                rows={4}
+                defaultValue={post.content}
+                onChange={(e) => setContent(e.target.value)}
+              />
               <HelperText />
             </FormControl>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue={post.image} required sx={{ flex: 1 }}>
+                <Label>Hình ảnh</Label>
+                <StyledInput onChange={(e) => setImage(e.target.value)} />
+                <HelperText />
+              </FormControl>
 
-            <FormControl defaultValue={post.image} required sx={{ flex: 1 }}>
-              <Label>Hình ảnh</Label>
-              <StyledInput onChange={(e) => setImage(e.target.value)} />
-              <HelperText />
-            </FormControl>
-
-            <FormControl defaultValue={post.link} required sx={{ flex: 1 }}>
-              <Label>Đường dẫn</Label>
-              <StyledInput onChange={(e) => setLink(e.target.value)} />
-              <HelperText />
-            </FormControl>
+              <FormControl defaultValue={post.link} required sx={{ flex: 1 }}>
+                <Label>Đường dẫn</Label>
+                <StyledInput onChange={(e) => setLink(e.target.value)} />
+                <HelperText />
+              </FormControl>
+            </div>
           </div>
 
           <Button

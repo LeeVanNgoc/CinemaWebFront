@@ -70,37 +70,40 @@ export default function ModalEditRoom({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue={room.roomCode} aria-readonly>
-              <Label>Mã phòng</Label>
-              <StyledInput readOnly />
-              <HelperText />
-            </FormControl>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue={room.roomCode} aria-readonly>
+                <Label>Mã phòng</Label>
+                <StyledInput readOnly />
+                <HelperText />
+              </FormControl>
 
-            <FormControl
-              defaultValue={room.theaterCode}
-              aria-readonly
-              sx={{ flex: 1 }}
-            >
-              <Label>Rạp</Label>
-              <StyledInput readOnly />
-              <HelperText />
-            </FormControl>
+              <FormControl
+                defaultValue={room.theaterCode}
+                aria-readonly
+                sx={{ flex: 1 }}
+              >
+                <Label>Rạp</Label>
+                <StyledInput readOnly />
+                <HelperText />
+              </FormControl>
+            </div>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue={room.type} required sx={{ flex: 1 }}>
+                <Label>Loại phòng</Label>
+                <StyledInput onChange={(e) => setType(e.target.value)} />
+                <HelperText />
+              </FormControl>
 
-            <FormControl defaultValue={room.type} required sx={{ flex: 1 }}>
-              <Label>Loại phòng</Label>
-              <StyledInput onChange={(e) => setType(e.target.value)} />
-              <HelperText />
-            </FormControl>
-
-            <FormControl
-              defaultValue={room.isAvailable}
-              required
-              sx={{ flex: 1 }}
-            >
-              <Label>Trạng thái</Label>
-              <StyledInput onChange={(e) => setIsAvailable(e.target.value)} />
-              <HelperText />
-            </FormControl>
+              <FormControl
+                defaultValue={room.isAvailable}
+                required
+                sx={{ flex: 1 }}
+              >
+                <Label>Trạng thái</Label>
+                <StyledInput onChange={(e) => setIsAvailable(e.target.value)} />
+                <HelperText />
+              </FormControl>
+            </div>
           </div>
 
           <Button
