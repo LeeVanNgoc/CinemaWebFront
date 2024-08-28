@@ -1,6 +1,29 @@
 import axios from "../../../../axios";
 
-export const handleScreeningCount = async (month, year) => {
+export const handleGetListTicketByTheater = async (theaterCode) => {
+  try {
+    const response = await axios.get(
+      "/api/ticket/get-list-tickets-by-theater",
+      {
+        params: {
+          theaterCode: theaterCode,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error handling list ticket:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
+export const handleScreeningCount = async (month, year, theaterCode) => {
   try {
     const response = await axios.get(
       "/api/plan-screen-movie/get-monthly-movie-stats",
@@ -8,6 +31,7 @@ export const handleScreeningCount = async (month, year) => {
         params: {
           month: month,
           year: year,
+          theaterCode: theaterCode,
         },
       }
     );

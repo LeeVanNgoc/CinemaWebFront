@@ -14,6 +14,7 @@ import UserAccount from "../components/Screens/Account/UserAccount";
 import Bill from "../components/Screens/BookTicket/Bill";
 import ForgotPassword from "../components/Common/SignIn/ForgotPassword/ForgotPassword";
 import AdminView from "../components/Screens/Admin/Dashboard/AdminView";
+import TicketHistory from "../components/Screens/Account/TicketHistory";
 
 const AppRoutes = () => {
   return (
@@ -22,6 +23,7 @@ const AppRoutes = () => {
         {/* user */}
         <Route path="/" element={<Home />} />
         <Route path="/account" element={<UserAccount />} />
+        <Route path="/history" element={<TicketHistory />} />
         <Route path="/movies" element={<Movies />} />
         <Route path="/bookticket" element={<BookTicket />} />
         <Route path="/finalticket" element={<FinalTicket />} />

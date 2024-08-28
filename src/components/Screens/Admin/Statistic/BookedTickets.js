@@ -1,25 +1,46 @@
 import { useEffect, useState } from "react";
 import { handleGetListTickets } from "../Tickets/config";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import { jwtDecode } from "jwt-decode";
+import { handleGetListTicketByTheater } from "./config";
 
 export default function BookedTickets() {
   const [tickets, setTickets] = useState(0);
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
+  const fetchTickets = async () => {
+    try {
+      let res = await handleGetListTickets();
+      console.log("res list tickets >>>", res);
+      if (res && res.tickets) {
+        const formattedData = res.tickets.length;
+        setTickets(formattedData);
+      }
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+    }
+  };
+
+  const fetchTicketsByTheater = async (theaterCode) => {
+    try {
+      let res = await handleGetListTicketByTheater(theaterCode);
+      if (res && res.tickets) {
+        const formattedData = res.tickets.length;
+        setTickets(formattedData);
+      }
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchTickets = async () => {
-      try {
-        let res = await handleGetListTickets();
-        console.log("res list tickets >>>", res);
-        if (res && res.tickets) {
-          const formattedData = res.tickets.length;
-          setTickets(formattedData);
-        }
-      } catch (error) {
-        console.error("Error fetching tickets:", error);
-      }
-    };
-
-    fetchTickets();
+    if (decoded.theaterCode) {
+      fetchTicketsByTheater(decoded.theaterCode);
+    } else {
+      fetchTickets();
+    }
   }, []);
 
   return (

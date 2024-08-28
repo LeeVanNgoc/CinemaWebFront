@@ -2,17 +2,31 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getMovies } from "../Movie/redux/actions/movieActions";
 import MovieFilterIcon from "@mui/icons-material/MovieFilter";
+import { jwtDecode } from "jwt-decode";
+import { fetchMoviesByTheater } from "../../Home/redux/actions/movieDetailActions";
 
 export default function TotalMovies() {
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.manageMovies.movies.movies);
+  const moviesInTheater = useSelector((state) => state.home.moviesInTheater);
+
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
+  const fetchMovies = async () => {
+    dispatch(getMovies());
+  };
+  const fetchMoviesInTheater = async (theaterCode) => {
+    dispatch(fetchMoviesByTheater(theaterCode));
+  };
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      dispatch(getMovies());
-    };
-
-    fetchMovies();
+    if (decoded.theaterCode) {
+      fetchMoviesInTheater(decoded.theaterCode);
+    } else {
+      fetchMovies();
+    }
   }, []);
 
   return (
@@ -22,7 +36,11 @@ export default function TotalMovies() {
     >
       <MovieFilterIcon sx={{ fontSize: "4rem", color: "yellow" }} />
       <div className="flex flex-col text-sm">
-        {movies && <p className="font-bold text-2xl">{movies.length}</p>}
+        {!decoded.theaterCode && movies ? (
+          <p className="font-bold text-2xl">{movies.length}</p>
+        ) : moviesInTheater ? (
+          <p className="font-bold text-2xl">{moviesInTheater.length}</p>
+        ) : null}
         <span>Phim đang chiếu</span>
       </div>
     </div>

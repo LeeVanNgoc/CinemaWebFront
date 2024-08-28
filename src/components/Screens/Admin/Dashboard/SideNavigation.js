@@ -138,7 +138,7 @@ export default function SideNavigation({ open, handleDrawerClose }) {
             Active
           </Chip>
           <Typography fontSize="xs" sx={{ color: "#fff" }}>
-            Last update: 22/12/22
+            Last update: 29/08/2024
           </Typography>
         </CardContent>
       </Card>
