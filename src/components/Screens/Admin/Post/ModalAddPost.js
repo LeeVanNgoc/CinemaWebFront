@@ -88,6 +88,10 @@ export default function ModalAddPost({ isOpen, handleOpen, handleClose }) {
                 rows={4}
                 onChange={(e) => setContent(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
+                sx={{ 
+                  border: "1px solid lightgray", 
+                  borderRadius: "10px",
+                }}
               />
               <HelperText />
             </FormControl>
