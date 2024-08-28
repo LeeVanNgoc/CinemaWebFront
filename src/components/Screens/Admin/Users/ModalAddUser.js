@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FormControl } from "@mui/base/FormControl";
-import Button from "@mui/material/Button";
+import { Button, Autocomplete, TextField } from "@mui/material";
 import {
   TriggerButton,
   StyledInput,
@@ -23,6 +23,8 @@ export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
   const [lastName, setLastName] = useState("");
   const [birthYear, setsetBirthYear] = useState("");
   const [userName, setUserName] = useState("");
+  const [city, setCity] = useState("");
+  const [role, setRole] = useState("");
   const [phonenumber, setPhoneNumer] = useState("");
 
   const handleAddUser = async () => {
@@ -36,7 +38,8 @@ export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
       birthYear,
       userName,
       phonenumber,
-      ""
+      role,
+      city
     );
     handleClose();
     dispatch(setRender(true));
@@ -90,11 +93,21 @@ export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <div style={{ display: "flex", width: "100%" }}>
+            <div style={{ display: "flex", width: "100%", gap: "10px" }}>
               <FormControl defaultValue="" required>
                 <Label>Email</Label>
                 <StyledInput
                   onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={(e) => handleEnter(e)}
+                />
+                <HelperText />
+              </FormControl>
+
+              <FormControl defaultValue="" required sx={{ flex: 1 }}>
+                <Label>Mật khẩu</Label>
+                <StyledInput
+                  // placeholder="Mật khẩu"
+                  onChange={(e) => setPassword(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
                 />
                 <HelperText />
@@ -124,27 +137,6 @@ export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
             </div>
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
               <FormControl defaultValue="" required sx={{ flex: 1 }}>
-                <Label>Mật khẩu</Label>
-                <StyledInput
-                  // placeholder="Mật khẩu"
-                  onChange={(e) => setPassword(e.target.value)}
-                  onKeyDown={(e) => handleEnter(e)}
-                />
-                <HelperText />
-              </FormControl>
-
-              <FormControl defaultValue="" required sx={{ flex: 1 }}>
-                <Label>Năm sinh</Label>
-                <StyledInput
-                  // placeholder="Mật khẩu"
-                  onChange={(e) => setsetBirthYear(e.target.value)}
-                  onKeyDown={(e) => handleEnter(e)}
-                />
-                <HelperText />
-              </FormControl>
-            </div>
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl defaultValue="" required sx={{ flex: 1 }}>
                 <Label>Tên tài khoản</Label>
                 <StyledInput
                   // placeholder="Mật khẩu"
@@ -160,6 +152,55 @@ export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
                   // placeholder="Mật khẩu"
                   onChange={(e) => setPhoneNumer(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
+                />
+                <HelperText />
+              </FormControl>
+            </div>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue="" required sx={{ flex: 1 }}>
+                <Label>Năm sinh</Label>
+                <StyledInput
+                  // placeholder="Mật khẩu"
+                  onChange={(e) => setsetBirthYear(e.target.value)}
+                  onKeyDown={(e) => handleEnter(e)}
+                />
+                <HelperText />
+              </FormControl>
+
+              <FormControl defaultValue="" required sx={{ flex: 1 }}>
+                <Label>Vai trò</Label>
+                <Autocomplete
+                  sx={{ width: "200px" }}
+                  options={["Admin", "User"]}
+                  onChange={(e, value) => setRole(value)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Select role"
+                      size="small"
+                      sx={{ height: "20px" }}
+                    />
+                  )}
+                />
+                <HelperText />
+              </FormControl>
+            </div>
+
+            <div style={{ display: "flex" }}>
+              <FormControl defaultValue="" required sx={{ flex: 1 }}>
+                <Label>City</Label>
+                <Autocomplete
+                  sx={{ width: "200px" }}
+                  options={["Hà Nội", "Đà Nẵng", "Hồ Chí Minh", "None"]}
+                  onChange={(e, value) => setRole(value)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Select city"
+                      size="small"
+                      sx={{ height: "20px" }}
+                    />
+                  )}
                 />
                 <HelperText />
               </FormControl>

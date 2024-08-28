@@ -55,7 +55,7 @@ const handleCreateUser = async (
         birthYear: birthYear,
         userName: userName,
         phonenumber: phonenumber,
-        city: "Hà Nội",
+        city: city,
       },
     });
     toast.success(response.message);

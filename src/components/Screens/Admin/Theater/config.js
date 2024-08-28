@@ -42,15 +42,11 @@ const handleGetTheaterByCode = async (theaterCode) => {
 
 const handleGetTheaterByCity = async (city) => {
   try {
-    const response = await axios.get(
-      "/api/theater/get-theaters-by-city",
-      null,
-      {
-        params: {
-          city: city,
-        },
-      }
-    );
+    const response = await axios.get("/api/theater/get-theaters-by-city", {
+      params: {
+        city: city,
+      },
+    });
     return response;
   } catch (error) {
     console.error("Error getting theater by city:", error);

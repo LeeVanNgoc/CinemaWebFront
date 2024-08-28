@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useSelector } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 import { TablePagination } from "@mui/base/TablePagination";
 import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
@@ -27,10 +28,20 @@ import { StyledInput, HelperText } from "./style";
 import ModalAddRoom from "./ModalAddRoom";
 import ModalEditRoom from "./ModalEditRoom";
 import ModalScreenSeat from "./ModalScreenSeats";
+
+import { handleGetTheaterByCity } from "../Theater/config";
 import { setRender } from "../../../../redux/renderAction";
+import { jwtDecode } from "jwt-decode";
 
 export const Rooms = () => {
   const dispatch = useDispatch();
+
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+    console.log(decoded);
+  }
+
   const [rooms, setRooms] = useState([]);
   const [query, setQuery] = useState("");
   const isRender = useSelector((state) => state.render.isRender);
@@ -109,26 +120,28 @@ export const Rooms = () => {
     setOrderBy(property);
   };
 
-  useEffect(() => {
-    const fetchRooms = async () => {
-      try {
-        let res = await handleGetAllRooms();
-        console.log("res list rooms >>>", res);
-        if (res && res.roomData) {
-          const formattedData = res.roomData.map((item) => ({
+  const fetchRooms = async () => {
+    try {
+      let res = await handleGetAllRooms();
+      console.log("res list rooms >>>", res);
+      if (res && res.roomData) {
+        const formattedData = res.roomData
+          .filter((item) => item.theaterCode.includes(decoded.theaterCode))
+          .map((item) => ({
             roomCode: item.roomCode,
             theaterCode: item.theaterCode,
             type: item.type,
             totalSeats: item.totalSeats,
             isAvailable: item.isAvailable,
           }));
-          setRooms(formattedData);
-        }
-      } catch (error) {
-        console.error("Error fetching rooms:", error);
+        setRooms(formattedData);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching rooms:", error);
+    }
+  };
 
+  useEffect(() => {
     if (rooms.length === 0) {
       fetchRooms();
     }
