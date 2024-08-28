@@ -11,8 +11,11 @@ import {
   ModalContent,
 } from "./style";
 import { handleCreatePost } from "./config";
+import { useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalAddPost({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState("");
@@ -20,8 +23,8 @@ export default function ModalAddPost({ isOpen, handleOpen, handleClose }) {
 
   const handleAddPost = async () => {
     handleCreatePost(title, content, image, link);
+    dispatch(setRender(true));
     handleClose();
-    window.location.reload();
   };
 
   const handleEnter = (e) => {

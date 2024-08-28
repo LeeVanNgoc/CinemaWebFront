@@ -2,13 +2,16 @@ import React from "react";
 import Button from "@mui/material/Button";
 import { TriggerButton, Modal, StyledBackdrop, ModalContent } from "./style";
 import { handleDeletePost } from "./config";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalDeletePost({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
   const post = useSelector((state) => state.managePosts.selectedPost);
 
   const handleDelete = async () => {
     await handleDeletePost(post.postId);
+    dispatch(setRender(true));
     handleClose();
   };
 

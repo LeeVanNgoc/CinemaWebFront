@@ -2,13 +2,17 @@ import React from "react";
 import Button from "@mui/material/Button";
 import { TriggerButton, Modal, StyledBackdrop, ModalContent } from "./style";
 import { handleDeletePrice } from "./config";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalDeletePrice({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
+
   const price = useSelector((state) => state.managePrices.selectedPrice);
 
   const handleDelete = async () => {
     await handleDeletePrice(price.priceCode);
+    dispatch(setRender(true));
     handleClose();
   };
 

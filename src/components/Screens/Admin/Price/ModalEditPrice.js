@@ -11,9 +11,11 @@ import {
   ModalContent,
 } from "./style";
 import { handleEditPrice } from "./config";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
   const price = useSelector((state) => state.managePrices.selectedPrice);
 
   const [cost, setCost] = useState("");
@@ -34,6 +36,7 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
 
   const handleUpdatePrice = async () => {
     await handleEditPrice(price.priceCode, cost, roomType, seatType, timeFrame, isWeekend);
+    dispatch(setRender(true));
     handleClose();
   };
 
