@@ -12,8 +12,8 @@ import { Manage } from "../components/Screens/Admin/Manage/Manage";
 import FinalTicket from "../components/Screens/BookTicket/FinalTicket";
 import UserAccount from "../components/Screens/Account/UserAccount";
 import Bill from "../components/Screens/BookTicket/Bill";
-import Dashboard from "../components/Screens/Admin/Dashboard/Dashboard";
 import ForgotPassword from "../components/Common/SignIn/ForgotPassword/ForgotPassword";
+import AdminView from "../components/Screens/Admin/Dashboard/AdminView";
 
 const AppRoutes = () => {
   return (
@@ -44,7 +44,7 @@ const AppRoutes = () => {
           path="/dashboard"
           element={
             <PrivateRoute>
-              <Dashboard />
+              <AdminView />
             </PrivateRoute>
           }
         />

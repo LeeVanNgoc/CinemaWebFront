@@ -10,7 +10,6 @@ import "react-toastify/dist/ReactToastify.css";
 // import component
 import AppRoutes from "./routers/AppRoutes";
 import Footer from "./components/Common/Footer/Footer";
-import Header from "./components/Common/Header/Header";
 
 // import redux store
 import store from "./redux/store";
@@ -35,9 +34,8 @@ function App() {
     <React.StrictMode>
       <Provider store={store}>
         <Router>
-          <ScrollToTop />
           <div className="App">
-            <Header />
+            <ScrollToTop />
             <AppRoutes />
             <Footer />
             <ToastContainer />

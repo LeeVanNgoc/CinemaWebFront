@@ -97,7 +97,6 @@ export const handleLoginByOtpRedux = (email, otp) => {
 export const handleLogoutRedux = () => {
   return async (dispatch, getState) => {
     dispatch({ type: USER_LOGOUT });
-    // toast.success("Đăng xuất thành công!");
     localStorage.clear();
     sessionStorage.clear();
   };

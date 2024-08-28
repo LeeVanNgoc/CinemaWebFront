@@ -1,15 +1,16 @@
-import { useState } from "react";
-import AdminNavBar from "../../../Common/Header/AdminNavBar";
-import SideNavigation from "../Dashboard/SideNavigation";
+import React from "react";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import Dashboard from "./Dashboard";
+import { AppBar, Body, DrawerHeader } from "../Manage/utils";
+import { Manage } from "../Manage/Manage";
+import SideNavigation from "./SideNavigation";
+import "./AdminView.scss";
 
-import { AppBar, Body, DrawerHeader } from "./utils";
-
-export const Manage = () => {
-  const [open, setOpen] = useState(false);
+export default function AdminView() {
+  const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -41,10 +42,12 @@ export const Manage = () => {
       <SideNavigation open={open} handleDrawerClose={handleDrawerClose} />
       <Body open={open}>
         <DrawerHeader />
-        <div className="flex flex-row gap-5">
-          <AdminNavBar />
-        </div>
+        {window.location.pathname === "/dashboard" ? (
+          <Dashboard />
+        ) : window.location.pathname === "/manage" ? (
+          <Manage />
+        ) : null}
       </Body>
     </Box>
   );
-};
+}

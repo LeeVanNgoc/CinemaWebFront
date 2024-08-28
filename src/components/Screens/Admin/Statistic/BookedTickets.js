@@ -24,11 +24,11 @@ export default function BookedTickets() {
 
   return (
     <div
-      className=" box-border translate-y-6 rounded-2xl p-6 text-white flex flex-row gap-3"
+      className=" box-border translate-y-6 rounded-2xl p-2 text-white flex flex-row gap-3"
       style={{ background: "linear-gradient(to bottom, #262C36, #1B1E24)" }}
     >
       <ConfirmationNumberIcon sx={{ fontSize: "4rem", color: "orange" }} />
-      <div className="flex flex-col">
+      <div className="flex flex-col text-sm">
         {tickets && <p className="font-bold text-2xl">{tickets}</p>}
         <span>Vé đã đặt</span>
       </div>

@@ -10,6 +10,7 @@ import Brightness1SharpIcon from "@mui/icons-material/Brightness1Sharp";
 import CarouselComponent from "../../Common/Carousel/CarouselComponent";
 import NewsCarousel from "../../Common/Carousel/NewsCarousel";
 import MovieCard from "./MovieCard";
+import Header from "../../Common/Header/Header";
 import "./Home.scss";
 
 const Home = () => {
@@ -17,6 +18,7 @@ const Home = () => {
 
   return (
     <>
+      <Header />
       <CarouselComponent />
 
       <Container>

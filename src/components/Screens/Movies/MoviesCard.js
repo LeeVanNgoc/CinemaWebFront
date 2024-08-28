@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -14,10 +14,13 @@ import {
   clearMovies,
   fetchMoviesByDateAndTheater,
 } from "../Home/redux/actions/movieDetailActions";
+import { handleGetGenresForMovie } from "../Admin/Genre/config";
 
 const MoviesCard = (query) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [genres, setGenres] = useState({});
 
   const theater = useSelector((state) => state.theaterHeader.theater);
   const movies = useSelector((state) => state.home.movieScreens);
@@ -32,6 +35,32 @@ const MoviesCard = (query) => {
     fetchMovies();
     dispatch(clearMovies());
   }, [theater, dateScreen]);
+
+  useEffect(() => {
+    const fetchGenresForAllMovies = async () => {
+      for (const movie of movies) {
+        if (movie.movieCode) {
+          try {
+            const res = await handleGetGenresForMovie(movie.movieCode);
+            if (res && res.movieGenre) {
+              setGenres((prevGenres) => ({
+                ...prevGenres,
+                [movie.movieCode]: res.movieGenre
+                  .map((item) => item.name)
+                  .join(", "),
+              }));
+            }
+          } catch (error) {
+            console.error("Error fetching genres:", error);
+          }
+        }
+      }
+    };
+
+    if (movies && movies.length > 0) {
+      fetchGenresForAllMovies();
+    }
+  }, []);
 
   const handleClick = (movie) => {
     dispatch(setSelectedMovie(movie));
@@ -85,7 +114,8 @@ const MoviesCard = (query) => {
                     alignItems="center"
                   >
                     <Typography variant="caption" color="grey.500">
-                      {movie.genreName} - {movie.duration} phút
+                      {genres[movie.movieCode] || "Đang tải..."} -{" "}
+                      {movie.duration} phút
                     </Typography>
                     <Chip
                       label={movie.roomType}
