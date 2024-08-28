@@ -13,9 +13,9 @@ export const fetchMoviesByDateAndTheater = (theaterCode, date) => {
       console.log("movie by date: ", res);
       if (res && res.errCode === 0) {
         const formattedData = res.schedule.filter(Boolean).map((element) => ({
-          planScreenMovieCode: element.planScreenMovieCode,
-          roomCode: element.roomCode,
-          roomType: element.roomType,
+          planScreenMovieCode: element.screenings.planScreenMovieCode,
+          roomCode: element.screenings[0].roomCode,
+          roomType: element.screenings[0].roomType,
           movieCode: element.movieCode,
           title: element.movieTitle,
           description: element.movieDescription,
@@ -23,8 +23,8 @@ export const fetchMoviesByDateAndTheater = (theaterCode, date) => {
           country: element.movieCountry,
           releaseDate: element.movieReleaseDate,
           image: element.movieImage,
-          startTime: element.startTime,
-          endTime: element.endTime,
+          startTime: element.screenings[0].startTime,
+          endTime: element.screenings[0].endTime,
         }));
         dispatch({
           type: FETCH_MOVIES_BY_DATE_AND_THEATER,

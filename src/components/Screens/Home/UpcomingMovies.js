@@ -7,16 +7,18 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectedMovie } from "../Admin/Movie/redux/actions/movieActions";
+import {
+  getMovies,
+  setSelectedMovie,
+} from "../Admin/Movie/redux/actions/movieActions";
 import { handleGetGenresForMovie } from "../Admin/Genre/config";
 import "./MovieCard.scss";
-import { fetchMoviesByTheater } from "./redux/actions/movieDetailActions";
 
-export default function MovieCard() {
+export default function UpcomingMovies() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theater = useSelector((state) => state.theaterHeader.theater);
-  const movies = useSelector((state) => state.home.moviesInTheater);
+  const movies = useSelector((state) => state.manageMovies.movies.movies);
   const [genres, setGenres] = useState({});
 
   const handleClick = (movie) => {
@@ -26,7 +28,7 @@ export default function MovieCard() {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      dispatch(fetchMoviesByTheater(theater));
+      dispatch(getMovies(theater));
     };
 
     fetchMovies();
@@ -52,6 +54,7 @@ export default function MovieCard() {
         }
       }
     };
+
     if (movies && movies.length > 0) {
       fetchGenresForAllMovies();
     }
@@ -62,11 +65,7 @@ export default function MovieCard() {
       {movies &&
         movies
           .filter((movie) => {
-            // Lọc ra những phim có ngày phát hành trong vòng 2 tháng trở lại so với ngày hiện tại
-            const releaseDate = new Date(movie.releaseDate.split("T")[0]);
-            const daysDifference =
-              (new Date() - releaseDate) / (1000 * 60 * 60 * 24);
-            return releaseDate <= new Date() && daysDifference <= 60
+            return new Date(movie.releaseDate.split("T")[0]) > new Date()
               ? movie
               : null;
           })
