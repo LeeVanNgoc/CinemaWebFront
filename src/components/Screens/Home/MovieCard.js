@@ -55,7 +55,7 @@ export default function MovieCard() {
     if (movies && movies.length > 0) {
       fetchGenresForAllMovies();
     }
-  }, []);
+  }, [theater, movies]);
 
   return (
     <Grid container spacing={3}>

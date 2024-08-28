@@ -59,8 +59,8 @@ export default function SideNavigation({ open, handleDrawerClose }) {
       <Divider sx={{ backgroundColor: "grey" }} />
       <ListItem disablePadding>
         <ListItemButton
-          selected
-          variant="soft"
+          // selected
+          // variant="soft"
           onClick={() => navigate("/dashboard")}
         >
           <ListItemIcon>

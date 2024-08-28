@@ -19,18 +19,20 @@ export default function TicketHistory() {
   const getHistory = async () => {
     let res = await handleGetHistory(userCode);
     if (res && res.errCode === 0 && res.tickets.errCode === 0) {
-      const formattedData = res.tickets.ticketData.map((item) => ({
-        ticketCode: item.ticketCode,
-        userName: item.userName,
-        seats: item.seats,
-        bank: item.bank,
-        totalPrice: item.totalPrice,
-        planMovieCode: item.planMovieCode,
-        roomCode: item.room,
-        movieTitle: item.movieTitle,
-        startTime: item.startTime,
-        dateScreen: item.dateScreen,
-      }));
+      const formattedData = res.tickets.ticketData
+        .map((item) => ({
+          ticketCode: item.ticketCode,
+          userName: item.userName,
+          seats: item.seats,
+          bank: item.bank,
+          totalPrice: item.totalPrice,
+          planMovieCode: item.planMovieCode,
+          roomCode: item.room,
+          movieTitle: item.movieTitle,
+          startTime: item.startTime,
+          dateScreen: item.dateScreen,
+        }))
+        .reverse();
       setHistory(formattedData);
     }
   };

@@ -58,7 +58,7 @@ export default function UpcomingMovies() {
     if (movies && movies.length > 0) {
       fetchGenresForAllMovies();
     }
-  }, []);
+  }, [theater, movies]);
 
   return (
     <Grid container spacing={3}>

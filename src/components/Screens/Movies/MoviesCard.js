@@ -60,7 +60,7 @@ const MoviesCard = (query) => {
     if (movies && movies.length > 0) {
       fetchGenresForAllMovies();
     }
-  }, []);
+  }, [theater, movies]);
 
   const handleClick = (movie) => {
     dispatch(setSelectedMovie(movie));
