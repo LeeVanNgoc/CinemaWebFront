@@ -74,7 +74,7 @@ export default function SideNavigation({ open, handleDrawerClose }) {
           <ListItemIcon>
             <SmsIcon sx={{ color: "#fff" }} />
           </ListItemIcon>
-          Manage
+          Quản lý
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
@@ -82,7 +82,7 @@ export default function SideNavigation({ open, handleDrawerClose }) {
           <ListItemIcon>
             <PersonIcon sx={{ color: "#fff" }} />
           </ListItemIcon>
-          Customer view
+          Giao diện khách hàng
         </ListItemButton>
       </ListItem>
       <Divider sx={{ backgroundColor: "grey" }} />
@@ -95,7 +95,7 @@ export default function SideNavigation({ open, handleDrawerClose }) {
           <ListItemIcon>
             <AccountCircleIcon sx={{ color: "#fff" }} />
           </ListItemIcon>
-          Account
+          Tài khoản
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
@@ -103,7 +103,7 @@ export default function SideNavigation({ open, handleDrawerClose }) {
           <ListItemIcon>
             <LogoutIcon sx={{ color: "#fff" }} />
           </ListItemIcon>
-          Logout
+          Đăng xuất
         </ListItemButton>
       </ListItem>
       <Card
@@ -135,10 +135,10 @@ export default function SideNavigation({ open, handleDrawerClose }) {
             variant="outlined"
             sx={{ alignSelf: "flex-start", mb: 1 }}
           >
-            Active
+            Hoạt động
           </Chip>
           <Typography fontSize="xs" sx={{ color: "#fff" }}>
-            Last update: 29/08/2024
+            Cập nhật lần cuối: 29/08/2024
           </Typography>
         </CardContent>
       </Card>

@@ -127,6 +127,7 @@ export default function UserAccount() {
                     onChange={(e) => setLastName(e.target.value)}
                   />{" "}
                 </FormControl>
+                <Label>Họ</Label>
                 <FormControl
                   defaultValue={info.firstName}
                   required
