@@ -86,7 +86,7 @@ export default function ModalAddRoom({ isOpen, handleOpen, handleClose }) {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Select Theater"
+                      label="Chọn rạp"
                       size="big"
                       sx={{ height: "20px" }}
                     />
@@ -104,7 +104,7 @@ export default function ModalAddRoom({ isOpen, handleOpen, handleClose }) {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Select Type"
+                      label="Chọn loại ghế"
                       size="big"
                       sx={{ height: "20px" }}
                     />
