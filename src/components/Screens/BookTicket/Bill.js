@@ -122,7 +122,6 @@ export default function Bill() {
             backgroundColor: "grey",
             height: "40px",
             marginTop: "30px",
-            width: "100px",
           }}
           onClick={() => goBack()}
         >

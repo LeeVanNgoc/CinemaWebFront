@@ -12,6 +12,7 @@ import {
 } from "./style";
 import { handleEditPost } from "./config";
 import { useSelector } from "react-redux";
+import "./Post.scss";
 
 export default function ModalEditPost({ isOpen, handleOpen, handleClose }) {
   const post = useSelector((state) => state.managePosts.selectedPost);
@@ -87,9 +88,10 @@ export default function ModalEditPost({ isOpen, handleOpen, handleClose }) {
                 rows={4}
                 defaultValue={post.content}
                 onChange={(e) => setContent(e.target.value)}
-                sx={{ 
-                  border: "1px solid lightgray", 
+                sx={{
+                  border: "1px solid lightgray",
                   borderRadius: "10px",
+                  width: "430px",
                 }}
               />
               <HelperText />
