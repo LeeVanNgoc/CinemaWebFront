@@ -114,7 +114,7 @@ export default function UserAccount() {
             </Stack>
             <Stack spacing={2} sx={{ flexGrow: 1 }}>
               <Stack spacing={1}>
-                <Label>Tên</Label>
+                <Label>Họ</Label>
                 <FormControl
                   defaultValue={info.lastName}
                   sx={{
@@ -127,7 +127,7 @@ export default function UserAccount() {
                     onChange={(e) => setLastName(e.target.value)}
                   />{" "}
                 </FormControl>
-                <Label>Họ</Label>
+                <Label>Tên</Label>
                 <FormControl
                   defaultValue={info.firstName}
                   required

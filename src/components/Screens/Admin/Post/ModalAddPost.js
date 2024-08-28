@@ -75,7 +75,7 @@ export default function ModalAddPost({ isOpen, handleOpen, handleClose }) {
             <FormControl defaultValue="" required>
               <Label>Tên tin tức</Label>
               <StyledInput
-                // placeholder="title"
+                sx={{ width: "400px" }}
                 onChange={(e) => setTitle(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />
@@ -88,9 +88,10 @@ export default function ModalAddPost({ isOpen, handleOpen, handleClose }) {
                 rows={4}
                 onChange={(e) => setContent(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
-                sx={{ 
-                  border: "1px solid lightgray", 
+                sx={{
+                  border: "1px solid lightgray",
                   borderRadius: "10px",
+                  width: "400px",
                 }}
               />
               <HelperText />
