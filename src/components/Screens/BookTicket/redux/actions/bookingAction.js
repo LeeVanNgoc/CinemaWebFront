@@ -19,7 +19,8 @@ export const getPlanCodeForCreateTicket = (
   roomCode,
   movieCode,
   startTime,
-  dateScreen
+  dateScreen,
+  theaterCode
 ) => {
   return async (dispatch, getState) => {
     try {
@@ -27,7 +28,8 @@ export const getPlanCodeForCreateTicket = (
         roomCode,
         movieCode,
         startTime,
-        dateScreen
+        dateScreen,
+        theaterCode
       );
       console.log("get plan id: ", res);
       if (res && res.errCode === 0) {
@@ -45,10 +47,14 @@ export const getPlanCodeForCreateTicket = (
   };
 };
 
-export const getPlanTime = (dateScreen, movieCode) => {
+export const getPlanTime = (dateScreen, movieCode, theaterCode) => {
   return async (dispatch, getState) => {
     try {
-      const resTimes = await handleGetStartTimeAndRoom(dateScreen, movieCode);
+      const resTimes = await handleGetStartTimeAndRoom(
+        dateScreen,
+        movieCode,
+        theaterCode
+      );
       console.log("resTime: ", resTimes);
       if (resTimes && resTimes.errCode === 0) {
         const formattedData = resTimes.planScreens.map((item) => ({

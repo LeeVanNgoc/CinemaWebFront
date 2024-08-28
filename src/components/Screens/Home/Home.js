@@ -12,6 +12,7 @@ import NewsCarousel from "../../Common/Carousel/NewsCarousel";
 import MovieCard from "./MovieCard";
 import Header from "../../Common/Header/Header";
 import "./Home.scss";
+import UpcomingMovies from "./UpcomingMovies";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ const Home = () => {
           />
           <span>Phim sắp chiếu</span>
         </div>
-        <MovieCard status="upcoming" />
+        <UpcomingMovies />
       </Container>
       <ToastContainer position="top-right" autoClose={1000} />
     </>

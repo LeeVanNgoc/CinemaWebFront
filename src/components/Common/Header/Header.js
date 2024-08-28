@@ -22,7 +22,7 @@ import Signup from "../SignUp/SignUp";
 import Signin from "../SignIn/Signin";
 import { jwtDecode } from "jwt-decode";
 import "./Header.scss";
-import { displayUserHeader, setTheater } from "./redux/actions/headerActions";
+import { setTheater } from "./redux/actions/headerActions";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -378,6 +378,9 @@ const Header = () => {
               >
                 <MenuItem onClick={() => handleNavigation("/account", 100)}>
                   Tài khoản
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigation("/history", 99)}>
+                  Vé đã đặt
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
               </Menu>

@@ -26,6 +26,7 @@ export default function TimeChoice() {
 
   const [listRooms, setListRooms] = useState([]);
 
+  const theaterCode = useSelector((state) => state.theaterHeader.theater);
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
   const releasedTime = useSelector((state) => state.userBookTicket.time);
   const releasedDate = useSelector((state) => state.userBookTicket.date);
@@ -102,7 +103,8 @@ export default function TimeChoice() {
         room,
         movie.movieCode,
         releasedTime,
-        releasedDate
+        releasedDate,
+        theaterCode
       )
     );
   };

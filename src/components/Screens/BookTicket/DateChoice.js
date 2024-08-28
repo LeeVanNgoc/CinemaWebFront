@@ -16,6 +16,7 @@ export default function DateChoice() {
   const dispatch = useDispatch();
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
   const dateScreen = useSelector((state) => state.userBookTicket.date);
+  const theaterCode = useSelector((state) => state.theaterHeader.theater);
 
   const today = new Date();
 
@@ -30,13 +31,12 @@ export default function DateChoice() {
 
   useEffect(() => {
     dispatch(clearStartTimeAndRoom());
-    dispatch(getPlanTime(dateScreen, movie.movieCode));
-  }, [dateScreen, movie, dispatch]);
+    dispatch(getPlanTime(dateScreen, movie.movieCode, theaterCode));
+  }, [dateScreen, movie, theaterCode]);
 
   const handlesetDate = (date) => {
     dispatch(setDate(date));
     dispatch(clearStartTimeAndRoom());
-    // dispatch(getPlanTime(date, movie.movieCode));
   };
 
   return (
