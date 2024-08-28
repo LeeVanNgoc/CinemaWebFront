@@ -28,8 +28,6 @@ export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
   const [phonenumber, setPhoneNumer] = useState("");
 
   const handleAddUser = async () => {
-    console.log(">> check phone input: ", phonenumber);
-
     handleCreateUser(
       email,
       password,
@@ -41,8 +39,8 @@ export default function ModalAddUser({ isOpen, handleOpen, handleClose }) {
       role,
       city
     );
-    handleClose();
     dispatch(setRender(true));
+    handleClose();
   };
 
   const handleEnter = (e) => {

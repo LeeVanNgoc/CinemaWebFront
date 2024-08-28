@@ -29,7 +29,6 @@ import ModalAddRoom from "./ModalAddRoom";
 import ModalEditRoom from "./ModalEditRoom";
 import ModalScreenSeat from "./ModalScreenSeats";
 
-import { handleGetTheaterByCity } from "../Theater/config";
 import { setRender } from "../../../../redux/renderAction";
 import { jwtDecode } from "jwt-decode";
 
@@ -39,7 +38,7 @@ export const Rooms = () => {
   let decoded = "";
   if (localStorage.token) {
     decoded = jwtDecode(localStorage.token);
-    console.log(decoded);
+    console.log("ROoms", decoded);
   }
 
   const [rooms, setRooms] = useState([]);
@@ -126,7 +125,11 @@ export const Rooms = () => {
       console.log("res list rooms >>>", res);
       if (res && res.roomData) {
         const formattedData = res.roomData
-          .filter((item) => item.theaterCode.includes(decoded.theaterCode))
+          .filter(
+            (item) =>
+              decoded.theaterCode === undefined ||
+              item.theaterCode.includes(decoded.theaterCode)
+          )
           .map((item) => ({
             roomCode: item.roomCode,
             theaterCode: item.theaterCode,

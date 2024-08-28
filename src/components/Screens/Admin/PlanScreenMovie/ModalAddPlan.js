@@ -18,10 +18,20 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimeField } from "@mui/x-date-pickers/TimeField";
 import { handleCreatePlan } from "./config";
 import { handleGetListMoviesTitleAndCode } from "../../Admin/Movie/config";
-import { handleGetListRoomCode } from "../../Admin/Room/config";
+import { handleGetListRoomCodesInTheater } from "../../Admin/Room/config";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
+import { jwtDecode } from "jwt-decode";
 
 export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
+
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
+
   const [roomCode, setRoomCode] = useState(0);
   const [movieCode, setMovieCode] = useState(0);
   const [dateScreen, setDateScreen] = useState(dayjs());
@@ -40,7 +50,7 @@ export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
   }, []);
 
   const handleFetchRooms = async () => {
-    const response = await handleGetListRoomCode();
+    const response = await handleGetListRoomCodesInTheater(decoded.theaterCode);
     setListRooms(response.roomCodes);
   };
 
@@ -57,6 +67,7 @@ export default function ModalAddPlan({ isOpen, handleOpen, handleClose }) {
       endTime?.format("HH:mm:ss")
     );
     toast.success("Create plan successfully");
+    dispatch(setRender(true));
     handleClose();
   };
 

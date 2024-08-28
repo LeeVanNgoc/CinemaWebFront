@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl } from "@mui/base/FormControl";
-import Button from "@mui/material/Button";
+import { Button, Autocomplete, TextField } from "@mui/material";
 import {
   TriggerButton,
   StyledInput,
@@ -11,15 +11,20 @@ import {
   ModalContent,
 } from "./style";
 import { handleCreateRoom } from "./config";
+import { useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalAddRoom({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
+
   const [theaterCode, setTheaterCode] = useState("");
   const [type, setType] = useState("");
-  const [numberSeats, setNumberSeats] = useState("");
-  const [isAvailable, setIsAvailable] = useState("");
+  const [numberSeats, setNumberSeats] = useState(0);
+  const [isAvailable, setIsAvailable] = useState(0);
 
   const handleAddRoom = async () => {
     handleCreateRoom(theaterCode, type, numberSeats, isAvailable);
+    dispatch(setRender(true));
     handleClose();
   };
 
@@ -65,23 +70,50 @@ export default function ModalAddRoom({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                width: "100%",
+              }}
+            >
               <FormControl defaultValue="" required>
                 <Label>Mã rạp</Label>
-                <StyledInput onChange={(e) => setTheaterCode(e.target.value)} />
+                <Autocomplete
+                  sx={{ width: "195px" }}
+                  options={["T001", "T002", "T003"]}
+                  onChange={(e, value) => setTheaterCode(value)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Select Theater"
+                      size="big"
+                      sx={{ height: "20px" }}
+                    />
+                  )}
+                />
                 <HelperText />
               </FormControl>
 
               <FormControl defaultValue="" required>
                 <Label>Loại ghế</Label>
-                <StyledInput
-                  // placeholder="Type"
-                  onChange={(e) => setType(e.target.value)}
+                <Autocomplete
+                  sx={{ width: "195px" }}
+                  options={["3D", "2D"]}
+                  onChange={(e, value) => setType(value)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Select Type"
+                      size="big"
+                      sx={{ height: "20px" }}
+                    />
+                  )}
                 />
                 <HelperText />
               </FormControl>
             </div>
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+            {/* <div style={{ display: "flex", gap: "10px", width: "100%" }}>
               <FormControl defaultValue="" required>
                 <Label>Số ghế</Label>
                 <StyledInput onChange={(e) => setNumberSeats(e.target.value)} />
@@ -93,7 +125,7 @@ export default function ModalAddRoom({ isOpen, handleOpen, handleClose }) {
                 <StyledInput onChange={(e) => setIsAvailable(e.target.value)} />
                 <HelperText />
               </FormControl>
-            </div>
+            </div> */}
           </div>
 
           <Button
@@ -101,7 +133,7 @@ export default function ModalAddRoom({ isOpen, handleOpen, handleClose }) {
               borderRadius: "40px",
               backgroundColor: "#dc1313f0",
               textTransform: "none",
-              marginTop: "15px",
+              marginTop: "50px",
               marginBottom: "15px",
             }}
             variant="contained"
