@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl } from "@mui/base/FormControl";
 import Button from "@mui/material/Button";
 import {
@@ -11,20 +11,31 @@ import {
   ModalContent,
 } from "./style";
 import { handleEditPost } from "./config";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 import "./Post.scss";
 
 export default function ModalEditPost({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
   const post = useSelector((state) => state.managePosts.selectedPost);
 
-  const [postCode, setPostCode] = useState(post.postCode);
-  const [title, setTitle] = useState(post.title);
-  const [content, setContent] = useState(post.content);
-  const [image, setImage] = useState(post.image);
-  const [link, setLink] = useState(post.link);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [image, setImage] = useState('');
+  const [link, setLink] = useState('');
+
+  useEffect(() => {
+    if (post) {
+      setTitle(post.title);
+      setContent(post.content);
+      setImage(post.image);
+      setLink(post.link);
+    }
+  }, [post]);
 
   const handleUpdatePost = async () => {
-    await handleEditPost(post.postId, postCode, title, content, image, link);
+    await handleEditPost(post.postCode, title, content, image, link);
+    dispatch(setRender(true));
     handleClose();
   };
 

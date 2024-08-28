@@ -11,8 +11,12 @@ import {
   ModalContent,
 } from "./style";
 import { handleCreatePrice } from "./config";
+import { useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalAddPrice({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
+
   const [cost, setCost] = useState("");
   const [roomType, setRoomType] = useState("");
   const [seatType, setSeatType] = useState("");
@@ -21,6 +25,7 @@ export default function ModalAddPrice({ isOpen, handleOpen, handleClose }) {
 
   const handleAddPrice = async () => {
     handleCreatePrice(cost, roomType, seatType,timeFrame, isWeekend);
+    dispatch(setRender(true));
     handleClose();
   };
 
