@@ -187,11 +187,11 @@ export const Tickets = () => {
                         gap: "10px",
                       }}
                     >
-                      <ModalEditTicket
+                      {/* <ModalEditTicket
                         isOpen={openEditTicket}
                         handleOpen={() => handleOpenEditTicket(ticket)}
                         handleClose={handleCloseEditTicket}
-                      />
+                      /> */}
                       <ModalDeleteTicket
                         isOpen={openDeleteTicket}
                         handleOpen={() => handleOpenDeleteTicket(ticket)}

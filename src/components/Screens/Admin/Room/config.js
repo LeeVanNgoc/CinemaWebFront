@@ -136,9 +136,34 @@ const handleUpdateNumberSeats = async (roomCode) => {
   }
 };
 
-export const handleGetListRoomCode = async () => {
+const handleGetListRoomCode = async () => {
   try {
     const response = await axios.get("/api/room/get-all-room-codes");
+    console.log("List Room Codes", response.roomCodes);
+
+    return response;
+  } catch (error) {
+    console.error("Error getting list of room code:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
+
+const handleGetListRoomCodesInTheater = async (theaterCode) => {
+  try {
+    const response = await axios.get(
+      "/api/room/get-all-room-codes-in-theater",
+      {
+        params: {
+          theaterCode: theaterCode,
+        },
+      }
+    );
     console.log("List Room Codes", response.roomCodes);
 
     return response;
@@ -161,4 +186,6 @@ export {
   handleCreateRoom,
   handleEditRoom,
   handleUpdateNumberSeats,
+  handleGetListRoomCode,
+  handleGetListRoomCodesInTheater,
 };

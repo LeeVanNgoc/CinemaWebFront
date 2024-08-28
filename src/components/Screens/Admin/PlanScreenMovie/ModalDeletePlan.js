@@ -2,13 +2,17 @@ import React from "react";
 import Button from "@mui/material/Button";
 import { TriggerButton, Modal, StyledBackdrop, ModalContent } from "./style";
 import { handleDeletePlan } from "./config";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalDeletePlan({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
+
   const plan = useSelector((state) => state.managePlans.selectedPlan);
 
   const handleDelete = async () => {
     await handleDeletePlan(plan.planScreenMovieCode);
+    dispatch(setRender(true));
     handleClose();
   };
 

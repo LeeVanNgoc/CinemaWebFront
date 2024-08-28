@@ -9,6 +9,7 @@ import {
 import ChangeSeats from "../Seat/ChangeSeats";
 import { clearSeats } from "../Seat/redux/actions/seatActions";
 import { useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalScreenSeat({ isOpen, roomCode, handleClose }) {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export default function ModalScreenSeat({ isOpen, roomCode, handleClose }) {
   const handleCloseModal = () => {
     handleClose();
     dispatch(clearSeats());
+    dispatch(setRender(true));
   };
 
   return (

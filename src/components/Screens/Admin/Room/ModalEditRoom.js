@@ -11,9 +11,12 @@ import {
   ModalContent,
 } from "./style";
 import { handleEditRoom } from "./config";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalEditRoom({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
+
   const room = useSelector((state) => state.manageRooms.selectedRoom);
   const [type, setType] = useState(room.type);
   const [isAvailable, setIsAvailable] = useState(room.isAvailable);
@@ -26,6 +29,7 @@ export default function ModalEditRoom({ isOpen, handleOpen, handleClose }) {
       room.numberSeats,
       isAvailable
     );
+    dispatch(setRender(true));
     handleClose();
   };
 

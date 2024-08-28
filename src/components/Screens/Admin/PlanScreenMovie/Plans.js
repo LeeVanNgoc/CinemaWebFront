@@ -5,7 +5,9 @@ import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import { handleGetListPlansInformation } from "./config";
-import { useDispatch } from "react-redux";
+import { handleGetListPlansInformationByTheaterCode } from "./config";
+
+import { useDispatch, useSelector } from "react-redux";
 import {
   setSelectedPlan,
   clearSelectedPlan,
@@ -25,11 +27,20 @@ import {
 import { StyledInput, HelperText } from "./style";
 import ModalAddPlan from "./ModalAddPlan";
 import ModalEditPlan from "./ModalEditPlan";
-
 import ModalDeletePlan from "./ModalDeletePlan";
+import { setRender } from "../../../../redux/renderAction";
+import { jwtDecode } from "jwt-decode";
 
 export const Plans = () => {
   const dispatch = useDispatch();
+
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
+
+  const isRender = useSelector((state) => state.render.isRender);
+
   const [plans, setPlans] = useState([]);
   const [query, setQuery] = useState("");
 
@@ -100,31 +111,43 @@ export const Plans = () => {
     setOrderBy(property);
   };
 
-  useEffect(() => {
-    const fetchPlans = async () => {
-      try {
-        let res = await handleGetListPlansInformation();
-        console.log("res list plans >>>", res);
-        if (res && res.planScreenMovies) {
-          const formattedData = res.planScreenMovies.map((item) => ({
-            planScreenMovieCode: item.planScreenMovieCode,
-            roomCode: item.roomCode,
-            movieCode: item.movieCode,
-            movieTitle: item.movieTitle,
-            dateScreen: item.dateScreen,
-            startTime: item.startTime,
-            endTime: item.endTime,
-          }));
-          setPlans(formattedData);
-        }
-      } catch (error) {
-        console.error("Error fetching plans:", error);
+  const fetchPlans = async () => {
+    try {
+      console.log(decoded.theaterCode);
+
+      let res = await handleGetListPlansInformationByTheaterCode(
+        decoded.theaterCode
+      );
+      console.log("res list plans >>>", res);
+      if (res && res.planScreenMovies) {
+        const formattedData = res.planScreenMovies.map((item) => ({
+          planScreenMovieCode: item.planScreenMovieCode,
+          roomCode: item.roomCode,
+          movieCode: item.movieCode,
+          movieTitle: item.movieTitle,
+          dateScreen: item.dateScreen,
+          startTime: item.startTime,
+          endTime: item.endTime,
+        }));
+        setPlans(formattedData);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching plans:", error);
+    }
+  };
 
-    fetchPlans();
-  }, []);
+  useEffect(() => {
+    if (plans.length === 0) {
+      fetchPlans();
+    }
 
+    if (isRender) {
+      fetchPlans();
+      setTimeout(() => {
+        dispatch(setRender(false));
+      }, 0);
+    }
+  }, [isRender]);
   return (
     <div>
       <div className="search-add-container">

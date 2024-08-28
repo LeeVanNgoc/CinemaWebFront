@@ -35,6 +35,25 @@ const handleGetListPlansInformation = async () => {
     }
   }
 };
+
+const handleGetListPlansInformationByTheaterCode = async (theaterCode) => {
+  try {
+    const response = await axios.get(
+      "/api/plan-screen-movie/get-list-plan-information-by-theater-code",
+      { params: { theaterCode } }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error getting list of plans information:", error);
+    if (error.response) {
+      return { error: error.response.data.message };
+    } else if (error.request) {
+      return { error: "No response from server" };
+    } else {
+      return { error: "Error setting up request" };
+    }
+  }
+};
 const handleCreatePlan = async (
   roomCode,
   movieCode,
@@ -170,4 +189,5 @@ export {
   handleDeletePlan,
   handleGetTitleMovieByMovieCode,
   handleGetListPlansInformation,
+  handleGetListPlansInformationByTheaterCode,
 };

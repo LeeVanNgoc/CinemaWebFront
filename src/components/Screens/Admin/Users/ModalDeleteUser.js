@@ -2,13 +2,17 @@ import React from "react";
 import Button from "@mui/material/Button";
 import { TriggerButton, Modal, StyledBackdrop, ModalContent } from "./style";
 import { handleDeleteUser } from "./config";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
 
 export default function ModalDeleteUser({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.manageUsers.selectedUser);
 
   const handleDelete = async () => {
     await handleDeleteUser(user.userCode);
+    dispatch(setRender(true));
+
     handleClose();
   };
 
