@@ -44,11 +44,11 @@ export default function TotalUsers() {
 
   return (
     <div
-      className=" box-border translate-y-6 rounded-2xl p-6 text-white flex flex-row gap-3"
+      className=" box-border translate-y-6 rounded-2xl p-2 text-white flex flex-row gap-3"
       style={{ background: "linear-gradient(to bottom, #262C36, #1B1E24)" }}
     >
       <img src={require("../Dashboard/assets/UserIcon.png")} className="w-16" />
-      <div className="flec flex-col">
+      <div className="flex flex-col text-sm">
         Tổng người dùng
         {users && <p className="font-bold text-2xl">{users}</p>}
       </div>

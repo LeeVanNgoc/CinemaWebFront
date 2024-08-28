@@ -3,6 +3,7 @@ import { handleGetUserByCode } from "../Admin/Users/config";
 import { useSelector, useDispatch } from "react-redux";
 import { Table } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
+import Header from "../../Common/Header/Header";
 // import ModalEditUser from "./ModalEditUser";
 
 const UserAccount = () => {
@@ -33,6 +34,7 @@ const UserAccount = () => {
 
   return (
     <>
+      <Header />
       <div className="relative mt-24 mx-24 text-white">
         <div
           style={{

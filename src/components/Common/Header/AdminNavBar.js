@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Tabs } from "@mui/base/Tabs";
 import { Tab, TabPanel, TabsList } from "./style";
-import "./AdminNavBar.scss";
 import { Tickets } from "../../Screens/Admin/Tickets/Tickets";
 import { Users } from "../../Screens/Admin/Users/Users";
 import { Theaters } from "../../Screens/Admin/Theater/Theaters";
@@ -14,7 +13,7 @@ import { Post } from "../../Screens/Admin/Post/Post";
 
 export default function AdminNavBar() {
   return (
-    <div className="admin-nav">
+    <div className="flex justify-around w-full">
       <Tabs defaultValue={0}>
         <TabsList>
           <Tab value={0}>Rạp chiếu</Tab>

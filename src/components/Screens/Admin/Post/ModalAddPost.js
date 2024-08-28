@@ -62,7 +62,7 @@ export default function ModalAddPost({ isOpen, handleOpen, handleClose }) {
             className="modal-title"
             style={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Tạo giá vé mới
+            Thêm bài viết
           </h1>
           <div
             style={{
@@ -84,30 +84,31 @@ export default function ModalAddPost({ isOpen, handleOpen, handleClose }) {
             <FormControl defaultValue="" required>
               <Label>Nội dung</Label>
               <StyledInput
-                // placeholder="Mật khẩu"
+                as="textarea"
+                rows={4}
                 onChange={(e) => setContent(e.target.value)}
                 onKeyDown={(e) => handleEnter(e)}
               />
               <HelperText />
             </FormControl>
-            <FormControl defaultValue="" required>
-              <Label>Hình ảnh</Label>
-              <StyledInput
-                // placeholder="Mật khẩu"
-                onChange={(e) => setImage(e.target.value)}
-                onKeyDown={(e) => handleEnter(e)}
-              />
-              <HelperText />
-            </FormControl>
-            <FormControl defaultValue="" required>
-              <Label>Đường dẫn</Label>
-              <StyledInput
-                // placeholder="Mật khẩu"
-                onChange={(e) => setLink(e.target.value)}
-                onKeyDown={(e) => handleEnter(e)}
-              />
-              <HelperText />
-            </FormControl>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue="" required>
+                <Label>Hình ảnh</Label>
+                <StyledInput
+                  onChange={(e) => setImage(e.target.value)}
+                  onKeyDown={(e) => handleEnter(e)}
+                />
+                <HelperText />
+              </FormControl>
+              <FormControl defaultValue="" required>
+                <Label>Đường dẫn</Label>
+                <StyledInput
+                  onChange={(e) => setLink(e.target.value)}
+                  onKeyDown={(e) => handleEnter(e)}
+                />
+                <HelperText />
+              </FormControl>
+            </div>
           </div>
 
           <Button

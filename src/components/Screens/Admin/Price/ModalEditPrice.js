@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FormControl } from "@mui/base/FormControl";
-import Button from "@mui/material/Button";
+import { Button, Select, MenuItem } from "@mui/material";
 import {
   TriggerButton,
   StyledInput,
@@ -19,10 +19,11 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
   const [cost, setCost] = useState(price.cost);
   const [roomType, setRoomType] = useState(price.roomType);
   const [seatType, setSeatType] = useState(price.seatType);
+  const [timeFrame, setTimeFrame] = useState(price.timeFrame);
   const [isWeekend, setIsWeekend] = useState(price.isWeekend);
 
   const handleUpdatePrice = async () => {
-    await handleEditPrice(price.priceCode, cost, roomType, seatType, isWeekend);
+    await handleEditPrice(price.priceCode, cost, roomType, seatType, timeFrame, isWeekend);
     handleClose();
   };
 
@@ -67,47 +68,72 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
               justifyContent: "center",
             }}
           >
-            <FormControl defaultValue={price.priceCode} aria-readonly>
-              <Label>Mã giá vé</Label>
-              <StyledInput readOnly />
-              <HelperText />
-            </FormControl>
-
-            <FormControl defaultValue={price.cost} required sx={{ flex: 1 }}>
-              <Label>Mức giá</Label>
-              <StyledInput onChange={(e) => setCost(e.target.value)} />
-              <HelperText />
-            </FormControl>
-
-            <FormControl
-              defaultValue={price.roomType}
-              required
-              sx={{ flex: 1 }}
-            >
-              <Label>Kiểu phòng</Label>
-              <StyledInput onChange={(e) => setRoomType(e.target.value)} />
-              <HelperText />
-            </FormControl>
-
-            <FormControl
-              defaultValue={price.seatType}
-              required
-              sx={{ flex: 1 }}
-            >
-              <Label>Kiểu ghế</Label>
-              <StyledInput onChange={(e) => setSeatType(e.target.value)} />
-              <HelperText />
-            </FormControl>
-
-            <FormControl
-              defaultValue={price.isWeekend}
-              required
-              sx={{ flex: 1 }}
-            >
-              <Label>Cuối tuần/Lễ</Label>
-              <StyledInput onChange={(e) => setIsWeekend(e.target.value)} />
-              <HelperText />
-            </FormControl>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue={price.priceCode} aria-readonly>
+                <Label>Mã giá vé</Label>
+                <StyledInput readOnly />
+                <HelperText />
+              </FormControl>
+              <FormControl defaultValue={price.cost} required sx={{ flex: 1 }}>
+                <Label>Mức giá</Label>
+                <StyledInput onChange={(e) => setCost(e.target.value)} />
+                <HelperText />
+              </FormControl>
+            </div>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue={price.roomType} required sx={{ flex: 1 }}>
+                <Label>Loại phòng</Label>
+                <Select
+                  value={roomType}
+                  onChange={(e) => setRoomType(e.target.value)}
+                  sx={{ width: '100%' }}
+                >
+                  <MenuItem value="2D">2D</MenuItem>
+                  <MenuItem value="3D">3D</MenuItem>
+                </Select>
+                <HelperText />
+              </FormControl>
+              <FormControl defaultValue={price.seatType} required sx={{ flex: 1 }}>
+                <Label>Loại ghế</Label>
+                <Select
+                  value={seatType}
+                  onChange={(e) => setSeatType(e.target.value)} 
+                  sx={{ width: '100%' }}
+                >
+                  <MenuItem value="Standard">Standard</MenuItem>
+                  <MenuItem value="Vip">Vip</MenuItem>
+                  <MenuItem value="Sweetbox">Sweetbox</MenuItem>
+                </Select>
+                <HelperText />
+              </FormControl>
+            </div>
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <FormControl defaultValue={price.timeFrame} required sx={{ flex: 1 }}>
+                <Label>Khung giờ</Label>
+                <Select
+                  value={timeFrame}
+                  onChange={(e) => setTimeFrame(e.target.value)} 
+                  sx={{ width: '100%' }}
+                >
+                  <MenuItem value="10-12">10-12</MenuItem>
+                  <MenuItem value="12-17">12-17</MenuItem>
+                  <MenuItem value="17-23">17-23</MenuItem>
+                </Select>
+                <HelperText />
+              </FormControl>
+              <FormControl defaultValue={price.isWeekend} required sx={{ flex: 1 }}>
+                <Label>Cuối tuần/Lễ</Label>
+                <Select
+                  value={isWeekend}
+                  onChange={(e) => setIsWeekend(e.target.value)} 
+                  sx={{ width: '100%' }}
+                >
+                  <MenuItem value="0">Không</MenuItem>
+                  <MenuItem value="1">Có</MenuItem>
+                </Select>
+                <HelperText />
+              </FormControl>
+            </div>
           </div>
 
           <Button

@@ -111,6 +111,7 @@ export const Prices = () => {
             cost: item.cost,
             roomType: item.roomType,
             seatType: item.seatType,
+            timeFrame: item.timeFrame,
             isWeekend: item.isWeekend,
           }));
           setPrices(formattedData);
@@ -150,6 +151,7 @@ export const Prices = () => {
               <TableCell>Mức Giá (VNĐ)</TableCell>
               <TableCell>Loại Phòng</TableCell>
               <TableCell>Loại Ghế</TableCell>
+              <TableCell>Khung giờ</TableCell>
               <TableCell>Cuối Tuần/Lễ</TableCell>
               <TableCell></TableCell>
             </TableRow>
@@ -162,6 +164,7 @@ export const Prices = () => {
                   <TableCell>{price.cost}</TableCell>
                   <TableCell>{price.roomType}</TableCell>
                   <TableCell>{price.seatType}</TableCell>
+                  <TableCell>{price.timeFrame}</TableCell>
                   <TableCell>{price.isWeekend ? 'Có' : 'Không'}</TableCell>
                   <TableCell>
                     <div
