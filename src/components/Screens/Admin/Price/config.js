@@ -68,6 +68,7 @@ const handleEditPrice = async (
   cost,
   roomType,
   seatType,
+  timeFrame,
   isWeekend
 ) => {
   try {
@@ -77,6 +78,7 @@ const handleEditPrice = async (
         cost: cost,
         roomType: roomType,
         seatType: seatType,
+        timeFrame: timeFrame,
         isWeekend: isWeekend,
       },
     });

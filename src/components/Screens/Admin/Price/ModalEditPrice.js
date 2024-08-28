@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FormControl } from "@mui/base/FormControl";
-import { Button, Select, MenuItem } from "@mui/material";
+import { Button, Autocomplete, TextField } from "@mui/material";
 import {
   TriggerButton,
   StyledInput,
@@ -76,6 +76,7 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              marginBottom: "30px",
             }}
           >
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
@@ -90,59 +91,78 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
                 <HelperText />
               </FormControl>
             </div>
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl required sx={{ flex: 1 }}>
+            <div style={{ display: "flex", gap: "10px", width: "100%", marginBottom: "30px" }}>
+            <FormControl required>
                 <Label>Loại phòng</Label>
-                <Select
-                  value={roomType}
-                  onChange={(e) => setRoomType(e.target.value)}
-                  sx={{ width: '100%' }}
-                >
-                  <MenuItem value="2D">2D</MenuItem>
-                  <MenuItem value="3D">3D</MenuItem>
-                </Select>
+                <Autocomplete
+                  sx={{ width: "195px" }}
+                  options={["2D", "3D"]}
+                  onChange={(e, value) => setRoomType(value)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label={price.roomType}
+                      size="big"
+                      sx={{ height: "20px" }}
+                    />
+                  )}
+                />
                 <HelperText />
               </FormControl>
-              <FormControl required sx={{ flex: 1 }}>
+              <FormControl required>
                 <Label>Loại ghế</Label>
-                <Select
-                  value={seatType}
-                  onChange={(e) => setSeatType(e.target.value)} 
-                  sx={{ width: '100%' }}
-                >
-                  <MenuItem value="Standard">Standard</MenuItem>
-                  <MenuItem value="Vip">Vip</MenuItem>
-                  <MenuItem value="Sweetbox">Sweetbox</MenuItem>
-                </Select>
+                <Autocomplete
+                  sx={{ width: "195px" }}
+                  options={["Standard", "Vip", "Sweetbox"]}
+                  onChange={(e, value) => setSeatType(value)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label={price.seatType}
+                      size="big"
+                      sx={{ height: "20px" }}
+                    />
+                  )}
+                />
                 <HelperText />
               </FormControl>
             </div>
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl required sx={{ flex: 1 }}>
+              <FormControl required>
                 <Label>Khung giờ</Label>
-                <Select
-                  value={timeFrame}
-                  onChange={(e) => setTimeFrame(e.target.value)} 
-                  sx={{ width: '100%' }}
-                >
-                  <MenuItem value="10-12">10-12</MenuItem>
-                  <MenuItem value="12-17">12-17</MenuItem>
-                  <MenuItem value="17-23">17-23</MenuItem>
-                </Select>
+                <Autocomplete
+                  sx={{ width: "195px" }}
+                  options={["10-12", "12-17", "17-23"]}
+                  onChange={(e, value) => setTimeFrame(value)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label={price.timeFrame}
+                      size="big"
+                      sx={{ height: "20px" }}
+                    />
+                  )}
+                />
                 <HelperText />
               </FormControl>
-              <FormControl required sx={{ flex: 1 }}>
-                <Label>Cuối tuần/Lễ</Label>
-                <Select
-                  value={isWeekend}
-                  onChange={(e) => setIsWeekend(e.target.value)} 
-                  sx={{ width: '100%' }}
-                >
-                  <MenuItem value="0">Không</MenuItem>
-                  <MenuItem value="1">Có</MenuItem>
-                </Select>
+              <FormControl required>
+                <Label>Cuối tuần/lễ?</Label>
+                <Autocomplete
+                  sx={{ width: "195px" }}
+                  options={["0", "1"]}
+                  getOptionLabel={(option) => option === "0" ? "Không" : "Có"}
+                  onChange={(e, value) => setIsWeekend(value)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label={price.isWeekend === "0" ? "Không" : "Có"}
+                      size="big"
+                      sx={{ height: "20px" }}
+                    />
+                  )}
+                />
                 <HelperText />
-              </FormControl> 
+              </FormControl>
             </div>
           </div>
 
