@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl } from "@mui/base/FormControl";
 import { Button, Select, MenuItem } from "@mui/material";
 import {
@@ -16,11 +16,21 @@ import { useSelector } from "react-redux";
 export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
   const price = useSelector((state) => state.managePrices.selectedPrice);
 
-  const [cost, setCost] = useState(price.cost);
-  const [roomType, setRoomType] = useState(price.roomType);
-  const [seatType, setSeatType] = useState(price.seatType);
-  const [timeFrame, setTimeFrame] = useState(price.timeFrame);
-  const [isWeekend, setIsWeekend] = useState(price.isWeekend);
+  const [cost, setCost] = useState("");
+  const [roomType, setRoomType] = useState("");
+  const [seatType, setSeatType] = useState("");
+  const [timeFrame, setTimeFrame] = useState("");
+  const [isWeekend, setIsWeekend] = useState("");
+
+  useEffect(() => {
+    if (price) {
+      setCost(price.cost);
+      setRoomType(price.roomType);
+      setSeatType(price.seatType);
+      setTimeFrame(price.timeFrame);
+      setIsWeekend(price.isWeekend);
+    }
+  }, [price]);
 
   const handleUpdatePrice = async () => {
     await handleEditPrice(price.priceCode, cost, roomType, seatType, timeFrame, isWeekend);
@@ -81,7 +91,7 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
               </FormControl>
             </div>
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl defaultValue={price.roomType} required sx={{ flex: 1 }}>
+              <FormControl required sx={{ flex: 1 }}>
                 <Label>Loại phòng</Label>
                 <Select
                   value={roomType}
@@ -93,7 +103,7 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
                 </Select>
                 <HelperText />
               </FormControl>
-              <FormControl defaultValue={price.seatType} required sx={{ flex: 1 }}>
+              <FormControl required sx={{ flex: 1 }}>
                 <Label>Loại ghế</Label>
                 <Select
                   value={seatType}
@@ -108,7 +118,7 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
               </FormControl>
             </div>
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <FormControl defaultValue={price.timeFrame} required sx={{ flex: 1 }}>
+              <FormControl required sx={{ flex: 1 }}>
                 <Label>Khung giờ</Label>
                 <Select
                   value={timeFrame}
@@ -121,7 +131,7 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
                 </Select>
                 <HelperText />
               </FormControl>
-              <FormControl defaultValue={price.isWeekend} required sx={{ flex: 1 }}>
+              <FormControl required sx={{ flex: 1 }}>
                 <Label>Cuối tuần/Lễ</Label>
                 <Select
                   value={isWeekend}
@@ -132,7 +142,7 @@ export default function ModalEditPrice({ isOpen, handleOpen, handleClose }) {
                   <MenuItem value="1">Có</MenuItem>
                 </Select>
                 <HelperText />
-              </FormControl>
+              </FormControl> 
             </div>
           </div>
 

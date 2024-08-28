@@ -87,6 +87,10 @@ export default function ModalEditPost({ isOpen, handleOpen, handleClose }) {
                 rows={4}
                 defaultValue={post.content}
                 onChange={(e) => setContent(e.target.value)}
+                sx={{ 
+                  border: "1px solid lightgray", 
+                  borderRadius: "10px",
+                }}
               />
               <HelperText />
             </FormControl>
