@@ -195,11 +195,12 @@ const Header = () => {
               </MenuItem>
               {user.auth && decoded.role !== "user" && (
                 <div>
-                  <MenuItem onClick={() => handleNavigation("/dashboard", 11)}>
-                    Thống kê
-                  </MenuItem>
-                  <MenuItem onClick={() => handleNavigation("/manage", 10)}>
-                    Quản lý
+                  <MenuItem
+                    onClick={() => {
+                      handleNavigation("/dashboard", 11);
+                    }}
+                  >
+                    Admin
                   </MenuItem>
                 </div>
               )}
@@ -224,39 +225,6 @@ const Header = () => {
             </FormControl>
 
             <ButtonGroup variant="text" aria-label="Basic button group">
-              {user.auth && decoded.role !== "user" && (
-                <span className="flex flex-row">
-                  <Button
-                    onClick={() => handleNavigation("/dashboard", 11)}
-                    sx={{
-                      my: 2,
-                      color: clickedIndex === 11 ? "red" : "white",
-                      "&:hover": {
-                        color: "red",
-                      },
-                      display: "block",
-                      textTransform: "none",
-                    }}
-                  >
-                    Thống kê
-                  </Button>
-                  <Button
-                    onClick={() => handleNavigation("/manage", 10)}
-                    sx={{
-                      my: 2,
-                      color: clickedIndex === 10 ? "red" : "white",
-                      "&:hover": {
-                        color: "red",
-                      },
-                      display: "block",
-                      textTransform: "none",
-                    }}
-                  >
-                    Quản lý
-                  </Button>
-                </span>
-              )}
-
               <Button
                 onClick={() => handleNavigation("/", 1)}
                 sx={{
@@ -327,6 +295,27 @@ const Header = () => {
               >
                 Giới thiệu
               </Button>
+
+              {user.auth && decoded.role !== "user" && (
+                <span className="flex flex-row">
+                  <Button
+                    onClick={() => {
+                      handleNavigation("/dashboard", 11);
+                    }}
+                    sx={{
+                      my: 2,
+                      color: clickedIndex === 11 ? "red" : "white",
+                      "&:hover": {
+                        color: "red",
+                      },
+                      display: "block",
+                      textTransform: "none",
+                    }}
+                  >
+                    Admin
+                  </Button>
+                </span>
+              )}
             </ButtonGroup>
           </Box>
 
@@ -344,6 +333,7 @@ const Header = () => {
                   backgroundColor: "#dc1313f0",
                   textTransform: "none",
                   color: "white",
+                  fontWeight: "bold",
                   border: "none",
                 }}
                 onClick={handleSignInOpen}
@@ -388,6 +378,9 @@ const Header = () => {
               >
                 <MenuItem onClick={() => handleNavigation("/account", 100)}>
                   Tài khoản
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigation("/history", 99)}>
+                  Vé đã đặt
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
               </Menu>

@@ -2,21 +2,25 @@ import MovieDetail from "./MovieDetail";
 import "./scss/BookTicket.scss";
 import DateChoice from "./DateChoice";
 import { useSelector } from "react-redux";
+import Header from "../../Common/Header/Header";
 
 const BookTicket = () => {
   const movie = useSelector((state) => state.manageMovies.selectedMovie);
   return (
-    <div className="booking-container">
-      <div className="custom-container">
-        <div className="background-image">
-          <img src={movie.image} />
+    <>
+      <Header />
+      <div className="booking-container">
+        <div className="custom-container">
+          <div className="background-image">
+            <img src={movie.image} />
+          </div>
+          <div className="movie-detail">
+            <MovieDetail />
+          </div>
         </div>
-        <div className="movie-detail">
-          <MovieDetail />
-        </div>
+        <DateChoice />
       </div>
-      <DateChoice />
-    </div>
+    </>
   );
 };
 

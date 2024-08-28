@@ -10,13 +10,13 @@ import "react-toastify/dist/ReactToastify.css";
 // import component
 import AppRoutes from "./routers/AppRoutes";
 import Footer from "./components/Common/Footer/Footer";
-import Header from "./components/Common/Header/Header";
 
 // import redux store
 import store from "./redux/store";
 import { handleRefreshRedux } from "./components/Common/SignIn/redux/actions/userAction";
 import { handleRefreshMovie } from "./components/Screens/Admin/Movie/redux/actions/movieActions";
 import { setDate } from "./components/Screens/BookTicket/redux/actions/bookingAction";
+import { refreshTheater } from "./components/Common/Header/redux/actions/headerActions";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,15 +29,17 @@ function App() {
     if (sessionStorage.getItem("selectedMovie")) {
       dispatch(handleRefreshMovie());
     }
+    if (localStorage.getItem("theater")) {
+      dispatch(refreshTheater());
+    }
   }, [dispatch]);
 
   return (
     <React.StrictMode>
       <Provider store={store}>
         <Router>
-          <ScrollToTop />
           <div className="App">
-            <Header />
+            <ScrollToTop />
             <AppRoutes />
             <Footer />
             <ToastContainer />

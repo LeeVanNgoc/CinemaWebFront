@@ -24,12 +24,17 @@ import axios from "../../../axios";
 // };
 
 // Trả về list các giờ chiếu từ mã phim và ngày chiếu
-export const handleGetStartTimeAndRoom = async (dateScreen, movieCode) => {
+export const handleGetStartTimeAndRoom = async (
+  dateScreen,
+  movieCode,
+  theaterCode
+) => {
   try {
     const response = await axios.get("/api/plan-screen-movie/get-start-time/", {
       params: {
         dateScreen: dateScreen,
         movieCode: movieCode,
+        theaterCode: theaterCode,
       },
     });
     return response;
@@ -49,7 +54,8 @@ export const handleGetPlanCode = async (
   roomCode,
   movieCode,
   startTime,
-  dateScreen
+  dateScreen,
+  theaterCode
 ) => {
   try {
     const response = await axios.get(
@@ -60,6 +66,7 @@ export const handleGetPlanCode = async (
           movieCode: movieCode,
           startTime: startTime,
           dateScreen: dateScreen,
+          theaterCode: theaterCode,
         },
       }
     );

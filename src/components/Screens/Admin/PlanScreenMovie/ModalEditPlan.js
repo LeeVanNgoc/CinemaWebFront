@@ -18,10 +18,19 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimeField } from "@mui/x-date-pickers/TimeField";
 import { handleEditPlan } from "./config";
 import { handleGetListMoviesTitleAndCode } from "../../Admin/Movie/config";
-import { handleGetListRoomCode } from "../../Admin/Room/config";
-import { useSelector } from "react-redux";
+import { handleGetListRoomCodesInTheater } from "../../Admin/Room/config";
+import { useSelector, useDispatch } from "react-redux";
+import { setRender } from "../../../../redux/renderAction";
+import { jwtDecode } from "jwt-decode";
 
 export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
+
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
+
   const plan = useSelector((state) => state.managePlans.selectedPlan);
 
   const [roomCode, setRoomCode] = useState(plan.roomCode);
@@ -55,7 +64,7 @@ export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
   }, []);
 
   const handleFetchRooms = async () => {
-    const response = await handleGetListRoomCode();
+    const response = await handleGetListRoomCodesInTheater(decoded.theaterCode);
     setListRooms(response.roomCodes);
   };
 
@@ -74,6 +83,7 @@ export default function ModalEditPlan({ isOpen, handleOpen, handleClose }) {
       startTime?.format("HH:mm:ss"),
       endTime?.format("HH:mm:ss")
     );
+    dispatch(setRender(true));
     handleClose();
   };
 

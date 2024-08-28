@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 import { TablePagination } from "@mui/base/TablePagination";
 import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
@@ -28,10 +29,21 @@ import ModalAddRoom from "./ModalAddRoom";
 import ModalEditRoom from "./ModalEditRoom";
 import ModalScreenSeat from "./ModalScreenSeats";
 
+import { setRender } from "../../../../redux/renderAction";
+import { jwtDecode } from "jwt-decode";
+
 export const Rooms = () => {
   const dispatch = useDispatch();
+
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+    console.log("ROoms", decoded);
+  }
+
   const [rooms, setRooms] = useState([]);
   const [query, setQuery] = useState("");
+  const isRender = useSelector((state) => state.render.isRender);
 
   const [openAddSeat, setOpenAddRoom] = useState(false);
   const [openEditRoom, setOpenEditRoom] = useState(false);
@@ -107,28 +119,43 @@ export const Rooms = () => {
     setOrderBy(property);
   };
 
-  useEffect(() => {
-    const fetchRooms = async () => {
-      try {
-        let res = await handleGetAllRooms();
-        console.log("res list rooms >>>", res);
-        if (res && res.roomData) {
-          const formattedData = res.roomData.map((item) => ({
+  const fetchRooms = async () => {
+    try {
+      let res = await handleGetAllRooms();
+      console.log("res list rooms >>>", res);
+      if (res && res.roomData) {
+        const formattedData = res.roomData
+          .filter(
+            (item) =>
+              decoded.theaterCode === undefined ||
+              item.theaterCode.includes(decoded.theaterCode)
+          )
+          .map((item) => ({
             roomCode: item.roomCode,
             theaterCode: item.theaterCode,
             type: item.type,
             totalSeats: item.totalSeats,
             isAvailable: item.isAvailable,
           }));
-          setRooms(formattedData);
-        }
-      } catch (error) {
-        console.error("Error fetching rooms:", error);
+        setRooms(formattedData);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching rooms:", error);
+    }
+  };
 
-    fetchRooms();
-  }, []);
+  useEffect(() => {
+    if (rooms.length === 0) {
+      fetchRooms();
+    }
+
+    if (isRender) {
+      fetchRooms();
+      setTimeout(() => {
+        dispatch(setRender(false));
+      }, 0);
+    }
+  }, [isRender]);
 
   return (
     <div>

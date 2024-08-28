@@ -10,13 +10,16 @@ import Brightness1SharpIcon from "@mui/icons-material/Brightness1Sharp";
 import CarouselComponent from "../../Common/Carousel/CarouselComponent";
 import NewsCarousel from "../../Common/Carousel/NewsCarousel";
 import MovieCard from "./MovieCard";
+import Header from "../../Common/Header/Header";
 import "./Home.scss";
+import UpcomingMovies from "./UpcomingMovies";
 
 const Home = () => {
   const navigate = useNavigate();
 
   return (
     <>
+      <Header />
       <CarouselComponent />
 
       <Container>
@@ -78,7 +81,7 @@ const Home = () => {
           />
           <span>Phim sắp chiếu</span>
         </div>
-        <MovieCard status="upcoming" />
+        <UpcomingMovies />
       </Container>
       <ToastContainer position="top-right" autoClose={1000} />
     </>

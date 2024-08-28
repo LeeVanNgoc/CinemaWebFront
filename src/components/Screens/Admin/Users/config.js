@@ -55,7 +55,7 @@ const handleCreateUser = async (
         birthYear: birthYear,
         userName: userName,
         phonenumber: phonenumber,
-        city: "Hà Nội",
+        city: city,
       },
     });
     toast.success(response.message);
@@ -94,7 +94,7 @@ const handleEditUser = async (
         city: city,
       },
     });
-    toast.success(response.message);
+    toast.success("Cập nhật thông tin thành công!");
     console.log(">>> edit user res: ", response);
     return response;
   } catch (error) {

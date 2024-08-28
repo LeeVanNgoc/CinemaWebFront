@@ -130,6 +130,7 @@ export const Users = () => {
             firstName: item.firstName,
             lastName: item.lastName,
             userName: item.userName,
+            role: item.role,
             birthYear: item.birthYear,
             phonenumber: item.phonenumber,
             city: item.city,
@@ -205,6 +206,7 @@ export const Users = () => {
               <TableCell>Tên tài khoản</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Số điện thoại</TableCell>
+              <TableCell>Vai trò</TableCell>
               <TableCell>Năm sinh</TableCell>
               <TableCell></TableCell>
             </TableRow>
@@ -220,6 +222,7 @@ export const Users = () => {
                   <TableCell>{user.userName}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.phonenumber}</TableCell>
+                  <TableCell>{user.role}</TableCell>
                   <TableCell>{user.birthYear}</TableCell>
                   <TableCell>
                     <div

@@ -6,9 +6,18 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import { axisClasses } from "@mui/x-charts/ChartsAxis";
 import { handleScreeningCount } from "./config";
 import "./ScreeningCount.scss";
+import { jwtDecode } from "jwt-decode";
+import { Select, FormControl, InputLabel } from "@mui/material";
 
 export default function ScreeningCount() {
   const [data, setData] = useState([]);
+  const [theaterCode, setTheaterCode] = useState("T001");
+
+  let decoded = "";
+  if (localStorage.token) {
+    decoded = jwtDecode(localStorage.token);
+  }
+
   const months = [
     "1",
     "2",
@@ -32,8 +41,8 @@ export default function ScreeningCount() {
 
   const valueFormatter = (value) => `${value} suất`;
 
-  const fetchScreeningCount = async (month, year) => {
-    const res = await handleScreeningCount(month, year);
+  const fetchScreeningCount = async (month, year, theaterCode) => {
+    const res = await handleScreeningCount(month, year, theaterCode);
     console.log("chart data: ", res);
     if (res && res.errCode === 0) {
       const formattedData = res.stats.map((item) => ({
@@ -45,8 +54,12 @@ export default function ScreeningCount() {
   };
 
   useEffect(() => {
-    fetchScreeningCount(parseInt(month), parseInt(year));
-  }, [month, year]);
+    if (decoded.theaterCode) {
+      fetchScreeningCount(parseInt(month), parseInt(year), decoded.theaterCode);
+    } else {
+      fetchScreeningCount(parseInt(month), parseInt(year), theaterCode);
+    }
+  }, [month, year, theaterCode]);
 
   const chartSetting = {
     yAxis: [
@@ -76,6 +89,22 @@ export default function ScreeningCount() {
       style={{ background: "linear-gradient(to bottom, #262C36, #1B1E24)" }}
     >
       <Stack direction="row" spacing={1} className="flex justify-end">
+        {!decoded.theaterCode && (
+          <FormControl sx={{ marginRight: "8px" }}>
+            <InputLabel id="theater-label">Chọn rạp</InputLabel>
+            <Select
+              labelId="theater-label"
+              value={theaterCode}
+              label="Chọn rạp"
+              onChange={(event) => setTheaterCode(event.target.value)}
+              sx={{ color: "#fff", height: "56px" }}
+            >
+              <MenuItem value="T001">Rạp Hà Nội</MenuItem>
+              <MenuItem value="T002">Rạp Đà Nẵng</MenuItem>
+              <MenuItem value="T003">Rạp TP Hồ Chí Minh</MenuItem>
+            </Select>
+          </FormControl>
+        )}
         <TextField
           select
           sx={{ width: 80 }}

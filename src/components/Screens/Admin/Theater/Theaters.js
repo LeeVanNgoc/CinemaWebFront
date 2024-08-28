@@ -4,7 +4,7 @@ import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import { handleGetListTheaters } from "./config";
+import { handleGetListTheaters, handleGetTheaterByCity } from "./config";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setSelectedTheater,
