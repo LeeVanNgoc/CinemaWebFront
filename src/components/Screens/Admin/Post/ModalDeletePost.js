@@ -10,7 +10,7 @@ export default function ModalDeletePost({ isOpen, handleOpen, handleClose }) {
   const post = useSelector((state) => state.managePosts.selectedPost);
 
   const handleDelete = async () => {
-    await handleDeletePost(post.postId);
+    await handleDeletePost(post.postCode);
     dispatch(setRender(true));
     handleClose();
   };

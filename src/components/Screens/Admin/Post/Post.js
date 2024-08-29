@@ -5,7 +5,7 @@ import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import { handleGetListPosts } from "./config";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setSelectedPost,
   clearSelectedPost,
@@ -27,11 +27,14 @@ import ModalAddPost from "./ModalAddPost";
 import ModalEditPost from "./ModalEditPost";
 import ModalDeletePost from "./ModalDeletePost";
 import "./Post.scss";
+import { setRender } from "../../../../redux/renderAction";
 
 export const Post = () => {
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
   const [query, setQuery] = useState("");
+
+  const isRender = useSelector((state) => state.render.isRender);
 
   const [openAddPost, setOpenAddPost] = useState(false);
   const [openEditPost, setOpenEditPost] = useState(false);
@@ -100,29 +103,38 @@ export const Post = () => {
     setOrderBy(property);
   };
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        let res = await handleGetListPosts();
-        console.log("res list posts >>>", res);
-        if (res && res.posts) {
-          const formattedData = res.posts.map((item) => ({
-            postCode: item.postCode,
-            title: item.title,
-            content: item.content,
-            postDate: item.postDate,
-            image: item.image,
-            link: item.link,
-          }));
-          setPosts(formattedData);
-        }
-      } catch (error) {
-        console.error("Error fetching posts:", error);
+  const fetchPosts = async () => {
+    try {
+      let res = await handleGetListPosts();
+      console.log("res list posts >>>", res);
+      if (res && res.posts) {
+        const formattedData = res.posts.map((item) => ({
+          postCode: item.postCode,
+          title: item.title,
+          content: item.content,
+          postDate: item.postDate,
+          image: item.image,
+          link: item.link,
+        }));
+        setPosts(formattedData);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
 
-    fetchPosts();
-  }, []);
+  useEffect(() => {
+    if (posts.length === 0) {
+      fetchPosts();
+    }
+
+    if (isRender) {
+      fetchPosts();
+      setTimeout(() => {
+        dispatch(setRender(false));
+      }, 0);
+    }
+  }, [isRender]);
 
   return (
     <div>
